@@ -16,7 +16,7 @@
         "types": [
             "svelte"
         ],
-        "baseUrl": ".",
+        "baseUrl": "./neiltools",
         "paths": {
             "~/*": [
                 "app/*"
@@ -24,7 +24,7 @@
         }
     },
     "include": [
-        "app/**/*"
+      "app/**/*"
     ],
     "exclude": [
         "node_modules",
