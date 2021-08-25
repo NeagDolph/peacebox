@@ -10,7 +10,7 @@ const processSizeChange = (contentSize) => {
 }
 
 const WritingCard = (props) => {
-  const [content, setContent] = useState("")
+  const {content, setContent, handleLayout, editable} = props
   const dispatch = useDispatch()
 
   const {colors} = props.theme
@@ -27,11 +27,12 @@ const WritingCard = (props) => {
           autoCorrect={false}
           importantForAutofill="no"
           onChange={(event) => setContent(event.nativeEvent.text)}
-          onContentSizeChange={props.handleLayout}
-          autoFocus={true}
+          onContentSizeChange={handleLayout}
+          autoFocus={editable}
           clearTextOnFocus={true}
           keyboardType="ascii-capable"
-          editable={props.editable||true}
+          editable={editable}
+          contextMenuHidden={true}
         >
           <Text style={styles.inputLine}>{content}</Text>
         </TextInput>

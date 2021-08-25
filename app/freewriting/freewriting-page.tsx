@@ -12,23 +12,30 @@ import WritingCard from "./components/writing-card";
 import {ChangeEvent, useState} from "react";
 
 
-const handleLayout = (event: NativeSyntheticEvent<any>) => {
-  if (event.nativeEvent.contentSize.height >= 420) {
-
-  }
-}
-
 const Freewriting = (props) => {
-  const [nextCard, setNextCard] = useState(true);
+  const [animateVisible, setVisible] = useState(false);
+  const [content, setContent] = useState("")
+  const [animateContent, setAnimateContent] = useState("")
+
+  const handleLayout = (event: NativeSyntheticEvent<any>) => {
+    if (event.nativeEvent.contentSize.height >= 420) {
+      setVisible(true);
+      setAnimateContent(content);
+      setContent("");
+    }
+  }
+
   return (
     <>
-      <View style={styles.animatedCard} >
-        <WritingCard editable={false}/>
-      </View>
       <View style={styles.settings}></View>
       <View style={styles.container}>
-        <WritingCard handleLayout={handleLayout}/>
+        <WritingCard editable={true} handleLayout={handleLayout} content={content} setContent={setContent}/>
       </View>
+      {
+        animateVisible && ( <View style={styles.animatedCard}>
+          <WritingCard content={animateContent} editable={false}/>
+        </View>)
+      }
     </>
   );
 };
@@ -39,8 +46,13 @@ const styles = StyleSheet.create({
   settings: {},
   container: {
     padding: 30,
+    zIndex: 0,
   },
   animatedCard: {
+    position: "absolute",
+    zIndex: 1,
+    width: "100%",
+    padding: 30,
     transform: [
       {scale: 0.4},
     ]
