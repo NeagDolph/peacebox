@@ -13,6 +13,13 @@ target 'neiltools' do
   )
 
   pod 'RNSVG', :path => '../node_modules/react-native-svg'
+  pod 'React-Core', :path => '../node_modules/react-native/'
+  pod 'React-CoreModules', :path => '../node_modules/react-native/React/CoreModules'
+  pod 'FBReactNativeSpec', :path => "../node_modules/react-native/Libraries/FBReactNativeSpec"
+  pod 'RCTTypeSafety', :path => "../node_modules/react-native/Libraries/TypeSafety"
+  pod 'ReactCommon/turbomodule/core', :path => "../node_modules/react-native/ReactCommon"
+  pod 'FBLazyVector', :path => "../node_modules/react-native/Libraries/FBLazyVector"
+  pod 'RCTRequired', :path => "../node_modules/react-native/Libraries/RCTRequired"
 
   target 'neiltoolsTests' do
     inherit! :complete

@@ -36,11 +36,6 @@ static void InitializeFlipper(UIApplication *application) {
                                                    moduleName:@"neiltools"
                                             initialProperties:nil];
 
-  if (@available(iOS 13.0, *)) {
-      rootView.backgroundColor = [[UIColor alloc] red:232f green:240f blue:255f alpha:1.0f];
-  } else {
-      rootView.backgroundColor = [[UIColor alloc] red:232f green:240f blue:255f alpha:1.0f];
-  }
 
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   UIViewController *rootViewController = [UIViewController new];

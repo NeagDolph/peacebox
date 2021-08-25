@@ -1,17 +1,11 @@
-import { configureStore, createSlice } from '@reduxjs/toolkit'
+import {configureStore, createSlice, PayloadAction} from '@reduxjs/toolkit'
+import {State} from "react-native-paper/lib/typescript/components/TextInput/types";
+import {AppState} from "react-native";
+import freewriteReducer from "./freewriting/freewriteSlice"
 
-const freewriteSlice = createSlice({
-  name: 'freewriteStore',
-  initialState: {text: ""},
-  reducers: {
-    modifyText: (state, text: string) => {
-      state.text = text;
-    }
-  }
-})
 
 export default configureStore({
   reducer: {
-    freewrite: freewriteSlice.reducer
+    freewriteHeight: freewriteReducer
   }
 })
