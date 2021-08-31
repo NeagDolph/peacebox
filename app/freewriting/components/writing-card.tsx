@@ -1,38 +1,40 @@
-import React, {useState} from 'react';
+import React, {Props, useEffect, useLayoutEffect, useRef, useState} from 'react';
 
 import {withTheme, Surface, Title, Paragraph, Button, Chip} from "react-native-paper";
-import {Image, ImageBackground, StyleSheet, Text, TextInput, View} from 'react-native';
+import {Image, ImageBackground, NativeSyntheticEvent, StyleSheet, Text, TextInput, View} from 'react-native';
 import { useSelector, useDispatch } from 'react-redux'
-import {setHeight} from "../freewriteSlice"
 
-const processSizeChange = (contentSize) => {
-  console.log(contentSize.nativeEvent.contentSize.height)
-}
-
-const WritingCard = (props) => {
-  const {content, setContent, handleLayout, editable} = props
-  const dispatch = useDispatch()
+const WritingCard = (props: any) => {
+  const inputRef = useRef<any>(null)
+  const {content, setContent, handleLayout, editable, placeholder} = props
 
   const {colors} = props.theme
 
+  const setContentHandle = (event) => {
+    inputRef.current.setNativeProps({selection: {start: event.nativeEvent.text.length, end: event.nativeEvent.text.length}});
+    setContent(event)
+  }
+
+
   return (
-    <Surface style={styles.card}>
-      <ImageBackground style={styles.cardBackground} source={require("../../assets/paper.png")}>
+    <Surface style={[styles.card, props.style]}>
+      <ImageBackground style={styles.cardBackground} source={require("../../assets/paper.png")} imageStyle={{borderRadius: 8}}>
         <TextInput
           style={styles.input}
-          placeholder="Starting is the hardest part..."
-          placeholderTextColor={colors.text}
+          placeholder={placeholder}
+          placeholderTextColor="#8A897C"
           multiline={true}
           autoCapitalize="none"
           autoCorrect={false}
           importantForAutofill="no"
-          onChange={(event) => setContent(event.nativeEvent.text)}
+          onChange={(event) => setContentHandle(event)}
           onContentSizeChange={handleLayout}
-          autoFocus={editable}
-          clearTextOnFocus={true}
+          autoFocus={false}
           keyboardType="ascii-capable"
           editable={editable}
           contextMenuHidden={true}
+          // selection={{start: content.length, end: content.length}}
+          ref={inputRef}
         >
           <Text style={styles.inputLine}>{content}</Text>
         </TextInput>
@@ -52,15 +54,16 @@ const styles = StyleSheet.create({
     paddingRight: 10,
   },
   card: {
-    backgroundColor: "#FCF4DA",
+    backgroundColor: "transparent",
     height: 440,
-    borderRadius: 15,
     fontSize: 12,
-    elevation: 2
+    elevation: 4,
   },
   input: {
     width: "100%",
-    height: "100%"
+    height: "100%",
+    fontSize: 14,
+    lineHeight: 20
   },
   inputLine: {
     lineHeight: 20

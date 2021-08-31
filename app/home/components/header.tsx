@@ -1,13 +1,12 @@
 import React, {Component} from 'react';
 import {Text, View, Button} from 'react-native';
-import {connect} from 'react-redux';
+// import {connect} from 'react-redux';
 import {withTheme} from 'react-native-paper';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome'
 
 const generateMotd = () => {
   let motdList = [
-    "What tool" +
-    "will most help you?",
+    "What tool will most help you?",
     "What tool do you need right now?",
     "What support does your mind need?",
     "How do you want to soothe yourself?",
@@ -22,12 +21,10 @@ const generateMotd = () => {
 const generateIcon = () => {
   let iconList = [
     "bolt",
-    "brain",
     "burn",
     "certificate",
     "cloud",
     "gem",
-    "praying-hands"
   ]
 
   let dayMod = Math.floor(Date.now() / 86400000) % iconList.length

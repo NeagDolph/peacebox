@@ -45,12 +45,8 @@ let styles = StyleSheet.create({
     height: 100,
     width: 100,
     position: "absolute",
-    right: 10,
-    alignSelf: "center",
-    top: "40%",
-    transform: [{
-      translateY: -35,
-    }],
+    right: 0,
+    bottom: 10,
     zIndex: -1
     // flex: 1,
     // justifyContent: "flex-end"
@@ -62,6 +58,7 @@ let styles = StyleSheet.create({
     borderRadius: 20,
     padding: 15,
     flexDirection: "column",
+    marginVertical: 10
   },
   toolItemContent: {
     width: "70%"

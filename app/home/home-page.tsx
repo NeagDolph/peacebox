@@ -35,15 +35,22 @@ interface ToolData {
 
 const toolsData: ToolData[] = [
   {
-    title: "Freewriting",
+    title: "Free Writing",
     icon: require("../assets/freewriting-icon.png"),
     description: "Free your subconscious from its internal disagreement.",
-    tags: ["Anxiety", "Self-doubt"],
+    tags: ["Anxiety", "Quick Relief", "Skill"],
     nav: "Freewriting"
+  },
+  {
+    title: "Breathing",
+    icon: require("../assets/breathing-icon.png"),
+    description: "Various breathing exercises to relax and improve your mood",
+    nav: "Breathing",
+    tags: ["Anxiety", "Discontentment"],
   }
 ]
 
-const renderTools = (toolsData: ToolData[], navigation) => {
+const renderTools = (toolsData: ToolData[], navigation: any) => {
   return toolsData.map(data => {
     return <ToolItem
       key={data.title}
@@ -57,7 +64,7 @@ const renderTools = (toolsData: ToolData[], navigation) => {
 }
 
 
-const HomePage = ({navigation, theme}) => {
+const HomePage = ({navigation, theme}: any) => {
   const {colors} = theme
   return (
     <SafeAreaView>

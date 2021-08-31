@@ -1,14 +1,13 @@
 module.exports = {
     presets: ['module:metro-react-native-babel-preset'],
-    'plugins': [
-        ['react-native-platform-specific-extensions', {
-            'extensions': ['css', 'scss', 'sass'],
-        }],
+    plugins: [
+        'react-native-reanimated/plugin',
     ],
     env: {
         production: {
             plugins: [
                 'react-native-paper/babel',
+                'react-native-reanimated/plugin',
             ],
         },
     },

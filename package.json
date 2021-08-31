@@ -7,16 +7,23 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "bundle": "./node_modules/.bin/react-native-bundle-visualizer"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free-regular": "^5.0.13",
+    "@fortawesome/fontawesome-free-solid": "^5.0.13",
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
+    "@fortawesome/free-regular-svg-icons": "^5.15.4",
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
     "@fortawesome/react-native-fontawesome": "^0.2.7",
+    "@react-native-async-storage/async-storage": "^1.15.7",
     "@react-navigation/native": "^6.0.2",
     "@react-navigation/native-stack": "^6.1.0",
     "react": "17.0.1",
     "react-native": "0.64.1",
+    "react-native-eject": "^0.1.2",
+    "react-native-reanimated": "^2.2.0",
     "react-native-svg": "^12.1.1",
     "react-redux": "^7.2.4"
   },
@@ -33,6 +40,7 @@
     "eslint": "^7.14.0",
     "jest": "^26.6.3",
     "metro-react-native-babel-preset": "^0.64.0",
+    "react-native-bundle-visualizer": "^3.0.0",
     "react-native-paper": "^4.9.2",
     "react-native-safe-area-context": "^3.3.0",
     "react-native-screens": "^3.5.0",
