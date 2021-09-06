@@ -2,7 +2,7 @@ import React, {Props, useEffect, useLayoutEffect, useRef, useState} from 'react'
 
 import {withTheme, Surface, Title, Paragraph, Button, Chip} from "react-native-paper";
 import {Image, ImageBackground, NativeSyntheticEvent, StyleSheet, Text, TextInput, View} from 'react-native';
-import { useSelector, useDispatch } from 'react-redux'
+import {useSelector, useDispatch} from 'react-redux'
 
 const WritingCard = (props: any) => {
   const inputRef = useRef<any>(null)
@@ -11,26 +11,32 @@ const WritingCard = (props: any) => {
   const {colors} = props.theme
 
   const setContentHandle = (event) => {
-    inputRef.current.setNativeProps({selection: {start: event.nativeEvent.text.length, end: event.nativeEvent.text.length}});
+    inputRef.current.setNativeProps({
+      selection: {
+        start: event.nativeEvent.text.length,
+        end: event.nativeEvent.text.length
+      }
+    });
     setContent(event)
   }
 
 
   return (
     <Surface style={[styles.card, props.style]}>
-      <ImageBackground style={styles.cardBackground} source={require("../../assets/paper.png")} imageStyle={{borderRadius: 8}}>
+      <ImageBackground style={styles.cardBackground} source={require("../../assets/paper.png")} force-cache="force-cache" imageStyle={{borderRadius: 8}}>
         <TextInput
           style={styles.input}
           placeholder={placeholder}
           placeholderTextColor="#8A897C"
           multiline={true}
+          returnKeyType="done"
           autoCapitalize="none"
           autoCorrect={false}
           importantForAutofill="no"
           onChange={(event) => setContentHandle(event)}
           onContentSizeChange={handleLayout}
           autoFocus={false}
-          keyboardType="ascii-capable"
+          keyboardType="default"
           editable={editable}
           contextMenuHidden={true}
           // selection={{start: content.length, end: content.length}}
@@ -39,6 +45,7 @@ const WritingCard = (props: any) => {
           <Text style={styles.inputLine}>{content}</Text>
         </TextInput>
       </ImageBackground>
+      {props.children}
     </Surface>
   );
 };
@@ -52,6 +59,8 @@ const styles = StyleSheet.create({
     paddingTop: 3,
     paddingLeft: 22,
     paddingRight: 10,
+    backgroundColor: "#f5f7ea",
+    borderRadius: 8,
   },
   card: {
     backgroundColor: "transparent",

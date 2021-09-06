@@ -14,8 +14,7 @@ interface ToolData {
 
 const renderTags = (chipList: ToolData["tags"], colors: any) => {
   return chipList.map(el => (
-    <Chip mode="flat" style={[styles.chip, {backgroundColor: colors.accent}]}
-          key={el}>{el}</Chip>
+    <Chip mode="flat" style={styles.chip} key={el}>{el}</Chip>
   ))
 }
 

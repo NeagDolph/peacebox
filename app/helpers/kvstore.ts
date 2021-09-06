@@ -8,7 +8,7 @@ export const storeData = async (key: string, value: any) => {
       storeValue = JSON.stringify(value)
     }
 
-    // await AsyncStorage.setItem(key, storeValue)
+    await AsyncStorage.setItem(key, storeValue)
     return value
   } catch (e) {
     return Error(e)
@@ -22,7 +22,7 @@ export const getData = async (key: string) => {
   } catch (e) {
     if (e.name === "SyntaxError") {
       return ""
-      // return await AsyncStorage.getItem(key)
+      return await AsyncStorage.getItem(key)
     } else
       return Error(e)
   }

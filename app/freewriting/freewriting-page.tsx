@@ -6,93 +6,97 @@ import {
   TextInput,
   EventSubscription,
   NativeSyntheticEvent,
-  LayoutAnimation, Animated, Easing, TouchableWithoutFeedback, Dimensions
+  LayoutAnimation, Animated, Easing, TouchableWithoutFeedback, Dimensions, ImageBackground, Keyboard
 } from 'react-native';
 import WritingCard from "./components/writing-card";
 import {ChangeEvent, Ref, RefObject, useEffect, useLayoutEffect, useRef, useState} from "react";
-import {LetterBox} from "./components/animations-letter";
-import {GenieCard} from "./components/animations-page";
+import {Linking} from 'react-native';
+
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
-import useSettings from "../hooks/settings";
-import useStats from "../hooks/stats";
 import {Provider, Snackbar, Surface} from "react-native-paper";
-import {loadBgImage} from "./helper";
+
 import InfoModal from "./components/info-modal";
-import useStat from "../hooks/stats";
+import Background from "../components/background"
+import LetterBox from "./components/animations-letter";
+import GenieCard from "./components/animations-page";
 
-const settings = { //Temp settings (to-do: move to kv store and change with settings page)
-  freewrite: {
-    backgroundImage: true,
-    showAnimations: true,
+import {setTime, setUrl} from "../store/features/backgroundSlice"
+import {useDispatch, useSelector} from "react-redux"
+import PageHeader from "../components/header";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-  }
+
+function AnimationOption(props: { onPress: () => void, trashMode: number }) {
+  const settings = useSelector((state) => state.settings.freewriting)
+
+  return (
+    settings.showAnimations.value &&
+    <View style={styles.trashIcon}>
+        <TouchableWithoutFeedback onPress={props.onPress}>
+            <View style={{padding: 7}}>
+                <FontAwesomeIcon icon={props.trashMode == 0 ? ["far", "trash-alt"] : ["fas", "recycle"]} size={26}/>
+            </View>
+        </TouchableWithoutFeedback>
+    </View>
+  );
 }
 
-
 const Freewriting = (props: any) => {
+  const bgCredits = useSelector((state) => state.background.credits)
+  const settings = useSelector((state) => state.settings.freewriting)
+  const dispatch = useDispatch();
+
   const [content, setContent] = useState("")
   const [contentHeight, setContentHeight] = useState(0)
   const [placeholderText, setPlaceholderText] = useState("Starting is the hardest part...");
-  const [sessionPages, setSessionPages] = useState(0);
-  const inputRef = useRef(null);
 
-  //Trash mode related
+  //Trash related
   const [trashMode, setTrashMode] = useState(0)
   const [trashFeedbackVisible, setTrashFeedbackVisible] = useState(false)
 
-  //Trash mode 0 animation state
+  //Animation state
   const [genieVisible, setGenieVisible] = useState(false);
   const [genieContent, setGenieContent] = useState<string>("");
-
-  //Trash mode 1 animation state
   const [letterStack, setLetterStack] = useState([]);
 
   //Modal state
   const [modalVisible, setModalVisible] = useState(false);
-
-  //Stats/settings
-  const [pagesStat, setPagesStat] = useStat("freewriting.pages");
-  const [bgStat, setBgStat] = useStat("freewriting.bg");
-
-
-  useEffect(() => {
-    //Load unsplash background
-    if (bgStat) {
-      // let bgImage =
-    }
-
-    // Show info modal
-    setModalVisible(true);
-  }, [])
-
 
   //Input change callbacks
   const handleLayout = (event: NativeSyntheticEvent<any>) => {
     const height = event.nativeEvent.contentSize.height;
     setContentHeight(height);
 
-    if (height >= 420 && !genieVisible && trashMode === 0) { //On page completion run genie animation
-      const tempContent = content;
+    if (settings.showAnimations.value) {
+      if (height >= 420 && !genieVisible && trashMode === 0) { //On page completion run genie animation
+        const tempContent = content;
 
-      setContent("");
-      setGenieVisible(true)
-      setGenieContent(tempContent);
-      setPlaceholderText("") //remove placeholder on subsequent pages
-      incrementSessionPages();
-
-      setPagesStat(pagesStat + 1)
+        setContent("");
+        setGenieVisible(true)
+        setGenieContent(tempContent);
+        setPlaceholderText("") //remove placeholder on subsequent pages
+      }
+    } else {
+      if (height >= 420) { //On page completion run genie animation
+        setContent("");
+        setPlaceholderText("") //remove placeholder on subsequent pages
+      }
     }
 
-    if (content.includes("\n")) { // Disable newlines
-      setContent(content.replace(/\n/g, ""));
-    }
+    // if (content.includes("\n")) { // Disable newlines
+    //   setContent(content.replace(/(.*)\n/g, "$1"));
+    //   Keyboard.dismiss()
+    // }
   }
+
   const handleContent = async (event: NativeSyntheticEvent<any>) => {
     const text = event.nativeEvent.text;
     const lastChar = text.substring(text.length - 1)
     const firstChar = text.substring(0, 1)
 
-    if (contentHeight >= 400 && trashMode === 1) { //On line completion trash mode 1
+    if (text === "reset") AsyncStorage.clear()
+
+    if (contentHeight >= 400 && trashMode === 1 && settings.showAnimations.value) { //On line completion trash mode 1
       setContent(text.substring(1))
       let letterId = Math.random().toString(36).substr(2, 9);
 
@@ -115,12 +119,15 @@ const Freewriting = (props: any) => {
 
   const toggleTrashMode = () => {
     setTrashMode(mode => mode ? 0 : 1);
-    setTrashFeedbackVisible(true)
+    setTrashFeedbackVisible(true);
+    Keyboard.dismiss()
+
+    //temp handler for background please remove
+    dispatch(setTime(undefined));
   }
 
-  const incrementSessionPages = () => setSessionPages(pages => pages + 1);
-
   const getLetterBoxes = () => { //Map animation letters on type
+    if (!settings.showAnimations.value) return;
     return trashMode === 1 && letterStack.map(obj => (
       <LetterBox
         key={obj.id}
@@ -134,34 +141,49 @@ const Freewriting = (props: any) => {
 
   return (
     <>
-      <View style={styles.container}>
-        <Text>{pagesStat}</Text>
-        <WritingCard
-          placeholder={placeholderText}
-          editable={true}
-          handleLayout={handleLayout}
-          content={content}
-          setContent={handleContent}
+      <Background>
+        <PageHeader
+          settingsIcon="info-circle"
+          titleWhite={settings.showBackground.value}
+          settingsCallback={() => props.navigation.push("settings", {
+            page: "freewriting",
+            pageTitle: "Freewriting Settings"
+          })}
+          title="Free Writing"
+          navigation={props.navigation}
         />
-        {/* LetterBoxes for letter animation */}
-        {getLetterBoxes()}
-        <View style={styles.trashIcon}>
-          <TouchableWithoutFeedback onPress={toggleTrashMode}>
-            <View style={{padding: 7}}>
-              <FontAwesomeIcon icon={trashMode == 0 ? ['far', 'trash-alt'] : ['fas', 'recycle']} size={26}/>
-            </View>
-          </TouchableWithoutFeedback>
+        <View style={styles.container}>
+          <WritingCard
+            placeholder={placeholderText}
+            editable={true}
+            handleLayout={handleLayout}
+            content={content}
+            setContent={handleContent}
+          >
+            <Text style={[styles.credit, {display: settings.showBackground.value ? "flex" : "none"}]}>
+              Photo by&nbsp;
+              <Text style={styles.creditName} onPress={() => Linking.openURL(bgCredits?.link)}>
+                {bgCredits?.name.replace("  ", " ")}
+              </Text>
+            </Text>
+          </WritingCard>
+          {/* LetterBoxes for letter animation */}
+          {getLetterBoxes()}
+
+          <AnimationOption onPress={toggleTrashMode} trashMode={trashMode}/>
         </View>
-      </View>
+      </Background>
       <Snackbar visible={trashFeedbackVisible} onDismiss={() => setTrashFeedbackVisible(false)} duration={2000}>
-        {trashMode === 0 ? "pages will be deleted" : "notes will scroll down"} as you write.
+        {trashMode === 0 ? "pages will be discarded" : "letters will fly away"} as you write.
       </Snackbar>
       {/* GenieCard for page completion animation */}
-      {genieVisible && <GenieCard
-        style={styles.genieCard}
-        genieVisible={genieVisible}
-        genieContent={genieContent}
-        resetGenie={resetGenie}
+      {settings.showAnimations.value &&
+      genieVisible &&
+      <GenieCard
+          style={styles.genieCard}
+          genieVisible={genieVisible}
+          genieContent={genieContent}
+          resetGenie={resetGenie}
       />}
       <Provider>
         <InfoModal modalVisible={modalVisible} setModalVisible={setModalVisible}/>
@@ -185,6 +207,7 @@ const styles = StyleSheet.create({
   },
   container: {
     padding: 30,
+    paddingTop: 10,
     zIndex: 0,
   },
   genieCard: {
@@ -214,5 +237,16 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 30,
     left: 50
-  }
+  },
+  credit: {
+    color: "#d6d6d6",
+    position: "absolute",
+    bottom: -30,
+    left: 0,
+    padding: 5,
+    fontSize: 12,
+  },
+  creditName: {
+    fontWeight: "bold",
+  },
 });

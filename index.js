@@ -4,12 +4,15 @@ import {AppRegistry} from 'react-native';
 import HomePage from './app/home/home-page';
 
 import Freewriting from './app/freewriting/freewriting-page';
-import FWInfoPage, {FWInfoIcon} from "./app/freewriting/info-page"
+import FWInfoPage, {FWInfoIcon} from './app/freewriting/info-page';
 
 import {name as appName} from './app.json';
 import {DefaultTheme, Provider as PaperProvider, Text} from 'react-native-paper';
+import { Provider } from "react-redux"
+import { PersistGate } from 'redux-persist/integration/react'
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {store, persistor} from "./app/store/store"
 
 import {library} from '@fortawesome/fontawesome-svg-core';
 
@@ -21,8 +24,9 @@ import faGem from '@fortawesome/fontawesome-free-solid/faGem';
 import faCog from '@fortawesome/fontawesome-free-solid/faCog';
 import faRecycle from '@fortawesome/fontawesome-free-solid/faRecycle';
 import faInfoCircle from '@fortawesome/fontawesome-free-solid/faInfoCircle';
-
-import faTrashAlt from '@fortawesome/fontawesome-free-regular/faTrashAlt'
+import faTrashAlt from '@fortawesome/fontawesome-free-regular/faTrashAlt';
+import faLongArrowAltLeft from '@fortawesome/fontawesome-free-solid/faLongArrowAltLeft';
+import SettingsPage from './app/settings/settings-page';
 
 library.add(
     faBolt,
@@ -33,7 +37,8 @@ library.add(
     faCog,
     faTrashAlt,
     faRecycle,
-    faInfoCircle
+    faInfoCircle,
+    faLongArrowAltLeft
 );
 
 const theme = {
@@ -51,20 +56,19 @@ const Stack = createNativeStackNavigator();
 
 export default function Main() {
     return (
-        <PaperProvider theme={theme}>
-            <NavigationContainer>
-                <Stack.Navigator>
-                    <Stack.Screen name="Home" component={HomePage} options={{headerShown: false}}/>
-                    <Stack.Screen name="Freewriting" component={Freewriting} options={({navigation, route}) => ({
-                        headerTitle: () => (<Text>Free Writing</Text>),
-                        headerRight: () => (<FWInfoIcon navigation={navigation}/>)
-                    })}/>
-                    <Stack.Screen name="FWInfo" component={FWInfoPage} options={() => ({
-                        headerTitle: () => (<Text>Info & Stats</Text>),
-                    })}/>
-                </Stack.Navigator>
-            </NavigationContainer>
-        </PaperProvider>
+        <Provider store={store}>
+            <PersistGate loading={null} persistor={persistor}>
+                <PaperProvider theme={theme}>
+                    <NavigationContainer>
+                        <Stack.Navigator>
+                            <Stack.Screen name="Home" component={HomePage} options={{headerShown: false}}/>
+                            <Stack.Screen name="Freewriting" component={Freewriting} options={{headerShown: false}}/>
+                            <Stack.Screen name="settings" component={SettingsPage} options={{headerShown: false}}/>
+                        </Stack.Navigator>
+                    </NavigationContainer>
+                </PaperProvider>
+            </PersistGate>
+        </Provider>
     );
 }
 

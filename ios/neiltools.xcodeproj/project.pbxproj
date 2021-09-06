@@ -11,9 +11,9 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		3FF2A634AE84A2502838DAF0 /* libPods-neiltools.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FA4C753187CEFA345EB79EB /* libPods-neiltools.a */; };
+		4A8336B4C0F2E7164E0263AE /* libPods-neiltools.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CBFC30287C62351E9203E08 /* libPods-neiltools.a */; };
+		6642BBCFC27048947CC1392B /* libPods-neiltools-neiltoolsTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4578190CE447FE59BA320593 /* libPods-neiltools-neiltoolsTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		976C9AD0764E555FB1E88BB3 /* libPods-neiltools-neiltoolsTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 32A6DA7FAA139DAC5AD3B3A0 /* libPods-neiltools-neiltoolsTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,14 +36,14 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = neiltools/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = neiltools/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = neiltools/main.m; sourceTree = "<group>"; };
-		1A1DEBD711A7C96C52D905E6 /* Pods-neiltools-neiltoolsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-neiltools-neiltoolsTests.debug.xcconfig"; path = "Target Support Files/Pods-neiltools-neiltoolsTests/Pods-neiltools-neiltoolsTests.debug.xcconfig"; sourceTree = "<group>"; };
-		2BE34339DBAF8B5D4DD0A48B /* Pods-neiltools.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-neiltools.release.xcconfig"; path = "Target Support Files/Pods-neiltools/Pods-neiltools.release.xcconfig"; sourceTree = "<group>"; };
-		32A6DA7FAA139DAC5AD3B3A0 /* libPods-neiltools-neiltoolsTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-neiltools-neiltoolsTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4578190CE447FE59BA320593 /* libPods-neiltools-neiltoolsTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-neiltools-neiltoolsTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5CBFC30287C62351E9203E08 /* libPods-neiltools.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-neiltools.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		70870408CFB0296D5F4F7C0E /* Pods-neiltools-neiltoolsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-neiltools-neiltoolsTests.release.xcconfig"; path = "Target Support Files/Pods-neiltools-neiltoolsTests/Pods-neiltools-neiltoolsTests.release.xcconfig"; sourceTree = "<group>"; };
+		7AB6B288EFBD171EE36B04B0 /* Pods-neiltools-neiltoolsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-neiltools-neiltoolsTests.debug.xcconfig"; path = "Target Support Files/Pods-neiltools-neiltoolsTests/Pods-neiltools-neiltoolsTests.debug.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = neiltools/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		8FA4C753187CEFA345EB79EB /* libPods-neiltools.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-neiltools.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		B1EBCB15A0F24225F25CCF73 /* Pods-neiltools.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-neiltools.debug.xcconfig"; path = "Target Support Files/Pods-neiltools/Pods-neiltools.debug.xcconfig"; sourceTree = "<group>"; };
+		95DE03CC884F29ED83D5291F /* Pods-neiltools.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-neiltools.release.xcconfig"; path = "Target Support Files/Pods-neiltools/Pods-neiltools.release.xcconfig"; sourceTree = "<group>"; };
+		97BF13ED96C7EB4296EA987E /* Pods-neiltools.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-neiltools.debug.xcconfig"; path = "Target Support Files/Pods-neiltools/Pods-neiltools.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		F85BEEA1113BD2D5D65878E5 /* Pods-neiltools-neiltoolsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-neiltools-neiltoolsTests.release.xcconfig"; path = "Target Support Files/Pods-neiltools-neiltoolsTests/Pods-neiltools-neiltoolsTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,7 +51,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				976C9AD0764E555FB1E88BB3 /* libPods-neiltools-neiltoolsTests.a in Frameworks */,
+				6642BBCFC27048947CC1392B /* libPods-neiltools-neiltoolsTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,7 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3FF2A634AE84A2502838DAF0 /* libPods-neiltools.a in Frameworks */,
+				4A8336B4C0F2E7164E0263AE /* libPods-neiltools.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -100,8 +100,8 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				8FA4C753187CEFA345EB79EB /* libPods-neiltools.a */,
-				32A6DA7FAA139DAC5AD3B3A0 /* libPods-neiltools-neiltoolsTests.a */,
+				5CBFC30287C62351E9203E08 /* libPods-neiltools.a */,
+				4578190CE447FE59BA320593 /* libPods-neiltools-neiltoolsTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -121,7 +121,7 @@
 				00E356EF1AD99517003FC87E /* neiltoolsTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
-				A617F43A1A01258F20D309B6 /* Pods */,
+				F4408A7EB8664B3349508C0B /* Pods */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -137,15 +137,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		A617F43A1A01258F20D309B6 /* Pods */ = {
+		F4408A7EB8664B3349508C0B /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				B1EBCB15A0F24225F25CCF73 /* Pods-neiltools.debug.xcconfig */,
-				2BE34339DBAF8B5D4DD0A48B /* Pods-neiltools.release.xcconfig */,
-				1A1DEBD711A7C96C52D905E6 /* Pods-neiltools-neiltoolsTests.debug.xcconfig */,
-				F85BEEA1113BD2D5D65878E5 /* Pods-neiltools-neiltoolsTests.release.xcconfig */,
+				97BF13ED96C7EB4296EA987E /* Pods-neiltools.debug.xcconfig */,
+				95DE03CC884F29ED83D5291F /* Pods-neiltools.release.xcconfig */,
+				7AB6B288EFBD171EE36B04B0 /* Pods-neiltools-neiltoolsTests.debug.xcconfig */,
+				70870408CFB0296D5F4F7C0E /* Pods-neiltools-neiltoolsTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -156,12 +155,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "neiltoolsTests" */;
 			buildPhases = (
-				FC29563CA67E3A25F5E652DB /* [CP] Check Pods Manifest.lock */,
+				052A8F89474324649789D925 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				4B56E4098132FDD215CB911B /* [CP] Embed Pods Frameworks */,
-				29DB518BCC1E84B6F59226B1 /* [CP] Copy Pods Resources */,
+				366619075BF231A2BD2FAAE8 /* [CP] Embed Pods Frameworks */,
+				1D20F100440A1CAE293F7C29 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -177,14 +176,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "neiltools" */;
 			buildPhases = (
-				0236C34C54B2F67E48C72D9C /* [CP] Check Pods Manifest.lock */,
+				A191FA48EF8DCB8A513F9F64 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				5977D00EAD33FD84203BB969 /* [CP] Embed Pods Frameworks */,
-				2555DAA3E9F01B59A5FD316D /* [CP] Copy Pods Resources */,
+				B081936FF737D65C6EA529B5 /* [CP] Embed Pods Frameworks */,
+				66399843138D7C78B632653A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -265,7 +264,80 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nexport NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
-		0236C34C54B2F67E48C72D9C /* [CP] Check Pods Manifest.lock */ = {
+		052A8F89474324649789D925 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-neiltools-neiltoolsTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		1D20F100440A1CAE293F7C29 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-neiltools-neiltoolsTests/Pods-neiltools-neiltoolsTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-neiltools-neiltoolsTests/Pods-neiltools-neiltoolsTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-neiltools-neiltoolsTests/Pods-neiltools-neiltoolsTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		366619075BF231A2BD2FAAE8 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-neiltools-neiltoolsTests/Pods-neiltools-neiltoolsTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-neiltools-neiltoolsTests/Pods-neiltools-neiltoolsTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-neiltools-neiltoolsTests/Pods-neiltools-neiltoolsTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		66399843138D7C78B632653A /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-neiltools/Pods-neiltools-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-neiltools/Pods-neiltools-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-neiltools/Pods-neiltools-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A191FA48EF8DCB8A513F9F64 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -287,58 +359,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		2555DAA3E9F01B59A5FD316D /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-neiltools/Pods-neiltools-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-neiltools/Pods-neiltools-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-neiltools/Pods-neiltools-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		29DB518BCC1E84B6F59226B1 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-neiltools-neiltoolsTests/Pods-neiltools-neiltoolsTests-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-neiltools-neiltoolsTests/Pods-neiltools-neiltoolsTests-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-neiltools-neiltoolsTests/Pods-neiltools-neiltoolsTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		4B56E4098132FDD215CB911B /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-neiltools-neiltoolsTests/Pods-neiltools-neiltoolsTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-neiltools-neiltoolsTests/Pods-neiltools-neiltoolsTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-neiltools-neiltoolsTests/Pods-neiltools-neiltoolsTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		5977D00EAD33FD84203BB969 /* [CP] Embed Pods Frameworks */ = {
+		B081936FF737D65C6EA529B5 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -353,28 +374,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-neiltools/Pods-neiltools-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		FC29563CA67E3A25F5E652DB /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-neiltools-neiltoolsTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -429,7 +428,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1A1DEBD711A7C96C52D905E6 /* Pods-neiltools-neiltoolsTests.debug.xcconfig */;
+			baseConfigurationReference = 7AB6B288EFBD171EE36B04B0 /* Pods-neiltools-neiltoolsTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -437,7 +436,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = neiltoolsTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -456,12 +455,12 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F85BEEA1113BD2D5D65878E5 /* Pods-neiltools-neiltoolsTests.release.xcconfig */;
+			baseConfigurationReference = 70870408CFB0296D5F4F7C0E /* Pods-neiltools-neiltoolsTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = neiltoolsTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -480,11 +479,12 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B1EBCB15A0F24225F25CCF73 /* Pods-neiltools.debug.xcconfig */;
+			baseConfigurationReference = 97BF13ED96C7EB4296EA987E /* Pods-neiltools.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = GM3EN8YD6S;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = neiltools/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -506,11 +506,12 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2BE34339DBAF8B5D4DD0A48B /* Pods-neiltools.release.xcconfig */;
+			baseConfigurationReference = 95DE03CC884F29ED83D5291F /* Pods-neiltools.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = GM3EN8YD6S;
 				INFOPLIST_FILE = neiltools/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -577,7 +578,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
 					"$(inherited)",
@@ -635,7 +636,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
 					"$(inherited)",

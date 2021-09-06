@@ -4,10 +4,11 @@ import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withTiming,
-  Easing, runOnJS
+  Easing, runOnJS, useDerivedValue, interpolateColor
 } from 'react-native-reanimated';
 import * as React from "react";
 import {useEffect, useLayoutEffect, useState} from "react";
+import {useSelector} from "react-redux";
 
 interface LetterProps {
   letterContent: string;
@@ -16,11 +17,14 @@ interface LetterProps {
   id: string
 }
 
-export const LetterBox = ({letterContent, style, complete, id}: LetterProps) => {
+const LetterBox = ({letterContent, style, complete, id}: LetterProps) => {
   const animX = useSharedValue(0);
   const animY = useSharedValue(0);
   const animOpacity = useSharedValue(1);
+  const animColor = useSharedValue("#000000");
   const duration = useSharedValue(1);
+
+  const toColor = useSelector(state => state.background.textColor)
 
   useEffect(() => {
     const radius = 50
@@ -31,8 +35,8 @@ export const LetterBox = ({letterContent, style, complete, id}: LetterProps) => 
     animX.value = Math.cos(angle) * radius
     animY.value = Math.sin(angle) * radius
     animOpacity.value = 0.15
-    // duration.value = (300 + (Math.random() * 400))
-    duration.value = (400)
+    animColor.value = toColor
+    duration.value = 300 + (Math.random() * 200)
 
   }, [])
 
@@ -55,15 +59,30 @@ export const LetterBox = ({letterContent, style, complete, id}: LetterProps) => 
       opacity: withTiming(animOpacity.value, {
         duration: duration.value - 100,
         easing: Easing.circle
-      })
+      }),
     };
   });
 
+  const animatedColor = useAnimatedStyle(() => {
+    return {
+      color: withTiming(animColor.value, {
+        duration: duration.value - 250,
+        easing: Easing.linear
+      })
+    }
+  })
+
   return (
     <Animated.View style={[style, animatedStyles]}>
-      <Text style={{
-        fontSize: 14
-      }}>{letterContent}</Text>
+      <Animated.Text style={[styles.innerText, animatedColor]}>{letterContent}</Animated.Text>
     </Animated.View>
   );
 }
+
+const styles = StyleSheet.create({
+  innerText: {
+    fontSize: 14
+  }
+})
+
+export default LetterBox

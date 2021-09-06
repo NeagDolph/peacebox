@@ -10,11 +10,12 @@ import {useEffect, useLayoutEffect, useState} from "react";
 import {Text} from "react-native";
 
 
-export const GenieCard = (props: any) => {
+const GenieCard = (props: any) => {
   const animOpacity = useSharedValue(0.8)
   const animX = useSharedValue(0)
   const animY = useSharedValue(0)
   const animScale = useSharedValue(1)
+  const totalSpeed = 750
 
   useEffect(() => {
     animX.value = 160
@@ -28,25 +29,25 @@ export const GenieCard = (props: any) => {
       transform: [
         {
           translateX: withTiming(animX.value, {
-            duration: 980,
+            duration: 0.98 * totalSpeed,
             easing: Easing.inOut(Easing.ease)
           })
         },
         {
           translateY: withTiming(animY.value, {
-            duration: 870,
+            duration: 0.87 * totalSpeed,
             easing: Easing.back(3)
           })
         },
         {
           scale: withTiming(animScale.value, {
-            duration: 1000,
+            duration: totalSpeed,
             easing: Easing.out(Easing.ease),
           })
         },
       ],
       opacity: withTiming(animOpacity.value, {
-        duration: 980,
+        duration: 0.98 * totalSpeed,
         easing: Easing.in(Easing.circle),
       }, runOnJS(props.resetGenie))
     }
@@ -60,22 +61,4 @@ export const GenieCard = (props: any) => {
   );
 }
 
-// opacity: props.animScaleOpacity.interpolate({
-//             inputRange: [0, 0.95, 1],
-//             outputRange: [1, 0.8, 0.4]  // 0 : 150, 0.5 : 75, 1 : 0
-//           }),
-//           transform: [
-//             {translateX: props.animX},
-//             {translateY: props.animY}
-//           ],
-//         }}
-//     >
-//         <WritingCard style={{
-//           transform: [
-//             {
-//               scale: props.animScaleOpacity.interpolate({
-//                 inputRange: [0, 0.25, 0.9, 1],
-//                 outputRange: [0.9, 1, 0.1, 0.1]
-//               }),
-//             },
-//           ]
+export default GenieCard
