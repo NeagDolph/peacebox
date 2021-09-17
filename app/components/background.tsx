@@ -46,12 +46,12 @@ const Background = (props) => {
     if (Date.now() - lastSetTime >= 3600000 || !lastSetTime) {
       loadSetBackground();
     }
-  }, []);
+  }, [showBackground]);
 
 
   return (
     <View style={backgroundStyle}>
-      {showBackground ? (
+      {showBackground && bgUrl.length > 1 ? (
         <FastImage
           resizeMode={FastImage.resizeMode.cover}
           source={{uri: bgUrl, priority: FastImage.priority.high}}

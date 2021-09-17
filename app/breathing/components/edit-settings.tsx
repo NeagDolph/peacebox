@@ -1,0 +1,109 @@
+import React from 'react';
+
+import {StyleSheet, Text, View} from 'react-native';
+import {useDispatch, useSelector} from "react-redux";
+import {setSetting} from "../../store/features/breathingSlice";
+import {Divider, Switch, Button} from "react-native-paper";
+import {colors} from "../../config/colors";
+import SegmentedControl from '@react-native-segmented-control/segmented-control';
+import Fade from "../../components/fade-wrapper";
+
+
+const EditSettings = props => {
+  const dispatch = useDispatch();
+
+
+  const handleFeedbackChange = (feedback) => dispatch(setSetting({
+    id: props.id,
+    value: ['None', 'Vibrate', "Haptic"].indexOf(feedback) || 0,
+    setting: "feedbackType"
+  }));
+
+  const toggleAlertFinish = () => dispatch(setSetting({
+    id: props.id,
+    setting: "alertFinish",
+    value: !props.patternSettings.alertFinish
+  }))
+
+  const togglePause = () => dispatch(setSetting({
+    id: props.id,
+    setting: "breakBetweenCycles",
+    value: !props.patternSettings.breakBetweenCycles
+  }))
+
+  return (
+    <>
+      <View style={styles.settingItem}>
+        <Text style={styles.settingTitle}>Feedback</Text>
+        <SegmentedControl
+          style={styles.feedbackControl}
+          values={['None', 'Vibrate', "Haptic"]}
+          selectedIndex={props.patternSettings.feedbackType || 0}
+          onValueChange={handleFeedbackChange}
+          fontStyle={{fontSize: 12}}
+          activeFontStyle={{fontWeight: "400"}}
+        />
+      </View>
+      <Divider style={styles.divider}/>
+      <View style={styles.settingItem}>
+        <Text style={styles.settingTitle}>Alert on finish</Text>
+        <Switch color={colors.accent} value={props.patternSettings.alertFinish} onValueChange={toggleAlertFinish}/>
+      </View>
+      <Divider style={styles.divider}/>
+      <View style={styles.settingItem}>
+        <View style={styles.pauseTitle}>
+          <Text style={styles.settingTitle}>Pause after cycle</Text>
+          <Fade visible={props.patternSettings.breakBetweenCycles}><Button labelStyle={styles.pauseText} style={styles.pauseEdit} onPress={props.showEditModal}>Edit</Button></Fade>
+        </View>
+        <Switch color={colors.accent} value={props.patternSettings.breakBetweenCycles} onValueChange={togglePause}/>
+      </View>
+    </>
+  );
+};
+
+const styles = StyleSheet.create({
+  pauseTitle: {
+    flexDirection: "row",
+    alignItems: "center"
+  },
+  pauseEdit: {
+    backgroundColor: colors.background2,
+    borderRadius:6,
+    marginLeft: 5,
+    minWidth: 40,
+  },
+  pauseText: {
+    marginHorizontal: 10,
+    fontSize: 14,
+    fontFamily: "Helvetica",
+    textTransform: "none",
+    fontWeight: "500",
+    letterSpacing: 0,
+    color: colors.primary,
+    marginVertical: 5,
+
+  },
+  divider: {
+    marginHorizontal: 15
+  },
+  feedbackControl: {
+    width: 170,
+  },
+  settingTitle: {
+    fontSize: 14,
+    color: colors.primary,
+    lineHeight: 30
+  },
+  settingItem: {
+    paddingHorizontal: 15,
+    paddingVertical: 8,
+    width: "100%",
+    height: 50,
+    display: "flex",
+    justifyContent: "space-between",
+    flexDirection: "row",
+
+  }
+})
+
+export default EditSettings;

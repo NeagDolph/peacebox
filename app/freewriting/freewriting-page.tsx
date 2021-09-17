@@ -17,7 +17,6 @@ import {Provider, Snackbar, Surface} from "react-native-paper";
 
 import InfoModal from "./components/info-modal";
 import Background from "../components/background"
-import LetterBox from "./components/animations-letter";
 import GenieCard from "./components/animations-page";
 
 import {setTime, setUrl} from "../store/features/backgroundSlice"
@@ -25,21 +24,6 @@ import {useDispatch, useSelector} from "react-redux"
 import PageHeader from "../components/header";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-
-function AnimationOption(props: { onPress: () => void, trashMode: number }) {
-  const settings = useSelector((state) => state.settings.freewriting)
-
-  return (
-    settings.showAnimations.value &&
-    <View style={styles.trashIcon}>
-        <TouchableWithoutFeedback onPress={props.onPress}>
-            <View style={{padding: 7}}>
-                <FontAwesomeIcon icon={props.trashMode == 0 ? ["far", "trash-alt"] : ["fas", "recycle"]} size={26}/>
-            </View>
-        </TouchableWithoutFeedback>
-    </View>
-  );
-}
 
 const Freewriting = (props: any) => {
   const bgCredits = useSelector((state) => state.background.credits)
@@ -51,13 +35,11 @@ const Freewriting = (props: any) => {
   const [placeholderText, setPlaceholderText] = useState("Starting is the hardest part...");
 
   //Trash related
-  const [trashMode, setTrashMode] = useState(0)
   const [trashFeedbackVisible, setTrashFeedbackVisible] = useState(false)
 
   //Animation state
   const [genieVisible, setGenieVisible] = useState(false);
   const [genieContent, setGenieContent] = useState<string>("");
-  const [letterStack, setLetterStack] = useState([]);
 
   //Modal state
   const [modalVisible, setModalVisible] = useState(false);
@@ -68,7 +50,7 @@ const Freewriting = (props: any) => {
     setContentHeight(height);
 
     if (settings.showAnimations.value) {
-      if (height >= 420 && !genieVisible && trashMode === 0) { //On page completion run genie animation
+      if (height >= 420 && !genieVisible) { //On page completion run genie animation
         const tempContent = content;
 
         setContent("");
@@ -96,48 +78,13 @@ const Freewriting = (props: any) => {
 
     if (text === "reset") AsyncStorage.clear()
 
-    if (contentHeight >= 400 && trashMode === 1 && settings.showAnimations.value) { //On line completion trash mode 1
-      setContent(text.substring(1))
-      let letterId = Math.random().toString(36).substr(2, 9);
-
-      setLetterStack(stack => stack.concat({
-        char: firstChar,
-        id: letterId,
-      }))
-
-    } else {
-      //Force text to clear if input is too fast
-      if (content.length === 0) {
-        setContent(lastChar)
-      } else setContent(text) // fucked up placement of default functionality
-    }
+    //Force text to clear if input is too fast
+    if (content.length === 0) {
+      setContent(lastChar)
+    } else setContent(text) // fucked up placement of default functionality
   }
-
   //Reset animation functions
   const resetGenie = () => setGenieVisible(false);
-  const resetLetter = (id: string) => setLetterStack(stack => stack.filter(el => el.id !== id))
-
-  const toggleTrashMode = () => {
-    setTrashMode(mode => mode ? 0 : 1);
-    setTrashFeedbackVisible(true);
-    Keyboard.dismiss()
-
-    //temp handler for background please remove
-    dispatch(setTime(undefined));
-  }
-
-  const getLetterBoxes = () => { //Map animation letters on type
-    if (!settings.showAnimations.value) return;
-    return trashMode === 1 && letterStack.map(obj => (
-      <LetterBox
-        key={obj.id}
-        style={styles.letterBox}
-        letterContent={obj.char}
-        complete={resetLetter}
-        id={obj.id}
-      />
-    ));
-  }
 
   return (
     <>
@@ -167,15 +114,8 @@ const Freewriting = (props: any) => {
               </Text>
             </Text>
           </WritingCard>
-          {/* LetterBoxes for letter animation */}
-          {getLetterBoxes()}
-
-          <AnimationOption onPress={toggleTrashMode} trashMode={trashMode}/>
         </View>
       </Background>
-      <Snackbar visible={trashFeedbackVisible} onDismiss={() => setTrashFeedbackVisible(false)} duration={2000}>
-        {trashMode === 0 ? "pages will be discarded" : "letters will fly away"} as you write.
-      </Snackbar>
       {/* GenieCard for page completion animation */}
       {settings.showAnimations.value &&
       genieVisible &&

@@ -4,6 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import PageHeader from "../components/header";
 import {Switch, Text, Divider} from "react-native-paper";
 import { setSetting } from '../store/features/settingsSlice';
+import {colors} from "../config/colors";
 
 const SettingItem = (props) => {
   const {name, value, callback, setting} = props
@@ -11,7 +12,7 @@ const SettingItem = (props) => {
   return (
     <View style={styles.settingItem}>
       <Text style={styles.settingName}>{name}</Text>
-      <Switch value={value} onValueChange={(value) => callback(setting, value)} color="#70e000"/>
+      <Switch value={value} onValueChange={(value) => callback(setting, value)} color={colors.accent}/>
     </View>
   )
 }

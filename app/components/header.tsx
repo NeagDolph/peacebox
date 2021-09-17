@@ -4,28 +4,45 @@ import { BlurView, VibrancyView } from "@react-native-community/blur";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {useSelector} from "react-redux";
 
-const PageHeader = (props) => {
+interface HeaderProps {
+  inlineTitle: boolean | void;
+  title: string;
+  navigation: any;
+  settingsIcon: string,
+  settingsCallback: () => void;
+  titleWhite: boolean,
+  settingsButton: boolean,
+
+}
+
+const PageHeader = ({inlineTitle=false, title, navigation, settingsIcon, settingsCallback, titleWhite, settingsButton}: HeaderProps) => {
+
+  const getTitleColor = () => (titleWhite ?? true) && !inlineTitle ? "white" : "black"
 
   return (
-    <View style={styles.headerContainer}>
+    <View style={[styles.headerContainer, inlineTitle && styles.inlineHeader]}>
       <VibrancyView
         style={styles.absolute}
         blurType="regular"
         blurAmount={8}
         reducedTransparencyFallbackColor="white"
       />
-      <TouchableOpacity style={styles.backButton} onPress={() => props.navigation.goBack()}>
+      <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
         <FontAwesomeIcon icon="long-arrow-alt-left" color="#222" size={26}/>
       </TouchableOpacity>
       <View style={styles.settingsButton}>
         {
-          (props.settingsButton ?? true) &&
-          <TouchableOpacity onPress={props.settingsCallback}>
-            <FontAwesomeIcon icon={props.settingsIcon || "cog"} color="#222" size={26}/>
+          (settingsButton ?? true) &&
+          <TouchableOpacity onPress={settingsCallback}>
+            <FontAwesomeIcon icon={settingsIcon || "cog"} color="#222" size={26}/>
           </TouchableOpacity>
         }
       </View>
-      <Text style={[styles.title, {color: props.titleWhite ?? true ? "white" : "black"}]}>{props.title}</Text>
+      <Text numberOfLines={1} style={[
+        styles.title,
+        {color: getTitleColor()},
+        inlineTitle ? styles.inlineTitle : styles.titleUnder
+      ]}>{title}</Text>
     </View>
   );
 };
@@ -34,7 +51,6 @@ const styles = StyleSheet.create({
   headerContainer: {
     width: "100%",
     height: 160,
-    padding: 25,
     position: "relative",
     shadowColor: "#000",
     shadowOffset: {
@@ -46,6 +62,13 @@ const styles = StyleSheet.create({
 
     elevation: 4,
   },
+  inlineHeader: {
+    height: 90,
+    textAlign: "center",
+    // flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
+  },
   absolute: {
     position: "absolute",
     top: 0,
@@ -55,12 +78,21 @@ const styles = StyleSheet.create({
     height: 90,
     backgroundColor: "rgba(255, 255, 255, 0.4)",
   },
+  titleUnder: {
+    left: 30,
+    position: "absolute",
+    bottom: 0,
+  },
+  inlineTitle: {
+    position: "relative",
+    marginTop: 30,
+    fontSize: 24,
+    maxWidth: 200,
+  },
   title: {
     fontSize: 30,
     fontWeight: "bold",
-    position: "absolute",
-    bottom: 0,
-    left: 30,
+    fontFamily: "Helvetica"
   },
   backButton: {
     position: "absolute",
@@ -68,11 +100,8 @@ const styles = StyleSheet.create({
     left: 25,
   },
   settingsButton: {
+    top: 45,
     position: "absolute",
-    top: 5,
-    height: "100%",
-    alignItems: "center",
-    justifyContent: "center",
     right: 25
   }
 })
