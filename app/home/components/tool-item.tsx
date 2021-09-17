@@ -3,6 +3,7 @@ import React from 'react';
 import {StyleSheet, Text, View, ImageBackground, Image, TouchableHighlight, TouchableOpacity} from 'react-native';
 import {Chip, Surface, useTheme} from "react-native-paper";
 import {white} from "react-native-paper/lib/typescript/styles/colors";
+import {colors} from "../../config/colors";
 
 interface ToolData {
   title: string;
@@ -20,6 +21,8 @@ const renderTags = (chipList: ToolData["tags"], colors: any) => {
 
 const ToolItem = (props: ToolData) => {
   const {colors} = useTheme()
+  const imageSource = Image.resolveAssetSource(props.icon)
+
   return (
     <Surface style={styles.toolItem}>
 
@@ -32,7 +35,7 @@ const ToolItem = (props: ToolData) => {
             <Text style={[styles.toolItemTitle, {color: colors.text}]}>{props.title}</Text>
             <Text style={[styles.toolItemDescription, {color: colors.placeholder}]}>{props.description}</Text>
           </View>
-          <Image source={props.icon} resizeMode="contain" style={styles.iconBackground}></Image>
+          <Image source={props.icon} resizeMode="cover" style={styles.iconBackground} width={imageSource.width / (imageSource.height / 140)}></Image>
         </>
       </TouchableOpacity>
     </Surface>
@@ -41,11 +44,10 @@ const ToolItem = (props: ToolData) => {
 
 let styles = StyleSheet.create({
   iconBackground: {
-    height: 100,
-    width: 100,
+    height: 140,
     position: "absolute",
-    right: 0,
-    bottom: 10,
+    right: 20,
+    top: -10,
     zIndex: -1
     // flex: 1,
     // justifyContent: "flex-end"
@@ -56,8 +58,11 @@ let styles = StyleSheet.create({
     height: "auto",
     borderRadius: 20,
     padding: 15,
+    borderWidth: 1,
+    borderColor: colors.background2,
     flexDirection: "column",
-    marginVertical: 10
+    marginVertical: 10,
+    overflow: "hidden"
   },
   toolItemContent: {
     width: "70%"

@@ -2,17 +2,19 @@ import * as React from 'react';
 import {AppRegistry} from 'react-native';
 
 import HomePage from './app/home/home-page';
-
 import Freewriting from './app/freewriting/freewriting-page';
-import FWInfoPage, {FWInfoIcon} from './app/freewriting/info-page';
+import SettingsPage from './app/settings/settings-page';
+import BreathingHome from './app/breathing/breathing-home';
+import PatternEdit from './app/breathing/pattern/pattern-edit';
+import PatternUse from './app/breathing/pattern/pattern-use';
 
 import {name as appName} from './app.json';
 import {DefaultTheme, Provider as PaperProvider, Text} from 'react-native-paper';
-import { Provider } from "react-redux"
-import { PersistGate } from 'redux-persist/integration/react'
+import {Provider} from 'react-redux';
+import {PersistGate} from 'redux-persist/integration/react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {store, persistor} from "./app/store/store"
+import {store, persistor} from './app/store/store';
 
 import {library} from '@fortawesome/fontawesome-svg-core';
 
@@ -26,7 +28,7 @@ import faRecycle from '@fortawesome/fontawesome-free-solid/faRecycle';
 import faInfoCircle from '@fortawesome/fontawesome-free-solid/faInfoCircle';
 import faTrashAlt from '@fortawesome/fontawesome-free-regular/faTrashAlt';
 import faLongArrowAltLeft from '@fortawesome/fontawesome-free-solid/faLongArrowAltLeft';
-import SettingsPage from './app/settings/settings-page';
+import faPlus from '@fortawesome/fontawesome-free-solid/faPlus';
 
 library.add(
     faBolt,
@@ -38,7 +40,8 @@ library.add(
     faTrashAlt,
     faRecycle,
     faInfoCircle,
-    faLongArrowAltLeft
+    faLongArrowAltLeft,
+    faPlus,
 );
 
 const theme = {
@@ -52,7 +55,29 @@ const theme = {
         placeholder: '#8A897C',
     },
 };
-const Stack = createNativeStackNavigator();
+const RootStack = createNativeStackNavigator();
+const BreathingStack = createNativeStackNavigator();
+
+
+function BreathingStackScreen() {
+    return (
+        <BreathingStack.Navigator>
+            <BreathingStack.Screen name="Patterns" component={BreathingHome} options={{headerShown: false}}/>
+            <BreathingStack.Screen name="Edit" component={PatternEdit} options={{headerShown: false}}/>
+            <BreathingStack.Screen name="Use" component={PatternUse} options={{headerShown: false}}/>
+        </BreathingStack.Navigator>
+    );
+}
+function RootStackScreen() {
+    return (
+        <RootStack.Navigator>
+            <RootStack.Screen name="Home" component={HomePage} options={{headerShown: false}}/>
+            <RootStack.Screen name="Freewriting" component={Freewriting} options={{headerShown: false}}/>
+            <RootStack.Screen name="settings" component={SettingsPage} options={{headerShown: false}}/>
+            <RootStack.Screen name="Breathing" component={BreathingStackScreen} options={{headerShown: false}}/>
+        </RootStack.Navigator>
+    );
+}
 
 export default function Main() {
     return (
@@ -60,16 +85,11 @@ export default function Main() {
             <PersistGate loading={null} persistor={persistor}>
                 <PaperProvider theme={theme}>
                     <NavigationContainer>
-                        <Stack.Navigator>
-                            <Stack.Screen name="Home" component={HomePage} options={{headerShown: false}}/>
-                            <Stack.Screen name="Freewriting" component={Freewriting} options={{headerShown: false}}/>
-                            <Stack.Screen name="settings" component={SettingsPage} options={{headerShown: false}}/>
-                        </Stack.Navigator>
+                       <RootStackScreen/>
                     </NavigationContainer>
                 </PaperProvider>
             </PersistGate>
         </Provider>
     );
 }
-
 AppRegistry.registerComponent(appName, () => Main);

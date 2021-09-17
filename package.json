@@ -19,6 +19,8 @@
     "@fortawesome/react-native-fontawesome": "^0.2.7",
     "@react-native-async-storage/async-storage": "^1.15.7",
     "@react-native-community/blur": "^3.6.0",
+    "@react-native-firebase/app": "^12.7.5",
+    "@react-native-segmented-control/segmented-control": "^2.4.0",
     "@react-navigation/native": "^6.0.2",
     "@react-navigation/native-stack": "^6.1.0",
     "contrast-color": "^1.0.1",
@@ -26,10 +28,15 @@
     "react-native": "0.65.1",
     "react-native-eject": "^0.1.2",
     "react-native-fast-image": "^8.3.7",
+    "react-native-get-random-values": "^1.7.0",
+    "react-native-haptic-feedback": "^1.11.0",
     "react-native-reanimated": "^2.2.0",
     "react-native-svg": "^12.1.1",
+    "react-native-wheel-scroll-picker": "^0.2.4",
     "react-redux": "^7.2.4",
-    "redux-persist": "^6.0.0"
+    "redux-persist": "^6.0.0",
+    "styled-components": "^5.3.1",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
@@ -46,6 +53,7 @@
     "metro-react-native-babel-preset": "^0.64.0",
     "react-native-bundle-visualizer": "^3.0.0",
     "react-native-codegen": "^0.0.7",
+    "react-native-dev-menu": "^4.0.2",
     "react-native-paper": "^4.9.2",
     "react-native-safe-area-context": "^3.3.0",
     "react-native-screens": "^3.5.0",

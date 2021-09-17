@@ -36,14 +36,14 @@ interface ToolData {
 const toolsData: ToolData[] = [
   {
     title: "Free Writing",
-    icon: require("../assets/freewriting-icon.png"),
+    icon: require("../assets/writing.png"),
     description: "Free your subconscious from its internal disagreement.",
     tags: ["Anxiety", "Quick Relief", "Skill"],
     nav: "Freewriting"
   },
   {
     title: "Breathing",
-    icon: require("../assets/breathing-icon.png"),
+    icon: require("../assets/wind.png"),
     description: "Various breathing exercises to relax and improve your mood",
     nav: "Breathing",
     tags: ["Anxiety", "Discontentment"],
