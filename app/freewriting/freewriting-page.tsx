@@ -34,9 +34,6 @@ const Freewriting = (props: any) => {
   const [contentHeight, setContentHeight] = useState(0)
   const [placeholderText, setPlaceholderText] = useState("Starting is the hardest part...");
 
-  //Trash related
-  const [trashFeedbackVisible, setTrashFeedbackVisible] = useState(false)
-
   //Animation state
   const [genieVisible, setGenieVisible] = useState(false);
   const [genieContent, setGenieContent] = useState<string>("");
@@ -44,44 +41,27 @@ const Freewriting = (props: any) => {
   //Modal state
   const [modalVisible, setModalVisible] = useState(false);
 
-  //Input change callbacks
-  const handleLayout = (event: NativeSyntheticEvent<any>) => {
-    const height = event.nativeEvent.contentSize.height;
-    setContentHeight(height);
-
+  const showAnimation = () => {
     if (settings.showAnimations.value) {
-      if (height >= 420 && !genieVisible) { //On page completion run genie animation
-        const tempContent = content;
-
-        setContent("");
-        setGenieVisible(true)
-        setGenieContent(tempContent);
-        setPlaceholderText("") //remove placeholder on subsequent pages
-      }
-    } else {
-      if (height >= 420) { //On page completion run genie animation
-        setContent("");
-        setPlaceholderText("") //remove placeholder on subsequent pages
-      }
+      setGenieContent(content);
+      setGenieVisible(true)
     }
 
-    // if (content.includes("\n")) { // Disable newlines
-    //   setContent(content.replace(/(.*)\n/g, "$1"));
-    //   Keyboard.dismiss()
-    // }
+    setContent("");
+    setPlaceholderText("")
+  }
+
+  //Input change callbacks
+  const handleLayout = (event) => {
+    setContentHeight(event.nativeEvent.contentSize.height);
+
+    // Disable newlines
+    // if (content.includes("\n")) { setContent(content.replace(/(.*)\n/g, "$1"));
   }
 
   const handleContent = async (event: NativeSyntheticEvent<any>) => {
-    const text = event.nativeEvent.text;
-    const lastChar = text.substring(text.length - 1)
-    const firstChar = text.substring(0, 1)
-
-    if (text === "reset") AsyncStorage.clear()
-
-    //Force text to clear if input is too fast
-    if (content.length === 0) {
-      setContent(lastChar)
-    } else setContent(text) // fucked up placement of default functionality
+    if (contentHeight >= 420) showAnimation()
+    else setContent(event.nativeEvent.text)
   }
   //Reset animation functions
   const resetGenie = () => setGenieVisible(false);
@@ -90,7 +70,7 @@ const Freewriting = (props: any) => {
     <>
       <Background>
         <PageHeader
-          settingsIcon="info-circle"
+          settingsIcon="information"
           titleWhite={settings.showBackground.value}
           settingsCallback={() => props.navigation.push("settings", {
             page: "freewriting",

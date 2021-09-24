@@ -4,9 +4,21 @@ import {contrastColor} from 'contrast-color';
 export const breathingSlice = createSlice({
   name: 'breathing',
   initialState: {
+    currentDuration: 0,
     patterns: {}
   },
   reducers: {
+    setDuration: (state, action) => {
+      state.currentDuration = action.payload
+    },
+    setTotalDuration: (state, action) => {
+      const {total, id} = action.payload
+      state.patterns[id].totalDuration = total;
+    },
+    setDurationType: (state, action) => {
+      const {type, id} = action.payload
+      state.patterns[id].durationType = type;
+    },
     addPattern: (state, action) => {
       state.patterns[action.payload.id] = action.payload
     },
@@ -21,15 +33,17 @@ export const breathingSlice = createSlice({
       if (state.patterns[action.payload.id]) state.patterns[action.payload.id].name = name
     },
     setSetting: (state, action) => {
-      if (state.patterns[action.payload.id]) state.patterns[action.payload.id].settings[action.payload.setting] = action.payload.value
+      const {id, setting, value} = action.payload;
+      if (state.patterns[id]) state.patterns[id].settings[setting] = value;
     },
     setSequence: (state, action) => {
-      if (state.patterns[action.payload.id]) state.patterns[action.payload.id].sequence = action.payload.sequence;
+      const {id, sequence} = action.payload;
+      if (state.patterns[id]) state.patterns[id].sequence = sequence;
     }
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { addPattern, editPattern, removePattern, setName, setSetting, setSequence } = breathingSlice.actions
+export const { addPattern, editPattern, removePattern, setName, setSetting, setSequence, setDuration, setTotalDuration, setDurationType} = breathingSlice.actions
 
 export default breathingSlice.reducer

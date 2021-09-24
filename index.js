@@ -4,9 +4,10 @@ import {AppRegistry} from 'react-native';
 import HomePage from './app/home/home-page';
 import Freewriting from './app/freewriting/freewriting-page';
 import SettingsPage from './app/settings/settings-page';
-import BreathingHome from './app/breathing/breathing-home';
-import PatternEdit from './app/breathing/pattern/pattern-edit';
-import PatternUse from './app/breathing/pattern/pattern-use';
+import BreathingHome from './app/breathing/breathing-page';
+import PatternEdit from './app/breathing/edit/pattern-edit';
+import PatternTime from './app/breathing/use/pattern-time';
+import PatternUse from './app/breathing/use/pattern-use';
 
 import {name as appName} from './app.json';
 import {DefaultTheme, Provider as PaperProvider, Text} from 'react-native-paper';
@@ -44,46 +45,31 @@ library.add(
     faPlus,
 );
 
-const theme = {
-    ...DefaultTheme,
-    colors: {
-        ...DefaultTheme.colors,
-        primary: '#6874E8',
-        accent: '#F1D26A',
-        background: '#f8f9fa',
-        text: '#1C211F',
-        placeholder: '#8A897C',
-    },
-};
+
 const RootStack = createNativeStackNavigator();
-const BreathingStack = createNativeStackNavigator();
 
-
-function BreathingStackScreen() {
-    return (
-        <BreathingStack.Navigator>
-            <BreathingStack.Screen name="Patterns" component={BreathingHome} options={{headerShown: false}}/>
-            <BreathingStack.Screen name="Edit" component={PatternEdit} options={{headerShown: false}}/>
-            <BreathingStack.Screen name="Use" component={PatternUse} options={{headerShown: false}}/>
-        </BreathingStack.Navigator>
-    );
-}
 function RootStackScreen() {
     return (
         <RootStack.Navigator>
-            <RootStack.Screen name="Home" component={HomePage} options={{headerShown: false}}/>
-            <RootStack.Screen name="Freewriting" component={Freewriting} options={{headerShown: false}}/>
-            <RootStack.Screen name="settings" component={SettingsPage} options={{headerShown: false}}/>
-            <RootStack.Screen name="Breathing" component={BreathingStackScreen} options={{headerShown: false}}/>
+            <RootStack.Group>
+                <RootStack.Screen name="Home" component={HomePage} options={{headerShown: false}}/>
+                <RootStack.Screen name="Freewriting" component={Freewriting} options={{headerShown: false}}/>
+                <RootStack.Screen name="settings" component={SettingsPage} options={{headerShown: false}}/>
+                <RootStack.Screen name="Patterns" component={BreathingHome} options={{headerShown: false}}/>
+                <RootStack.Screen name="Use" component={PatternUse} options={{headerShown: false}}/>
+                <RootStack.Screen name="Time" component={PatternTime} options={{headerShown: false, animation: "fade", statusBarHidden: true}}/>
+                <RootStack.Screen name="Edit" component={PatternEdit} options={{headerShown: false, presentation: 'modal'}}/>
+            </RootStack.Group>
         </RootStack.Navigator>
     );
 }
+
 
 export default function Main() {
     return (
         <Provider store={store}>
             <PersistGate loading={null} persistor={persistor}>
-                <PaperProvider theme={theme}>
+                <PaperProvider>
                     <NavigationContainer>
                        <RootStackScreen/>
                     </NavigationContainer>

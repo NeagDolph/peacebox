@@ -6,5 +6,6 @@ export const colors = {
   background2: "rgba(118, 118, 128, 0.12)",
   accent: "#6874E8",
   placeholder: "#D6D6D6",
+  placeholder2: "#C0C0C0",
   red: '#f85256'
 }

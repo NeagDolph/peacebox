@@ -3,15 +3,16 @@ import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {useDispatch, useSelector} from "react-redux";
 import {setSetting} from "../../store/features/breathingSlice";
-import {Divider, Switch, Button} from "react-native-paper";
+import {Divider, Switch, Button, Provider} from "react-native-paper";
 import {colors} from "../../config/colors";
+import PropTypes from 'prop-types'
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
 import Fade from "../../components/fade-wrapper";
+import PauseModal from "./pause-modal";
 
 
 const EditSettings = props => {
   const dispatch = useDispatch();
-
 
   const handleFeedbackChange = (feedback) => dispatch(setSetting({
     id: props.id,
@@ -32,7 +33,7 @@ const EditSettings = props => {
   }))
 
   return (
-    <>
+    <View style={props.style}>
       <View style={styles.settingItem}>
         <Text style={styles.settingTitle}>Feedback</Text>
         <SegmentedControl
@@ -53,15 +54,27 @@ const EditSettings = props => {
       <View style={styles.settingItem}>
         <View style={styles.pauseTitle}>
           <Text style={styles.settingTitle}>Pause after cycle</Text>
-          <Fade visible={props.patternSettings.breakBetweenCycles}><Button labelStyle={styles.pauseText} style={styles.pauseEdit} onPress={props.showEditModal}>Edit</Button></Fade>
+          <Fade visible={props.patternSettings.breakBetweenCycles}>
+            <Button labelStyle={styles.pauseText} style={styles.pauseEdit} onPress={props.showEditModal}>Edit</Button>
+          </Fade>
         </View>
         <Switch color={colors.accent} value={props.patternSettings.breakBetweenCycles} onValueChange={togglePause}/>
       </View>
-    </>
+      {props.children}
+    </View>
   );
 };
 
+EditSettings.propTypes = {
+  id: PropTypes.string,
+  patternSettings: PropTypes.object,
+  showEditModal: PropTypes.func,
+  children: PropTypes.element,
+  style: PropTypes.object
+}
+
 const styles = StyleSheet.create({
+
   pauseTitle: {
     flexDirection: "row",
     alignItems: "center"
@@ -102,6 +115,7 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "space-between",
     flexDirection: "row",
+    alignItems: "center"
 
   }
 })

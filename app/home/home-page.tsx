@@ -45,7 +45,7 @@ const toolsData: ToolData[] = [
     title: "Breathing",
     icon: require("../assets/wind.png"),
     description: "Various breathing exercises to relax and improve your mood",
-    nav: "Breathing",
+    nav: "Patterns",
     tags: ["Anxiety", "Discontentment"],
   }
 ]

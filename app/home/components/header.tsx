@@ -3,6 +3,7 @@ import {Text, View, Button} from 'react-native';
 // import {connect} from 'react-redux';
 import {withTheme} from 'react-native-paper';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome'
+import {colors} from "../../config/colors";
 
 const generateMotd = () => {
   let motdList = [
@@ -33,13 +34,11 @@ const generateIcon = () => {
 }
 
 const Header = (props: any) => {
-    const {colors} = props.theme
-
     return (
       <View style={{width: "100%"}}>
         <View style={{flexDirection: "row", width: "auto"}}>
-          <FontAwesomeIcon style={{color: colors.primary}} icon={generateIcon()} size={22}/>
-          <Text style={{marginLeft: 10, color: colors.placeholder, fontSize: 17, lineHeight: 21,}}>
+          <FontAwesomeIcon style={{color: colors.accent}} icon={generateIcon()} size={22}/>
+          <Text style={{marginLeft: 10, color: colors.text, fontSize: 17, lineHeight: 21,}}>
             Hey Neil!
           </Text>
         </View>
@@ -53,4 +52,4 @@ const Header = (props: any) => {
 }
 
 // @ts-ignore
-export default withTheme(Header)
+export default Header

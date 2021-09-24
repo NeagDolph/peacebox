@@ -2,7 +2,9 @@ import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import { BlurView, VibrancyView } from "@react-native-community/blur";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useSelector} from "react-redux";
+import PropTypes from 'prop-types'
 
 interface HeaderProps {
   inlineTitle: boolean | void;
@@ -15,7 +17,7 @@ interface HeaderProps {
 
 }
 
-const PageHeader = ({inlineTitle=false, title, navigation, settingsIcon, settingsCallback, titleWhite, settingsButton}: HeaderProps) => {
+const PageHeader = ({inlineTitle=false, title, navigation, settingsIcon, settingsCallback, titleWhite, settingsButton}) => {
 
   const getTitleColor = () => (titleWhite ?? true) && !inlineTitle ? "white" : "black"
 
@@ -28,13 +30,13 @@ const PageHeader = ({inlineTitle=false, title, navigation, settingsIcon, setting
         reducedTransparencyFallbackColor="white"
       />
       <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-        <FontAwesomeIcon icon="long-arrow-alt-left" color="#222" size={26}/>
+        <Icon name="arrow-left" color="#222" size={26}/>
       </TouchableOpacity>
       <View style={styles.settingsButton}>
         {
           (settingsButton ?? true) &&
           <TouchableOpacity onPress={settingsCallback}>
-            <FontAwesomeIcon icon={settingsIcon || "cog"} color="#222" size={26}/>
+            <Icon name={settingsIcon || "cog"} color="#222" size={26}/>
           </TouchableOpacity>
         }
       </View>
@@ -46,6 +48,16 @@ const PageHeader = ({inlineTitle=false, title, navigation, settingsIcon, setting
     </View>
   );
 };
+
+PageHeader.propTypes = {
+  inlineTitle: PropTypes.bool,
+  title: PropTypes.string.isRequired,
+  navigation: PropTypes.any.isRequired,
+  settingsIcon: PropTypes.any,
+  settingsCallback: PropTypes.func,
+  titleWhite: PropTypes.bool,
+  settingsButton: PropTypes.bool
+}
 
 const styles = StyleSheet.create({
   headerContainer: {

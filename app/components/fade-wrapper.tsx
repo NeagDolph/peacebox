@@ -1,4 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
+import PropTypes from 'prop-types';
 
 import {Animated, Text, View} from 'react-native';
 
@@ -22,5 +23,11 @@ const Fade = (props) => {
     </Animated.View>
   );
 };
+
+Fade.propTypes = {
+  visible: PropTypes.bool,
+  children: PropTypes.element
+}
+
 
 export default Fade;
