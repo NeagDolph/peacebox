@@ -14,6 +14,9 @@ class BreathingAnim extends React.Component {
   private radius: any;
   private animationRadius: any;
   private animationRotation: any;
+  private listener: any;
+  private animation: any;
+  private toSize: any;
   readonly color: any;
   readonly fullsize: number;
 
@@ -25,15 +28,13 @@ class BreathingAnim extends React.Component {
     this.color = props.color || colors.accent;
     this.fullsize = (this.canvasSize / 4) + (this.baseSize / 2);
 
-    // this.radius = createRef().current;
     this.radius = new Animated.Value(this.baseSize);
-
-    // this.animationRadius = createRef().current;
     this.animationRadius = Animated.add(this.radius, -this.baseSize);
-
     this.animationRotation = new Animated.Value(0);
 
-    this.radius.addListener((circleRadius) => {
+    this.animation = createRef();
+
+    this.listener = this.radius.addListener((circleRadius) => {
       if (this.g) {
         const completion = ((circleRadius.value - this.baseSize) / this.fullsize) * 2;
         const color = this.interpolateColor([140, 140, 140], [35, 53, 222], completion);
@@ -72,27 +73,44 @@ class BreathingAnim extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.currentIndex !== this.props.currentIndex) {
-      switch (this.props.currentIndex) {
-        case 0:
-          this.open(this.props.sequenceTime);
-          break;
-        case 2:
-          this.close(this.props.sequenceTime);
+      if (this.props.currentIndex == 0) {
+        this.open(this.props.sequenceTime);
+      } else if (this.props.currentIndex == 2) {
+        this.close(this.props.sequenceTime);
+      }
+    }
+
+    if (prevProps.paused !== this.props.paused) {
+      if (this.props.paused) this.pauseAnimation();
+      else {
+        this.setAnimation(this.props.sequenceTime - this.props.currentTime);
+        this.resumeAnimation();
       }
     }
   }
 
-  open = (time) => this.animate(time, this.fullsize)
-  close = (time) => this.animate(time, this.baseSize)
+  open = (time) => {
+    this.toSize = this.fullsize;
+    this.setAnimation(time);
+    this.resumeAnimation();
+  }
+  close = (time) => {
+    this.toSize = this.baseSize;
+    this.setAnimation(time);
+    this.resumeAnimation();
+  }
 
-  animate = (time, size) => {
-    Animated.timing(this.radius, {
-      toValue: size,
+  setAnimation = (time) => {
+    this.animation.current = Animated.timing(this.radius, {
+      toValue: this.toSize,
       useNativeDriver: true,
       duration: (time * 1060) + 500,
       easing: Easing.bezier(0.470, 0.205, 0.460, 0.995)
-    }).start();
+    })
   }
+
+  resumeAnimation = () => this.animation.current.start();
+  pauseAnimation = () => this.animation.current.stop();
 
   animateSpin = () => {
     Animated.loop(Animated.timing(this.animationRotation, {
@@ -131,10 +149,12 @@ class BreathingAnim extends React.Component {
           xmlns="http://www.w3.org/2000/svg"
           {...this.props}
           style={{
-            transform: [{rotate: this.animationRotation.interpolate({
+            transform: [{
+              rotate: this.animationRotation.interpolate({
                 inputRange: [0, 1],
                 outputRange: ['0deg', '360deg']
-              })}]
+              })
+            }]
           }}
         >
           <Defs>
@@ -147,8 +167,8 @@ class BreathingAnim extends React.Component {
               fy={this.canvasSize / 2}
               gradientUnits="userSpaceOnUse"
             >
-              <Stop offset="0"  stopOpacity="1"/>
-              <Stop offset="1"  stopOpacity="0.35"/>
+              <Stop offset="0" stopOpacity="1"/>
+              <Stop offset="1" stopOpacity="0.35"/>
             </RadialGradient>
           </Defs>
           <G ref={ref => this.g = ref} fill={this.color} fillOpacity={0.35}>
@@ -210,14 +230,13 @@ class BreathingAnim extends React.Component {
                     ref={ref => this.circle10 = ref}
             />
             <Circle cx={this.canvasSize / 2} cy={this.canvasSize / 2} r={this.baseSize} fill="url(#grad)"/>
-
           </G>
         </AnimatedSvg>
         <View style={styles.countContainer}>
-          <Text style={styles.count}>{this.props.currentTime}</Text>
+          <Text style={styles.count}>{this.props.sequenceTime - this.props.currentTime}</Text>
           <Text style={styles.countText}>{this.props.title}</Text>
         </View>
-    </View>
+      </View>
     )
   }
 }

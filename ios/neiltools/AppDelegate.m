@@ -13,6 +13,10 @@
 #import <FlipperKitReactPlugin/FlipperKitReactPlugin.h>
 #import <Firebase.h>
 
+#if RCT_DEV
+#import <React/RCTDevLoadingView.h>
+#endif
+
 static void InitializeFlipper(UIApplication *application) {
   FlipperClient *client = [FlipperClient sharedClient];
   SKDescriptorMapper *layoutDescriptorMapper = [[SKDescriptorMapper alloc] initWithDefaults];
@@ -23,6 +27,7 @@ static void InitializeFlipper(UIApplication *application) {
   [client start];
 }
 #endif
+
 
 @implementation AppDelegate
 
@@ -37,6 +42,11 @@ static void InitializeFlipper(UIApplication *application) {
   }
 
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
+
+  #if RCT_DEV
+    [bridge moduleForClass:[RCTDevLoadingView class]];
+  #endif
+
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
                                                    moduleName:@"neiltools"
                                             initialProperties:nil];
@@ -52,6 +62,7 @@ static void InitializeFlipper(UIApplication *application) {
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
+
   return YES;
 }
 

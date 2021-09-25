@@ -21,7 +21,7 @@ function RenderSequence(props) {
 }
 
 RenderSequence.propTypes = {
-  sequence: PropTypes.object.isRequired,
+  sequence: PropTypes.array.isRequired,
   backgroundColor: PropTypes.string,
   color: PropTypes.string,
   numColor: PropTypes.string,

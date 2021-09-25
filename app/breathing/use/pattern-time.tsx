@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import PageHeader from "../../components/header";
@@ -7,7 +7,7 @@ import TimeHeader from "./components/time-header";
 import {Surface} from "react-native-paper";
 import {colors} from "../../config/colors";
 import RenderSequence from "./components/render-sequence";
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 import BreathingAnim from "./components/breathing-animation";
 
 const breatheText = ["Inhale", "Hold", "Exhale", "Hold"]
@@ -17,64 +17,136 @@ const PatternTime = ({route, navigation}) => {
   const {id} = route.params
   const patternData = useSelector(state => state.breathing.patterns[id]);
   const countInterval = useRef(null);
-  const startTime = useRef(Date.now());
+  const pauseTimeout = useRef(null);
 
   const sequence = patternData.sequence;
+
+  //Timing State
   const [cycleCount, setCycleCount] = useState(0)
-  const [currentSeq, setCurrentSeq] = useState(0) // Index of current sequence
+  const [currentIndex, setCurrentIndex] = useState(0) // Index of current sequence
   const [sequenceTime, setSequenceTime] = useState(patternData.sequence[0]) // Seconds in current sequence index
-  const [currentTime, setCurrentTime] = useState(0)
+  const [currentTime, setCurrentTime] = useState(-1)
+
+  //
+  const [paused, setPaused] = useState(false);
 
   const [title, setTitle] = useState(breatheText[0])
 
   useEffect(() => {
+    if (paused) clearTimer();
+    else countStep();
 
-    // waitCount(seqTime);
-    if (patternData.settings.breakBetweenCycles && cycleCount % patternData.settings.pauseFrequency === 0) {
-      patternBreak(patternData.settings.pauseDuration)
-        .then(() => countSequence())
-    } else countSequence()
+    return clearTimer;
+  }, [paused]);
 
-  }, [cycleCount])
+  useEffect(() => {
+    (async () => {
+      // if (currentIndex >= 5 || (currentIndex >= 4 && !patternData.settings.breakBetweenCycles)) await nextCycle();
+      // else if (currentTime >= sequenceTime) await nextSequence();
+    })();
+  }, [currentTime])
 
 
-  const patternBreak = (duration) => {
-    return new Promise((res, rej) => {
-      setTitle("Break");
-      setSequenceTime(duration)
-      setTimeout(res, duration * 1000);
-    })
+  /*
+    Timing functions
+   */
+  // const countSequence = async () => {
+  //   for (let i in sequence) {
+  //     setCurrentIndex(parseInt(i))
+  //     setTitle(breatheText[i]);
+  //     await waitCount(sequence[parseInt(i)]);
+  //   }
+  //
+  //   if (patternData.settings.breakBetweenCycles &&
+  //     cycleCount % patternData.settings.pauseFrequency === 0) {
+  //     setCurrentIndex(4)
+  //     await patternBreak(patternData.settings.pauseDuration);
+  //   }
+  //
+  //   setCycleCount(count => count + 1)
+  //
+  //   return;
+  // }
+
+  const patternBreak = async () => {
+    setCurrentIndex(i => i + 1)
+    setTitle("Break");
+    setCurrentTime(0)
+    setSequenceTime(patternData.settings.pauseDuration)
   }
 
-  const countSequence = async() => {
-    for (let i of sequence) {
-      await waitCount(i);
-    }
+  const nextCycle = () => {
     setCycleCount(count => count + 1)
+    setCurrentIndex(0)
+    setTitle(breatheText[0]);
+    setSequenceTime(sequence[0]);
+    setCurrentTime(0);
   }
 
-  const waitCount = (time) => {
-    return new Promise((res, rej) => {
+  const nextSequence = () => {
 
-      clearInterval(countInterval.current); //Remove previous count interval
-      createCountInterval(time) // create count interval
+    setCurrentIndex(index => {
+      const nextIndex = index + 1
 
-      setSequenceTime(time);
-      setTitle(breatheText[currentSeq]);
-      setTimeout(() => {
-        setCurrentSeq(seq => (seq + 1) % 4)
-        res();
-      }, time * 1000)
+      console.log("next", index, nextIndex);
+
+      if (index === 3 &&
+        patternData.settings.breakBetweenCycles &&
+        cycleCount % patternData.settings.pauseFrequency === 0
+      ) {
+        patternBreak();
+        return index;
+      } else {
+        console.log("reset")
+        setTitle(breatheText[nextIndex]);
+        setSequenceTime(sequence[nextIndex]);
+        setCurrentTime(0);
+        return nextIndex
+      }
+    });
+  }
+
+  const countStep = () => {
+
+
+    setCurrentTime(time => {
+      const nextTime = time + 1;
+      if (currentIndex >= 5 || (currentIndex >= 4 && !patternData.settings.breakBetweenCycles)) {
+        console.log(0)
+        nextCycle();
+        return time
+      } else if (nextTime >= sequenceTime) {
+        console.log(1)
+        nextSequence();
+        return time
+      } else {
+        console.log(2, currentIndex)
+        return nextTime
+      }
     })
+
+    if (!paused) countInterval.current = setTimeout(countStep, 1000)
   }
 
-  const createCountInterval = (time) => {
-    setCurrentTime(time)
-    countInterval.current = setInterval((setCurrentTime) => {
-      setCurrentTime(time => time - 1);
-    }, 1000, setCurrentTime)
+  /*
+   Pause Functions
+  */
+  const togglePause = () => {
+    if (paused) resume();
+    else pause();
   }
 
+  const pause = () => {
+    setPaused(true);
+  }
+  const resume = () => {
+    setPaused(false);
+  }
+
+  const clearTimer = () => {
+    clearInterval(countInterval.current)
+    countInterval.current = false;
+  }
 
 
   return (
@@ -84,16 +156,17 @@ const PatternTime = ({route, navigation}) => {
       <View style={styles.animationContainer}>
         <BreathingAnim
           sequenceTime={sequenceTime}
-          currentIndex={currentSeq}
+          currentIndex={currentIndex}
           currentTime={currentTime}
+          paused={paused}
           title={title}
           baseSize={45}
           canvasSize={260}/>
       </View>
       <View style={styles.controlsContainer}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={togglePause}>
           <View style={styles.pauseButton}>
-            <Icon></Icon>
+            <Icon name={paused ? "play" : "pause"} size={32} color={colors.primary}/>
           </View>
         </TouchableOpacity>
       </View>
@@ -102,8 +175,22 @@ const PatternTime = ({route, navigation}) => {
 };
 
 const styles = StyleSheet.create({
+  pauseButton: {
+    padding: 15,
+    backgroundColor: "white",
+    borderRadius: 8,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 3,
+  },
   controlsContainer: {
-
+    justifyContent: "center",
+    alignItems: "center"
   },
   sequenceContainer: {
     marginTop: 20
