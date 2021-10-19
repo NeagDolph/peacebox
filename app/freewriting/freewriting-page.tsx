@@ -11,18 +11,20 @@ import {
 import WritingCard from "./components/writing-card";
 import {ChangeEvent, Ref, RefObject, useEffect, useLayoutEffect, useRef, useState} from "react";
 import {Linking} from 'react-native';
+import PrefersHomeIndicatorAutoHidden from 'react-native-home-indicator';
 
-import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {Provider, Snackbar, Surface} from "react-native-paper";
 
 import InfoModal from "./components/info-modal";
 import Background from "../components/background"
 import GenieCard from "./components/animations-page";
 
-import {setTime, setUrl} from "../store/features/backgroundSlice"
+import {setUsed} from "../store/features/settingsSlice"
 import {useDispatch, useSelector} from "react-redux"
 import PageHeader from "../components/header";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+
+
+const modalContent = require("./info.json");
 
 
 const Freewriting = (props: any) => {
@@ -41,12 +43,20 @@ const Freewriting = (props: any) => {
   //Modal state
   const [modalVisible, setModalVisible] = useState(false);
 
+  useEffect(() => {
+    if (!settings.used) {
+      setImmediate(() => {
+        setModalVisible(true);
+        dispatch(setUsed("freewriting"))
+      })
+    }
+  }, [])
+
   const showAnimation = () => {
-    if (settings.showAnimations.value) {
+    if (settings.showAnimations) {
       setGenieContent(content);
       setGenieVisible(true)
     }
-
     setContent("");
     setPlaceholderText("")
   }
@@ -56,7 +66,7 @@ const Freewriting = (props: any) => {
     setContentHeight(event.nativeEvent.contentSize.height);
 
     // Disable newlines
-    // if (content.includes("\n")) { setContent(content.replace(/(.*)\n/g, "$1"));
+    if (content.includes("\n")) setContent(content.replace(/(.*)\n/g, "$1"));
   }
 
   const handleContent = async (event: NativeSyntheticEvent<any>) => {
@@ -68,13 +78,14 @@ const Freewriting = (props: any) => {
 
   return (
     <>
-      <Background>
+      <PrefersHomeIndicatorAutoHidden/>
+      <Background showBackground={settings.showBackground}>
         <PageHeader
           settingsIcon="information"
-          titleWhite={settings.showBackground.value}
+          titleWhite={settings.showBackground}
           settingsCallback={() => props.navigation.push("settings", {
             page: "freewriting",
-            pageTitle: "Freewriting Settings"
+            pageTitle: "Freewriting Settings",
           })}
           title="Free Writing"
           navigation={props.navigation}
@@ -87,7 +98,7 @@ const Freewriting = (props: any) => {
             content={content}
             setContent={handleContent}
           >
-            <Text style={[styles.credit, {display: settings.showBackground.value ? "flex" : "none"}]}>
+            <Text style={[styles.credit, {display: settings.showBackground ? "flex" : "none"}]}>
               Photo by&nbsp;
               <Text style={styles.creditName} onPress={() => Linking.openURL(bgCredits?.link)}>
                 {bgCredits?.name.replace("  ", " ")}
@@ -97,7 +108,7 @@ const Freewriting = (props: any) => {
         </View>
       </Background>
       {/* GenieCard for page completion animation */}
-      {settings.showAnimations.value &&
+      {settings.showAnimations &&
       genieVisible &&
       <GenieCard
           style={styles.genieCard}
@@ -106,13 +117,11 @@ const Freewriting = (props: any) => {
           resetGenie={resetGenie}
       />}
       <Provider>
-        <InfoModal modalVisible={modalVisible} setModalVisible={setModalVisible}/>
+        <InfoModal content={modalContent} modalVisible={modalVisible} setModalVisible={setModalVisible}/>
       </Provider>
     </>
   );
 };
-
-export default Freewriting;
 
 const styles = StyleSheet.create({
   settings: {
@@ -170,3 +179,5 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
 });
+
+export default Freewriting;

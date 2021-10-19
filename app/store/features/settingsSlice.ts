@@ -4,25 +4,25 @@ export const settingsSlice = createSlice({
   name: 'settings',
   initialState: {
     freewriting: {
-      showBackground: {
-        name: "Show Background",
-        value: false
-      },
-      showAnimations: {
-        name: "Show Animations",
-        value: true
-      }
+      used: false,
+      showBackground: true,
+      showAnimations: true
     },
     breathing: {
-
+      used: false,
+      narrate: true,
+      showAnimations: true
     },
     general: {
-
+      used: false
     }
   },
   reducers: {
+    setUsed: (state, {payload}) => {
+      state[payload].used = true
+    },
     setSetting: (state, {payload}) => {
-      state[payload.page][payload.setting].value = payload.value
+      state[payload.page][payload.setting] = payload.value
     },
     decrementSetting: (state, {payload}) => {
       const settingList = payload.setting.split(".")
@@ -41,6 +41,6 @@ export const settingsSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { setSetting, decrementSetting, incrementSetting } = settingsSlice.actions
+export const { setSetting, decrementSetting, incrementSetting, setUsed } = settingsSlice.actions
 
 export default settingsSlice.reducer

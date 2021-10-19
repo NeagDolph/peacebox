@@ -1,10 +1,10 @@
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import { BlurView, VibrancyView } from "@react-native-community/blur";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useSelector} from "react-redux";
 import PropTypes from 'prop-types'
+import { BlurView, VibrancyView } from "@react-native-community/blur";
 
 interface HeaderProps {
   inlineTitle: boolean | void;
@@ -17,17 +17,17 @@ interface HeaderProps {
 
 }
 
-const PageHeader = ({inlineTitle=false, title, navigation, settingsIcon, settingsCallback, titleWhite, settingsButton}) => {
+const PageHeader = ({inlineTitle=false, title, navigation, settingsIcon, settingsCallback, titleWhite, settingsButton, shadow=true}) => {
 
   const getTitleColor = () => (titleWhite ?? true) && !inlineTitle ? "white" : "black"
 
   return (
-    <View style={[styles.headerContainer, inlineTitle && styles.inlineHeader]}>
+    <View style={[styles.headerContainer, inlineTitle && styles.inlineHeader, shadow && styles.headerShadow]}>
       <VibrancyView
         style={styles.absolute}
         blurType="regular"
         blurAmount={8}
-        reducedTransparencyFallbackColor="white"
+        // reducedTransparencyFallbackColor="white"
       />
       <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
         <Icon name="arrow-left" color="#222" size={26}/>
@@ -60,10 +60,7 @@ PageHeader.propTypes = {
 }
 
 const styles = StyleSheet.create({
-  headerContainer: {
-    width: "100%",
-    height: 160,
-    position: "relative",
+  headerShadow: {
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -73,6 +70,11 @@ const styles = StyleSheet.create({
     shadowRadius: 4.62,
 
     elevation: 4,
+  },
+  headerContainer: {
+    width: "100%",
+    height: 160,
+    position: "relative",
   },
   inlineHeader: {
     height: 90,
@@ -88,7 +90,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     right: 0,
     height: 90,
-    backgroundColor: "rgba(255, 255, 255, 0.4)",
+    // backgroundColor: "rgba(255, 255, 255, 0.4)",
   },
   titleUnder: {
     left: 30,

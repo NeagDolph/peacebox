@@ -16,6 +16,7 @@ const styles = StyleSheet.create({
     height: 30,
     justifyContent: "center",
     alignItems: "center",
+    zIndex: 10
   },
   bar: {
     width: 40,

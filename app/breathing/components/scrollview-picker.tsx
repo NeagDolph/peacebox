@@ -1,73 +1,12 @@
-import React from 'react';
 import {colors} from "../../config/colors";
-import styled from 'styled-components';
-import {
-  View,
-  Text,
-  ScrollView,
-  StyleSheet,
-  Dimensions,
-  Platform, ListView, FlatList, MaskedViewIOS,
-} from 'react-native';
-import PropTypes from 'prop-types';
+import {Dimensions, FlatList, Platform, ScrollView, Text, View} from "react-native";
+import React from "react";
 import ReactNativeHapticFeedback from "react-native-haptic-feedback";
-import ScrollViewPicker from "./scrollview-picker";
+import PropTypes from "prop-types";
+import styled from 'styled-components';
+import LinearGradient from "react-native-linear-gradient";
 import MaskedView from "@react-native-masked-view/masked-view";
-import LinearGradient from 'react-native-linear-gradient'
 import FadeGradient from "../../components/fade-gradient";
-
-const NumberPicker = (props) => {
-  return props.scrollView ?
-      <ScrollViewPicker
-        dataSource={Array(props.maxNumber + (props.includeZero ? 1 : 0)).fill("").map((el, i) => i + (props.includeZero ? 0 : 1))}
-        selectedIndex={props.value - (props.includeZero ? 0 : 1)}
-        onValueChange={(data) => props.setSequenceAmount(data, props.index)}
-        wrapperHeight={46}
-        wrapperWidth={41}
-        listKey={props.listKey}
-        wrapperStyle={props.style}
-        wrapperBackground={'#FFFFFF'}
-        itemHeight={27}
-        borderRadius={6}
-        highlightColor={'#d8d8d8'}
-        highlightBorderWidth={2}
-        activeItemColor={colors.primary}
-        itemColor={colors.text2}
-        itemTextStyle={{
-          fontSize: 27,
-          color: colors.text2,
-        }}
-        activeItemTextStyle={{
-          color: colors.primary,
-          fontSize: 27
-        }}
-      />
-      :
-
-      <ScrollPicker
-        dataSource={Array(props.maxNumber + (props.includeZero ? 1 : 0)).fill("").map((el, i) => i + (props.includeZero ? 0 : 1))}
-        selectedIndex={props.value - (props.includeZero ? 0 : 1)}
-        onValueChange={(data) => props.setSequenceAmount(data, props.index)}
-        wrapperHeight={46}
-        wrapperWidth={41}
-        listKey={props.listKey}
-        wrapperStyle={props.style}
-        wrapperBackground={'#FFFFFF'}
-        itemHeight={27}
-        borderRadius={6}
-        highlightColor={'#d8d8d8'}
-        highlightBorderWidth={2}
-        activeItemColor={colors.primary}
-        itemColor={colors.text2}
-        itemTextStyle={{
-          fontSize: 27,
-          color: colors.text2,
-        }}
-        activeItemTextStyle={{
-          color: colors.primary
-        }}
-      />
-};
 
 const options = {
   enableVibrateFallback: false,
@@ -75,31 +14,31 @@ const options = {
 };
 
 const Container = styled.View`
-height: ${props => props.wrapperHeight}px;
-display: flex;
-overflow: hidden;
-align-self: center;
-width: ${props => props.wrapperWidth}px;
-background-color: ${props => props.wrapperBackground};
+  height: ${props => props.wrapperHeight}px;
+  display: flex;
+  overflow: hidden;
+  align-self: center;
+  width: ${props => props.wrapperWidth}px;
+  background-color: ${props => props.wrapperBackground};
 `;
 export const HighLightView = styled.View`
-position: absolute;
-/*top: ${props => (props.wrapperHeight - props.itemHeight) / 2}px;*/
-height: ${props => props.wrapperHeight}px;
-width: ${props => props.wrapperWidth}px;
-border-radius: ${props => props.borderRadius}px;
-background: ${colors.background2};
-
+  position: absolute;
+  /*top: ${props => (props.wrapperHeight - props.itemHeight) / 2}px;*/
+  height: ${props => props.wrapperHeight}px;
+  width: ${props => props.wrapperWidth}px;
+  border-radius: ${props => props.borderRadius}px;
+  background: ${colors.background2};
+  
 `;
 export const SelectedItem = styled.View`
-justify-content: center;
-align-items: center;
-height: 27px;
-color: ${colors.primary}
+  justify-content: center;
+  align-items: center;
+  height: 27px;
+  color: ${colors.primary}
 `;
 const deviceWidth = Dimensions.get('window').width;
 
-class ScrollPicker extends React.Component {
+class ScrollViewPicker extends React.Component {
   private currentIndex: number;
   private paddingSize: number;
 
@@ -119,7 +58,6 @@ class ScrollPicker extends React.Component {
 
   componentDidMount() {
     if (typeof this.props.selectedIndex !== 'undefined') {
-      console.log("ind", this.props.selectedIndex)
       this.scrollToIndex(this.props.selectedIndex, true);
       this.currentIndex = this.props.selectedIndex
     }
@@ -137,19 +75,10 @@ class ScrollPicker extends React.Component {
 
   componentDidUpdate(prevProps: Readonly<{}>, prevState: Readonly<{}>, snapshot?: any) {
     if (prevProps.selectedIndex !== this.props.selectedIndex) {
-      this.scrollToIndex(this.props.selectedIndex);
+      this.scrollToIndex(this.props.selectedIndex, false);
       this.currentIndex = this.props.selectedIndex
     }
-
-    if (prevState.selectedIndex !== this.state.selectedIndex) {
-      // onValueChange
-      if (this.props.onValueChange) {
-        const selectedValue = this.props.dataSource[this.state.selectedIndex];
-        this.props.onValueChange(selectedValue, this.state.selectedIndex);
-      }
-    }
   }
-
 
   render() {
     const header = this.renderHeader();
@@ -171,33 +100,24 @@ class ScrollPicker extends React.Component {
           borderRadius={this.props.borderRadius || 10}
         />
         <FadeGradient top={0.1} bottom={0.1}>
-          <FlatList
-            ref={(sview) => this.sview = sview}
+          <ScrollView
+            ref={(sview) => {
+              this.sview = sview;
+            }}
             bounces={false}
-            data={this.props.dataSource}
-            nestedScrollEnabled={true}
-            ListHeaderComponent={header}
-            listKey={this.props.listKey}
-            ListFooterComponent={footer}
-            renderItem={({item, index}) => this.renderItem(item, index)}
             showsVerticalScrollIndicator={false}
             onTouchStart={this.props.onTouchStart}
-            getItemLayout={(data, index) => (
-              {length: this.props.itemHeight, offset: this.props.itemHeight * index, index}
-            )}
-            keyExtractor={(obj, id) => obj}
             onMomentumScrollBegin={this.onMomentumScrollBegin}
             onMomentumScrollEnd={this.onMomentumScrollEnd}
             onScrollBeginDrag={this.onScrollBeginDrag}
             onScrollEndDrag={this.onScrollEndDrag}
-            scrollEventThrottle={5}
-            maxToRenderPerBatch={3}
-            updateCellsBatchingPeriod={100}
-            initialNumToRender={10}
-            windowSize={5}
             onScroll={this.onScroll}
+            scrollEventThrottle={33}
           >
-          </FlatList>
+            {header}
+            {this.props.dataSource.map(this.renderItem.bind(this))}
+            {footer}
+          </ScrollView>
         </FadeGradient>
       </Container>
     );
@@ -228,10 +148,10 @@ class ScrollPicker extends React.Component {
 
   renderItem(data, index) {
     const isSelected = index === this.state.selectedIndex;
-    const item = <Text style={[this.props.itemTextStyle, isSelected && this.props.activeItemTextStyle]}>{data}</Text>;
+    const item = <Text style={isSelected ? this.props.activeItemTextStyle : this.props.itemTextStyle}>{data}</Text>;
 
     return (
-      <SelectedItem key={index} itemHeight={27}>
+      <SelectedItem key={index} itemHeight={this.props.itemHeight}>
         {item}
       </SelectedItem>
     );
@@ -246,12 +166,12 @@ class ScrollPicker extends React.Component {
     const selectedIndex = Math.round(verticalY / h);
     const verticalElem = selectedIndex * h;
     if (verticalElem !== verticalY) {
-// using scrollTo in ios, onMomentumScrollEnd will be invoked
+      // using scrollTo in ios, onMomentumScrollEnd will be invoked
       if (Platform.OS === 'ios') {
         this.isScrollTo = true;
       }
       if (this.sview) {
-        this.scrollToIndex(selectedIndex, false);
+        this.sview.scrollTo({y: verticalElem, animated: true});
       }
     }
     if (this.state.selectedIndex === selectedIndex) {
@@ -260,6 +180,11 @@ class ScrollPicker extends React.Component {
     this.setState({
       selectedIndex,
     });
+    // onValueChange
+    if (this.props.onValueChange) {
+      const selectedValue = this.props.dataSource[selectedIndex];
+      this.props.onValueChange(selectedValue, selectedIndex);
+    }
   }
 
   onScrollBeginDrag() {
@@ -275,7 +200,7 @@ class ScrollPicker extends React.Component {
   onScrollEndDrag(e) {
     this.props.onScrollEndDrag();
     this.dragStarted = false;
-// if not used, event will be garbaged
+    // if not used, event will be garbaged
     const element = {
       nativeEvent: {
         contentOffset: {
@@ -315,17 +240,16 @@ class ScrollPicker extends React.Component {
     this.setState({
       selectedIndex: ind,
     });
-// const y = this.props.itemHeight * ind;
-
+    const y = this.props.itemHeight * ind;
     setTimeout(() => {
       if (this.sview) {
-        this.sview.scrollToIndex({index: ind >= 0 ? ind : 0, animated: !firstLoad});
+        this.sview.scrollTo({y, animated: !firstLoad});
       }
     }, 0);
   }
 }
 
-ScrollPicker.propTypes = {
+ScrollViewPicker.propTypes = {
   style: PropTypes.object,
   dataSource: PropTypes.array,
   selectedIndex: PropTypes.number,
@@ -342,10 +266,10 @@ ScrollPicker.propTypes = {
   activeItemTextStyle: PropTypes.object,
   onMomentumScrollEnd: PropTypes.func,
   onScrollEndDrag: PropTypes.func,
-  listKey: PropTypes.any,
-  value: PropTypes.number
+  listKey: PropTypes.any
 };
-ScrollPicker.defaultProps = {
+
+ScrollViewPicker.defaultProps = {
   dataSource: [1, 2, 3],
   itemHeight: 60,
   wrapperBackground: '#FFFFFF',
@@ -362,17 +286,4 @@ ScrollPicker.defaultProps = {
   activeItemTextStyle: {fontSize: 20, lineHeight: 26, textAlign: 'center', color: '#222121'}
 };
 
-
-NumberPicker.propTypes = {
-  maxNumber: PropTypes.number,
-  style: PropTypes.object,
-  index: PropTypes.number,
-  includeZero: PropTypes.bool,
-  setSequenceAmount: PropTypes.func,
-  listKey: PropTypes.any,
-  scrollView: PropTypes.bool,
-  value: PropTypes.number
-}
-
-
-export default NumberPicker
+export default ScrollViewPicker

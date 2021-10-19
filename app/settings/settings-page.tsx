@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {FlatList, SafeAreaView, StyleSheet, View} from 'react-native';
 import {useDispatch, useSelector} from "react-redux";
 import PageHeader from "../components/header";
@@ -6,13 +6,18 @@ import {Switch, Text, Divider} from "react-native-paper";
 import { setSetting } from '../store/features/settingsSlice';
 import {colors} from "../config/colors";
 
+const settingNames = require("./settings.json");
+
 const SettingItem = (props) => {
-  const {name, value, callback, setting} = props
+  const {item, toggle, value} = props
 
   return (
     <View style={styles.settingItem}>
-      <Text style={styles.settingName}>{name}</Text>
-      <Switch value={value} onValueChange={(value) => callback(setting, value)} color={colors.accent}/>
+      <Text style={styles.settingName}>{item.name}</Text>
+      <View style={styles.settingToggle}>
+        <Text style={styles.settingToggleLabel}>{value ? "On" : "Off"}</Text>
+        <Switch value={value} onValueChange={(value) => toggle(item, value)} color={colors.accent}/>
+      </View>
     </View>
   )
 }
@@ -21,15 +26,14 @@ const SettingsPage = ({route, navigation}) => {
   const {page, pageTitle} = route.params;
 
   const dispatch = useDispatch()
-  const settings = useSelector(state => Object.entries(state.settings[page] ))
-  // const [settings, setSettings] = useState([["showBackground", {name: "Show Background", value: false}]])
+  const settingValues = useSelector(state => state.settings[page])
 
-  const toggleSetting = (name, value) => {
-    dispatch(setSetting({page: page, setting: name, value: value}))
+  const toggleSetting = (item, value) => {
+    dispatch(setSetting({page: page, setting: item.setting, value: value}))
   }
 
   const renderSetting = ({item}) => {
-    return <SettingItem setting={item[0]} name={item[1].name} value={item[1].value} callback={toggleSetting}/>
+    return <SettingItem key={item.setting} item={item} toggle={toggleSetting} value={settingValues[item.setting]}/>
   }
 
   return (
@@ -44,9 +48,9 @@ const SettingsPage = ({route, navigation}) => {
       <SafeAreaView style={styles.safeView}>
         <View style={styles.container}>
           <FlatList
-            data={settings}
+            data={settingNames[page]}
             renderItem={renderSetting}
-            keyExtractor={item => item[0]}
+            keyExtractor={item => item.setting}
             ItemSeparatorComponent={Divider}
           />
         </View>
@@ -67,6 +71,16 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: 8,
     height: "100%"
+  },
+  settingToggleLabel: {
+    fontSize: 15,
+    color: colors.text,
+    lineHeight: 30,
+    textTransform: "capitalize",
+    marginHorizontal: 6,
+  },
+  settingToggle: {
+    flexDirection: "row",
   },
   settingItem: {
     flex: 1,

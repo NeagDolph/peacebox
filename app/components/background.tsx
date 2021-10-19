@@ -7,7 +7,6 @@ import FastImage from 'react-native-fast-image'
 const Background = (props) => {
   const lastSetTime = useSelector((state: any) => state.background.lastSetTime)
   const bgUrl = useSelector((state: any) => state.background.url)
-  const showBackground = useSelector((state) => state.settings.freewriting.showBackground.value)
   const [backgroundStyle, setBackgroundStyle] = useState({})
 
   const dispatch = useDispatch();
@@ -38,7 +37,7 @@ const Background = (props) => {
   }
 
   useEffect(() => {
-    if (!showBackground) {
+    if (!props.showBackground) {
       setBackgroundStyle({backgroundColor: "#f4f4f4"})
       return
     }
@@ -46,12 +45,12 @@ const Background = (props) => {
     if (Date.now() - lastSetTime >= 3600000 || !lastSetTime) {
       loadSetBackground();
     }
-  }, [showBackground]);
+  }, [props.showBackground]);
 
 
   return (
     <View style={backgroundStyle}>
-      {showBackground && bgUrl.length > 1 ? (
+      {props.showBackground && bgUrl.length > 1 ? (
         <FastImage
           resizeMode={FastImage.resizeMode.cover}
           source={{uri: bgUrl, priority: FastImage.priority.high}}

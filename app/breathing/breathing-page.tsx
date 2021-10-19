@@ -1,20 +1,39 @@
 import React, {useEffect, useRef, useState} from 'react';
 
-import {StyleSheet, View, Button, ScrollView, TouchableOpacity, Animated, Easing} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Button,
+  ScrollView,
+  TouchableOpacity,
+  Animated,
+  Easing,
+  Text,
+  Dimensions,
+  LayoutAnimation
+} from 'react-native';
 import PageHeader from "../components/header";
-import {Text} from "react-native-paper";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {colors} from "../config/colors";
 import {useDispatch, useSelector} from "react-redux";
 import {addPattern, removePattern, editPattern} from "../store/features/breathingSlice";
 import PatternItem from "./components/pattern-item";
+import {BlurView, VibrancyView} from "@react-native-community/blur";
 
 import 'react-native-get-random-values';
-import { v4 as uuidv4 } from 'uuid';
+import {v4 as uuidv4} from 'uuid';
 import NumberPicker from "./components/numberpicker";
+import InfoModal from "../freewriting/components/info-modal";
+import {Provider} from "react-native-paper";
+import {setUsed} from "../store/features/settingsSlice";
+import FadeGradient from "../components/fade-gradient";
+
+const modalContent = require("./info.json");
+
 
 const BreathingPage = (props) => {
   const patterns = useSelector(state => state.breathing.patterns);
+  const settings = useSelector((state) => state.settings.breathing)
   const dispatch = useDispatch();
 
 
@@ -23,6 +42,18 @@ const BreathingPage = (props) => {
   const buttonScaleOpacity = Animated.add(Animated.divide(editMargin, -6), 1);
   const buttonScaleHeight = Animated.multiply(buttonScaleOpacity, 50)
   const [buttonVisible, setButtonVisible] = useState(false)
+
+  const [modalVisible, setModalVisible] = useState(false);
+
+  useEffect(() => {
+    // if (!settings.used) {
+    //   setImmediate(() => {
+    //     dispatch(setUsed("breathing"))
+    //
+    //     setModalVisible(true);
+    //   });
+    // }
+  }, [])
 
   useEffect(() => {
     if (editMode) setButtonVisible(true)
@@ -43,7 +74,7 @@ const BreathingPage = (props) => {
       name: "New Pattern",
       sequence: [4, 4, 4, 4],
       totalDuration: 1,
-      durationType: 1,
+      durationType: "Cycles",
       settings: {
         feedbackType: 2,
         breakBetweenCycles: false,
@@ -56,12 +87,12 @@ const BreathingPage = (props) => {
 
     dispatch(addPattern(patternObj));
 
-    props.navigation.push("Edit", {id: newId});
+    props.navigation.push("Edit", {id: newId, newPattern: true});
   }
 
   const editPattern = (id) => {
     setEditMode(false);
-    props.navigation.navigate("Edit", {id})
+    props.navigation.navigate("Edit", {id, newPattern: false})
   };
 
   const usePattern = (id) => {
@@ -82,6 +113,7 @@ const BreathingPage = (props) => {
   ));
 
   const deletePattern = (id) => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
     dispatch(removePattern(id))
   }
 
@@ -92,6 +124,7 @@ const BreathingPage = (props) => {
       <PageHeader
         title="Breathing"
         inlineTitle={true}
+        shadow={false}
         settingsButton={true}
         titleWhite={false}
         settingsCallback={() => props.navigation.push("settings", {
@@ -99,15 +132,16 @@ const BreathingPage = (props) => {
           pageTitle: "Breathing Settings"
         })}
         navigation={props.navigation}/>
-        <View style={styles.container}>
-          <View style={styles.header}>
-            <Text style={styles.headerText}>Your Breathing Patterns</Text>
-            <TouchableOpacity onPress={toggleEditMode}>
-              <View style={styles.newButton}>
-                <Text style={[styles.newText, editMode && {fontWeight: "800"}]}>{editMode ? "Done" : "Edit"}</Text>
-              </View>
-            </TouchableOpacity>
-          </View>
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <Text style={styles.headerText}>Your Breathing Patterns</Text>
+          <TouchableOpacity onPress={toggleEditMode}>
+            <View style={styles.newButton}>
+              <Text style={[styles.newText, editMode && {fontWeight: "800"}]}>{editMode ? "Done" : "Edit"}</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+        <FadeGradient top={0.1} bottom={0}>
           <ScrollView style={styles.scrollView} bounces={false}>
             <View style={styles.patternList}>
               {renderPatterns()}
@@ -118,8 +152,11 @@ const BreathingPage = (props) => {
               </View>
             </View>
           </ScrollView>
-
-        </View>
+        </FadeGradient>
+      </View>
+      <Provider>
+        <InfoModal content={modalContent} modalVisible={modalVisible} setModalVisible={setModalVisible}/>
+      </Provider>
     </>
   );
 };
@@ -147,8 +184,9 @@ const styles = StyleSheet.create({
     fontWeight: "500"
   },
   scrollView: {
-    // height: "100%",
-    position: "relative"
+    // height: Dimensions.get("window").height - 100,
+    position: "relative",
+    // marginBottom: 90,
   },
   patternList: {
     flex: 1,
@@ -157,26 +195,33 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexWrap: "wrap",
     overflow: "visible",
-    padding: 28,
-    paddingTop: 15
+    paddingHorizontal: 28,
+    paddingTop: 60,
+    paddingBottom: 110
   },
   container: {
     width: "100%",
     height: "100%",
-    marginTop: 15
+    // marginTop: 15
   },
+
   header: {
     width: "100%",
-    flexDirection:'row',
-    justifyContent:'space-between',
-    padding: 28,
-    paddingBottom: 0,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 28,
+    paddingTop: 15,
+    paddingBottom: 8,
+    position: "absolute",
+    backgroundColor: colors.background,
+    zIndex: 10
   },
   headerText: {
     fontSize: 22,
+    flex: 1,
     color: colors.primary,
     fontWeight: "300",
-    position: "relative"
+    position: "relative",
   },
   newButton: {
     width: 65,
@@ -186,6 +231,7 @@ const styles = StyleSheet.create({
     borderColor: colors.background2,
     borderWidth: 0.5,
     padding: 5,
+    right: 0,
     backgroundColor: "white",
     justifyContent: "center",
     alignItems: "center",

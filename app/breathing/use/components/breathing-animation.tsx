@@ -4,9 +4,11 @@ import {createRef, useState} from "react";
 import {Animated, Easing, TouchableWithoutFeedback, Text, StyleSheet, View} from "react-native";
 import {colors} from "../../../config/colors";
 import PropTypes from 'prop-types'
+import {white} from "react-native-paper/lib/typescript/styles/colors";
 
 
 const AnimatedSvg = Animated.createAnimatedComponent(Svg);
+const AnimatedG = Animated.createAnimatedComponent(G);
 
 class BreathingAnim extends React.Component {
   readonly canvasSize: number;
@@ -36,8 +38,9 @@ class BreathingAnim extends React.Component {
 
     this.listener = this.radius.addListener((circleRadius) => {
       if (this.g) {
+      // if (false) {
         const completion = ((circleRadius.value - this.baseSize) / this.fullsize) * 2;
-        const color = this.interpolateColor([140, 140, 140], [35, 53, 222], completion);
+        const color = this.interpolateColor([0, 0, 0], [35, 53, 222], completion);
 
         this.g.setNativeProps({
           fill: color
@@ -58,7 +61,7 @@ class BreathingAnim extends React.Component {
     });
   }
 
-  interpolateColor(color1, color2, fraction) {
+  interpolateColor = (color1, color2, fraction) => {
     const newR = (color2[0] - color1[0]) * fraction + color1[0]
     const newG = (color2[1] - color1[1]) * fraction + color1[1]
     const newB = (color2[2] - color1[2]) * fraction + color1[2]
@@ -71,8 +74,14 @@ class BreathingAnim extends React.Component {
     this.open(this.props.sequenceTime);
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevProps.currentIndex !== this.props.currentIndex) {
+  shouldComponentUpdate = (nextProps: any, nextState: any, nextContext: any): boolean => {
+    if (nextProps.currentTime >= 0 && (nextProps.currentTime < nextProps.sequenceTime)) {
+      return true
+    } else return false
+  }
+
+  componentDidUpdate = (prevProps, prevState) => {
+    if (prevProps.currentIndex !== this.props.currentIndex || prevProps.title !== this.props.title) {
       if (this.props.currentIndex == 0) {
         this.open(this.props.sequenceTime);
       } else if (this.props.currentIndex == 2) {
@@ -81,39 +90,40 @@ class BreathingAnim extends React.Component {
     }
 
     if (prevProps.paused !== this.props.paused) {
-      if (this.props.paused) this.pauseAnimation();
+      if (this.props.paused) {
+        this.pauseAnimation();
+      }
       else {
         this.setAnimation(this.props.sequenceTime - this.props.currentTime);
         this.resumeAnimation();
+
       }
     }
   }
 
   open = (time) => {
-    this.toSize = this.fullsize;
-    this.setAnimation(time);
+    this.setAnimation(time, this.fullsize);
     this.resumeAnimation();
   }
   close = (time) => {
-    this.toSize = this.baseSize;
-    this.setAnimation(time);
+    this.setAnimation(time, this.baseSize);
     this.resumeAnimation();
   }
 
-  setAnimation = (time) => {
+  setAnimation = (time, toSize) => {
     this.animation.current = Animated.timing(this.radius, {
-      toValue: this.toSize,
+      toValue: toSize,
       useNativeDriver: true,
-      duration: (time * 1060) + 500,
-      easing: Easing.bezier(0.470, 0.205, 0.460, 0.995)
+      duration: (time * 1060) + 100,
+      easing: Easing.bezier(0.470, 0.205, 0.460, 0.555)
     })
   }
 
-  resumeAnimation = () => this.animation.current.start();
-  pauseAnimation = () => this.animation.current.stop();
+  resumeAnimation = () => this.props.settings.showAnimations ? this.animation.current.start() : null;
+  pauseAnimation = () => this.props.settings.showAnimations ? this.animation.current.stop() : null;
 
   animateSpin = () => {
-    Animated.loop(Animated.timing(this.animationRotation, {
+    if (this.props.settings.showAnimations) Animated.loop(Animated.timing(this.animationRotation, {
       toValue: 1,
       useNativeDriver: true,
       duration: 80000,
@@ -171,7 +181,7 @@ class BreathingAnim extends React.Component {
               <Stop offset="1" stopOpacity="0.35"/>
             </RadialGradient>
           </Defs>
-          <G ref={ref => this.g = ref} fill={this.color} fillOpacity={0.35}>
+          <AnimatedG ref={ref => this.g = ref} fill="#000000" fillOpacity={0.35}>
             <Circle
               cx={this.canvasSize / 2}
               cy={this.canvasSize / 2}
@@ -230,10 +240,10 @@ class BreathingAnim extends React.Component {
                     ref={ref => this.circle10 = ref}
             />
             <Circle cx={this.canvasSize / 2} cy={this.canvasSize / 2} r={this.baseSize} fill="url(#grad)"/>
-          </G>
+          </AnimatedG>
         </AnimatedSvg>
         <View style={styles.countContainer}>
-          <Text style={styles.count}>{this.props.sequenceTime - this.props.currentTime}</Text>
+          <Text style={styles.count}>{this.props.currentTime + 1}</Text>
           <Text style={styles.countText}>{this.props.title}</Text>
         </View>
       </View>
@@ -242,6 +252,9 @@ class BreathingAnim extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  completionCircle: {
+    position: "absolute",
+  },
   countText: {
     color: "#ddd",
     fontSize: 18,
@@ -271,7 +284,9 @@ BreathingAnim.propTypes = {
   sequenceTime: PropTypes.any,
   currentIndex: PropTypes.any,
   currentTime: PropTypes.number,
-  title: PropTypes.string
+  title: PropTypes.string,
+  countStart: PropTypes.any,
+  settings: PropTypes.object
 }
 
 export default BreathingAnim

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Text, View, Button} from 'react-native';
+import {Text, View, Button, StyleSheet} from 'react-native';
 // import {connect} from 'react-redux';
 import {withTheme} from 'react-native-paper';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome'
@@ -34,22 +34,44 @@ const generateIcon = () => {
 }
 
 const Header = (props: any) => {
-    return (
-      <View style={{width: "100%"}}>
-        <View style={{flexDirection: "row", width: "auto"}}>
-          <FontAwesomeIcon style={{color: colors.accent}} icon={generateIcon()} size={22}/>
-          <Text style={{marginLeft: 10, color: colors.text, fontSize: 17, lineHeight: 21,}}>
-            Hey Neil!
-          </Text>
-        </View>
-        <FontAwesomeIcon style={{color: colors.text, position: "absolute", right: 0}} icon="cog" size={33}/>
-        <View style={{width: "75%"}}>
-          <Text
-            style={{paddingTop: 8, color: colors.text, fontSize: 30, fontWeight: 'bold',}}>{generateMotd()}</Text>
-        </View>
+  return (
+    <View style={{width: "100%"}}>
+      {/*<FontAwesomeIcon style={{color: colors.text, position: "absolute", right: 0}} icon="cog" size={33}/>*/}
+      <View>
+        <Text style={styles.title}>
+          Here's your mental toolbox
+        </Text>
+        <Text style={styles.subtitle}>
+          Pick a tool that works for you
+        </Text>
       </View>
-    );
+    </View>
+  );
 }
+
+const styles = StyleSheet.create({
+  subtitle: {
+    paddingTop: 0,
+    color: colors.text,
+    fontSize: 22,
+    fontWeight: '700',
+    fontFamily: "Avenir"
+  },
+  title: {
+    paddingTop: 10,
+    color: colors.primary,
+    fontSize: 30,
+    fontWeight: '900',
+    lineHeight: 35,
+    fontFamily: "Avenir-Black"
+  },
+  welcome: {
+    marginLeft: 10,
+    color: colors.text,
+    fontSize: 17,
+    lineHeight: 21,
+  }
+})
 
 // @ts-ignore
 export default Header

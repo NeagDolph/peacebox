@@ -5,7 +5,7 @@ import HomePage from './app/home/home-page';
 import Freewriting from './app/freewriting/freewriting-page';
 import SettingsPage from './app/settings/settings-page';
 import BreathingHome from './app/breathing/breathing-page';
-import PatternEdit from './app/breathing/edit/pattern-edit';
+import PatternModal from './app/breathing/edit/pattern-edit';
 import PatternTime from './app/breathing/use/pattern-time';
 import PatternUse from './app/breathing/use/pattern-use';
 
@@ -30,6 +30,7 @@ import faInfoCircle from '@fortawesome/fontawesome-free-solid/faInfoCircle';
 import faTrashAlt from '@fortawesome/fontawesome-free-regular/faTrashAlt';
 import faLongArrowAltLeft from '@fortawesome/fontawesome-free-solid/faLongArrowAltLeft';
 import faPlus from '@fortawesome/fontawesome-free-solid/faPlus';
+import PatternCompleted from './app/breathing/use/pattern-completed';
 
 library.add(
     faBolt,
@@ -58,7 +59,8 @@ function RootStackScreen() {
                 <RootStack.Screen name="Patterns" component={BreathingHome} options={{headerShown: false}}/>
                 <RootStack.Screen name="Use" component={PatternUse} options={{headerShown: false}}/>
                 <RootStack.Screen name="Time" component={PatternTime} options={{headerShown: false, animation: "fade", statusBarHidden: true}}/>
-                <RootStack.Screen name="Edit" component={PatternEdit} options={{headerShown: false, presentation: 'modal'}}/>
+                <RootStack.Screen name="Edit" component={PatternModal} options={{headerShown: false, presentation: 'modal'}}/>
+                <RootStack.Screen name="Completed" component={PatternCompleted} options={{headerShown: false, animation: "fade"}}/>
             </RootStack.Group>
         </RootStack.Navigator>
     );

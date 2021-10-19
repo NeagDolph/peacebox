@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {useDispatch, useSelector} from "react-redux";
-import {setTotalDuration, setDurationType} from "../../store/features/breathingSlice";
+import {setTotalDuration, setDurationType, setStart} from "../../store/features/breathingSlice";
 import PageHeader from "../../components/header";
 import {Button, Provider, Surface} from "react-native-paper";
 import {colors} from "../../config/colors";
@@ -18,28 +18,24 @@ const PatternUse = ({route, navigation}) => {
   const {id} = route.params
   const patternData = useSelector(state => state.breathing.patterns[id]);
   const dispatch = useDispatch();
-
   const [settingsVisible, setSettingsVisible] = useState(false);
-  const [totalDurationStore, setTotalDurationStore] = useState(patternData.totalDuration);
-  const [durationTypeStore, setDurationTypeStore] = useState(patternData.durationType);
 
   const showSettingsModal = () => setSettingsVisible(true);
   const hideSettingsModal = () => setSettingsVisible(false);
 
-  useEffect(() => {
-    dispatch(setDurationType({
-      id: patternData.id,
-      type: durationTypeStore
-    }))
+  const setDurationTypeStore = (val) => dispatch(setDurationType({
+    id: patternData.id,
+    type: val
+  }));
+  const setTotalDurationStore = (val) => dispatch(setTotalDuration({
+    id: patternData.id,
+    total: val
+  }));
 
-    dispatch(setTotalDuration({
-      id: patternData.id,
-      total: totalDurationStore
-    }))
-
-  }, [durationTypeStore, totalDurationStore])
-
-  const handleDurationType = () => setDurationTypeStore(durationTypeStore === "Minutes" ? 0 : 1)
+  const startTimer = () => {
+    dispatch(setStart({id: patternData.id, start: Date.now()}));
+    navigation.navigate("Time", {id});
+  }
 
   return (
     <>
@@ -54,14 +50,14 @@ const PatternUse = ({route, navigation}) => {
         <RenderSequence sequence={patternData.sequence} backgroundColor={colors.background2}/>
         <View style={styles.timingContainer}>
           <NumberPicker
-            value={totalDurationStore}
+            value={patternData.totalDuration}
             maxNumber={99}
             setSequenceAmount={setTotalDurationStore}
             style={{width: 45}}/>
           <SegmentedControl
             style={styles.timingControl}
             values={['Minutes', "Cycles"]}
-            selectedIndex={handleDurationType}
+            selectedIndex={patternData.durationType === "Minutes" ? 0 : 1}
             onValueChange={setDurationTypeStore}
             fontStyle={{fontSize: 16, fontFamily: "Avenir Next"}}
             activeFontStyle={{fontWeight: "bold", fontSize: 16, fontFamily: "Avenir-Heavy"}}/>
@@ -84,7 +80,7 @@ const PatternUse = ({route, navigation}) => {
             mode="contained"
             color={colors.accent}
             uppercase={false}
-            onPress={() => navigation.navigate("Time", {id})}
+            onPress={startTimer}
             style={styles.startStyle}
             labelStyle={{fontSize: 20, fontFamily: "AppleSDGothicNeo-Medium"}}
             contentStyle={{marginHorizontal: 10, marginVertical: 5}}>Start</Button>
@@ -99,9 +95,7 @@ const PatternUse = ({route, navigation}) => {
 };
 
 const styles = StyleSheet.create({
-  infoIcon: {
-
-  },
+  infoIcon: {},
   startStyle: {
     borderRadius: 12,
     marginVertical: 10,

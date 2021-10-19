@@ -10,12 +10,6 @@ import {setSetting} from "../../store/features/breathingSlice";
 
 export const PauseSettings = props => {
   const dispatch = useDispatch();
-  const [duration, setDuration] = useState(props.patternData.settings.pauseDuration);
-  const [frequency, setFrequency] = useState(props.patternData.settings.pauseFrequency);
-
-  useEffect(() => {setPauseFrequency(frequency)}, [frequency])
-  useEffect(() => {setPauseDuration(duration)}, [duration])
-
   const setPauseDuration = (amount) => dispatch(setSetting({
     id: props.patternData.id,
     setting: "pauseDuration",
@@ -39,7 +33,7 @@ export const PauseSettings = props => {
           value={props.patternData.settings.pauseDuration || 5}
           includeZero={false}
           index={0}
-          setSequenceAmount={(amount) => setDuration(amount)}
+          setSequenceAmount={setPauseDuration}
           style={{marginHorizontal: 8}}
         />
         <Text style={styles.settingTitle}>{props.patternData.settings.pauseDuration > 1 ? "Seconds" : "Second"}</Text>
@@ -52,7 +46,7 @@ export const PauseSettings = props => {
           value={props.patternData.settings.pauseFrequency || 1}
           includeZero={false}
           index={0}
-          setSequenceAmount={(frequency) => setPauseFrequency(frequency)}
+          setSequenceAmount={setPauseFrequency}
           style={{marginHorizontal: 8}}
         />
         <Text style={styles.settingTitle}>{props.patternData.settings.pauseFrequency > 1 ? "Cycles" : "Cycle"}</Text>

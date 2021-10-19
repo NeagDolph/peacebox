@@ -11,22 +11,25 @@ const Fade = (props) => {
     if (props.visible) setVisible(true)
     Animated.timing(visibility, {
       toValue: props.visible ? 1 : 0,
-      duration: 200,
+      duration: props.duration ?? 200,
       useNativeDriver: true
     }).start(() => setVisible(props.visible));
   }, [props])
 
 
   return (
-    <Animated.View style={{opacity: visibility}}>
-      {visible && props.children}
+    <Animated.View style={[props.style, {opacity: visibility}]}>
+      {(visible || props.disableMount) && props.children}
     </Animated.View>
   );
 };
 
 Fade.propTypes = {
   visible: PropTypes.bool,
-  children: PropTypes.element
+  duration: PropTypes.number,
+  children: PropTypes.element,
+  style: PropTypes.object,
+  disableMount: PropTypes.bool
 }
 
 

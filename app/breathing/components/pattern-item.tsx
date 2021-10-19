@@ -4,7 +4,6 @@ import {Button, Surface, Text} from "react-native-paper";
 import {colors} from "../../config/colors";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import PropTypes from 'prop-types'
-import {white} from "react-native-paper/lib/typescript/styles/colors";
 
 const PatternItem = props => {
   const generateSequence = (sequence) => {
@@ -153,6 +152,7 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     paddingHorizontal: 5,
     color: colors.primary,
+    height: 23,
     textAlign: "left",
     width: "100%",
     fontFamily: "Avenir Next"

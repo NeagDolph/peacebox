@@ -6,7 +6,7 @@ import {StyleSheet, Text, View, SafeAreaView, TouchableOpacity} from 'react-nati
 const TimeHeader = props => {
   return (
     <SafeAreaView>
-      <TouchableOpacity onPress={() => props.navigation.navigate("Patterns")}>
+      <TouchableOpacity onPress={props.exit}>
         <View style={styles.headerContainer}>
           <Text style={styles.headerExit}>Exit</Text>
         </View>
@@ -16,7 +16,7 @@ const TimeHeader = props => {
 };
 
 TimeHeader.propTypes = {
-  navigation: PropTypes.any.isRequired,
+  exit: PropTypes.func.isRequired
 }
 
 const styles = StyleSheet.create({

@@ -39,11 +39,14 @@ export const breathingSlice = createSlice({
     setSequence: (state, action) => {
       const {id, sequence} = action.payload;
       if (state.patterns[id]) state.patterns[id].sequence = sequence;
+    },
+    setStart: (state, action) => {
+      if (state.patterns[action.payload.id]) state.patterns[action.payload.id].startTime = action.payload.start;
     }
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { addPattern, editPattern, removePattern, setName, setSetting, setSequence, setDuration, setTotalDuration, setDurationType} = breathingSlice.actions
+export const { addPattern, editPattern, removePattern, setName, setSetting, setSequence, setDuration, setTotalDuration, setDurationType, setStart} = breathingSlice.actions
 
 export default breathingSlice.reducer

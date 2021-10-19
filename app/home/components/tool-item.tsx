@@ -4,13 +4,14 @@ import {StyleSheet, Text, View, ImageBackground, Image, TouchableHighlight, Touc
 import {Chip, Surface, useTheme} from "react-native-paper";
 import {white} from "react-native-paper/lib/typescript/styles/colors";
 import {colors} from "../../config/colors";
+import {useNavigation} from '@react-navigation/native';
 
 interface ToolData {
   title: string;
   icon: any;
   description: string;
   tags: string[];
-  navigation: () => any;
+  navigation: string
 }
 
 const renderTags = (chipList: ToolData["tags"], colors: any) => {
@@ -21,21 +22,37 @@ const renderTags = (chipList: ToolData["tags"], colors: any) => {
 
 const ToolItem = (props: ToolData) => {
   const {colors} = useTheme()
+  const navigation = useNavigation();
   const imageSource = Image.resolveAssetSource(props.icon)
+
+  const openMenu = () => {
+    if (props.navigation) navigation.navigate(props.navigation);
+  }
 
   return (
     <Surface style={styles.toolItem}>
 
-      <TouchableOpacity onPress={props.navigation}>
+      <TouchableOpacity onPress={openMenu} activeOpacity={props.navigation ? 0.2 : 1}>
         <>
           <View style={styles.toolItemContent}>
-            <View style={styles.chipView}>
-              {renderTags(props.tags, colors)}
-            </View>
-            <Text style={[styles.toolItemTitle, {color: colors.text}]}>{props.title}</Text>
+            {
+              props.tags.length >= 1 &&
+              <View style={styles.chipView}>
+                {renderTags(props.tags, colors)}
+              </View>
+            }
+            <Text style={[styles.toolItemTitle, {color: colors.text}]} numberOfLines={1}
+                  adjustsFontSizeToFit>{props.title}</Text>
             <Text style={[styles.toolItemDescription, {color: colors.placeholder}]}>{props.description}</Text>
           </View>
-          <Image source={props.icon} resizeMode="cover" style={styles.iconBackground} width={imageSource.width / (imageSource.height / 140)}></Image>
+          {
+            imageSource &&
+            <Image
+                source={props.icon}
+                resizeMode="cover" style={styles.iconBackground}
+                width={imageSource.width / (imageSource.height / 140)}
+            />
+          }
         </>
       </TouchableOpacity>
     </Surface>
@@ -65,12 +82,14 @@ let styles = StyleSheet.create({
     overflow: "hidden"
   },
   toolItemContent: {
-    width: "70%"
+    width: "80%",
+    overflow: "visible"
   },
   toolItemTitle: {
     fontSize: 36,
     marginVertical: 5,
-    fontWeight: "bold"
+    fontWeight: "bold",
+    width: "100%",
   },
   toolItemDescription: {
     fontSize: 16,

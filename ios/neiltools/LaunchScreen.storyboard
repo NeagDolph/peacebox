@@ -22,7 +22,7 @@
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="41"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="large" id="S8H-hU-2TO">
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="large" id="S8H-hU-2TO">
                                 <rect key="frame" x="171" y="317" width="33" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <color key="color" systemColor="systemGray3Color"/>

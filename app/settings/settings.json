@@ -1,0 +1,22 @@
+{
+  "freewriting": [
+    {
+      "name": "Show Background",
+      "setting": "showBackground"
+    },
+    {
+      "name": "Show Animations",
+      "setting": "showAnimations"
+    }
+  ],
+  "breathing": [
+    {
+      "name": "Narrate Instructions",
+      "setting": "narrate"
+    },
+    {
+      "name": "Breathing Animations",
+      "setting": "showAnimations"
+    }
+  ]
+}
