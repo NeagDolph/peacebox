@@ -10,13 +10,13 @@ const PatternItem = props => {
     const textList = ["Inhale", "Hold", "Exhale", "Hold"];
 
     return sequence.map((el, i) => (
-      <Animated.View key={i} style={[styles.sequenceContainer, {
-        marginVertical: props.editMargin,
+      <View key={i} style={[styles.sequenceContainer, {
+        marginVertical: props.editMode ? 0 : 4,
         borderColor: props.editMode ? "transparent" : colors.background2
       }]}>
         <Text style={styles.sequenceTitle}>{textList[i]}</Text>
         <Text style={styles.sequence}>{el}<Text style={styles.seconds}> sec</Text></Text>
-      </Animated.View>
+      </View>
     ))
   }
 
@@ -40,13 +40,13 @@ const PatternItem = props => {
       onPress={() => props.editMode ? props.editPattern(props.patternData.id) : props.usePattern(props.patternData.id)}>
       <View style={styles.patternItem}>
         <Text style={styles.title} numberOfLines={1} adjustsFontSizeToFit>{truncateTitle(props.patternData.name)}</Text>
-        <View style={styles.patternData}>
+        <View style={[styles.patternData, {paddingBottom: (props.patternData.settings.breakBetweenCycles || props.editMode) ? 0 : 20}]}>
           <View style={styles.sequenceList}>{generateSequence(props.patternData.sequence)}</View>
           {
-            props.buttonVisible &&
-            <Animated.View style={[styles.actionButtons, {
-              height: props.buttonScaleHeight,
-              opacity: props.buttonScaleOpacity,
+            props.editMode &&
+            <View style={[styles.actionButtons, {
+              height: props.editMode ? 52 : 0,
+              opacity: props.editMode ? 1 : 0,
             }]}>
                 <Button
                     onPress={confirmDeletePattern}
@@ -56,30 +56,17 @@ const PatternItem = props => {
                     labelStyle={styles.buttonText}
                     color={colors.red}
                 >Delete</Button>
-            </Animated.View>
+            </View>
           }
           {
-            props.patternData.settings.breakBetweenCycles ?
-            <Animated.View style={[styles.pauseContainer, {
-              opacity: props.editMargin.interpolate({
-                inputRange: [0, 5, 6],
-                outputRange: [0, 0.3, 1],
-                extrapolate: 'clamp',
-              }),
-              height: props.editMargin.interpolate({
-                inputRange: [0, 6],
-                outputRange: [5, 20],
-                extrapolate: 'clamp',
-              }),
+            (props.patternData.settings.breakBetweenCycles && !props.buttonVisible) &&
+            <View style={[styles.pauseContainer, {
+              opacity: props.editMode ? 0 : 1,
+              height: props.editMode ? 0 : 20,
             }]}>
               <Icon name={"clock"} size={17} color={colors.placeholder}></Icon>
-              <Text style={styles.pauseText}>Pause {props.patternData.settings.pauseDuration}s</Text>
-            </Animated.View> :
-            <Animated.View style={{height: props.editMargin.interpolate({
-              inputRange: [0, 6],
-              outputRange: [5, 20],
-              extrapolate: 'clamp',
-            })}}/>
+              <Text style={styles.pauseText}>Pause {props.patternData.settings.pauseDuration}s {props.patternData.settings.pauseFrequency > 1 ? `/ ${props.patternData.settings.pauseFrequency}` : ""}</Text>
+            </View>
           }
         </View>
       </View>
@@ -92,8 +79,7 @@ PatternItem.propTypes = {
   usePattern: PropTypes.func,
   patternData: PropTypes.object,
   editMargin: PropTypes.any,
-  buttonScaleOpacity: PropTypes.any,
-  buttonScaleHeight: PropTypes.any,
+  editMode: PropTypes.bool,
   buttonVisible: PropTypes.bool
 }
 
@@ -169,6 +155,7 @@ const styles = StyleSheet.create({
     margin: 8,
     minWidth: "80%",
     marginHorizontal: 25,
+    shadowColor: "transparent",
     borderColor: colors.accent,
   },
   actionButtons: {

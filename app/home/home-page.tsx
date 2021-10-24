@@ -8,7 +8,7 @@
  * @format
  */
 
-import React, {useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {Dimensions, SafeAreaView, ScrollView, View,} from 'react-native';
 
 
@@ -77,15 +77,30 @@ const renderTools = (toolsData: ToolData[], navigation: any) => {
 
 const HomePage = ({navigation, theme}: any) => {
   const {colors} = theme
-  const scrollOffset = useSharedValue(-300);
+  const scrollOffset = useSharedValue(0);
   const windowHeight = useSharedValue(Dimensions.get("window").height ?? 0);
   const [endOfScroll, setEndOfScroll] = useState(false)
+  const [safeViewHeight, setSafeViewHeight] = useState(0);
+  const scrollRef = useRef(null)
 
   const scrollHandler = useAnimatedScrollHandler((event) => {
     if (event.contentOffset.y + windowHeight.value + 5 >= event.contentSize.height) runOnJS(setEndOfScroll)(true);
     else if (endOfScroll) runOnJS(setEndOfScroll)(false);
-    scrollOffset.value = event.contentOffset.y - 300;
+    scrollOffset.value = event.contentOffset.y;
   });
+
+  const safeViewLayout = ({nativeEvent}) => {
+    const openHeight = windowHeight.value - nativeEvent.layout.height
+    setSafeViewHeight(openHeight - 80)
+  }
+
+  const scrollBottom = () => {
+    scrollRef.current.scrollToEnd({animated: false})
+  }
+
+  useEffect(() => {
+    setEndOfScroll(false)
+  }, [])
 
 
   return (
@@ -97,19 +112,23 @@ const HomePage = ({navigation, theme}: any) => {
       <Animated.ScrollView
         bounces={false}
         onScroll={scrollHandler}
+        ref={scrollRef}
         scrollEventThrottle={16}
         scrollEnabled={!endOfScroll}
+        indicatorStyle="black"
       >
-        <StartScreen/>
-        <SafeAreaView style={{marginBottom: 100}}>
-          <FadeGradient top={0} bottom={0.2}>
-            <View style={{padding: 20}}>
-              <Header/>
-              <View style={{marginTop: 20}}>
-                {renderTools(toolsData, navigation)}
+        <StartScreen scrollOffset={scrollOffset} scrollBottom={scrollBottom}/>
+        <SafeAreaView style={{marginBottom: safeViewHeight}}>
+          <View onLayout={safeViewLayout}>
+            <FadeGradient top={0} bottom={0.2}>
+              <View style={{padding: 20}}>
+                <Header/>
+                <View style={{marginTop: 20}}>
+                  {renderTools(toolsData, navigation)}
+                </View>
               </View>
-            </View>
-          </FadeGradient>
+            </FadeGradient>
+          </View>
         </SafeAreaView>
       </Animated.ScrollView>
     </>

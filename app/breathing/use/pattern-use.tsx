@@ -13,6 +13,7 @@ import NumberPicker from "../components/numberpicker";
 import PauseModal from "../components/pause-modal";
 import SettingsModal from "../components/settings-modal";
 import RenderSequence from "./components/render-sequence";
+import haptic from "../../helpers/haptic";
 
 const PatternUse = ({route, navigation}) => {
   const {id} = route.params
@@ -23,14 +24,21 @@ const PatternUse = ({route, navigation}) => {
   const showSettingsModal = () => setSettingsVisible(true);
   const hideSettingsModal = () => setSettingsVisible(false);
 
-  const setDurationTypeStore = (val) => dispatch(setDurationType({
-    id: patternData.id,
-    type: val
-  }));
-  const setTotalDurationStore = (val) => dispatch(setTotalDuration({
-    id: patternData.id,
-    total: val
-  }));
+  const setDurationTypeStore = (val) => {
+    haptic(0);
+    dispatch(setDurationType({
+      id: patternData.id,
+      type: val
+    }));
+  }
+
+  const setTotalDurationStore = (val) => {
+    haptic(0);
+    dispatch(setTotalDuration({
+      id: patternData.id,
+      total: val
+    }));
+  }
 
   const startTimer = () => {
     dispatch(setStart({id: patternData.id, start: Date.now()}));
@@ -57,9 +65,11 @@ const PatternUse = ({route, navigation}) => {
           <SegmentedControl
             style={styles.timingControl}
             values={['Minutes', "Cycles"]}
+            appearance="light"
             selectedIndex={patternData.durationType === "Minutes" ? 0 : 1}
             onValueChange={setDurationTypeStore}
             fontStyle={{fontSize: 16, fontFamily: "Avenir Next"}}
+
             activeFontStyle={{fontWeight: "bold", fontSize: 16, fontFamily: "Avenir-Heavy"}}/>
         </View>
         <View style={styles.settingsContainer}>
@@ -73,9 +83,6 @@ const PatternUse = ({route, navigation}) => {
             mode="contained">Settings</Button>
         </View>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity>
-            <Icon style={styles.infoIcon} name="information" size={30} color={colors.text}/>
-          </TouchableOpacity>
           <Button
             mode="contained"
             color={colors.accent}

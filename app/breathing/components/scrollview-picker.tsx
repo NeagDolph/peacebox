@@ -1,12 +1,12 @@
 import {colors} from "../../config/colors";
 import {Dimensions, FlatList, Platform, ScrollView, Text, View} from "react-native";
 import React from "react";
-import ReactNativeHapticFeedback from "react-native-haptic-feedback";
 import PropTypes from "prop-types";
 import styled from 'styled-components';
 import LinearGradient from "react-native-linear-gradient";
 import MaskedView from "@react-native-masked-view/masked-view";
 import FadeGradient from "../../components/fade-gradient";
+import haptic from "../../helpers/haptic";
 
 const options = {
   enableVibrateFallback: false,
@@ -129,7 +129,7 @@ class ScrollViewPicker extends React.Component {
 
     if (itemHeight !== this.currentIndex) {
       this.currentIndex = itemHeight;
-      ReactNativeHapticFeedback.trigger("impactLight", options);
+      haptic(0);
     }
   }
 

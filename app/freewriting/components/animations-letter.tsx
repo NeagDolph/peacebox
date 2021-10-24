@@ -36,7 +36,7 @@ const LetterBox = ({letterContent, style, complete, id}: LetterProps) => {
     animY.value = Math.sin(angle) * radius
     animOpacity.value = 0.15
     animColor.value = toColor
-    duration.value = 300 + (Math.random() * 200)
+    duration.value = (Math.random() * 200)
 
   }, [])
 

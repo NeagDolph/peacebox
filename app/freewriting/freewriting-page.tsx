@@ -6,7 +6,7 @@ import {
   TextInput,
   EventSubscription,
   NativeSyntheticEvent,
-  LayoutAnimation, Animated, Easing, TouchableWithoutFeedback, Dimensions, ImageBackground, Keyboard
+  LayoutAnimation, Animated, Easing, TouchableWithoutFeedback, Dimensions, ImageBackground, Keyboard, Pressable
 } from 'react-native';
 import WritingCard from "./components/writing-card";
 import {ChangeEvent, Ref, RefObject, useEffect, useLayoutEffect, useRef, useState} from "react";
@@ -66,7 +66,10 @@ const Freewriting = (props: any) => {
     setContentHeight(event.nativeEvent.contentSize.height);
 
     // Disable newlines
-    if (content.includes("\n")) setContent(content.replace(/(.*)\n/g, "$1"));
+    if (content.includes("\n")) {
+      setContent(content.replace(/(.*)\n/g, "$1"));
+      Keyboard.dismiss();
+    }
   }
 
   const handleContent = async (event: NativeSyntheticEvent<any>) => {
@@ -79,7 +82,7 @@ const Freewriting = (props: any) => {
   return (
     <>
       <PrefersHomeIndicatorAutoHidden/>
-      <Background showBackground={settings.showBackground}>
+      <Background>
         <PageHeader
           settingsIcon="information"
           titleWhite={settings.showBackground}
@@ -146,21 +149,6 @@ const styles = StyleSheet.create({
     padding: 30,
     height: 440,
     borderRadius: 150
-  },
-  trashIcon: {
-    position: "absolute",
-    bottom: 18,
-    right: 18,
-    backgroundColor: "white",
-    borderRadius: 8,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.22,
-    shadowRadius: 2.22,
-    elevation: 3,
   },
   letterBox: {
     position: "absolute",

@@ -52,7 +52,7 @@ const RootStack = createNativeStackNavigator();
 function RootStackScreen() {
     return (
         <RootStack.Navigator>
-            <RootStack.Group>
+            <RootStack.Group screenOptions={{orientation: "portrait_up"}}>
                 <RootStack.Screen name="Home" component={HomePage} options={{headerShown: false}}/>
                 <RootStack.Screen name="Freewriting" component={Freewriting} options={{headerShown: false}}/>
                 <RootStack.Screen name="settings" component={SettingsPage} options={{headerShown: false}}/>
@@ -66,12 +66,22 @@ function RootStackScreen() {
     );
 }
 
+const theme = {
+    ...DefaultTheme,
+    dark: false,
+    roundness: 2,
+    colors: {
+        ...DefaultTheme.colors,
+        primary: '#3498db',
+        accent: '#f1c40f',
+    },
+};
 
 export default function Main() {
     return (
         <Provider store={store}>
             <PersistGate loading={null} persistor={persistor}>
-                <PaperProvider>
+                <PaperProvider theme={theme}>
                     <NavigationContainer>
                        <RootStackScreen/>
                     </NavigationContainer>

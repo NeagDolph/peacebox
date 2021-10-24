@@ -65,7 +65,8 @@ TimeControls.propTypes = {
   togglePause: PropTypes.func,
   paused: PropTypes.bool,
   cycleTime: PropTypes.func,
-  countStart: PropTypes.any
+  countStart: PropTypes.any,
+  cycleCount: PropTypes.number
 }
 
 const styles = StyleSheet.create({
