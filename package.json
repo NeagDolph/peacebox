@@ -28,6 +28,7 @@
     "@react-native-segmented-control/segmented-control": "^2.4.0",
     "@react-navigation/native": "^6.0.2",
     "@react-navigation/native-stack": "^6.1.0",
+    "@sayem314/react-native-keep-awake": "^1.0.4",
     "@types/node": "^16.10.2",
     "contrast-color": "^1.0.1",
     "prop-types": "^15.7.2",

@@ -10,11 +10,11 @@ import {
   Platform, ListView, FlatList, MaskedViewIOS,
 } from 'react-native';
 import PropTypes from 'prop-types';
-import ReactNativeHapticFeedback from "react-native-haptic-feedback";
 import ScrollViewPicker from "./scrollview-picker";
 import MaskedView from "@react-native-masked-view/masked-view";
 import LinearGradient from 'react-native-linear-gradient'
 import FadeGradient from "../../components/fade-gradient";
+import haptic from "../../helpers/haptic";
 
 const NumberPicker = (props) => {
   return props.scrollView ?
@@ -119,7 +119,6 @@ class ScrollPicker extends React.Component {
 
   componentDidMount() {
     if (typeof this.props.selectedIndex !== 'undefined') {
-      console.log("ind", this.props.selectedIndex)
       this.scrollToIndex(this.props.selectedIndex, true);
       this.currentIndex = this.props.selectedIndex
     }
@@ -209,7 +208,7 @@ class ScrollPicker extends React.Component {
 
     if (itemHeight !== this.currentIndex) {
       this.currentIndex = itemHeight;
-      ReactNativeHapticFeedback.trigger("impactLight", options);
+      haptic(0);
     }
   }
 

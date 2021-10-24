@@ -9,6 +9,8 @@ const Background = (props) => {
   const bgUrl = useSelector((state: any) => state.background.url)
   const [backgroundStyle, setBackgroundStyle] = useState({})
 
+  const showBackground = useSelector((state) => state.settings.freewriting.showBackground)
+
   const dispatch = useDispatch();
 
   const loadSetBackground = () => {
@@ -37,7 +39,7 @@ const Background = (props) => {
   }
 
   useEffect(() => {
-    if (!props.showBackground) {
+    if (!showBackground) {
       setBackgroundStyle({backgroundColor: "#f4f4f4"})
       return
     }
@@ -45,24 +47,18 @@ const Background = (props) => {
     if (Date.now() - lastSetTime >= 3600000 || !lastSetTime) {
       loadSetBackground();
     }
-  }, [props.showBackground]);
+  }, [showBackground]);
 
 
   return (
-    <View style={backgroundStyle}>
-      {props.showBackground && bgUrl.length > 1 ? (
         <FastImage
           resizeMode={FastImage.resizeMode.cover}
-          source={{uri: bgUrl, priority: FastImage.priority.high}}
+          source={{uri: showBackground ? bgUrl : "", priority: FastImage.priority.high}}
           force-cache="force-cache"
           style={styles.backgroundImage}
         >
           {props.children}
         </FastImage>
-      ) : (
-        props.children
-      )}
-    </View>
   )
 }
 

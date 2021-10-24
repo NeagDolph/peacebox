@@ -14,6 +14,7 @@ import {useNavigation} from '@react-navigation/native';
 import LinearGradient from "react-native-linear-gradient";
 import MaskedView from "@react-native-masked-view/masked-view";
 import FadeGradient from "../../components/fade-gradient";
+import haptic from "../../helpers/haptic";
 
 const premadePatterns = [
   {
@@ -81,13 +82,17 @@ PatternNew.propTypes = {
 const PatternModal = ({route, navigation}) => {
   const {newPattern} = route.params
 
-  const [id, setId] = useState(route.params.id);
+  const {id} = route.params
   const patternData = useSelector(state => state.breathing.patterns[id]);
 
   const showEditModal = () => setEditModalVisible(true)
   const hideEditModal = () => setEditModalVisible(false)
   const [editModalVisible, setEditModalVisible] = useState(false)
 
+  const closeModal = () => {
+    haptic(1);
+    navigation.goBack();
+  }
 
   return (
     <>
@@ -101,7 +106,7 @@ const PatternModal = ({route, navigation}) => {
         }
       </FadeGradient>
       <View style={styles.doneButtonContainer} pointerEvents="box-none">
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+        <TouchableOpacity onPress={closeModal}>
           <View style={styles.doneButton}>
             <Text style={styles.doneText}>Done</Text>
           </View>

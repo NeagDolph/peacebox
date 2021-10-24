@@ -49,7 +49,7 @@ const LogoBox = (props) => {
 
 
   const visibleStyles = useAnimatedStyle(() => {
-    const opacity = interpolate(scrollOffset.value + 300, [0, 100], [0.4, 1], { extrapolateRight: Extrapolation.CLAMP, extrapolateLeft: Extrapolation.CLAMP });
+    const opacity = interpolate(scrollOffset.value, [0, 100], [0.4, 1], { extrapolateRight: Extrapolation.CLAMP, extrapolateLeft: Extrapolation.CLAMP });
     const scrollTop = interpolate(scrollOffset.value, [0, windowHeight.value],  [(windowHeight.value / 6), 0], { extrapolateRight: Extrapolation.CLAMP, extrapolateLeft: Extrapolation.CLAMP });
 
 
@@ -75,10 +75,10 @@ const LogoBox = (props) => {
   const renderLogoText = () => {
     return (
       <Animated.View style={[styles.maskElement, visibleStyles]} >
-        <Text style={styles.logoText} onLayout={handleLayout}>S</Text>
+        <Text style={styles.logoText} onLayout={handleLayout}>P</Text>
         <Fade duration={500} disableMount={true} visible={!props.endOfScroll} style={{flexDirection: "row"}}>
           <>
-            <Text style={styles.logoText}>toical</Text>
+            <Text style={styles.logoText}>eaceBox</Text>
           </>
         </Fade>
       </Animated.View>
@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
     left: 0,
   },
   logoText: {
-    fontSize: 72,
+    fontSize: 67,
     fontFamily: "Futura",
     fontWeight: "900",
   },

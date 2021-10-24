@@ -4,7 +4,8 @@ import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useSelector} from "react-redux";
 import PropTypes from 'prop-types'
-import { BlurView, VibrancyView } from "@react-native-community/blur";
+import { VibrancyView } from "@react-native-community/blur";
+import { useNavigation } from '@react-navigation/native';
 
 interface HeaderProps {
   inlineTitle: boolean | void;
@@ -17,19 +18,23 @@ interface HeaderProps {
 
 }
 
-const PageHeader = ({inlineTitle=false, title, navigation, settingsIcon, settingsCallback, titleWhite, settingsButton, shadow=true}) => {
+const PageHeader = ({inlineTitle=false, title, settingsIcon, settingsCallback, titleWhite, settingsButton, shadow=true}) => {
 
   const getTitleColor = () => (titleWhite ?? true) && !inlineTitle ? "white" : "black"
+  const navigation = useNavigation();
+
+  const goBack = (things) => {
+    navigation.goBack();
+  }
 
   return (
     <View style={[styles.headerContainer, inlineTitle && styles.inlineHeader, shadow && styles.headerShadow]}>
       <VibrancyView
         style={styles.absolute}
-        blurType="regular"
+        blurType="chromeMaterialLight"
         blurAmount={8}
-        // reducedTransparencyFallbackColor="white"
       />
-      <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+      <TouchableOpacity style={styles.backButton} onPress={goBack}>
         <Icon name="arrow-left" color="#222" size={26}/>
       </TouchableOpacity>
       <View style={styles.settingsButton}>
@@ -52,7 +57,6 @@ const PageHeader = ({inlineTitle=false, title, navigation, settingsIcon, setting
 PageHeader.propTypes = {
   inlineTitle: PropTypes.bool,
   title: PropTypes.string.isRequired,
-  navigation: PropTypes.any.isRequired,
   settingsIcon: PropTypes.any,
   settingsCallback: PropTypes.func,
   titleWhite: PropTypes.bool,

@@ -9,16 +9,20 @@ import PropTypes from 'prop-types'
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
 import Fade from "../../components/fade-wrapper";
 import PauseModal from "./pause-modal";
+import haptic from "../../helpers/haptic";
 
 
 const EditSettings = props => {
   const dispatch = useDispatch();
 
-  const handleFeedbackChange = (feedback) => dispatch(setSetting({
-    id: props.id,
-    value: ['None', 'Vibrate', "Haptic"].indexOf(feedback) || 0,
-    setting: "feedbackType"
-  }));
+  const handleFeedbackChange = (feedback) => {
+    haptic(0)
+    dispatch(setSetting({
+      id: props.id,
+      value: ['None', 'Vibrate', "Haptic"].indexOf(feedback) || 0,
+      setting: "feedbackType"
+    }));
+  }
 
   const toggleAlertFinish = () => dispatch(setSetting({
     id: props.id,
@@ -39,6 +43,7 @@ const EditSettings = props => {
         <SegmentedControl
           style={styles.feedbackControl}
           values={['None', 'Vibrate', "Haptic"]}
+          appearance="light"
           selectedIndex={props.patternSettings.feedbackType || 0}
           onValueChange={handleFeedbackChange}
           fontStyle={{fontSize: 12}}
@@ -81,7 +86,7 @@ const styles = StyleSheet.create({
   },
   pauseEdit: {
     backgroundColor: colors.background2,
-    borderRadius:6,
+    borderRadius: 6,
     marginLeft: 5,
     minWidth: 40,
   },

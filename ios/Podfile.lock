@@ -284,8 +284,10 @@ PODS:
     - React
   - react-native-get-random-values (1.7.0):
     - React-Core
-  - react-native-home-indicator (0.2.6):
+  - react-native-home-indicator (0.2.7):
     - React-Core
+  - react-native-keep-awake (1.0.4):
+    - React
   - react-native-safe-area-context (3.3.0):
     - React-Core
   - react-native-segmented-control (2.4.0):
@@ -462,6 +464,7 @@ DEPENDENCIES:
   - "react-native-blur (from `../node_modules/@react-native-community/blur`)"
   - react-native-get-random-values (from `../node_modules/react-native-get-random-values`)
   - react-native-home-indicator (from `../node_modules/react-native-home-indicator`)
+  - "react-native-keep-awake (from `../node_modules/@sayem314/react-native-keep-awake`)"
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - "react-native-segmented-control (from `../node_modules/@react-native-segmented-control/segmented-control`)"
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
@@ -548,6 +551,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-get-random-values"
   react-native-home-indicator:
     :path: "../node_modules/react-native-home-indicator"
+  react-native-keep-awake:
+    :path: "../node_modules/@sayem314/react-native-keep-awake"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
   react-native-segmented-control:
@@ -633,7 +638,8 @@ SPEC CHECKSUMS:
   React-jsinspector: 41e58e5b8e3e0bf061fdf725b03f2144014a8fb0
   react-native-blur: cad4d93b364f91e7b7931b3fa935455487e5c33c
   react-native-get-random-values: 237bffb1c7e05fb142092681531810a29ba53015
-  react-native-home-indicator: 92b86b0fbe85a50c9cba286ad7bae4a2c319238a
+  react-native-home-indicator: a1f77ce9aa57008272a67a6d8a4c04ac5ad5d1c7
+  react-native-keep-awake: e63964d58c890de02bfb6519dedb7d90b5c782de
   react-native-safe-area-context: 61c8c484a3a9e7d1fda19f7b1794b35bbfd2262a
   react-native-segmented-control: 06607462630512ff8eef652ec560e6235a30cc3e
   React-perflogger: fd28ee1f2b5b150b00043f0301d96bd417fdc339

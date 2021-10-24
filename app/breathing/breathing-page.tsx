@@ -27,6 +27,7 @@ import InfoModal from "../freewriting/components/info-modal";
 import {Provider} from "react-native-paper";
 import {setUsed} from "../store/features/settingsSlice";
 import FadeGradient from "../components/fade-gradient";
+import haptic, {success} from "../helpers/haptic";
 
 const modalContent = require("./info.json");
 
@@ -45,7 +46,7 @@ const BreathingPage = (props) => {
 
   const [modalVisible, setModalVisible] = useState(false);
 
-  useEffect(() => {
+  // useEffect(() => {
     // if (!settings.used) {
     //   setImmediate(() => {
     //     dispatch(setUsed("breathing"))
@@ -53,20 +54,14 @@ const BreathingPage = (props) => {
     //     setModalVisible(true);
     //   });
     // }
-  }, [])
+  // }, [])
 
-  useEffect(() => {
-    if (editMode) setButtonVisible(true)
-    Animated.timing(editMargin, {
-      toValue: editMode ? 0 : 6,
-      duration: 400,
-      easing: Easing.out(Easing.cubic),
-      useNativeDriver: false
-    }).start(() => setButtonVisible(editMode))
-  }, [editMode]);
+  // useEffect(() => {
+    // if (editMode) setButtonVisible(true)
+  // }, [editMode]);
 
   const newPattern = () => {
-    setEditMode(false)
+    // setEditMode(false)
     const newId = uuidv4();
 
     const patternObj = {
@@ -86,12 +81,10 @@ const BreathingPage = (props) => {
     }
 
     dispatch(addPattern(patternObj));
-
     props.navigation.push("Edit", {id: newId, newPattern: true});
   }
 
   const editPattern = (id) => {
-    setEditMode(false);
     props.navigation.navigate("Edit", {id, newPattern: false})
   };
 
@@ -107,17 +100,24 @@ const BreathingPage = (props) => {
       usePattern={usePattern}
       deletePattern={deletePattern}
       patternData={el}
-      {...{editMargin, buttonScaleOpacity, buttonScaleHeight, buttonVisible}}
+      buttonVisible={buttonVisible}
       editMode={editMode}
     />
   ));
 
   const deletePattern = (id) => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
+    success();
     dispatch(removePattern(id))
   }
 
-  const toggleEditMode = () => setEditMode(lastMode => !lastMode);
+  const toggleEditMode = () => {
+    if (editMode) setButtonVisible(false)
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut, () => {
+      if (!editMode) setButtonVisible(true)
+    })
+    setEditMode(lastMode => !lastMode);
+  }
 
   return (
     <>
@@ -130,8 +130,7 @@ const BreathingPage = (props) => {
         settingsCallback={() => props.navigation.push("settings", {
           page: "breathing",
           pageTitle: "Breathing Settings"
-        })}
-        navigation={props.navigation}/>
+        })}/>
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.headerText}>Your Breathing Patterns</Text>
