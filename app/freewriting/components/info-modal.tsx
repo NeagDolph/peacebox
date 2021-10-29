@@ -5,6 +5,7 @@ import {Dimensions, ScrollView, StyleSheet, TouchableWithoutFeedback, View} from
 import {colors} from "../../config/colors";
 import Fade from "../../components/fade-wrapper";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import crashlytics from "@react-native-firebase/crashlytics";
 
 
 
@@ -20,6 +21,7 @@ const InfoModal = (props) => {
 
   //Correct layout for page indicator on first load
   useEffect(() => {
+    crashlytics().log("Component loaded: Info modal")
     if (indicatorRef.current) scrollHandler(undefined, 0)
   }, [modalWidth])
 
@@ -62,7 +64,7 @@ const InfoModal = (props) => {
   }
 
   return (
-    <Portal>
+    <Portal style={{height: Dimensions.get('window').height}}>
       <Modal
         visible={modalVisible}
         onDismiss={hideModal}

@@ -7,13 +7,14 @@ import FastImage from "react-native-fast-image";
 import Animated, {
   Easing,
   Extrapolation,
-  interpolate,
+  interpolate, runOnJS,
   useAnimatedScrollHandler,
   useAnimatedStyle,
   useSharedValue, withTiming
 } from "react-native-reanimated";
 import Fade from "../../components/fade-wrapper";
 import PropTypes from 'prop-types'
+import crashlytics from "@react-native-firebase/crashlytics";
 
 
 const LogoBox = (props) => {
@@ -38,19 +39,30 @@ const LogoBox = (props) => {
   }, [layoutData, props.endOfScroll])
 
   useEffect(() => {
-    leftOffset.value = withTiming(calcOffset(), {
-      duration: 900,
-      easing: Easing.out(Easing.circle)
-    });
+    if (props.endOfScroll) {
+      crashlytics().log("Finished scrolling on home page")
+      leftOffset.value = withTiming(calcOffset(), {
+        duration: 900,
+        easing: Easing.out(Easing.circle)
+      }, (res) => {
+        if (res) {
+          runOnJS(props.setEndOfAnim)(true);
+        }
+      });
+    }
 
   }, [props.endOfScroll])
 
 
-
-
   const visibleStyles = useAnimatedStyle(() => {
-    const opacity = interpolate(scrollOffset.value, [0, 100], [0.4, 1], { extrapolateRight: Extrapolation.CLAMP, extrapolateLeft: Extrapolation.CLAMP });
-    const scrollTop = interpolate(scrollOffset.value, [0, windowHeight.value],  [(windowHeight.value / 6), 0], { extrapolateRight: Extrapolation.CLAMP, extrapolateLeft: Extrapolation.CLAMP });
+    const opacity = interpolate(scrollOffset.value, [0, 100], [0.4, 1], {
+      extrapolateRight: Extrapolation.CLAMP,
+      extrapolateLeft: Extrapolation.CLAMP
+    });
+    const scrollTop = interpolate(scrollOffset.value, [0, windowHeight.value], [(windowHeight.value / 6), 0], {
+      extrapolateRight: Extrapolation.CLAMP,
+      extrapolateLeft: Extrapolation.CLAMP
+    });
 
 
     return {
@@ -65,7 +77,10 @@ const LogoBox = (props) => {
   });
 
   const logoColorStyles = useAnimatedStyle(() => {
-    const opacity = interpolate(leftOffset.value, [0, windowWidth.value * 0.3], [0, 1], { extrapolateRight: Extrapolation.CLAMP, extrapolateLeft: Extrapolation.CLAMP });
+    const opacity = interpolate(leftOffset.value, [0, windowWidth.value * 0.3], [0, 1], {
+      extrapolateRight: Extrapolation.CLAMP,
+      extrapolateLeft: Extrapolation.CLAMP
+    });
 
     return {
       opacity,
@@ -74,7 +89,7 @@ const LogoBox = (props) => {
 
   const renderLogoText = () => {
     return (
-      <Animated.View style={[styles.maskElement, visibleStyles]} >
+      <Animated.View style={[styles.maskElement, visibleStyles]}>
         <Text style={styles.logoText} onLayout={handleLayout}>P</Text>
         <Fade duration={500} disableMount={true} visible={!props.endOfScroll} style={{flexDirection: "row"}}>
           <>
@@ -95,7 +110,7 @@ const LogoBox = (props) => {
           source={require("../../assets/background3.jpg")}
           resizeMode={FastImage.resizeMode.cover}
         />
-        <Animated.View style={[styles.blackView, logoColorStyles]} />
+        <Animated.View style={[styles.blackView, logoColorStyles]}/>
       </MaskedView>
     </Animated.View>
   );
@@ -105,8 +120,8 @@ LogoBox.propTypes = {
   endOfScroll: PropTypes.bool,
   handleLayout: PropTypes.func,
   scrollOffset: PropTypes.any,
+  setEndOfAnim: PropTypes.func
 }
-
 
 
 const styles = StyleSheet.create({

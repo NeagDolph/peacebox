@@ -6,7 +6,15 @@ import {
   TextInput,
   EventSubscription,
   NativeSyntheticEvent,
-  LayoutAnimation, Animated, Easing, TouchableWithoutFeedback, Dimensions, ImageBackground, Keyboard, Pressable
+  LayoutAnimation,
+  Animated,
+  Easing,
+  TouchableWithoutFeedback,
+  Dimensions,
+  ImageBackground,
+  Keyboard,
+  Pressable,
+  ScrollView
 } from 'react-native';
 import WritingCard from "./components/writing-card";
 import {ChangeEvent, Ref, RefObject, useEffect, useLayoutEffect, useRef, useState} from "react";
@@ -22,6 +30,8 @@ import GenieCard from "./components/animations-page";
 import {setUsed} from "../store/features/settingsSlice"
 import {useDispatch, useSelector} from "react-redux"
 import PageHeader from "../components/header";
+import crashlytics from "@react-native-firebase/crashlytics";
+import haptic from "../helpers/haptic";
 
 
 const modalContent = require("./info.json");
@@ -34,7 +44,7 @@ const Freewriting = (props: any) => {
 
   const [content, setContent] = useState("")
   const [contentHeight, setContentHeight] = useState(0)
-  const [placeholderText, setPlaceholderText] = useState("Starting is the hardest part...");
+  const [placeholderText, setPlaceholderText] = useState("Just start typing...");
 
   //Animation state
   const [genieVisible, setGenieVisible] = useState(false);
@@ -44,11 +54,12 @@ const Freewriting = (props: any) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
+    crashlytics().log("Page Opened: Freewriting")
     if (!settings.used) {
-      setImmediate(() => {
+      setTimeout(() => {
         setModalVisible(true);
         dispatch(setUsed("freewriting"))
-      })
+      }, 0)
     }
   }, [])
 
@@ -57,8 +68,6 @@ const Freewriting = (props: any) => {
       setGenieContent(content);
       setGenieVisible(true)
     }
-    setContent("");
-    setPlaceholderText("")
   }
 
   //Input change callbacks
@@ -68,57 +77,66 @@ const Freewriting = (props: any) => {
     // Disable newlines
     if (content.includes("\n")) {
       setContent(content.replace(/(.*)\n/g, "$1"));
-      Keyboard.dismiss();
     }
   }
 
   const handleContent = async (event: NativeSyntheticEvent<any>) => {
-    if (contentHeight >= 420) showAnimation()
+    if (contentHeight >= 420) {
+      crashlytics().log("Freewriting page completed.");
+      haptic(2);
+      showAnimation();
+
+      setContent("");
+      setPlaceholderText("");
+    }
     else setContent(event.nativeEvent.text)
   }
+
   //Reset animation functions
   const resetGenie = () => setGenieVisible(false);
 
   return (
     <>
-      <PrefersHomeIndicatorAutoHidden/>
-      <Background>
-        <PageHeader
-          settingsIcon="information"
-          titleWhite={settings.showBackground}
-          settingsCallback={() => props.navigation.push("settings", {
-            page: "freewriting",
-            pageTitle: "Freewriting Settings",
-          })}
-          title="Free Writing"
-          navigation={props.navigation}
-        />
-        <View style={styles.container}>
-          <WritingCard
-            placeholder={placeholderText}
-            editable={true}
-            handleLayout={handleLayout}
-            content={content}
-            setContent={handleContent}
-          >
-            <Text style={[styles.credit, {display: settings.showBackground ? "flex" : "none"}]}>
-              Photo by&nbsp;
-              <Text style={styles.creditName} onPress={() => Linking.openURL(bgCredits?.link)}>
-                {bgCredits?.name.replace("  ", " ")}
+      <ScrollView keyboardShouldPersistTaps="handled" style={{height: "100%"}} scrollEnabled={false}>
+        <PrefersHomeIndicatorAutoHidden/>
+        <Background showBackground={settings.showBackground}>
+          <PageHeader
+            settingsIcon="information"
+            titleWhite={settings.showBackground}
+            settingsCallback={() => props.navigation.push("settings", {
+              page: "freewriting",
+              pageTitle: "Freewriting Settings",
+            })}
+            title="Free Writing"
+          />
+          <View style={styles.container}>
+            <WritingCard
+              placeholder={placeholderText}
+              editable={true}
+              handleLayout={handleLayout}
+              content={content}
+              setContent={handleContent}
+            >
+              <Text style={[styles.credit, {display: settings.showBackground ? "flex" : "none"}]}>
+                Photo by&nbsp;
+                <Text style={styles.creditName} onPress={() => Linking.openURL(bgCredits?.link)}>
+                  {bgCredits?.name.replace("  ", " ")}
+                </Text>
               </Text>
-            </Text>
-          </WritingCard>
-        </View>
-      </Background>
-      {/* GenieCard for page completion animation */}
-      {settings.showAnimations &&
-      genieVisible &&
-      <GenieCard
-          style={styles.genieCard}
-          genieVisible={genieVisible}
-          genieContent={genieContent}
-          resetGenie={resetGenie}
-      />}
+            </WritingCard>
+          </View>
+        </Background>
+        {/* GenieCard for page completion animation */}
+        {settings.showAnimations &&
+        genieVisible &&
+        <GenieCard
+            style={styles.genieCard}
+            genieVisible={genieVisible}
+            genieContent={genieContent}
+            resetGenie={resetGenie}
+        />}
+
+      </ScrollView>
       <Provider>
         <InfoModal content={modalContent} modalVisible={modalVisible} setModalVisible={setModalVisible}/>
       </Provider>
@@ -138,7 +156,8 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   container: {
-    padding: 30,
+    justifyContent: "center",
+    alignItems: "center",
     paddingTop: 10,
     zIndex: 0,
   },

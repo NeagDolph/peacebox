@@ -25,6 +25,10 @@ class BreathingAnim extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      toSize: 0,
+    }
+
     this.canvasSize = props.canvasSize || 250
     this.baseSize = props.baseSize || 35
     this.color = props.color || colors.accent;
@@ -102,17 +106,19 @@ class BreathingAnim extends React.Component {
   }
 
   open = (time) => {
-    this.setAnimation(time, this.fullsize);
+    this.toSize = this.fullsize
+    this.setAnimation(time);
     this.resumeAnimation();
   }
   close = (time) => {
-    this.setAnimation(time, this.baseSize);
+    this.toSize = this.baseSize
+    this.setAnimation(time);
     this.resumeAnimation();
   }
 
-  setAnimation = (time, toSize) => {
+  setAnimation = (time) => {
     this.animation.current = Animated.timing(this.radius, {
-      toValue: toSize,
+      toValue: this.toSize,
       useNativeDriver: true,
       duration: (time * 1060) + 100,
       easing: Easing.bezier(0.470, 0.205, 0.460, 0.555)
@@ -120,7 +126,12 @@ class BreathingAnim extends React.Component {
   }
 
   resumeAnimation = () => this.props.settings.showAnimations ? this.animation.current.start() : null;
-  pauseAnimation = () => this.props.settings.showAnimations ? this.animation.current.stop() : null;
+
+  pauseAnimation = () => {
+    if (this.props.settings.showAnimations) {
+      this.animation.current.stop();
+    }
+  }
 
   animateSpin = () => {
     if (this.props.settings.showAnimations) Animated.loop(Animated.timing(this.animationRotation, {
@@ -285,7 +296,6 @@ BreathingAnim.propTypes = {
   currentIndex: PropTypes.any,
   currentTime: PropTypes.number,
   title: PropTypes.string,
-  countStart: PropTypes.any,
   settings: PropTypes.object
 }
 

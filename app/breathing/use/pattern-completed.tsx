@@ -7,12 +7,14 @@ import {useDispatch} from "react-redux";
 import FastImage from "react-native-fast-image";
 import Clock from '../../assets/branch.svg'
 import {SvgXml} from "react-native-svg";
+import crashlytics from "@react-native-firebase/crashlytics";
 
 const PatternCompleted = ({navigation, route}) => {
   const dispatch = useDispatch();
   const {id} = route.params
 
   const restart = () => {
+    crashlytics().log("Pattern Restarted | ID: " + id);
     dispatch(setStart({id, start: Date.now()}));
     navigation.navigate("Time", {id});
   }

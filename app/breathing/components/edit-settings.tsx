@@ -10,31 +10,42 @@ import SegmentedControl from '@react-native-segmented-control/segmented-control'
 import Fade from "../../components/fade-wrapper";
 import PauseModal from "./pause-modal";
 import haptic from "../../helpers/haptic";
+import crashlytics from "@react-native-firebase/crashlytics";
 
 
 const EditSettings = props => {
   const dispatch = useDispatch();
 
   const handleFeedbackChange = (feedback) => {
+    const payload = ['None', 'Vibrate', "Haptic"].indexOf(feedback) || 0;
+
+    crashlytics().log("Pattern Setting Changed: feedbackType | New value: " + payload)
+
     haptic(0)
     dispatch(setSetting({
       id: props.id,
-      value: ['None', 'Vibrate', "Haptic"].indexOf(feedback) || 0,
+      value: payload,
       setting: "feedbackType"
     }));
   }
 
-  const toggleAlertFinish = () => dispatch(setSetting({
-    id: props.id,
-    setting: "alertFinish",
-    value: !props.patternSettings.alertFinish
-  }))
+  const toggleAlertFinish = () => {
+    crashlytics().log("Pattern Setting Toggled: alertFinish | New value: " + !props.patternSettings.alertFinish)
+    dispatch(setSetting({
+      id: props.id,
+      setting: "alertFinish",
+      value: !props.patternSettings.alertFinish
+    }))
+  }
 
-  const togglePause = () => dispatch(setSetting({
-    id: props.id,
-    setting: "breakBetweenCycles",
-    value: !props.patternSettings.breakBetweenCycles
-  }))
+  const togglePause = () => {
+    crashlytics().log("Pattern Setting Toggled: breakBetweenCycles | New value: " + !props.patternSettings.breakBetweenCycles)
+    dispatch(setSetting({
+      id: props.id,
+      setting: "breakBetweenCycles",
+      value: !props.patternSettings.breakBetweenCycles
+    }))
+  }
 
   return (
     <View style={props.style}>

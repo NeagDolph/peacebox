@@ -11,8 +11,6 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import ScrollViewPicker from "./scrollview-picker";
-import MaskedView from "@react-native-masked-view/masked-view";
-import LinearGradient from 'react-native-linear-gradient'
 import FadeGradient from "../../components/fade-gradient";
 import haptic from "../../helpers/haptic";
 

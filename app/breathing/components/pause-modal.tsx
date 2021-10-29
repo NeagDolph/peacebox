@@ -7,9 +7,15 @@ import NumberPicker from "./numberpicker";
 import {useDispatch} from "react-redux";
 import PropTypes from 'prop-types'
 import {setSetting} from "../../store/features/breathingSlice";
+import crashlytics from "@react-native-firebase/crashlytics"
 
 export const PauseSettings = props => {
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    crashlytics().log("Component Loaded: Pause Settings")
+  }, [])
+
   const setPauseDuration = (amount) => dispatch(setSetting({
     id: props.patternData.id,
     setting: "pauseDuration",

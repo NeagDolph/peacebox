@@ -14,6 +14,7 @@ import PauseModal from "../components/pause-modal";
 import SettingsModal from "../components/settings-modal";
 import RenderSequence from "./components/render-sequence";
 import haptic from "../../helpers/haptic";
+import crashlytics from "@react-native-firebase/crashlytics";
 
 const PatternUse = ({route, navigation}) => {
   const {id} = route.params
@@ -25,6 +26,7 @@ const PatternUse = ({route, navigation}) => {
   const hideSettingsModal = () => setSettingsVisible(false);
 
   const setDurationTypeStore = (val) => {
+    crashlytics().log("Set duration type: " + val);
     haptic(0);
     dispatch(setDurationType({
       id: patternData.id,
@@ -33,7 +35,7 @@ const PatternUse = ({route, navigation}) => {
   }
 
   const setTotalDurationStore = (val) => {
-    haptic(0);
+    // haptic(0);
     dispatch(setTotalDuration({
       id: patternData.id,
       total: val
@@ -41,6 +43,7 @@ const PatternUse = ({route, navigation}) => {
   }
 
   const startTimer = () => {
+    crashlytics().log("Page Opened: Pattern Timer");
     dispatch(setStart({id: patternData.id, start: Date.now()}));
     navigation.navigate("Time", {id});
   }
@@ -52,7 +55,6 @@ const PatternUse = ({route, navigation}) => {
         inlineTitle={true}
         settingsButton={false}
         titleWhite={false}
-        navigation={navigation}
       />
       <Surface style={styles.card}>
         <RenderSequence sequence={patternData.sequence} backgroundColor={colors.background2}/>

@@ -2,7 +2,6 @@ PODS:
   - boost-for-react-native (1.63.0)
   - BVLinearGradient (2.5.6):
     - React
-  - CocoaAsyncSocket (7.6.5)
   - DoubleConversion (1.1.6)
   - FBLazyVector (0.65.1)
   - FBReactNativeSpec (0.65.1):
@@ -12,69 +11,75 @@ PODS:
     - React-Core (= 0.65.1)
     - React-jsi (= 0.65.1)
     - ReactCommon/turbomodule/core (= 0.65.1)
-  - Flipper (0.105.0):
-    - Flipper-Folly (~> 2.6)
-    - Flipper-RSocket (~> 1.4)
-  - Flipper-Boost-iOSX (1.76.0.1.11)
-  - Flipper-DoubleConversion (3.1.7)
-  - Flipper-Fmt (7.1.7)
-  - Flipper-Folly (2.6.7):
-    - Flipper-Boost-iOSX
-    - Flipper-DoubleConversion
-    - Flipper-Fmt (= 7.1.7)
-    - Flipper-Glog
-    - libevent (~> 2.1.12)
-    - OpenSSL-Universal (= 1.1.180)
-  - Flipper-Glog (0.3.6)
-  - Flipper-PeerTalk (0.0.4)
-  - Flipper-RSocket (1.4.3):
-    - Flipper-Folly (~> 2.6)
-  - FlipperKit (0.105.0):
-    - FlipperKit/Core (= 0.105.0)
-  - FlipperKit/Core (0.105.0):
-    - Flipper (~> 0.105.0)
-    - FlipperKit/CppBridge
-    - FlipperKit/FBCxxFollyDynamicConvert
-    - FlipperKit/FBDefines
-    - FlipperKit/FKPortForwarding
-  - FlipperKit/CppBridge (0.105.0):
-    - Flipper (~> 0.105.0)
-  - FlipperKit/FBCxxFollyDynamicConvert (0.105.0):
-    - Flipper-Folly (~> 2.6)
-  - FlipperKit/FBDefines (0.105.0)
-  - FlipperKit/FKPortForwarding (0.105.0):
-    - CocoaAsyncSocket (~> 7.6)
-    - Flipper-PeerTalk (~> 0.0.4)
-  - FlipperKit/FlipperKitHighlightOverlay (0.105.0)
-  - FlipperKit/FlipperKitLayoutHelpers (0.105.0):
-    - FlipperKit/Core
-    - FlipperKit/FlipperKitHighlightOverlay
-    - FlipperKit/FlipperKitLayoutTextSearchable
-  - FlipperKit/FlipperKitLayoutIOSDescriptors (0.105.0):
-    - FlipperKit/Core
-    - FlipperKit/FlipperKitHighlightOverlay
-    - FlipperKit/FlipperKitLayoutHelpers
-    - YogaKit (~> 1.18)
-  - FlipperKit/FlipperKitLayoutPlugin (0.105.0):
-    - FlipperKit/Core
-    - FlipperKit/FlipperKitHighlightOverlay
-    - FlipperKit/FlipperKitLayoutHelpers
-    - FlipperKit/FlipperKitLayoutIOSDescriptors
-    - FlipperKit/FlipperKitLayoutTextSearchable
-    - YogaKit (~> 1.18)
-  - FlipperKit/FlipperKitLayoutTextSearchable (0.105.0)
-  - FlipperKit/FlipperKitNetworkPlugin (0.105.0):
-    - FlipperKit/Core
-  - FlipperKit/FlipperKitReactPlugin (0.105.0):
-    - FlipperKit/Core
-  - FlipperKit/FlipperKitUserDefaultsPlugin (0.105.0):
-    - FlipperKit/Core
-  - FlipperKit/SKIOSNetworkPlugin (0.105.0):
-    - FlipperKit/Core
-    - FlipperKit/FlipperKitNetworkPlugin
+  - Firebase/AnalyticsWithoutAdIdSupport (8.8.0):
+    - Firebase/CoreOnly
+    - FirebaseAnalytics/WithoutAdIdSupport (~> 8.8.0)
+  - Firebase/CoreOnly (8.8.0):
+    - FirebaseCore (= 8.8.0)
+  - Firebase/Crashlytics (8.8.0):
+    - Firebase/CoreOnly
+    - FirebaseCrashlytics (~> 8.8.0)
+  - FirebaseAnalytics/WithoutAdIdSupport (8.8.0):
+    - FirebaseCore (~> 8.0)
+    - FirebaseInstallations (~> 8.0)
+    - GoogleAppMeasurement/WithoutAdIdSupport (= 8.8.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.4)
+    - GoogleUtilities/MethodSwizzler (~> 7.4)
+    - GoogleUtilities/Network (~> 7.4)
+    - "GoogleUtilities/NSData+zlib (~> 7.4)"
+    - nanopb (~> 2.30908.0)
+  - FirebaseCore (8.8.0):
+    - FirebaseCoreDiagnostics (~> 8.0)
+    - GoogleUtilities/Environment (~> 7.4)
+    - GoogleUtilities/Logger (~> 7.4)
+  - FirebaseCoreDiagnostics (8.9.0):
+    - GoogleDataTransport (~> 9.1)
+    - GoogleUtilities/Environment (~> 7.6)
+    - GoogleUtilities/Logger (~> 7.6)
+    - nanopb (~> 2.30908.0)
+  - FirebaseCrashlytics (8.8.0):
+    - FirebaseCore (~> 8.0)
+    - FirebaseInstallations (~> 8.0)
+    - GoogleDataTransport (~> 9.0)
+    - GoogleUtilities/Environment (~> 7.4)
+    - nanopb (~> 2.30908.0)
+    - PromisesObjC (< 3.0, >= 1.2)
+  - FirebaseInstallations (8.9.0):
+    - FirebaseCore (~> 8.0)
+    - GoogleUtilities/Environment (~> 7.6)
+    - GoogleUtilities/UserDefaults (~> 7.6)
+    - PromisesObjC (< 3.0, >= 1.2)
   - fmt (6.2.1)
   - glog (0.3.5)
-  - libevent (2.1.12)
+  - GoogleAppMeasurement/WithoutAdIdSupport (8.8.0):
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.4)
+    - GoogleUtilities/MethodSwizzler (~> 7.4)
+    - GoogleUtilities/Network (~> 7.4)
+    - "GoogleUtilities/NSData+zlib (~> 7.4)"
+    - nanopb (~> 2.30908.0)
+  - GoogleDataTransport (9.1.2):
+    - GoogleUtilities/Environment (~> 7.2)
+    - nanopb (~> 2.30908.0)
+    - PromisesObjC (< 3.0, >= 1.2)
+  - GoogleUtilities/AppDelegateSwizzler (7.6.0):
+    - GoogleUtilities/Environment
+    - GoogleUtilities/Logger
+    - GoogleUtilities/Network
+  - GoogleUtilities/Environment (7.6.0):
+    - PromisesObjC (< 3.0, >= 1.2)
+  - GoogleUtilities/Logger (7.6.0):
+    - GoogleUtilities/Environment
+  - GoogleUtilities/MethodSwizzler (7.6.0):
+    - GoogleUtilities/Logger
+  - GoogleUtilities/Network (7.6.0):
+    - GoogleUtilities/Logger
+    - "GoogleUtilities/NSData+zlib"
+    - GoogleUtilities/Reachability
+  - "GoogleUtilities/NSData+zlib (7.6.0)"
+  - GoogleUtilities/Reachability (7.6.0):
+    - GoogleUtilities/Logger
+  - GoogleUtilities/UserDefaults (7.6.0):
+    - GoogleUtilities/Logger
   - libwebp (1.2.1):
     - libwebp/demux (= 1.2.1)
     - libwebp/mux (= 1.2.1)
@@ -84,7 +89,12 @@ PODS:
   - libwebp/mux (1.2.1):
     - libwebp/demux
   - libwebp/webp (1.2.1)
-  - OpenSSL-Universal (1.1.180)
+  - nanopb (2.30908.0):
+    - nanopb/decode (= 2.30908.0)
+    - nanopb/encode (= 2.30908.0)
+  - nanopb/decode (2.30908.0)
+  - nanopb/encode (2.30908.0)
+  - PromisesObjC (2.0.0)
   - RCT-Folly (2021.04.26.00):
     - boost-for-react-native
     - DoubleConversion
@@ -97,6 +107,8 @@ PODS:
     - fmt (~> 6.2.1)
     - glog
   - RCTRequired (0.65.1)
+  - RCTSystemSetting (1.7.6):
+    - React
   - RCTTypeSafety (0.65.1):
     - FBLazyVector (= 0.65.1)
     - RCT-Folly (= 2021.04.26.00)
@@ -292,6 +304,8 @@ PODS:
     - React-Core
   - react-native-segmented-control (2.4.0):
     - React-Core
+  - react-native-slider (4.1.10):
+    - React-Core
   - React-perflogger (0.65.1)
   - React-RCTActionSheet (0.65.1):
     - React-Core/RCTActionSheetHeaders (= 0.65.1)
@@ -368,6 +382,17 @@ PODS:
     - React-Core
     - SDWebImage (~> 5.8)
     - SDWebImageWebPCoder (~> 0.6.1)
+  - RNFBAnalytics (12.9.3):
+    - Firebase/AnalyticsWithoutAdIdSupport (= 8.8.0)
+    - React-Core
+    - RNFBApp
+  - RNFBApp (12.9.3):
+    - Firebase/CoreOnly (= 8.8.0)
+    - React-Core
+  - RNFBCrashlytics (12.9.3):
+    - Firebase/Crashlytics (= 8.8.0)
+    - React-Core
+    - RNFBApp
   - RNReactNativeHapticFeedback (1.11.0):
     - React-Core
   - RNReanimated (2.3.0-beta.1):
@@ -411,45 +436,23 @@ PODS:
     - React
   - RNVectorIcons (8.1.0):
     - React-Core
-  - SDWebImage (5.12.0):
-    - SDWebImage/Core (= 5.12.0)
-  - SDWebImage/Core (5.12.0)
+  - SDWebImage (5.12.1):
+    - SDWebImage/Core (= 5.12.1)
+  - SDWebImage/Core (5.12.1)
   - SDWebImageWebPCoder (0.6.1):
     - libwebp (~> 1.0)
     - SDWebImage/Core (~> 5.7)
   - Yoga (1.14.0)
-  - YogaKit (1.18.1):
-    - Yoga (~> 1.14)
 
 DEPENDENCIES:
   - BVLinearGradient (from `../node_modules/react-native-linear-gradient`)
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - FBReactNativeSpec (from `../node_modules/react-native/React/FBReactNativeSpec`)
-  - Flipper (= 0.105.0)
-  - Flipper-Boost-iOSX (= 1.76.0.1.11)
-  - Flipper-DoubleConversion (= 3.1.7)
-  - Flipper-Fmt (= 7.1.7)
-  - Flipper-Folly (= 2.6.7)
-  - Flipper-Glog (= 0.3.6)
-  - Flipper-PeerTalk (= 0.0.4)
-  - Flipper-RSocket (= 1.4.3)
-  - FlipperKit (= 0.105.0)
-  - FlipperKit/Core (= 0.105.0)
-  - FlipperKit/CppBridge (= 0.105.0)
-  - FlipperKit/FBCxxFollyDynamicConvert (= 0.105.0)
-  - FlipperKit/FBDefines (= 0.105.0)
-  - FlipperKit/FKPortForwarding (= 0.105.0)
-  - FlipperKit/FlipperKitHighlightOverlay (= 0.105.0)
-  - FlipperKit/FlipperKitLayoutPlugin (= 0.105.0)
-  - FlipperKit/FlipperKitLayoutTextSearchable (= 0.105.0)
-  - FlipperKit/FlipperKitNetworkPlugin (= 0.105.0)
-  - FlipperKit/FlipperKitReactPlugin (= 0.105.0)
-  - FlipperKit/FlipperKitUserDefaultsPlugin (= 0.105.0)
-  - FlipperKit/SKIOSNetworkPlugin (= 0.105.0)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - RCT-Folly (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
+  - RCTSystemSetting (from `../node_modules/react-native-system-setting`)
   - RCTTypeSafety (from `../node_modules/react-native/Libraries/TypeSafety`)
   - React (from `../node_modules/react-native/`)
   - React-callinvoker (from `../node_modules/react-native/ReactCommon/callinvoker`)
@@ -467,6 +470,7 @@ DEPENDENCIES:
   - "react-native-keep-awake (from `../node_modules/@sayem314/react-native-keep-awake`)"
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - "react-native-segmented-control (from `../node_modules/@react-native-segmented-control/segmented-control`)"
+  - "react-native-slider (from `../node_modules/@react-native-community/slider`)"
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
@@ -483,6 +487,9 @@ DEPENDENCIES:
   - "RNCMaskedView (from `../node_modules/@react-native-masked-view/masked-view`)"
   - RNDevMenu (from `../node_modules/react-native-dev-menu`)
   - RNFastImage (from `../node_modules/react-native-fast-image`)
+  - "RNFBAnalytics (from `../node_modules/@react-native-firebase/analytics`)"
+  - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
+  - "RNFBCrashlytics (from `../node_modules/@react-native-firebase/crashlytics`)"
   - RNReactNativeHapticFeedback (from `../node_modules/react-native-haptic-feedback`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
@@ -494,23 +501,21 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - boost-for-react-native
-    - CocoaAsyncSocket
-    - Flipper
-    - Flipper-Boost-iOSX
-    - Flipper-DoubleConversion
-    - Flipper-Fmt
-    - Flipper-Folly
-    - Flipper-Glog
-    - Flipper-PeerTalk
-    - Flipper-RSocket
-    - FlipperKit
+    - Firebase
+    - FirebaseAnalytics
+    - FirebaseCore
+    - FirebaseCoreDiagnostics
+    - FirebaseCrashlytics
+    - FirebaseInstallations
     - fmt
-    - libevent
+    - GoogleAppMeasurement
+    - GoogleDataTransport
+    - GoogleUtilities
     - libwebp
-    - OpenSSL-Universal
+    - nanopb
+    - PromisesObjC
     - SDWebImage
     - SDWebImageWebPCoder
-    - YogaKit
 
 EXTERNAL SOURCES:
   BVLinearGradient:
@@ -527,6 +532,8 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec"
   RCTRequired:
     :path: "../node_modules/react-native/Libraries/RCTRequired"
+  RCTSystemSetting:
+    :path: "../node_modules/react-native-system-setting"
   RCTTypeSafety:
     :path: "../node_modules/react-native/Libraries/TypeSafety"
   React:
@@ -557,6 +564,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-safe-area-context"
   react-native-segmented-control:
     :path: "../node_modules/@react-native-segmented-control/segmented-control"
+  react-native-slider:
+    :path: "../node_modules/@react-native-community/slider"
   React-perflogger:
     :path: "../node_modules/react-native/ReactCommon/reactperflogger"
   React-RCTActionSheet:
@@ -589,6 +598,12 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-dev-menu"
   RNFastImage:
     :path: "../node_modules/react-native-fast-image"
+  RNFBAnalytics:
+    :path: "../node_modules/@react-native-firebase/analytics"
+  RNFBApp:
+    :path: "../node_modules/@react-native-firebase/app"
+  RNFBCrashlytics:
+    :path: "../node_modules/@react-native-firebase/crashlytics"
   RNReactNativeHapticFeedback:
     :path: "../node_modules/react-native-haptic-feedback"
   RNReanimated:
@@ -607,26 +622,26 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   BVLinearGradient: e3aad03778a456d77928f594a649e96995f1c872
-  CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   DoubleConversion: 831926d9b8bf8166fd87886c4abab286c2422662
   FBLazyVector: 33c82491102f20ecddb6c6a2c273696ace3191e0
   FBReactNativeSpec: df8f81d2a7541ee6755a047b398a5cb5a72acd0e
-  Flipper: 661539922ab3878f6cc78356be4fdcbd8b60563b
-  Flipper-Boost-iOSX: fd1e2b8cbef7e662a122412d7ac5f5bea715403c
-  Flipper-DoubleConversion: 57ffbe81ef95306cc9e69c4aa3aeeeeb58a6a28c
-  Flipper-Fmt: 60cbdd92fc254826e61d669a5d87ef7015396a9b
-  Flipper-Folly: 83af37379faa69497529e414bd43fbfc7cae259a
-  Flipper-Glog: 1dfd6abf1e922806c52ceb8701a3599a79a200a6
-  Flipper-PeerTalk: 116d8f857dc6ef55c7a5a75ea3ceaafe878aadc9
-  Flipper-RSocket: d9d9ade67cbecf6ac10730304bf5607266dd2541
-  FlipperKit: 059e4269afdca0ba6bb41314bfd2d621c0dece8d
+  Firebase: 629510f1a9ddb235f3a7c5c8ceb23ba887f0f814
+  FirebaseAnalytics: 5506ea8b867d8423485a84b4cd612d279f7b0b8a
+  FirebaseCore: 98b29e3828f0a53651c363937a7f7d92a19f1ba2
+  FirebaseCoreDiagnostics: 5daa63f1c1409d981a2d5007daa100b36eac6a34
+  FirebaseCrashlytics: 3660c045c8e45cc4276110562a0ef44cf43c8157
+  FirebaseInstallations: caa7c8e0d3e2345b8829d2fa9ca1b4dfbf2fcc85
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
   glog: 5337263514dd6f09803962437687240c5dc39aa4
-  libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
+  GoogleAppMeasurement: 5ba1164e3c844ba84272555e916d0a6d3d977e91
+  GoogleDataTransport: 629c20a4d363167143f30ea78320d5a7eb8bd940
+  GoogleUtilities: 684ee790a24f73ebb2d1d966e9711c203f2a4237
   libwebp: 98a37e597e40bfdb4c911fc98f2c53d0b12d05fc
-  OpenSSL-Universal: 1aa4f6a6ee7256b83db99ec1ccdaa80d10f9af9b
+  nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
+  PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58
   RCT-Folly: 0dd9e1eb86348ecab5ba76f910b56f4b5fef3c46
   RCTRequired: 6cf071ab2adfd769014b3d94373744ee6e789530
+  RCTSystemSetting: 5107b7350d63b3f7b42a1277d07e4e5d9df879be
   RCTTypeSafety: b829c59453478bb5b02487b8de3336386ab93ab1
   React: 29d8a785041b96a2754c25cc16ddea57b7a618ce
   React-callinvoker: 2857b61132bd7878b736e282581f4b42fd93002b
@@ -642,6 +657,7 @@ SPEC CHECKSUMS:
   react-native-keep-awake: e63964d58c890de02bfb6519dedb7d90b5c782de
   react-native-safe-area-context: 61c8c484a3a9e7d1fda19f7b1794b35bbfd2262a
   react-native-segmented-control: 06607462630512ff8eef652ec560e6235a30cc3e
+  react-native-slider: c98f8413776ec1218ec9cd4f8ed32bfd91d428fc
   React-perflogger: fd28ee1f2b5b150b00043f0301d96bd417fdc339
   React-RCTActionSheet: 7f3fa0855c346aa5d7c60f9ced16e067db6d29fa
   React-RCTAnimation: 2119a18ee26159004b001bc56404ca5dbaae6077
@@ -658,17 +674,19 @@ SPEC CHECKSUMS:
   RNCMaskedView: c298b644a10c0c142055b3ae24d83879ecb13ccd
   RNDevMenu: fd325b5554b61fe7f48d9205a3877cf5ee88cd7c
   RNFastImage: a7384db75df352500261e8e8f1ac2026def26102
+  RNFBAnalytics: 1b0e5ddb5e99c534403817ae93edb10d685378e9
+  RNFBApp: 729c0666395b1953198dc4a1ec6deb8fbe1c302e
+  RNFBCrashlytics: 2061ca863e8e2fa1aae9b12477d7dfa8e88ca0f9
   RNReactNativeHapticFeedback: 653a8c126a0f5e88ce15ffe280b3ff37e1fbb285
   RNReanimated: 13f91e6ffd60b3f50c579804958c7610de6ba9c9
   RNScreens: 01ab149b5dd5c27f5ff26741b1d2bdf2cee1af35
   RNSound: da030221e6ac7e8290c6b43f2b5f2133a8e225b0
   RNSVG: 551acb6562324b1d52a4e0758f7ca0ec234e278f
   RNVectorIcons: 31cebfcf94e8cf8686eb5303ae0357da64d7a5a4
-  SDWebImage: 4ea20cca2986adc5aacde07aa686742fd4c67a37
+  SDWebImage: 4dc3e42d9ec0c1028b960a33ac6b637bb432207b
   SDWebImageWebPCoder: d0dac55073088d24b2ac1b191a71a8f8d0adac21
   Yoga: aa0cb45287ebe1004c02a13f279c55a95f1572f4
-  YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 206adbbefb1216e3d9982ff65c9808c36cb5d4fe
+PODFILE CHECKSUM: 40cb925b19e016fe88cc31f9a81081c1fd4171b6
 
 COCOAPODS: 1.10.2

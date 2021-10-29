@@ -6,13 +6,10 @@ import autoMergeLevel1 from 'redux-persist/lib/stateReconciler/autoMergeLevel1'
 
 import rootReducer from './reducers'
 
-const DevMenu = require('react-native-dev-menu');
-DevMenu.addItem('Clear AsyncStorage', () => AsyncStorage.clear());
-
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  stateReconciler: autoMergeLevel1,
+  stateReconciler: autoMergeLevel2,
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

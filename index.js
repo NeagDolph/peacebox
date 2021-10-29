@@ -8,60 +8,42 @@ import BreathingHome from './app/breathing/breathing-page';
 import PatternModal from './app/breathing/edit/pattern-edit';
 import PatternTime from './app/breathing/use/pattern-time';
 import PatternUse from './app/breathing/use/pattern-use';
+import PatternCompleted from './app/breathing/use/pattern-completed';
+import AboutPage from './app/home/about/about-page';
 
 import {name as appName} from './app.json';
 import {DefaultTheme, Provider as PaperProvider, Text} from 'react-native-paper';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer, DarkTheme} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {store, persistor} from './app/store/store';
 
-import {library} from '@fortawesome/fontawesome-svg-core';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import DevMenu from 'react-native-dev-menu';
+import crashlytics from '@react-native-firebase/crashlytics';
 
-import faBolt from '@fortawesome/fontawesome-free-solid/faBolt';
-import faBurn from '@fortawesome/fontawesome-free-solid/faBurn';
-import faCertificate from '@fortawesome/fontawesome-free-solid/faCertificate';
-import faCloud from '@fortawesome/fontawesome-free-solid/faCloud';
-import faGem from '@fortawesome/fontawesome-free-solid/faGem';
-import faCog from '@fortawesome/fontawesome-free-solid/faCog';
-import faRecycle from '@fortawesome/fontawesome-free-solid/faRecycle';
-import faInfoCircle from '@fortawesome/fontawesome-free-solid/faInfoCircle';
-import faTrashAlt from '@fortawesome/fontawesome-free-regular/faTrashAlt';
-import faLongArrowAltLeft from '@fortawesome/fontawesome-free-solid/faLongArrowAltLeft';
-import faPlus from '@fortawesome/fontawesome-free-solid/faPlus';
-import PatternCompleted from './app/breathing/use/pattern-completed';
+import { LogBox } from 'react-native';
 
-library.add(
-    faBolt,
-    faBurn,
-    faCertificate,
-    faCloud,
-    faGem,
-    faCog,
-    faTrashAlt,
-    faRecycle,
-    faInfoCircle,
-    faLongArrowAltLeft,
-    faPlus,
-);
+//ignore logs
 
+// Ignore log notification by message:
+LogBox.ignoreLogs(['EventEmitter...']);
 
 const RootStack = createNativeStackNavigator();
 
 function RootStackScreen() {
     return (
-        <RootStack.Navigator>
-            <RootStack.Group screenOptions={{orientation: "portrait_up"}}>
-                <RootStack.Screen name="Home" component={HomePage} options={{headerShown: false}}/>
-                <RootStack.Screen name="Freewriting" component={Freewriting} options={{headerShown: false}}/>
-                <RootStack.Screen name="settings" component={SettingsPage} options={{headerShown: false}}/>
-                <RootStack.Screen name="Patterns" component={BreathingHome} options={{headerShown: false}}/>
-                <RootStack.Screen name="Use" component={PatternUse} options={{headerShown: false}}/>
-                <RootStack.Screen name="Time" component={PatternTime} options={{headerShown: false, animation: "fade", statusBarHidden: true}}/>
-                <RootStack.Screen name="Edit" component={PatternModal} options={{headerShown: false, presentation: 'modal'}}/>
-                <RootStack.Screen name="Completed" component={PatternCompleted} options={{headerShown: false, animation: "fade"}}/>
-            </RootStack.Group>
+        <RootStack.Navigator theme={DarkTheme}>
+            <RootStack.Screen name="Home" component={HomePage} options={{headerShown: false, orientation: "portrait_up"}}/>
+            <RootStack.Screen name="Freewriting" component={Freewriting} options={{headerShown: false, orientation: "portrait_up"}}/>
+            <RootStack.Screen name="settings" component={SettingsPage} options={{headerShown: false, orientation: "portrait_up"}}/>
+            <RootStack.Screen name="Patterns" component={BreathingHome} options={{headerShown: false, orientation: "portrait_up"}}/>
+            <RootStack.Screen name="Use" component={PatternUse} options={{headerShown: false, orientation: "portrait_up"}}/>
+            <RootStack.Screen name="Time" component={PatternTime} options={{headerShown: false, animation: "fade", statusBarHidden: true, orientation: "portrait_up"}}/>
+            <RootStack.Screen name="Edit" component={PatternModal} options={{headerShown: false, presentation: 'modal', orientation: "portrait_up"}}/>
+            <RootStack.Screen name="Completed" component={PatternCompleted} options={{headerShown: false, animation: "fade", orientation: "portrait_up"}}/>
+            <RootStack.Screen name="About" component={AboutPage} options={{headerShown: false, orientation: "portrait_up"}}/>
         </RootStack.Navigator>
     );
 }
@@ -90,4 +72,9 @@ export default function Main() {
         </Provider>
     );
 }
+
+DevMenu.addItem('Clear AsyncStorage', () => AsyncStorage.clear());
+DevMenu.addItem('Crash App', () => crashlytics().crash());
+
+
 AppRegistry.registerComponent(appName, () => Main);

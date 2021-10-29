@@ -4,7 +4,7 @@ import {withTheme, Surface, Title, Paragraph, Button, Chip} from "react-native-p
 import {
   Dimensions,
   Image,
-  ImageBackground,
+  ImageBackground, Keyboard,
   NativeSyntheticEvent,
   StyleSheet,
   Text,
@@ -12,67 +12,72 @@ import {
   View
 } from 'react-native';
 import {useSelector, useDispatch} from 'react-redux'
+import FastImage from "react-native-fast-image";
 
 const WritingCard = (props: any) => {
   const inputRef = useRef<any>(null)
   const {content, setContent, handleLayout, editable, placeholder} = props
-
-  const {colors} = props.theme
+  const [lineHeight, setLineHeight] = useState(0)
 
   const setContentHandle = (event) => {
     setContent(event)
   }
 
+  const cardLayout = ({nativeEvent: {layout}}) => {
+    setLineHeight(layout.height / 18.9529614) // Constant for number of lines in the paper image
+  }
+
 
   return (
-    <Surface style={styles.card}>
-      <ImageBackground imageStyle={{borderRadius: 8}} style={styles.cardBackground} source={require("../../assets/paper.png")} force-cache="force-cache">
-        <TextInput
-          style={styles.input}
-          placeholder={placeholder}
-          placeholderTextColor="#8A897C"
-          multiline={true}
-          returnKeyType="done"
-          autoCapitalize="none"
-          autoCorrect={false}
-          importantForAutofill="no"
-          onChange={(event) => setContentHandle(event)}
-          onContentSizeChange={handleLayout}
-          autoFocus={false}
-          keyboardType="default"
-          editable={editable}
-          contextMenuHidden={true}
-          // selection={{start: content.length, end: content.length}}
-          ref={inputRef}
-        >
-          <Text style={[styles.inputLine, {lineHeight: Dimensions.get("window").height * 0.029}]}>{content}</Text>
-        </TextInput>
-      </ImageBackground>
+    <Surface style={styles.card} onLayout={cardLayout}>
+      <FastImage
+        style={styles.imageStyle}
+        source={require("../../assets/paper.png")}
+        resizeMode={FastImage.resizeMode.cover}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder={placeholder}
+        placeholderTextColor="#8A897C"
+        multiline={true}
+        returnKeyType="done"
+        autoCapitalize="none"
+        autoCorrect={false}
+        importantForAutofill="no"
+        onChange={(event) => setContentHandle(event)}
+        onContentSizeChange={props.handleLayout}
+        autoFocus={false}
+        keyboardType="default"
+        editable={editable}
+        contextMenuHidden={true}
+        onSubmitEditing={Keyboard.dismiss}
+        ref={inputRef}
+      >
+        <Text style={[styles.inputLine, {lineHeight}]}>{content}</Text>
+      </TextInput>
       {props.children}
     </Surface>
   );
 };
 
 const styles = StyleSheet.create({
-  cardBackground: {
-    zIndex: 0,
-    lineHeight: Dimensions.get("window").height * 0.0296,
+  imageStyle: {
+    height: Dimensions.get("window").height * 0.547740584,
+    width: Dimensions.get("window").height * 0.38,
     borderRadius: 8,
-    height: Dimensions.get("window").height * 0.55,
-    width: Dimensions.get("window").width * 0.793933052,
-    resizeMode: 'contain',
-    borderWidth: 0,
-    paddingTop: 3,
-    paddingLeft: 22,
-    paddingRight: 10,
-    backgroundColor: "#f5f7ea",
+    top: 0,
+    left: 0,
+    position: "absolute"
   },
   card: {
-    backgroundColor: "transparent",
-    height: Dimensions.get("window").height * 0.55,
-    width: Dimensions.get("window").width * 0.793933052,
-    padding: 0,
-    paddingTop: 0,
+    height: Dimensions.get("window").height * 0.547740584,
+    width: Dimensions.get("window").height * 0.38,
+
+    backgroundColor: "#f5f7ea",
+    paddingTop: 3,
+    paddingLeft: 22,
+    borderRadius: 8,
+    paddingRight: 10,
     fontSize: 12,
     // overflow: "hidden",
     shadowColor: "rgba(0, 0, 0, 0.7)",
@@ -91,6 +96,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     lineHeight: 20,
     top: -8,
+    position: "relative"
   },
   inputLine: {
     alignItems: "stretch",

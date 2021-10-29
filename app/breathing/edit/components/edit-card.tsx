@@ -111,7 +111,8 @@ const EditCard = (props) => {
 EditCard.propTypes = {
   id: PropTypes.string,
   patternData: PropTypes.any,
-  showEditModal: PropTypes.func
+  showEditModal: PropTypes.func,
+  newPattern: PropTypes.bool
 }
 
 const styles = StyleSheet.create({

@@ -1,4 +1,4 @@
-import ReactNativeHapticFeedback from "react-native-haptic-feedback";
+import ReactNativeHapticFeedback, {HapticFeedbackTypes} from "react-native-haptic-feedback";
 
 const options = {
   enableVibrateFallback: false,
@@ -7,10 +7,18 @@ const options = {
 
 export default function haptic(typeNum: number) {
   const typeName = ["impactLight", "impactMedium", "impactHeavy"][typeNum]
-  ReactNativeHapticFeedback.trigger(typeName, options);
+  ReactNativeHapticFeedback.trigger(<HapticFeedbackTypes>typeName, options);
 }
 
 export function success(pause=200) {
   ReactNativeHapticFeedback.trigger("impactHeavy", options);
   setTimeout(() => ReactNativeHapticFeedback.trigger("impactMedium", options), pause)
+}
+
+export function pattern(count: number, duration: number, typeNum: number) {
+  const typeName = ["impactLight", "impactMedium", "impactHeavy"][typeNum]
+
+  for (let i = 0; i < count; i++) {
+    setTimeout(() => ReactNativeHapticFeedback.trigger(<HapticFeedbackTypes>typeName, options), duration * i)
+  }
 }

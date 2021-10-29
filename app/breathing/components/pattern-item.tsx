@@ -4,6 +4,7 @@ import {Button, Surface, Text} from "react-native-paper";
 import {colors} from "../../config/colors";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import PropTypes from 'prop-types'
+import crashlytics from "@react-native-firebase/crashlytics"
 
 const PatternItem = props => {
   const generateSequence = (sequence) => {
@@ -30,9 +31,30 @@ const PatternItem = props => {
       `Are you sure you want to delete "${props.patternData.name}"?`,
       [
         {text: "Nevermind",},
-        {text: "Confirm", onPress: () => props.deletePattern(props.patternData.id)},
+        {
+          text: "Confirm", onPress: () => {
+            crashlytics().log("Pattern deleted: " + JSON.stringify(props.patternData));
+            props.deletePattern(props.patternData.id)
+          }
+        },
       ]
     );
+  }
+
+  const renderPauseText = () => {
+    if (props.patternData.settings.breakBetweenCycles && !props.buttonVisible) {
+      return (
+        <View style={[styles.pauseContainer, {
+          opacity: props.editMode ? 0 : 1,
+          height: props.editMode ? 0 : 20,
+        }]}>
+          <Icon name={"clock"} size={17} color={colors.placeholder}></Icon>
+          <Text style={styles.pauseText}>
+            Pause {props.patternData.settings.pauseDuration}s {props.patternData.settings.pauseFrequency > 1 ? `/ ${props.patternData.settings.pauseFrequency}` : ""}
+          </Text>
+        </View>
+      )
+    }
   }
 
   return (
@@ -40,7 +62,8 @@ const PatternItem = props => {
       onPress={() => props.editMode ? props.editPattern(props.patternData.id) : props.usePattern(props.patternData.id)}>
       <View style={styles.patternItem}>
         <Text style={styles.title} numberOfLines={1} adjustsFontSizeToFit>{truncateTitle(props.patternData.name)}</Text>
-        <View style={[styles.patternData, {paddingBottom: (props.patternData.settings.breakBetweenCycles || props.editMode) ? 0 : 20}]}>
+        <View
+          style={[styles.patternData, {paddingBottom: (props.patternData.settings.breakBetweenCycles || props.editMode) ? 0 : 20}]}>
           <View style={styles.sequenceList}>{generateSequence(props.patternData.sequence)}</View>
           {
             props.editMode &&
@@ -58,16 +81,7 @@ const PatternItem = props => {
                 >Delete</Button>
             </View>
           }
-          {
-            (props.patternData.settings.breakBetweenCycles && !props.buttonVisible) &&
-            <View style={[styles.pauseContainer, {
-              opacity: props.editMode ? 0 : 1,
-              height: props.editMode ? 0 : 20,
-            }]}>
-              <Icon name={"clock"} size={17} color={colors.placeholder}></Icon>
-              <Text style={styles.pauseText}>Pause {props.patternData.settings.pauseDuration}s {props.patternData.settings.pauseFrequency > 1 ? `/ ${props.patternData.settings.pauseFrequency}` : ""}</Text>
-            </View>
-          }
+          {renderPauseText()}
         </View>
       </View>
     </TouchableOpacity>

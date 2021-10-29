@@ -3,8 +3,6 @@ import {Dimensions, FlatList, Platform, ScrollView, Text, View} from "react-nati
 import React from "react";
 import PropTypes from "prop-types";
 import styled from 'styled-components';
-import LinearGradient from "react-native-linear-gradient";
-import MaskedView from "@react-native-masked-view/masked-view";
 import FadeGradient from "../../components/fade-gradient";
 import haptic from "../../helpers/haptic";
 

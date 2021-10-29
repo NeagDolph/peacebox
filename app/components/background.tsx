@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef, useLayoutEffect} from 'react';
 import {setTime, setUrl, setCredits, setColor, setBackgroundData} from "../store/features/backgroundSlice"
 import {useDispatch, useSelector} from "react-redux";
-import {ImageBackground, StyleSheet, View, Text} from "react-native";
+import {ImageBackground, StyleSheet, View, Text, Dimensions} from "react-native";
 import FastImage from 'react-native-fast-image'
 
 const Background = (props) => {
@@ -9,7 +9,8 @@ const Background = (props) => {
   const bgUrl = useSelector((state: any) => state.background.url)
   const [backgroundStyle, setBackgroundStyle] = useState({})
 
-  const showBackground = useSelector((state) => state.settings.freewriting.showBackground)
+  const {showBackground} = props
+
 
   const dispatch = useDispatch();
 
@@ -25,7 +26,8 @@ const Background = (props) => {
       count: 15,
     }
 
-    const url = `https://api.unsplash.com/photos/random?${new URLSearchParams(args).toString()}`;
+    const url = `https://api.unsplash.com/photos/random?topics=nature&content_filter=high&orientation=portrait&client_id=3T3B_SA-ohORfg2VNrn0i09_31jonbG_DbSPaaGpcQY&count=15`
+    // const url = `https://api.unsplash.com/photos/random?${new URLSearchParams(args).toString()}`;
 
     fetch(url)
       .then(async response => {
@@ -51,20 +53,26 @@ const Background = (props) => {
 
 
   return (
-        <FastImage
-          resizeMode={FastImage.resizeMode.cover}
-          source={{uri: showBackground ? bgUrl : "", priority: FastImage.priority.high}}
-          force-cache="force-cache"
-          style={styles.backgroundImage}
-        >
-          {props.children}
-        </FastImage>
+    <View>
+      {(showBackground && bgUrl) && <FastImage
+        source={{uri: bgUrl, priority: FastImage.priority.high}}
+        force-cache="force-cache"
+        style={styles.backgroundImage}
+        resizeMode={FastImage.resizeMode.cover}
+      />}
+      {props.children}
+    </View>
   )
 }
 
 const styles = StyleSheet.create({
   backgroundImage: {
-    height: "100%",
+    height: Dimensions.get("window").height,
+    width: Dimensions.get("window").width,
+    position: "absolute",
+    top: 0,
+    left: 0,
+    // height: "100%",
   }
 })
 

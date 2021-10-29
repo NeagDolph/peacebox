@@ -1,23 +1,17 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 
 import {ActivityIndicator, AppState, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import PageHeader from "../../components/header";
 import TimeHeader from "./components/time-header";
-import ReanimatedArc from './components/ReanimatedArc';
-import {Surface} from "react-native-paper";
-import {colors} from "../../config/colors";
 import RenderSequence from "./components/render-sequence";
-import Icon from 'react-native-vector-icons/FontAwesome5';
 import BreathingAnim from "./components/breathing-animation";
-import {EasingNode} from "react-native-reanimated";
-import FastImage from "react-native-fast-image";
 import {useDispatch, useSelector} from "react-redux";
 import {setStart} from "../../store/features/breathingSlice";
 import TimeControls from "./components/time-controls";
 import PrefersHomeIndicatorAutoHidden from "react-native-home-indicator";
 import { useKeepAwake } from '@sayem314/react-native-keep-awake';
-
-const Sound = require('react-native-sound');
+import {pattern} from "../../helpers/haptic"
+import crashlytics from '@react-native-firebase/crashlytics';
+import Sound from "react-native-sound"
 
 Sound.setCategory('Playback');
 
@@ -40,9 +34,8 @@ const PatternTime = ({route, navigation}) => {
   const [currentTime, setCurrentTime] = useState(0)
   const [takingBreak, setTakingBreak] = useState(false);
   const [patternCompletion, setPatternCompletion] = useState(0);
-  const [countStart, setCountStart] = useState(Date.now());
+  const [completionText, setCompletionText] = useState("");
   const [secondsPassed, setSecondsPassed] = useState(0)
-  let pauseStart = useRef(0);
 
   const [paused, setPaused] = useState(false);
   const [title, setTitle] = useState(breatheText[0])
@@ -50,15 +43,12 @@ const PatternTime = ({route, navigation}) => {
   //Audio State
   const audioFiles = useRef({})
 
-  //Single calculation
-  const cycleTime = useCallback(() => {
-    const sequenceTime = sequence.reduce((o, e) => o + e, 0)
-    const breakCount = Math.floor(patternData.totalDuration / patternData.settings.pauseFrequency)
-    const breakTime = patternData.settings.breakBetweenCycles ? patternData.settings.pauseDuration * breakCount : 0
-    return patternData.durationType === "Cycles" ? (sequenceTime * patternData.totalDuration) + breakTime : patternData.totalDuration * 60
-  }, [])
-
+  //On component loaded
   useEffect(() => {
+    calcCompletion();
+
+    crashlytics().log("Page Opened: Pattern timer")
+
     if (cycleCount === 1 && currentIndex === 0 && currentTime <= 1) {
       preloadAllAudio().then(() => playAudio("breathein.mp3"));
     }
@@ -79,35 +69,28 @@ const PatternTime = ({route, navigation}) => {
   useEffect(() => {
     if (paused) {
       clearTimer()
-      pauseStart.current = Date.now();
     } else {
       countInterval.current = setTimeout(() => {
         countStep();
       }, 1400)
-      if (pauseStart.current > 0) {
-        const pauseTime = Date.now() - pauseStart.current;
-        setCountStart(time => time + pauseTime + 1000)
-      }
     }
-
     return clearTimer;
   }, [paused]);
 
   useEffect(() => {
+    calcCompletion();
+
     if (secondsPassed <= 0) return;
 
     let intervalTime = 1000;
 
-    if (["Inhale", "Exhale"].includes(title) && currentTime === 0) intervalTime = title === "Inhale" ? 1400 : 1200;
+    if ([1,3].includes(currentIndex) && currentTime + 1 === sequenceTime) intervalTime = 1300;
 
     if (!paused) countInterval.current = setTimeout(countStep, intervalTime);
   }, [secondsPassed])
 
   useEffect(() => {
-    calcCompletion();
-
     if (currentTime + 1 >= 2 && currentTime + 1 <= sequenceTime && !takingBreak) playAudio(`${(currentTime + 1)}.mp3`);
-
 
     switch (patternData.durationType) { // Completion tests
       case "Cycles":
@@ -126,8 +109,6 @@ const PatternTime = ({route, navigation}) => {
 
     if (currentIndex >= 4 && !takingBreak) nextCycle();
     else if (currentTime >= sequenceTime) nextSequence();
-
-
   }, [currentTime, cycleCount, sequenceTime])
 
   const preloadAllAudio = () => {
@@ -139,7 +120,11 @@ const PatternTime = ({route, navigation}) => {
           audioFiles.current[fileName] = audio;
 
           if (fileName === audioFileNames[audioFileNames.length - 1]) res();
-        }).catch(rej)
+        }).catch(err => {
+          crashlytics().log("Error: failed to load timer audio")
+          crashlytics().recordError(err)
+          rej(err)
+        })
       })
     })
   }
@@ -156,7 +141,8 @@ const PatternTime = ({route, navigation}) => {
     return new Promise((res, rej) => {
       let audio = new Sound(name, Sound.MAIN_BUNDLE, (error) => {
         if (error) {
-          console.log('failed to load the sound', error);
+          crashlytics().log("Failed to load sound: " + name)
+          crashlytics().recordError(error);
           rej(error);
         }
         res(audio);
@@ -195,8 +181,6 @@ const PatternTime = ({route, navigation}) => {
     let nextIndex = currentIndex + 1
     let audioNames = ["breathein.mp3", "hold.mp3", "breatheout.mp3", "hold.mp3"];
 
-    setCountStart(Date.now());
-
     if (nextIndex === 4 &&
       patternData.settings.breakBetweenCycles &&
       cycleCount % patternData.settings.pauseFrequency === 0 &&
@@ -210,14 +194,14 @@ const PatternTime = ({route, navigation}) => {
       setSequenceTime(sequence[nextIndex]);
       setCurrentTime(0);
       playAudio(audioNames[nextIndex]);
+      pattern(2, 400, 2)
 
     }
   }
 
   const countStep = () => {
-    setCurrentTime(nextTime => nextTime + 1);
-
     setSecondsPassed(seconds => seconds + 1)
+    setCurrentTime(nextTime => nextTime + 1);
   }
 
   const clearTimer = () => {
@@ -229,11 +213,15 @@ const PatternTime = ({route, navigation}) => {
    Pause Functions
   */
   const togglePause = () => {
+    crashlytics().log("Timer toggled pause state: " + !paused)
     if (paused) setPaused(false);
     else setPaused(true);
   }
+
   const exit = () => navigation.navigate("Patterns")
+
   const completed = () => {
+    crashlytics().log("Pattern timer completed | ID: " + id)
     navigation.goBack();
     navigation.navigate("Completed", {id})
     dismountAudio();
@@ -242,15 +230,26 @@ const PatternTime = ({route, navigation}) => {
   /*
     Other
    */
+  const formatSeconds = (seconds) => {
+    const timeString = new Date(null, null, null, null, null, seconds).toTimeString().match(/\d{2}:\d{2}:\d{2}/)[0]
+    const timeFormat = timeString // Remove extra 0's and :'s
+      .replace(/^00\:00\:/g, "0:")
+      .replace(/^00\:0?/g, "")
+      .replace(/^0(?!:)/, "")
+
+    return timeFormat
+  }
+
   const calcCompletion = () => {
     // Completion tests
     if (patternData.durationType === "Cycles") {
-      const totalTime = cycleTime();
-      setPatternCompletion(secondsPassed / totalTime + 0.1);
-
+      const completedCycles = cycleCount - 1
+      setPatternCompletion(completedCycles / patternData.totalDuration);
+      setCompletionText(`${completedCycles} / ${patternData.totalDuration} Cycles`)
     } else if (patternData.durationType === "Minutes") {
       const totalTime = (patternData.totalDuration * 60)
-      setPatternCompletion((secondsPassed / totalTime) + 0.1)
+      setPatternCompletion(secondsPassed / totalTime)
+      setCompletionText(`${formatSeconds(secondsPassed)} / ${formatSeconds(totalTime)}`);
     }
   }
 
@@ -264,7 +263,6 @@ const PatternTime = ({route, navigation}) => {
           sequenceTime={sequenceTime}
           currentIndex={currentIndex}
           currentTime={currentTime}
-          countStart={countStart}
           secondsPassed={secondsPassed}
           settings={settings}
           paused={paused}
@@ -275,11 +273,9 @@ const PatternTime = ({route, navigation}) => {
 
       <TimeControls
         patternCompletion={patternCompletion}
+        completionText={completionText}
         togglePause={togglePause}
         paused={paused}
-        cycleTime={cycleTime}
-        countStart={countStart}
-        cycleCount={cycleCount}
       />
     </View>
   );

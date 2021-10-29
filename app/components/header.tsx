@@ -1,11 +1,11 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useSelector} from "react-redux";
 import PropTypes from 'prop-types'
 import { VibrancyView } from "@react-native-community/blur";
 import { useNavigation } from '@react-navigation/native';
+import crashlytics from "@react-native-firebase/crashlytics";
 
 interface HeaderProps {
   inlineTitle: boolean | void;
@@ -23,7 +23,12 @@ const PageHeader = ({inlineTitle=false, title, settingsIcon, settingsCallback, t
   const getTitleColor = () => (titleWhite ?? true) && !inlineTitle ? "white" : "black"
   const navigation = useNavigation();
 
-  const goBack = (things) => {
+  useEffect(() => {
+    crashlytics().log("Header Loaded | Page Title: " + title)
+  }, [])
+
+  const goBack = () => {
+    crashlytics().log("Header Component: User pressed back button")
     navigation.goBack();
   }
 

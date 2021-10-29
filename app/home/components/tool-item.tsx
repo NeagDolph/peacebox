@@ -5,6 +5,7 @@ import {Chip, Surface, useTheme} from "react-native-paper";
 import {white} from "react-native-paper/lib/typescript/styles/colors";
 import {colors} from "../../config/colors";
 import {useNavigation} from '@react-navigation/native';
+import crashlytics from "@react-native-firebase/crashlytics";
 
 interface ToolData {
   title: string;
@@ -26,6 +27,7 @@ const ToolItem = (props: ToolData) => {
   const imageSource = Image.resolveAssetSource(props.icon)
 
   const openMenu = () => {
+    crashlytics().log("Tool Opened: " + props.title)
     if (props.navigation) navigation.navigate(props.navigation);
   }
 
