@@ -6,7 +6,6 @@ import MaskedView from "@react-native-masked-view/masked-view";
 import FastImage from "react-native-fast-image";
 import Animated, {
   Easing,
-  Extrapolation,
   interpolate, runOnJS,
   useAnimatedScrollHandler,
   useAnimatedStyle,
@@ -31,8 +30,6 @@ const LogoBox = (props) => {
 
   const leftOffset = useSharedValue(0);
 
-  const {scrollOffset} = props
-
   const calcOffset = useCallback(() => {
     const calcMove = (Dimensions.get("window").width - layoutData.width) / 2 - layoutData.x
     return props.endOfScroll ? calcMove : 0;
@@ -55,14 +52,8 @@ const LogoBox = (props) => {
 
 
   const visibleStyles = useAnimatedStyle(() => {
-    const opacity = interpolate(scrollOffset.value, [0, 100], [0.4, 1], {
-      extrapolateRight: Extrapolation.CLAMP,
-      extrapolateLeft: Extrapolation.CLAMP
-    });
-    const scrollTop = interpolate(scrollOffset.value, [0, windowHeight.value], [(windowHeight.value / 6), 0], {
-      extrapolateRight: Extrapolation.CLAMP,
-      extrapolateLeft: Extrapolation.CLAMP
-    });
+    const opacity = interpolate(props.scrollOffset.value, [0, 100], [0.4, 1]);
+    const scrollTop = interpolate(props.scrollOffset.value, [0, windowHeight.value], [(windowHeight.value / 6), 0]);
 
 
     return {
@@ -77,10 +68,7 @@ const LogoBox = (props) => {
   });
 
   const logoColorStyles = useAnimatedStyle(() => {
-    const opacity = interpolate(leftOffset.value, [0, windowWidth.value * 0.3], [0, 1], {
-      extrapolateRight: Extrapolation.CLAMP,
-      extrapolateLeft: Extrapolation.CLAMP
-    });
+    const opacity = interpolate(leftOffset.value, [0, windowWidth.value * 0.3], [0, 1]);
 
     return {
       opacity,

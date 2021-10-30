@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>199463487127-2vjkf9a54ck0i95jftan4e4pdot6gltj.apps.googleusercontent.com</string>
+	<string>199463487127-o4smi53u6htekldjtdn65r26dd9ks6hn.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.199463487127-2vjkf9a54ck0i95jftan4e4pdot6gltj</string>
+	<string>com.googleusercontent.apps.199463487127-o4smi53u6htekldjtdn65r26dd9ks6hn</string>
 	<key>API_KEY</key>
 	<string>AIzaSyAaVJIm1qqfKwKv4A_KortdnM406L5pb30</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>org.neiltools.stoical</string>
+	<string>app.peacebox</string>
 	<key>PROJECT_ID</key>
 	<string>stoicalapp</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:199463487127:ios:820438601ff67ccf1c4bd2</string>
+	<string>1:199463487127:ios:660c259c7bc147421c4bd2</string>
 </dict>
 </plist>

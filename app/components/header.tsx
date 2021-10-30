@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Dimensions, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useSelector} from "react-redux";
 import PropTypes from 'prop-types'
@@ -18,9 +18,9 @@ interface HeaderProps {
 
 }
 
-const PageHeader = ({inlineTitle=false, title, settingsIcon, settingsCallback, titleWhite, settingsButton, shadow=true}) => {
+const PageHeader = ({title, settingsIcon, settingsCallback, titleWhite, settingsButton, shadow=true}) => {
 
-  const getTitleColor = () => (titleWhite ?? true) && !inlineTitle ? "white" : "black"
+  const getTitleColor = () => (titleWhite ?? true) && "black"
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -33,28 +33,24 @@ const PageHeader = ({inlineTitle=false, title, settingsIcon, settingsCallback, t
   }
 
   return (
-    <View style={[styles.headerContainer, inlineTitle && styles.inlineHeader, shadow && styles.headerShadow]}>
+    <View style={[styles.headerContainer, shadow && styles.headerShadow]}>
       <VibrancyView
         style={styles.absolute}
-        blurType="chromeMaterialLight"
+        blurType="light"
         blurAmount={8}
       />
       <TouchableOpacity style={styles.backButton} onPress={goBack}>
-        <Icon name="arrow-left" color="#222" size={26}/>
+        <Icon name="arrow-left" color="black" size={26}/>
       </TouchableOpacity>
       <View style={styles.settingsButton}>
         {
           (settingsButton ?? true) &&
           <TouchableOpacity onPress={settingsCallback}>
-            <Icon name={settingsIcon || "cog"} color="#222" size={26}/>
+            <Icon name={settingsIcon || "cog"} color="black" size={26}/>
           </TouchableOpacity>
         }
       </View>
-      <Text numberOfLines={1} style={[
-        styles.title,
-        {color: getTitleColor()},
-        inlineTitle ? styles.inlineTitle : styles.titleUnder
-      ]}>{title}</Text>
+      <Text numberOfLines={1} style={styles.title}>{title}</Text>
     </View>
   );
 };
@@ -82,15 +78,8 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     width: "100%",
-    height: 160,
+    height: Dimensions.get("window").height / 10,
     position: "relative",
-  },
-  inlineHeader: {
-    height: 90,
-    textAlign: "center",
-    // flex: 1,
-    justifyContent: "center",
-    alignItems: "center"
   },
   absolute: {
     position: "absolute",
@@ -98,34 +87,33 @@ const styles = StyleSheet.create({
     left: 0,
     bottom: 0,
     right: 0,
-    height: 90,
+    height: Dimensions.get("window").height / 10,
     // backgroundColor: "rgba(255, 255, 255, 0.4)",
   },
-  titleUnder: {
-    left: 30,
-    position: "absolute",
-    bottom: 0,
-  },
-  inlineTitle: {
+  title: {
+    fontWeight: "bold",
+    fontFamily: "Helvetica",
     position: "relative",
     marginTop: 30,
     fontSize: 24,
     maxWidth: 200,
-  },
-  title: {
-    fontSize: 30,
-    fontWeight: "bold",
-    fontFamily: "Helvetica"
+    left: 50
   },
   backButton: {
     position: "absolute",
-    top: 45,
+    top: 6,
+    height: "100%",
     left: 25,
+    alignItems: "center",
+    justifyContent: "center"
   },
   settingsButton: {
-    top: 45,
     position: "absolute",
-    right: 25
+    top: 6,
+    height: "100%",
+    right: 25,
+    alignItems: "center",
+    justifyContent: "center"
   }
 })
 

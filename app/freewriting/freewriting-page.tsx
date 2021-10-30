@@ -45,6 +45,9 @@ const Freewriting = (props: any) => {
   const [content, setContent] = useState("")
   const [contentHeight, setContentHeight] = useState(0)
   const [placeholderText, setPlaceholderText] = useState("Just start typing...");
+  const inputRef = useRef<any>(null);
+  const clearedRef = useRef(null);
+
 
   //Animation state
   const [genieVisible, setGenieVisible] = useState(false);
@@ -52,6 +55,9 @@ const Freewriting = (props: any) => {
 
   //Modal state
   const [modalVisible, setModalVisible] = useState(false);
+
+  //Background State
+  const [backgroundLoaded, setBackgroundLoaded] = useState(false)
 
   useEffect(() => {
     crashlytics().log("Page Opened: Freewriting")
@@ -76,7 +82,7 @@ const Freewriting = (props: any) => {
 
     // Disable newlines
     if (content.includes("\n")) {
-      setContent(content.replace(/(.*)\n/g, "$1"));
+      // setContent(content.replace(/(.*)\n/g, "$1"));
     }
   }
 
@@ -86,20 +92,27 @@ const Freewriting = (props: any) => {
       haptic(2);
       showAnimation();
 
-      setContent("");
-      setPlaceholderText("");
-    }
-    else setContent(event.nativeEvent.text)
+      inputRef.current.clear()
+      setContent(" ")
+      setTimeout(() => {
+        setContent("");
+        setPlaceholderText("");
+      }, 0)
+    } else setContent(event.nativeEvent.text)
   }
 
   //Reset animation functions
   const resetGenie = () => setGenieVisible(false);
 
+  const onBgLoad = () => {
+    setBackgroundLoaded(true);
+  }
+
   return (
     <>
       <ScrollView keyboardShouldPersistTaps="handled" style={{height: "100%"}} scrollEnabled={false}>
         <PrefersHomeIndicatorAutoHidden/>
-        <Background showBackground={settings.showBackground}>
+        <Background showBackground={settings.showBackground} onLoad={onBgLoad}>
           <PageHeader
             settingsIcon="information"
             titleWhite={settings.showBackground}
@@ -107,7 +120,6 @@ const Freewriting = (props: any) => {
               page: "freewriting",
               pageTitle: "Freewriting Settings",
             })}
-            title="Free Writing"
           />
           <View style={styles.container}>
             <WritingCard
@@ -115,13 +127,24 @@ const Freewriting = (props: any) => {
               editable={true}
               handleLayout={handleLayout}
               content={content}
+              inputRef={inputRef}
               setContent={handleContent}
             >
-              <Text style={[styles.credit, {display: settings.showBackground ? "flex" : "none"}]}>
-                Photo by&nbsp;
-                <Text style={styles.creditName} onPress={() => Linking.openURL(bgCredits?.link)}>
-                  {bgCredits?.name.replace("  ", " ")}
-                </Text>
+              <Text style={[styles.credit, {
+                display: settings.showBackground ? "flex" : "none",
+                color: backgroundLoaded ? "white" : "black"
+              }]}>
+                {backgroundLoaded ?
+                  <>
+                    Photo by&nbsp;
+                    <Text
+                      style={styles.creditName}
+                      onPress={() => Linking.openURL(bgCredits?.link)}
+                    >
+                      {bgCredits?.name.replace("  ", " ")}
+                    </Text>
+                  </>
+                  : "Loading background..."}
               </Text>
             </WritingCard>
           </View>
@@ -158,8 +181,9 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: "center",
     alignItems: "center",
-    paddingTop: 10,
+    paddingTop: 40,
     zIndex: 0,
+    paddingHorizontal: 40
   },
   genieCard: {
     position: "absolute",

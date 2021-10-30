@@ -37,7 +37,7 @@ const PatternModal = ({route, navigation}) => {
     <>
 
       <FadeGradient top={0} bottom={newPattern ? 0.15 : 0}>
-        <ModalHeader style={styles.header}/>
+        <ModalHeader/>
         {newPattern ? <PatternNew id={id} patternData={patternData} showEditModal={showEditModal}/> :
           <View style={styles.list}>
             <EditCard id={id} showEditModal={showEditModal} patternData={patternData}/>
@@ -59,6 +59,9 @@ const PatternModal = ({route, navigation}) => {
 }
 
 const styles = StyleSheet.create({
+  list: {
+    paddingHorizontal: 30
+  },
   doneButtonContainer: {
     position: "absolute",
     bottom: 50,

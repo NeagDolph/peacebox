@@ -57,7 +57,6 @@ class ScrollViewPicker extends React.Component {
   componentDidMount() {
     if (typeof this.props.selectedIndex !== 'undefined') {
       this.scrollToIndex(this.props.selectedIndex, true);
-      this.currentIndex = this.props.selectedIndex
     }
   }
 
@@ -72,9 +71,8 @@ class ScrollViewPicker extends React.Component {
   }
 
   componentDidUpdate(prevProps: Readonly<{}>, prevState: Readonly<{}>, snapshot?: any) {
-    if (prevProps.selectedIndex !== this.props.selectedIndex) {
+    if (prevProps.selectedIndex !== this.props.selectedIndex && this.currentIndex !== this.props.selectedIndex) {
       this.scrollToIndex(this.props.selectedIndex, false);
-      this.currentIndex = this.props.selectedIndex
     }
   }
 
@@ -175,6 +173,7 @@ class ScrollViewPicker extends React.Component {
     if (this.state.selectedIndex === selectedIndex) {
       return;
     }
+    this.currentIndex = selectedIndex
     this.setState({
       selectedIndex,
     });
@@ -235,6 +234,7 @@ class ScrollViewPicker extends React.Component {
   }
 
   scrollToIndex(ind, firstLoad) {
+    this.currentIndex = ind
     this.setState({
       selectedIndex: ind,
     });

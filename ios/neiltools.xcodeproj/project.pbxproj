@@ -11,7 +11,6 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		28025713272A7A8C00C0E47A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
-		283871A627294B5E00C6E702 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 283871A527294B5E00C6E702 /* GoogleService-Info.plist */; };
 		28BD8185271CA8FB00C37F28 /* 6.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 28BD8175271CA8FA00C37F28 /* 6.mp3 */; };
 		28BD8186271CA8FB00C37F28 /* 11.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 28BD8176271CA8FA00C37F28 /* 11.mp3 */; };
 		28BD8187271CA8FB00C37F28 /* 2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 28BD8177271CA8FA00C37F28 /* 2.mp3 */; };
@@ -28,8 +27,13 @@
 		28BD8193271CA8FB00C37F28 /* 10.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 28BD8183271CA8FB00C37F28 /* 10.mp3 */; };
 		28BD8194271CA8FB00C37F28 /* 4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 28BD8184271CA8FB00C37F28 /* 4.mp3 */; };
 		28BD8198271CAF2800C37F28 /* breatheout.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 28BD8197271CAF2800C37F28 /* breatheout.mp3 */; };
+		28D219CA272CB39B0073687F /* Futura.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 28D219C5272C76A20073687F /* Futura.ttf */; };
+		28D219D1272CF15D0073687F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 28D219D0272CF15D0073687F /* GoogleService-Info.plist */; };
+		28D219D4272D02080073687F /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 28D219C4272C76A20073687F /* MaterialCommunityIcons.ttf */; };
+		28D219D5272D02080073687F /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 28D219C6272C76A30073687F /* Ionicons.ttf */; };
 		6642BBCFC27048947CC1392B /* libPods-neiltools-neiltoolsTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4578190CE447FE59BA320593 /* libPods-neiltools-neiltoolsTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		ED799E89425DFEE9FC75E6A9 /* libPods-neiltools.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CBFC30287C62351E9203E08 /* libPods-neiltools.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,8 +56,6 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = neiltools/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = neiltools/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = neiltools/main.m; sourceTree = "<group>"; };
-		283871A527294B5E00C6E702 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
-		2853D87426E8180600C460DF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		28BD8175271CA8FA00C37F28 /* 6.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = 6.mp3; path = ../app/assets/audio/6.mp3; sourceTree = "<group>"; };
 		28BD8176271CA8FA00C37F28 /* 11.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = 11.mp3; path = ../app/assets/audio/11.mp3; sourceTree = "<group>"; };
 		28BD8177271CA8FA00C37F28 /* 2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = 2.mp3; path = ../app/assets/audio/2.mp3; sourceTree = "<group>"; };
@@ -73,6 +75,7 @@
 		28D219C4272C76A20073687F /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = MaterialCommunityIcons.ttf; path = ../../../app/assets/fonts/MaterialCommunityIcons.ttf; sourceTree = "<group>"; };
 		28D219C5272C76A20073687F /* Futura.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Futura.ttf; path = ../../../app/assets/fonts/Futura.ttf; sourceTree = "<group>"; };
 		28D219C6272C76A30073687F /* Ionicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Ionicons.ttf; path = ../../../app/assets/fonts/Ionicons.ttf; sourceTree = "<group>"; };
+		28D219D0272CF15D0073687F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		4578190CE447FE59BA320593 /* libPods-neiltools-neiltoolsTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-neiltools-neiltoolsTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CBFC30287C62351E9203E08 /* libPods-neiltools.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-neiltools.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		70870408CFB0296D5F4F7C0E /* Pods-neiltools-neiltoolsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-neiltools-neiltoolsTests.release.xcconfig"; path = "Target Support Files/Pods-neiltools-neiltoolsTests/Pods-neiltools-neiltoolsTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -96,6 +99,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ED799E89425DFEE9FC75E6A9 /* libPods-neiltools.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -122,7 +126,6 @@
 		13B07FAE1A68108700A75B9A /* neiltools */ = {
 			isa = PBXGroup;
 			children = (
-				2853D87426E8180600C460DF /* GoogleService-Info.plist */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -164,7 +167,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				283871A527294B5E00C6E702 /* GoogleService-Info.plist */,
+				28D219D0272CF15D0073687F /* GoogleService-Info.plist */,
 				28BD8197271CAF2800C37F28 /* breatheout.mp3 */,
 				28BD8181271CA8FB00C37F28 /* 1.mp3 */,
 				28BD8177271CA8FA00C37F28 /* 2.mp3 */,
@@ -309,6 +312,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				28BD8191271CA8FB00C37F28 /* 1.mp3 in Resources */,
+				28D219D4272D02080073687F /* MaterialCommunityIcons.ttf in Resources */,
+				28D219D5272D02080073687F /* Ionicons.ttf in Resources */,
 				28BD818F271CA8FB00C37F28 /* relax.mp3 in Resources */,
 				28BD8188271CA8FB00C37F28 /* 5.mp3 in Resources */,
 				28BD8193271CA8FB00C37F28 /* 10.mp3 in Resources */,
@@ -317,16 +322,17 @@
 				28BD8185271CA8FB00C37F28 /* 6.mp3 in Resources */,
 				28BD8189271CA8FB00C37F28 /* 8.mp3 in Resources */,
 				28BD8187271CA8FB00C37F28 /* 2.mp3 in Resources */,
+				28D219CA272CB39B0073687F /* Futura.ttf in Resources */,
 				28BD8186271CA8FB00C37F28 /* 11.mp3 in Resources */,
 				28BD818E271CA8FB00C37F28 /* hold.mp3 in Resources */,
 				28BD818B271CA8FB00C37F28 /* 3.mp3 in Resources */,
-				283871A627294B5E00C6E702 /* GoogleService-Info.plist in Resources */,
 				28025713272A7A8C00C0E47A /* Images.xcassets in Resources */,
 				28BD8194271CA8FB00C37F28 /* 4.mp3 in Resources */,
 				28BD8198271CAF2800C37F28 /* breatheout.mp3 in Resources */,
 				28BD8190271CA8FB00C37F28 /* 9.mp3 in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				28BD818C271CA8FB00C37F28 /* 12.mp3 in Resources */,
+				28D219D1272CF15D0073687F /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -507,6 +513,8 @@
 			baseConfigurationReference = 7AB6B288EFBD171EE36B04B0 /* Pods-neiltools-neiltoolsTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				DEVELOPMENT_TEAM = GM3EN8YD6S;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",

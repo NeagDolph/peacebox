@@ -27,12 +27,22 @@ import PropTypes from 'prop-types'
 const EditCard = (props) => {
   const {id, patternData, showEditModal} = props
 
+  const [patternTitle, setPatternTitle] = useState(patternData.name);
+
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
   const titleRef = useRef(null);
 
-  const setPatternName = (name) => dispatch(setName({id, name}));
+  // const setPatternName = (name) => dispatch(setName({id, name}));
+
+  useEffect(() => {
+    if (patternTitle.length >= 1 && patternData.name !== patternTitle) dispatch(setName({id, name: patternTitle}));
+  }, [patternTitle])
+
+  useEffect(() => {
+    if (patternData.name !== patternTitle) setPatternTitle(patternData.name)
+  }, [patternData.name])
 
   const setSequenceAmount = (amount, index) => {
     const newPattern = [...patternData.sequence];
@@ -47,7 +57,7 @@ const EditCard = (props) => {
     return patternData.sequence.map((el, i) => (
       <View key={i} style={styles.patternItem}>
         <Text style={styles.patternTitle}>{patternTitles[i]}</Text>
-        <NumberPicker scrollView={true} maxNumber={9} listKey={i} includeZero={true} value={el} index={i}
+        <NumberPicker scrollView={true} maxNumber={20} listKey={i} includeZero={true} value={el} index={i}
                       setSequenceAmount={setSequenceAmount}/>
       </View>
     ))
@@ -85,9 +95,8 @@ const EditCard = (props) => {
           <TextInput
             placeholder="Pattern Name..."
             style={styles.title}
-            value={patternData.name}
-            onChangeText={setPatternName}
-            clearTextOnFocus={true}
+            value={patternTitle}
+            onChangeText={setPatternTitle}
             blurOnSubmit={true}
             clearButtonMode="always"
             ref={titleRef}

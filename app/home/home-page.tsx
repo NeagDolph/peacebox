@@ -57,11 +57,44 @@ const HomePage = ({navigation}: any) => {
 
   const scrollOffset = useSharedValue(0);
   const windowHeight = useSharedValue(Dimensions.get("window").height ?? 0);
-  const [endOfScroll, setEndOfScroll] = useState(settings.used)
-  const [endOfAnim, setEndOfAnim] = useState(settings.used)
+
+  // const [endOfScroll, setEndOfScroll] = useState(settings.used)
+  // const [endOfAnim, setEndOfAnim] = useState(settings.used)
+
+  const [endOfScroll, setEndOfScroll] = useState(false)
+  const [endOfAnim, setEndOfAnim] = useState(false)
+
   const [safeViewHeight, setSafeViewHeight] = useState(50);
   const scrollRef = useRef(null)
 
+  useEffect(() => {
+    if (endOfScroll && !settings.used) dispatch(setUsed("general"));
+  }, [endOfScroll])
+
+  useEffect(() => {
+    crashlytics().log("Page loaded: Home Page")
+    if (!settings.used) {
+      crashlytics().log("Home page loaded for the first time")
+    }
+  }, [])
+
+
+  const scrollHandler = useAnimatedScrollHandler((event) => {
+    scrollOffset.value = event.contentOffset.y;
+
+
+    // if (event.contentOffset.y + windowHeight.value + 5 >= event.contentSize.height) runOnJS(setEndOfScroll)(true);
+    // else if (endOfScroll) runOnJS(setEndOfScroll)(false);
+  });
+
+  const safeViewLayout = ({nativeEvent}) => {
+    const openHeight = windowHeight.value - nativeEvent.layout.height
+    setSafeViewHeight(openHeight - 100)
+  }
+
+  const scrollBottom = () => {
+    scrollRef.current.scrollToEnd({animated: false})
+  }
 
   const renderTools = (toolsData: ToolData[]) => {
     return toolsData.map(data => {
@@ -76,29 +109,6 @@ const HomePage = ({navigation}: any) => {
     })
   }
 
-  const scrollHandler = useAnimatedScrollHandler((event) => {
-    if (event.contentOffset.y + windowHeight.value + 5 >= event.contentSize.height) runOnJS(setEndOfScroll)(true);
-    else if (endOfScroll) runOnJS(setEndOfScroll)(false);
-    scrollOffset.value = event.contentOffset.y;
-  });
-
-  const safeViewLayout = ({nativeEvent}) => {
-    const openHeight = windowHeight.value - nativeEvent.layout.height
-    setSafeViewHeight(openHeight - 100)
-  }
-
-  const scrollBottom = () => {
-    scrollRef.current.scrollToEnd({animated: false})
-  }
-
-  useEffect(() => {
-    crashlytics().log("Page loaded: Home Page")
-    if (!settings.used) {
-      crashlytics().log("Home page loaded for the first time")
-      dispatch(setUsed("general"));
-    }
-  }, [])
-
   return (
     <>
       {endOfAnim || <LogoBox
@@ -107,7 +117,7 @@ const HomePage = ({navigation}: any) => {
           setEndOfAnim={setEndOfAnim}
       />}
       <Animated.ScrollView
-        bounces={endOfAnim}
+        bounces={false}
         onScroll={scrollHandler}
         ref={scrollRef}
         scrollEventThrottle={16}
@@ -119,7 +129,8 @@ const HomePage = ({navigation}: any) => {
             <Text style={styles.logoText}>P</Text>
         </View>}
         {endOfAnim || <StartScreen scrollOffset={scrollOffset} scrollBottom={scrollBottom}/>}
-        <View style={{marginBottom: safeViewHeight}} onLayout={safeViewLayout}>
+        {/*<View style={{marginBottom: safeViewHeight}} onLayout={safeViewLayout}>*/}
+        <View style={{height: windowHeight.value - 60}}>
           <View style={{paddingHorizontal: 20}}>
             <Header/>
             <View style={{marginTop: 20}}>
@@ -135,6 +146,7 @@ const HomePage = ({navigation}: any) => {
       </Animated.ScrollView>
     </>
   );
+
 };
 
 const styles = StyleSheet.create({
@@ -148,7 +160,6 @@ const styles = StyleSheet.create({
     color: colors.primary,
     width: 100,
     height: 40,
-    marginTop: 15,
     textAlign: "center"
   },
   logoText: {

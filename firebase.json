@@ -10,5 +10,13 @@
     "crashlytics_auto_collection_enabled": true,
     "perf_auto_collection_enabled": true,
     "analytics_auto_collection_enabled": true
+  },
+  "hosting": {
+    "public": "public",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
   }
 }

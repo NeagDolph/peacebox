@@ -12,12 +12,20 @@ const premadePatterns = [
   {
     name: "Pranayama Counts",
     sequence: [4, 4, 6, 2],
-    description: "Breathing counts meant for pranayama yoga. Do these breaths for 3 sets of 20 when performing kriya."
+    description: "Breathing counts meant for pranayama yoga. Do these breaths for 3 sets of 20 when performing kriya.",
+    settings: {
+      breakBetweenCycles: true,
+      pauseDuration: 20,
+      pauseFrequency: 8
+    }
   },
   {
     name: "4-7-8",
     sequence: [4, 7, 8, 0],
-    description: "The 4-7-8 breathing technique is based on pranayama breathing exercises. These types of mindful breathing exercises have been shown to have many benefits for stress reduction and relaxation. The 4-7-8 breathing technique was developed by Dr. Andrew Weil. He refers to it as a \"natural tranquilizer for the nervous system\"."
+    description: "The 4-7-8 breathing technique is based on pranayama breathing exercises. These types of mindful breathing exercises have been shown to have many benefits for stress reduction and relaxation. The 4-7-8 breathing technique was developed by Dr. Andrew Weil. He refers to it as a \"natural tranquilizer for the nervous system\".",
+    settings: {
+      breakBetweenCycles: false,
+    }
   }
 ]
 

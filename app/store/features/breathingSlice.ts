@@ -29,8 +29,8 @@ export const breathingSlice = createSlice({
       delete state.patterns[action.payload]
     },
     setName: (state, action) => {
-      const name = action.payload.name.length > 0 ? action.payload.name : "New Pattern"
-      if (state.patterns[action.payload.id]) state.patterns[action.payload.id].name = name
+      // const name = action.payload.name.length > 0 ? action.payload.name : "New Pattern"
+      if (state.patterns[action.payload.id]) state.patterns[action.payload.id].name = action.payload.name
     },
     setSetting: (state, action) => {
       const {id, setting, value} = action.payload;

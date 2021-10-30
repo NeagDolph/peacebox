@@ -59,6 +59,7 @@ const Background = (props) => {
         force-cache="force-cache"
         style={styles.backgroundImage}
         resizeMode={FastImage.resizeMode.cover}
+        onLoad={props.onLoad}
       />}
       {props.children}
     </View>
