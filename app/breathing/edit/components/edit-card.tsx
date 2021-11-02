@@ -57,7 +57,7 @@ const EditCard = (props) => {
     return patternData.sequence.map((el, i) => (
       <View key={i} style={styles.patternItem}>
         <Text style={styles.patternTitle}>{patternTitles[i]}</Text>
-        <NumberPicker scrollView={true} maxNumber={20} listKey={i} includeZero={true} value={el} index={i}
+        <NumberPicker scrollView={true} maxNumber={12} listKey={i} includeZero={true} value={el} index={i}
                       setSequenceAmount={setSequenceAmount}/>
       </View>
     ))

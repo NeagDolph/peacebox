@@ -1,20 +1,111 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {Alert, Animated, Dimensions, Easing, StyleSheet, TouchableOpacity, View} from "react-native";
+import React, {useCallback, useEffect, useRef, useState} from 'react';
+import {
+  Alert,
+  Dimensions,
+  Easing,
+  StyleSheet,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View
+} from "react-native";
 import {Button, Surface, Text} from "react-native-paper";
 import {colors} from "../../config/colors";
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import IconMaterial from 'react-native-vector-icons/MaterialCommunityIcons';
+import IconEntypo from 'react-native-vector-icons/Entypo';
 import PropTypes from 'prop-types'
 import crashlytics from "@react-native-firebase/crashlytics"
+import {PanGestureHandler, TapGestureHandler, State} from "react-native-gesture-handler";
+import {setTSpan} from "react-native-svg/lib/typescript/lib/extract/extractText";
+import Animated, {
+  runOnJS,
+  useAnimatedGestureHandler, useAnimatedStyle,
+  useDerivedValue,
+  useSharedValue,
+  withSpring
+} from "react-native-reanimated";
+import Backplate from "./backplate";
+import haptic from "../../helpers/haptic";
 
 const PatternItem = props => {
+  const [itemHeight, setItemHeight] = useState(0);
+  const [dragMode, setDragMode] = useState(0)
+  const [beingDragged, setBeingDragged] = useState(false)
+
+  const tapRef = useRef(null)
+
+  const hasPause = useCallback(() => props.patternData.settings.breakBetweenCycles && !props.buttonVisible, [props.buttonVisible, props.patternData.settings.breakBetweenCycles])
+
+  useEffect(() => {
+    console.log("dragmod", dragMode)
+    if (dragMode !== 0) haptic(1)
+  }, [dragMode])
+
+  const dragX = useSharedValue(0);
+
+  const panHandler = useAnimatedGestureHandler({
+    onStart: (_, ctx) => {
+      ctx.startX = dragX.value;
+      ctx.directionPositive = undefined
+      runOnJS(setBeingDragged)(true)
+    },
+    onActive: ({translationX}, ctx) => {
+      if (ctx.directionPositive === undefined) ctx.directionPositive = translationX - ctx.startX > 0
+
+      const offsetAmount = 30
+
+      const translationXInput = ctx.directionPositive ? Math.max(0, translationX) : Math.min(0, translationX)
+
+      let calcMove;
+      if (translationXInput !== 0) {
+        const absNum = Math.abs(translationXInput / 2)
+        const dragSlowed = Math.min(absNum, offsetAmount) + Math.pow(Math.max(0, absNum - offsetAmount), 0.6)
+        calcMove = translationXInput < 0 ? -dragSlowed : dragSlowed
+      }
+
+      if (calcMove > offsetAmount) runOnJS(setDragMode)(1);
+      else if (calcMove < -offsetAmount) runOnJS(setDragMode)(2);
+      else runOnJS(setDragMode)(0);
+
+
+      dragX.value = ctx.startX + (calcMove ?? 0);
+    },
+    onEnd: (_) => {
+      dragX.value = withSpring(0, {
+        overshootClamping: true,
+        mass: 2,
+        damping: 25,
+        stiffness: 260
+      });
+      console.log("end")
+
+      runOnJS(swipeActivate)();
+      runOnJS(setDragMode)(0)
+      runOnJS(setBeingDragged)(false)
+    },
+  })
+
+  function swipeActivate() {
+    console.log("opin seame", props.patternData.id, dragMode)
+    if (dragMode !== 0) haptic(1);
+    if (dragMode === 2) confirmDeletePattern();
+    else if (dragMode === 1) props.editPattern(props.patternData.id);
+  }
+
+  const panStyle = useAnimatedStyle(() => {
+    return {
+      transform: [
+        {
+          translateX: dragX.value,
+        },
+      ],
+    };
+  });
+
   const generateSequence = (sequence) => {
     const textList = ["Inhale", "Hold", "Exhale", "Hold"];
 
     return sequence.map((el, i) => (
-      <View key={i} style={[styles.sequenceContainer, {
-        marginVertical: props.editMode ? 0 : 4,
-        borderColor: props.editMode ? "transparent" : colors.background2
-      }]}>
+      <View key={i} style={styles.sequenceContainer}>
         <Text style={styles.sequenceTitle}>{textList[i]}</Text>
         <Text style={styles.sequence}>{el}<Text style={styles.seconds}> sec</Text></Text>
       </View>
@@ -44,11 +135,8 @@ const PatternItem = props => {
   const renderPauseText = () => {
     if (props.patternData.settings.breakBetweenCycles && !props.buttonVisible) {
       return (
-        <View style={[styles.pauseContainer, {
-          opacity: props.editMode ? 0 : 1,
-          height: props.editMode ? 0 : 20,
-        }]}>
-          <Icon name={"clock"} size={17} color={colors.placeholder}></Icon>
+        <View style={[styles.pauseContainer]}>
+          <IconMaterial name={"clock"} size={17} color={colors.placeholder}></IconMaterial>
           <Text style={styles.pauseText}>
             Pause {props.patternData.settings.pauseDuration}s {props.patternData.settings.pauseFrequency > 1 ? `/ ${props.patternData.settings.pauseFrequency}` : ""}
           </Text>
@@ -57,34 +145,52 @@ const PatternItem = props => {
     }
   }
 
+  const handleTap = (event) => {
+    if (event.nativeEvent.state === State.ACTIVE) {
+      if (props.editMode) props.editPattern(props.patternData.id);
+      else props.usePattern(props.patternData.id)
+    }
+  }
+
   return (
-    <TouchableOpacity
-      onPress={() => props.editMode ? props.editPattern(props.patternData.id) : props.usePattern(props.patternData.id)}>
-      <View style={styles.patternItem}>
-        <Text style={styles.title} numberOfLines={1} adjustsFontSizeToFit>{truncateTitle(props.patternData.name)}</Text>
-        <View
-          style={[styles.patternData, {paddingBottom: (props.patternData.settings.breakBetweenCycles || props.editMode) ? 0 : 20}]}>
-          <View style={styles.sequenceList}>{generateSequence(props.patternData.sequence)}</View>
-          {
-            props.editMode &&
-            <View style={[styles.actionButtons, {
-              height: props.editMode ? 52 : 0,
-              opacity: props.editMode ? 1 : 0,
-            }]}>
-                <Button
-                    onPress={confirmDeletePattern}
+    <View style={[styles.itemOuter, {zIndex: beingDragged ? 200 : 0}]}>
+      <Backplate height={itemHeight} dragX={dragX} dragMode={dragMode} setDragMode={setDragMode}/>
+      <TapGestureHandler maxDist={0} onHandlerStateChange={handleTap} ref={tapRef}>
+        <Animated.View>
+
+          <PanGestureHandler onGestureEvent={panHandler}>
+            <Animated.View style={[styles.patternItem, panStyle]}
+                           onLayout={(event) => setItemHeight(event.nativeEvent.layout.height)}>
+              {/*<View style={styles.swipeContainer}>*/}
+              {/*  <IconMaterial size={20} color={colors.text} name="arrow-left-right"/>*/}
+              {/*</View>*/}
+              <Text style={styles.title} numberOfLines={1}
+                    adjustsFontSizeToFit>{truncateTitle(props.patternData.name)}</Text>
+              <View
+                style={[styles.patternData, {paddingBottom: (props.patternData.settings.breakBetweenCycles || props.editMode) ? 0 : 0}]}>
+                <View style={styles.arrowContainer}>
+                  <IconEntypo style={styles.arrow} name="chevron-thin-left" size={25} color={colors.text2}/>
+                  <View style={styles.sequenceList}>
+                    {generateSequence(props.patternData.sequence)}
+                  </View>
+                  <IconEntypo style={styles.arrow} name="chevron-thin-right" size={25} color={colors.text2}/>
+                </View>
+                <View style={[styles.actionButtons, {marginVertical: hasPause() ? 0 : 10}]}>
+                  <Button
                     mode="contained"
                     style={styles.button}
                     contentStyle={{height: "100%", alignItems: "center"}}
                     labelStyle={styles.buttonText}
-                    color={colors.red}
-                >Delete</Button>
-            </View>
-          }
-          {renderPauseText()}
-        </View>
-      </View>
-    </TouchableOpacity>
+                    color={colors.accent}
+                  >Use</Button>
+                </View>
+                {renderPauseText()}
+              </View>
+            </Animated.View>
+          </PanGestureHandler>
+        </Animated.View>
+      </TapGestureHandler>
+    </View>
   );
 };
 
@@ -98,13 +204,32 @@ PatternItem.propTypes = {
 }
 
 const styles = StyleSheet.create({
+  arrow: {
+    width: "14%",
+    height: "auto"
+  },
+  arrowContainer: {
+    justifyContent: "space-between",
+    alignItems: "center",
+    flexDirection: "row",
+    width: "100%",
+  },
+  swipeContainer: {
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    height: 16,
+    marginTop: 3,
+  },
   pauseContainer: {
     width: "100%",
     justifyContent: "center",
     flexDirection: "row",
     padding: 0,
     alignItems: "center",
-    height: 16
+    height: 16,
+    opacity: 1,
+    marginVertical: 3
   },
   pauseText: {
     color: colors.placeholder2,
@@ -116,41 +241,46 @@ const styles = StyleSheet.create({
   seconds: {
     fontSize: 13,
     color: colors.accent,
-    fontFamily: "Avenir Next"
+    fontFamily: "Avenir Next",
+    right: 0
   },
   sequence: {
     fontSize: 19,
     color: colors.accent,
     fontFamily: "Helvetica",
     fontWeight: "400",
+    right: 1,
+    textAlign: "right"
   },
   sequenceTitle: {
     fontSize: 16,
     fontFamily: "Avenir Next",
     color: colors.primary,
+    left: 0,
   },
   sequenceContainer: {
     flexDirection: "row",
     paddingVertical: 3,
-    paddingHorizontal: 12,
     borderRadius: 6,
-    borderWidth: 1,
-    borderColor: colors.background2,
-    flex: 1,
+    marginVertical: 0,
+    // flex: 1,
     width: "100%",
     justifyContent: "space-between"
   },
   sequenceList: {
     flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
+    // justifyContent: "space-between",
+    // alignItems: "center",
     position: "relative",
+    width: "72%",
     flex: 1,
+    paddingLeft: 6,
+    paddingRight: 0
   },
   title: {
     fontSize: 18,
     fontWeight: "400",
-    paddingHorizontal: 5,
+    paddingHorizontal: 15,
     color: colors.primary,
     height: 23,
     textAlign: "left",
@@ -166,7 +296,7 @@ const styles = StyleSheet.create({
   },
   button: {
     borderRadius: 10,
-    margin: 8,
+    margin: 0,
     minWidth: "80%",
     marginHorizontal: 25,
     shadowColor: "transparent",
@@ -177,9 +307,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignSelf: "center",
     flex: 1,
-    paddingHorizontal: 15,
+    paddingHorizontal: 25,
     marginHorizontal: 15,
-    alignItems: "stretch"
+    alignItems: "stretch",
+    height: 30,
+    opacity: 1,
   },
   patternItem: {
     borderRadius: 15,
@@ -191,16 +323,22 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.22,
     shadowRadius: 2.22,
-    paddingHorizontal: 10,
     paddingTop: 10,
+    paddingHorizontal: 2,
     paddingBottom: 5,
+    width: (Dimensions.get('window').width - 84) / 2,
+    position: "relative",
+    height: "auto",
+  },
+  itemOuter: {
+    marginVertical: 15,
     display: "flex",
     justifyContent: "center",
     flexDirection: "column",
     width: (Dimensions.get('window').width - 84) / 2,
     position: "relative",
     height: "auto",
-    marginVertical: 10,
+
   },
   patternData: {
     display: "flex",

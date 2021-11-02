@@ -24,6 +24,7 @@ import DevMenu from 'react-native-dev-menu';
 import crashlytics from '@react-native-firebase/crashlytics';
 
 import { LogBox } from 'react-native';
+import GestureHandlerRootView from 'react-native-gesture-handler';
 
 //ignore logs
 
@@ -34,17 +35,19 @@ const RootStack = createNativeStackNavigator();
 
 function RootStackScreen() {
     return (
-        <RootStack.Navigator theme={DarkTheme}>
-            <RootStack.Screen name="Home" component={HomePage} options={{headerShown: false, orientation: "portrait_up"}}/>
-            <RootStack.Screen name="Freewriting" component={Freewriting} options={{headerShown: false, orientation: "portrait_up"}}/>
-            <RootStack.Screen name="settings" component={SettingsPage} options={{headerShown: false, orientation: "portrait_up"}}/>
-            <RootStack.Screen name="Patterns" component={BreathingHome} options={{headerShown: false, orientation: "portrait_up"}}/>
-            <RootStack.Screen name="Use" component={PatternUse} options={{headerShown: false, orientation: "portrait_up"}}/>
-            <RootStack.Screen name="Time" component={PatternTime} options={{headerShown: false, animation: "fade", statusBarHidden: true, orientation: "portrait_up"}}/>
-            <RootStack.Screen name="Edit" component={PatternModal} options={{headerShown: false, presentation: 'modal', orientation: "portrait_up"}}/>
-            <RootStack.Screen name="Completed" component={PatternCompleted} options={{headerShown: false, animation: "fade", orientation: "portrait_up"}}/>
-            <RootStack.Screen name="About" component={AboutPage} options={{headerShown: false, orientation: "portrait_up"}}/>
-        </RootStack.Navigator>
+
+            <RootStack.Navigator theme={DarkTheme}>
+                <RootStack.Screen name="Home" component={HomePage} options={{headerShown: false, orientation: "portrait_up"}}/>
+                <RootStack.Screen name="Freewriting" component={Freewriting} options={{headerShown: false, orientation: "portrait_up"}}/>
+                <RootStack.Screen name="settings" component={SettingsPage} options={{headerShown: false, orientation: "portrait_up"}}/>
+                <RootStack.Screen name="Patterns" component={BreathingHome} options={{headerShown: false, orientation: "portrait_up"}}/>
+                <RootStack.Screen name="Use" component={PatternUse} options={{headerShown: false, orientation: "portrait_up"}}/>
+                <RootStack.Screen name="Time" component={PatternTime} options={{headerShown: false, animation: "fade", statusBarHidden: true, orientation: "portrait_up"}}/>
+                <RootStack.Screen name="Edit" component={PatternModal} options={{headerShown: false, presentation: 'modal', orientation: "portrait_up"}}/>
+                <RootStack.Screen name="Completed" component={PatternCompleted} options={{headerShown: false, animation: "fade", orientation: "portrait_up"}}/>
+                <RootStack.Screen name="About" component={AboutPage} options={{headerShown: false, orientation: "portrait_up"}}/>
+            </RootStack.Navigator>
+
     );
 }
 
@@ -61,6 +64,7 @@ const theme = {
 
 export default function Main() {
     return (
+
         <Provider store={store}>
             <PersistGate loading={null} persistor={persistor}>
                 <PaperProvider theme={theme}>

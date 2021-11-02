@@ -12,7 +12,7 @@
     "analytics_auto_collection_enabled": true
   },
   "hosting": {
-    "public": "public",
+    "public": "web",
     "ignore": [
       "firebase.json",
       "**/.*",

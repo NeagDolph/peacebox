@@ -37,7 +37,6 @@ const AboutPage = ({navigation}) => {
         bounces={true}
       >
         <Text style={styles.title}>PeaceBox</Text>
-        <Text style={styles.subtitle}>Toolbox for your Brain</Text>
         <Text style={styles.subtitle}>Version 1.0</Text>
         <View style={styles.credits}>
           <Text style={styles.sectionTitle}>Credits</Text>

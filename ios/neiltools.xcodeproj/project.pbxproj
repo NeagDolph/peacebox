@@ -29,8 +29,9 @@
 		28BD8198271CAF2800C37F28 /* breatheout.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 28BD8197271CAF2800C37F28 /* breatheout.mp3 */; };
 		28D219CA272CB39B0073687F /* Futura.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 28D219C5272C76A20073687F /* Futura.ttf */; };
 		28D219D1272CF15D0073687F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 28D219D0272CF15D0073687F /* GoogleService-Info.plist */; };
-		28D219D4272D02080073687F /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 28D219C4272C76A20073687F /* MaterialCommunityIcons.ttf */; };
-		28D219D5272D02080073687F /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 28D219C6272C76A30073687F /* Ionicons.ttf */; };
+		28D219D6272F347B0073687F /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 28D219C4272C76A20073687F /* MaterialCommunityIcons.ttf */; };
+		28D219D7272F347B0073687F /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 28D219C6272C76A30073687F /* Ionicons.ttf */; };
+		28D219DB272FEA580073687F /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 28D219DA272FEA540073687F /* Entypo.ttf */; };
 		6642BBCFC27048947CC1392B /* libPods-neiltools-neiltoolsTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4578190CE447FE59BA320593 /* libPods-neiltools-neiltoolsTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		ED799E89425DFEE9FC75E6A9 /* libPods-neiltools.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CBFC30287C62351E9203E08 /* libPods-neiltools.a */; };
@@ -76,6 +77,7 @@
 		28D219C5272C76A20073687F /* Futura.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Futura.ttf; path = ../../../app/assets/fonts/Futura.ttf; sourceTree = "<group>"; };
 		28D219C6272C76A30073687F /* Ionicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Ionicons.ttf; path = ../../../app/assets/fonts/Ionicons.ttf; sourceTree = "<group>"; };
 		28D219D0272CF15D0073687F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		28D219DA272FEA540073687F /* Entypo.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Entypo.ttf; path = ../../../app/assets/fonts/Entypo.ttf; sourceTree = "<group>"; };
 		4578190CE447FE59BA320593 /* libPods-neiltools-neiltoolsTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-neiltools-neiltoolsTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CBFC30287C62351E9203E08 /* libPods-neiltools.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-neiltools.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		70870408CFB0296D5F4F7C0E /* Pods-neiltools-neiltoolsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-neiltools-neiltoolsTests.release.xcconfig"; path = "Target Support Files/Pods-neiltools-neiltoolsTests/Pods-neiltools-neiltoolsTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -139,6 +141,7 @@
 		28A2685727195FB200D57E05 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				28D219DA272FEA540073687F /* Entypo.ttf */,
 				28D219C5272C76A20073687F /* Futura.ttf */,
 				28D219C6272C76A30073687F /* Ionicons.ttf */,
 				28D219C4272C76A20073687F /* MaterialCommunityIcons.ttf */,
@@ -312,8 +315,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				28BD8191271CA8FB00C37F28 /* 1.mp3 in Resources */,
-				28D219D4272D02080073687F /* MaterialCommunityIcons.ttf in Resources */,
-				28D219D5272D02080073687F /* Ionicons.ttf in Resources */,
+				28D219D6272F347B0073687F /* MaterialCommunityIcons.ttf in Resources */,
+				28D219D7272F347B0073687F /* Ionicons.ttf in Resources */,
 				28BD818F271CA8FB00C37F28 /* relax.mp3 in Resources */,
 				28BD8188271CA8FB00C37F28 /* 5.mp3 in Resources */,
 				28BD8193271CA8FB00C37F28 /* 10.mp3 in Resources */,
@@ -325,6 +328,7 @@
 				28D219CA272CB39B0073687F /* Futura.ttf in Resources */,
 				28BD8186271CA8FB00C37F28 /* 11.mp3 in Resources */,
 				28BD818E271CA8FB00C37F28 /* hold.mp3 in Resources */,
+				28D219DB272FEA580073687F /* Entypo.ttf in Resources */,
 				28BD818B271CA8FB00C37F28 /* 3.mp3 in Resources */,
 				28025713272A7A8C00C0E47A /* Images.xcassets in Resources */,
 				28BD8194271CA8FB00C37F28 /* 4.mp3 in Resources */,
@@ -575,7 +579,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = GM3EN8YD6S;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = neiltools/Info.plist;
@@ -588,6 +592,7 @@
 					"$(SDKROOT)/usr/lib/swift",
 					"$(inherited)",
 				);
+				MARKETING_VERSION = 1.0.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -607,7 +612,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = GM3EN8YD6S;
 				INFOPLIST_FILE = neiltools/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -619,6 +624,7 @@
 					"$(SDKROOT)/usr/lib/swift",
 					"$(inherited)",
 				);
+				MARKETING_VERSION = 1.0.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",

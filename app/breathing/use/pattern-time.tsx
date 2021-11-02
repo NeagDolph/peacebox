@@ -194,7 +194,7 @@ const PatternTime = ({route, navigation}) => {
       setSequenceTime(sequence[nextIndex]);
       setCurrentTime(0);
       playAudio(audioNames[nextIndex]);
-      pattern(2, 400, 2)
+      pattern(2, 200, 2)
 
     }
   }
@@ -286,6 +286,7 @@ const styles = StyleSheet.create({
     marginTop: 20
   },
   container: {
+    paddingTop: 15,
     paddingHorizontal: 30,
   },
   animationContainer: {

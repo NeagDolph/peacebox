@@ -36,25 +36,25 @@ const LogoBox = (props) => {
   }, [layoutData, props.endOfScroll])
 
   useEffect(() => {
-    if (props.endOfScroll) {
+    // if (props.endOfScroll) {
       crashlytics().log("Finished scrolling on home page")
       leftOffset.value = withTiming(calcOffset(), {
         duration: 900,
         easing: Easing.out(Easing.circle)
       }, (res) => {
         if (res) {
-          runOnJS(props.setEndOfAnim)(true);
+          // runOnJS(props.setEndOfAnim)(true);
         }
       });
-    }
+    // }
 
   }, [props.endOfScroll])
 
 
   const visibleStyles = useAnimatedStyle(() => {
+    const logoTop = Math.min(Math.max(props.safeViewHeight / 2, 0), 30) - 30;
     const opacity = interpolate(props.scrollOffset.value, [0, 100], [0.4, 1]);
-    const scrollTop = interpolate(props.scrollOffset.value, [0, windowHeight.value], [(windowHeight.value / 6), 0]);
-
+    const scrollTop = interpolate(props.scrollOffset.value, [0, windowHeight.value], [(windowHeight.value / 6), logoTop]);
 
     return {
       opacity: opacity,
@@ -65,7 +65,7 @@ const LogoBox = (props) => {
       ],
     };
 
-  });
+  }, [props.safeViewHeight]);
 
   const logoColorStyles = useAnimatedStyle(() => {
     const opacity = interpolate(leftOffset.value, [0, windowWidth.value * 0.3], [0, 1]);
@@ -108,7 +108,8 @@ LogoBox.propTypes = {
   endOfScroll: PropTypes.bool,
   handleLayout: PropTypes.func,
   scrollOffset: PropTypes.any,
-  setEndOfAnim: PropTypes.func
+  setEndOfAnim: PropTypes.func,
+  safeViewHeight: PropTypes.number
 }
 
 
