@@ -13,12 +13,11 @@ import {
   LayoutAnimation
 } from 'react-native';
 import PageHeader from "../components/header";
-import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
+import Icon from "react-native-vector-icons/Entypo"
 import {colors} from "../config/colors";
 import {useDispatch, useSelector} from "react-redux";
 import {addPattern, removePattern, editPattern} from "../store/features/breathingSlice";
 import PatternItem from "./components/pattern-item";
-import {BlurView, VibrancyView} from "@react-native-community/blur";
 
 import 'react-native-get-random-values';
 import {v4 as uuidv4} from 'uuid';
@@ -28,6 +27,7 @@ import {Provider} from "react-native-paper";
 import {setUsed} from "../store/features/settingsSlice";
 import FadeGradient from "../components/fade-gradient";
 import haptic, {success} from "../helpers/haptic";
+import GestureHandlerRootView from "react-native-gesture-handler";
 
 const modalContent = require("./info.json");
 
@@ -68,8 +68,8 @@ const BreathingPage = (props) => {
       id: newId,
       name: "New Pattern",
       sequence: [4, 4, 4, 4],
-      totalDuration: 1,
-      durationType: "Cycles",
+      totalDuration: 5,
+      durationType: "Minutes",
       settings: {
         feedbackType: 2,
         breakBetweenCycles: false,
@@ -134,9 +134,9 @@ const BreathingPage = (props) => {
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.headerText}>Your Breathing Patterns</Text>
-          <TouchableOpacity onPress={toggleEditMode}>
+          <TouchableOpacity onPress={newPattern}>
             <View style={styles.newButton}>
-              <Text style={[styles.newText, editMode && {fontWeight: "800"}]}>{editMode ? "Done" : "Edit"}</Text>
+              <Icon name="plus" size={23} color={colors.accent}/>
             </View>
           </TouchableOpacity>
         </View>
@@ -144,11 +144,6 @@ const BreathingPage = (props) => {
           <ScrollView style={styles.scrollView} bounces={false}>
             <View style={styles.patternList}>
               {renderPatterns()}
-              <View style={styles.newButtonContainer}>
-                <TouchableOpacity style={styles.createNewButton} onPress={newPattern}>
-                  <Text style={{color: colors.background, fontSize: 18}}>New Pattern</Text>
-                </TouchableOpacity>
-              </View>
             </View>
           </ScrollView>
         </FadeGradient>
@@ -227,9 +222,10 @@ const styles = StyleSheet.create({
     height: 28,
     position: "relative",
     borderRadius: 25,
-    borderColor: colors.background2,
+    borderColor: "rgba(118, 118, 128, 0.32)",
+    backgroundColor: "white",
     borderWidth: 0.5,
-    padding: 5,
+    padding: 0,
     right: 0,
     backgroundColor: "white",
     justifyContent: "center",

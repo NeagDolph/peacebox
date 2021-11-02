@@ -6,6 +6,7 @@ import PropTypes from 'prop-types'
 import { VibrancyView } from "@react-native-community/blur";
 import { useNavigation } from '@react-navigation/native';
 import crashlytics from "@react-native-firebase/crashlytics";
+import { hasNotch } from 'react-native-device-info';
 
 interface HeaderProps {
   inlineTitle: boolean | void;
@@ -19,9 +20,8 @@ interface HeaderProps {
 }
 
 const PageHeader = ({title, settingsIcon, settingsCallback, titleWhite, settingsButton, shadow=true}) => {
-
-  const getTitleColor = () => (titleWhite ?? true) && "black"
   const navigation = useNavigation();
+  const notch = hasNotch();
 
   useEffect(() => {
     crashlytics().log("Header Loaded | Page Title: " + title)
@@ -50,7 +50,9 @@ const PageHeader = ({title, settingsIcon, settingsCallback, titleWhite, settings
           </TouchableOpacity>
         }
       </View>
-      <Text numberOfLines={1} style={styles.title}>{title}</Text>
+      <View style={[styles.titleContainer, {marginTop: notch ? 15 : 7}]} pointerEvents="box-none">
+        <Text numberOfLines={1} style={styles.title}>{title}</Text>
+      </View>
     </View>
   );
 };
@@ -93,15 +95,20 @@ const styles = StyleSheet.create({
   title: {
     fontWeight: "bold",
     fontFamily: "Helvetica",
+    fontSize: 24
+  },
+  titleContainer: {
     position: "relative",
-    marginTop: 30,
-    fontSize: 24,
-    maxWidth: 200,
-    left: 50
+    height: "100%",
+    alignItems: "center",
+    // maxWidth: 300,
+    zIndex: 0,
+    left: 0,
+    justifyContent: "center"
   },
   backButton: {
     position: "absolute",
-    top: 6,
+    top: 10,
     height: "100%",
     left: 25,
     alignItems: "center",
@@ -109,7 +116,7 @@ const styles = StyleSheet.create({
   },
   settingsButton: {
     position: "absolute",
-    top: 6,
+    top: 10,
     height: "100%",
     right: 25,
     alignItems: "center",

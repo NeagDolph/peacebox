@@ -46,6 +46,7 @@ const toolsData: ToolData[] = [
     description: "Some very calming features are in the works...",
     nav: undefined,
     tags: [],
+    function: () => {},
     icon: require("../assets/toolbox.png")
   }
 ]
@@ -83,13 +84,13 @@ const HomePage = ({navigation}: any) => {
     scrollOffset.value = event.contentOffset.y;
 
 
-    // if (event.contentOffset.y + windowHeight.value + 5 >= event.contentSize.height) runOnJS(setEndOfScroll)(true);
-    // else if (endOfScroll) runOnJS(setEndOfScroll)(false);
+    if (event.contentOffset.y + windowHeight.value + 5 >= event.contentSize.height) runOnJS(setEndOfScroll)(true);
+    else if (endOfScroll) runOnJS(setEndOfScroll)(false);
   });
 
   const safeViewLayout = ({nativeEvent}) => {
     const openHeight = windowHeight.value - nativeEvent.layout.height
-    setSafeViewHeight(openHeight - 100)
+    setSafeViewHeight(openHeight > 80 ? (openHeight / 2 - 20) : 0)
   }
 
   const scrollBottom = () => {
@@ -115,13 +116,15 @@ const HomePage = ({navigation}: any) => {
           scrollOffset={scrollOffset}
           endOfScroll={endOfScroll}
           setEndOfAnim={setEndOfAnim}
+          safeViewHeight={safeViewHeight}
       />}
       <Animated.ScrollView
         bounces={false}
         onScroll={scrollHandler}
         ref={scrollRef}
         scrollEventThrottle={16}
-        scrollEnabled={!(endOfScroll && !endOfAnim)}
+        // scrollEnabled={!(endOfScroll && !endOfAnim)}
+        scrollEnabled={true}
         indicatorStyle="black"
         showsVerticalScrollIndicator={!endOfAnim}
       >
@@ -129,8 +132,7 @@ const HomePage = ({navigation}: any) => {
             <Text style={styles.logoText}>P</Text>
         </View>}
         {endOfAnim || <StartScreen scrollOffset={scrollOffset} scrollBottom={scrollBottom}/>}
-        {/*<View style={{marginBottom: safeViewHeight}} onLayout={safeViewLayout}>*/}
-        <View style={{height: windowHeight.value - 60}}>
+        <View style={{marginBottom: safeViewHeight}} onLayout={safeViewLayout}>
           <View style={{paddingHorizontal: 20}}>
             <Header/>
             <View style={{marginTop: 20}}>

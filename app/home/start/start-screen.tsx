@@ -2,10 +2,11 @@ import React, {useEffect} from 'react';
 
 import {Dimensions, Pressable, StyleSheet, Text, TouchableWithoutFeedback, View} from 'react-native';
 import {useSelector} from "react-redux";
-import Icon from "react-native-vector-icons/Ionicons";
+import Icon from "react-native-vector-icons/Entypo";
 import Animated, {Extrapolation, interpolate, useAnimatedStyle} from "react-native-reanimated";
 import {colors} from "../../config/colors";
 import PropTypes from 'prop-types'
+
 
 const StartScreen = (props) => {
   const chevronStyles = useAnimatedStyle(() => {
@@ -19,7 +20,7 @@ const StartScreen = (props) => {
   return (<View style={styles.container}>
       <Animated.View style={[styles.iconContainer, chevronStyles]}>
         <Pressable onPress={props.scrollBottom}>
-          <Icon name="chevron-up" size={25}></Icon>
+          <Icon name="chevron-thin-up" size={25}></Icon>
         </Pressable>
         <Text style={styles.disclaimer}>Practices conducted with PeaceBox are not a replacement for or a form of therapy, nor are they intended to cure, treat, or diagnose medical conditions.</Text>
       </Animated.View>
@@ -36,7 +37,9 @@ const styles = StyleSheet.create({
   disclaimer: {
     marginVertical: 20,
     paddingHorizontal: 20,
-    color: colors.text
+    color: colors.text,
+    textAlign: "center",
+    width: 350
 
   },
   iconContainer: {

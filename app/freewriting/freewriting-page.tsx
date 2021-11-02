@@ -120,6 +120,7 @@ const Freewriting = (props: any) => {
               page: "freewriting",
               pageTitle: "Freewriting Settings",
             })}
+            title="Freewriting"
           />
           <View style={styles.container}>
             <WritingCard

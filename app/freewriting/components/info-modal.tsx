@@ -56,7 +56,7 @@ const InfoModal = (props) => {
     })
 
     //Done Button
-    if (offset / modalWidth >= props.content.length - 1) setDoneButton(true);
+    if (offset / modalWidth >= props.content.length - 1.5) setDoneButton(true);
     else setDoneButton(false);
 
     //Calc current page
@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: "100%",
     alignItems: "center",
-    bottom: 10
+    bottom: 10,
   },
   indicator: {
     width: 7,
@@ -162,6 +162,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     borderRadius: 10,
     top: -50,
+    paddingBottom: 30
   },
   modalPage: {
     // flex: 1,
