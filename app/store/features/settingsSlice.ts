@@ -14,7 +14,8 @@ export const settingsSlice = createSlice({
       showAnimations: true
     },
     general: {
-      used: false
+      used: false,
+      openedReview: false
     }
   },
   reducers: {

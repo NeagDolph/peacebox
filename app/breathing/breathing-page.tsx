@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 
 import {
   StyleSheet,
@@ -16,7 +16,7 @@ import PageHeader from "../components/header";
 import Icon from "react-native-vector-icons/Entypo"
 import {colors} from "../config/colors";
 import {useDispatch, useSelector} from "react-redux";
-import {addPattern, removePattern, editPattern} from "../store/features/breathingSlice";
+import {addPattern, removePattern, editPattern, setEditVisible, setEditScroll} from "../store/features/breathingSlice";
 import PatternItem from "./components/pattern-item";
 
 import 'react-native-get-random-values';
@@ -27,7 +27,12 @@ import {Provider} from "react-native-paper";
 import {setUsed} from "../store/features/settingsSlice";
 import FadeGradient from "../components/fade-gradient";
 import haptic, {success} from "../helpers/haptic";
-import GestureHandlerRootView from "react-native-gesture-handler";
+import GestureHandlerRootView, {NativeViewGestureHandler} from "react-native-gesture-handler";
+
+import breathingGuide from '../guides/breathing-guide';
+import {openedTutorial, guideNext, startTutorial, pushRestart} from '../store/features/tutorialSlice';
+import Tooltip from 'react-native-walkthrough-tooltip';
+import useTooltip from "./components/tooltip-hook";
 
 const modalContent = require("./info.json");
 
@@ -35,6 +40,10 @@ const modalContent = require("./info.json");
 const BreathingPage = (props) => {
   const patterns = useSelector(state => state.breathing.patterns);
   const settings = useSelector((state) => state.settings.breathing)
+
+  const tooltip = useTooltip();
+
+  // const open = useSelector(state => state.tutorial.breathing.open);
   const dispatch = useDispatch();
 
 
@@ -46,28 +55,44 @@ const BreathingPage = (props) => {
 
   const [modalVisible, setModalVisible] = useState(false);
 
-  // useEffect(() => {
-    // if (!settings.used) {
-    //   setImmediate(() => {
-    //     dispatch(setUsed("breathing"))
-    //
-    //     setModalVisible(true);
-    //   });
-    // }
-  // }, [])
+  const panRef = useRef(null)
+  const scrollRef = useRef(null)
 
-  // useEffect(() => {
-    // if (editMode) setButtonVisible(true)
-  // }, [editMode]);
+
+  useEffect(() => {
+    if (!settings.used) {
+      setImmediate(() => {
+        dispatch(setUsed("breathing"))
+        // startGuide();
+
+
+        // setModalVisible(true);
+      });
+
+    }
+
+    startGuide()
+
+
+  }, [])
+
+
+  const startGuide = () => {
+    dispatch(setEditScroll(0))
+    dispatch(startTutorial("breathing"))
+  }
+
 
   const newPattern = () => {
+    console.log("NEWPA")
+
     // setEditMode(false)
     const newId = uuidv4();
 
     const patternObj = {
       id: newId,
       name: "New Pattern",
-      sequence: [4, 4, 4, 4],
+      sequence: [1, 2, 3, 4],
       totalDuration: 5,
       durationType: "Minutes",
       settings: {
@@ -81,11 +106,17 @@ const BreathingPage = (props) => {
     }
 
     dispatch(addPattern(patternObj));
+
     props.navigation.push("Edit", {id: newId, newPattern: true});
+
+    setEditVisible(true)
+    editPattern(newId, true)
+
+    dispatch(guideNext("breathing"))
   }
 
-  const editPattern = (id) => {
-    props.navigation.navigate("Edit", {id, newPattern: false})
+  const editPattern = (id, newPattern = false) => {
+    props.navigation.navigate("Edit", {id, newPattern})
   };
 
   const usePattern = (id) => {
@@ -97,11 +128,13 @@ const BreathingPage = (props) => {
     <PatternItem
       key={el.id}
       editPattern={editPattern}
+      panRef={panRef}
       usePattern={usePattern}
       deletePattern={deletePattern}
       patternData={el}
       buttonVisible={buttonVisible}
       editMode={editMode}
+      scrollRef={scrollRef}
     />
   ));
 
@@ -121,6 +154,7 @@ const BreathingPage = (props) => {
 
   return (
     <>
+
       <PageHeader
         title="Breathing"
         inlineTitle={true}
@@ -134,18 +168,20 @@ const BreathingPage = (props) => {
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.headerText}>Your Breathing Patterns</Text>
-          <TouchableOpacity onPress={newPattern}>
-            <View style={styles.newButton}>
-              <Icon name="plus" size={23} color={colors.accent}/>
-            </View>
-          </TouchableOpacity>
+          {tooltip(<TouchableOpacity onPress={newPattern}>
+              <View style={styles.newButton}>
+                <Icon name="plus" size={23} color={colors.accent}/>
+              </View>
+            </TouchableOpacity>, 0)}
         </View>
         <FadeGradient top={0.1} bottom={0}>
-          <ScrollView style={styles.scrollView} bounces={false}>
-            <View style={styles.patternList}>
-              {renderPatterns()}
-            </View>
-          </ScrollView>
+          <NativeViewGestureHandler ref={scrollRef} simultaneousHandlers={panRef}>
+            <ScrollView style={styles.scrollView} bounces={false}>
+              <View style={styles.patternList}>
+                {renderPatterns()}
+              </View>
+            </ScrollView>
+          </NativeViewGestureHandler>
         </FadeGradient>
       </View>
       <Provider>

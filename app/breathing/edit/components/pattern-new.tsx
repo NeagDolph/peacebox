@@ -1,14 +1,27 @@
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {useNavigation} from "@react-navigation/native";
-import React, {useRef} from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import PremadePattern from "./premade-pattern";
 import {editPattern} from "../../../store/features/breathingSlice";
 import {ScrollView, StyleSheet, Text, View} from "react-native";
 import EditCard from "./edit-card";
 import PropTypes from "prop-types";
 import {colors} from "../../../config/colors";
+import Tooltip from "react-native-walkthrough-tooltip";
+import breathingGuide from "../../../guides/breathing-guide";
+import useTooltip from "../../components/tooltip-hook";
 
 const premadePatterns = [
+  {
+    name: "Box Breathing",
+    sequence: [4, 4, 4, 4],
+    description: "Box breathing, also known as square breathing, is a technique used when taking slow, deep breaths. It can heighten performance and concentration while also being a powerful stress reliever. It’s also called four-square breathing.",
+    settings: {
+      breakBetweenCycles: false,
+      pauseDuration: 5,
+      pauseFrequency: 1
+    }
+  },
   {
     name: "Pranayama Counts",
     sequence: [4, 4, 6, 2],
@@ -26,6 +39,16 @@ const premadePatterns = [
     settings: {
       breakBetweenCycles: false,
     }
+  },
+  {
+    name: "Coherent breathing",
+    sequence: [5, 0, 5, 0],
+    description: "This is a simple breathing technique that requires you to complete five full breaths every minute. Coherent breathing maximizes your heart rate variability and can reduce stress. There was also a [study](https://www.liebertpub.com/doi/10.1089/acm.2016.0140) that showed it to be able to reduce symptoms associated with depression.",
+    settings: {
+      breakBetweenCycles: true,
+      pauseDuration: 10,
+      pauseFrequency: 5
+    }
   }
 ]
 
@@ -34,9 +57,22 @@ const PatternNew = ({id, showEditModal, patternData}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation()
   const scrollRef = useRef(null)
+  const [scrollY, setScrollY] = useState(0)
+  const listenScrollY = useSelector(state => state.breathing.editScroll);
+
+  const tooltip = useTooltip();
+
+  useEffect(() => {
+    scrollRef.current.scrollTo({y: listenScrollY, animated: true})
+  }, [listenScrollY])
 
   const renderPremades = () => {
-    return premadePatterns.map((el, i) => <PremadePattern key={i} item={el} usePattern={usePattern}/>)
+    return premadePatterns.map((el, i) => {
+      if (i === 0) return (
+        tooltip(<PremadePattern key={i} item={el} usePattern={usePattern} tooltip={true}/>, 2)
+      )
+      else return <PremadePattern key={i} item={el} usePattern={usePattern} tooltip={false}/>
+    })
   }
 
   const usePattern = (item) => {
@@ -54,6 +90,10 @@ const PatternNew = ({id, showEditModal, patternData}) => {
     scrollRef.current.scrollTo({x: 0, animated: true})
   }
 
+  const handleScroll = ({nativeEvent}) => {
+    setScrollY(nativeEvent.contentOffset.y)
+  }
+
   return (
     <>
       <ScrollView
@@ -61,9 +101,11 @@ const PatternNew = ({id, showEditModal, patternData}) => {
         showsVerticalScrollIndicator={false}
         bounces={false}
         ref={scrollRef}
+        onScroll={handleScroll}
+        scrollEventThrottle={0}
       >
         <Text style={styles.premadeText}>Create a pattern</Text>
-        <EditCard id={id} showEditModal={showEditModal} patternData={patternData} newPattern={true}/>
+        {tooltip(<EditCard id={id} showEditModal={showEditModal} patternData={patternData} newPattern={true}/>, 1)}
         <Text style={[styles.premadeText, {marginTop: 15}]}>Or choose one</Text>
         {renderPremades()}
         <View style={styles.footer}></View>

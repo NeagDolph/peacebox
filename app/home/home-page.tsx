@@ -1,8 +1,18 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {Dimensions, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View,} from 'react-native';
+import {
+  Alert,
+  Dimensions,
+  Linking,
+  Pressable,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 
 import crashlytics from "@react-native-firebase/crashlytics";
-
 
 import Header from "./components/header"
 import ToolItem from "./components/tool-item";
@@ -15,8 +25,9 @@ import Animated, {
   useSharedValue
 } from "react-native-reanimated";
 import {useDispatch, useSelector} from "react-redux";
-import {setUsed} from "../store/features/settingsSlice";
+import {setUsed, setSetting} from "../store/features/settingsSlice";
 import {colors} from "../config/colors";
+import Rate, {AndroidMarket} from 'react-native-rate'
 
 interface ToolData {
   title: string;
@@ -26,33 +37,80 @@ interface ToolData {
   nav: string | undefined;
 }
 
-const toolsData: ToolData[] = [
-  {
-    title: "Free Writing",
-    icon: require("../assets/writing.png"),
-    description: "Let go of internal troubles by writing your thoughts.",
-    tags: ["Anxiety", "Quick Relief"],
-    nav: "Freewriting"
-  },
-  {
-    title: "Breathing",
-    icon: require("../assets/wind.png"),
-    description: "Breathing exercises to relax and improve your mood",
-    nav: "Patterns",
-    tags: ["Anxiety", "Stress", "Discontentment"],
-  },
-  {
-    title: "Coming Soon...",
-    description: "Some very calming features are in the works...",
-    nav: undefined,
-    tags: [],
-    function: () => {},
-    icon: require("../assets/toolbox.png")
-  }
-]
-
 
 const HomePage = ({navigation}: any) => {
+  const askReview = () => {
+
+    crashlytics().log("User clicked open review button.");
+    const options = {
+      AppleAppID: "1592436336",
+      preferInApp: true,
+      openAppStoreIfInAppFails: true,
+      fallbackPlatformURL: "https://peacebox.app/download",
+    }
+    Rate.rate(options, (success, errorMessage) => {
+      if (success) {
+        // this technically only tells us if the user successfully went to the Review Page. Whether they actually did anything, we do not know.
+        crashlytics().log("User completed rating lifecycle.");
+        dispatch(setSetting({
+          page: "general",
+          setting: "openedReview",
+          value: true
+        }))
+      }
+      if (errorMessage) {
+        // errorMessage comes from the native code. Useful for debugging, but probably not for users to view
+        crashlytics().log("Error with reviewing.");
+        crashlytics().recordError(Error(errorMessage));
+      }
+    })
+
+    Alert.alert(
+      "Throw us a review",
+      `Do you want to open the app store?`,
+      [
+
+        {
+          text: "Yes!", onPress: () => {
+            crashlytics().log("Opened app store to give review");
+            // https://apps.apple.com/us/app/peacebox-tools-for-your-mind/id1592436336
+
+            Linking.openURL("https://apps.apple.com/us/app/peacebox-tools-for-your-mind/id1592436336")
+            //   .catch((err) => {
+
+            // });
+          }
+
+        },
+        {text: "Nevermind"},
+      ]
+    );
+  }
+
+  const toolsData: ToolData[] = [
+    {
+      title: "Free Writing",
+      icon: require("../assets/writing.png"),
+      description: "Let go of internal troubles by writing your thoughts.",
+      tags: ["Anxiety", "Quick Relief"],
+      nav: () => navigation.navigate("Freewriting")
+    },
+    {
+      title: "Breathing",
+      icon: require("../assets/wind.png"),
+      description: "Breathing exercises to relax and improve your mood",
+      nav: () => navigation.navigate("Patterns"),
+      tags: ["Anxiety", "Stress", "Discontentment"],
+    },
+    {
+      title: "Coming Soon...",
+      description: "Some very calming features are in the works...",
+      nav: askReview,
+      tags: [],
+      icon: require("../assets/toolbox.png")
+    }
+  ]
+
   const dispatch = useDispatch();
   const settings = useSelector(state => state.settings.general);
 
@@ -67,6 +125,7 @@ const HomePage = ({navigation}: any) => {
 
   const [safeViewHeight, setSafeViewHeight] = useState(50);
   const scrollRef = useRef(null)
+
 
   useEffect(() => {
     if (endOfScroll && !settings.used) dispatch(setUsed("general"));

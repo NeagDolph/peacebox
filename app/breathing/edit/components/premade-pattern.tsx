@@ -1,13 +1,26 @@
-import React, {useEffect, useState} from 'react';
-import {LayoutAnimation, StyleSheet, Text, TouchableHighlight, TouchableOpacity, View} from 'react-native';
+import React, {useCallback, useEffect, useState} from 'react';
+import {LayoutAnimation, Linking, StyleSheet, Text, TouchableHighlight, TouchableOpacity, View} from 'react-native';
 import {colors} from "../../../config/colors";
 import {Surface} from "react-native-paper";
 import Fade from "../../../components/fade-wrapper";
 import PropTypes from "prop-types"
+import {Link} from "@react-navigation/native";
+import Tooltip from "react-native-walkthrough-tooltip";
+import breathingGuide from "../../../guides/breathing-guide";
+import {useDispatch, useSelector} from "react-redux";
+import { guideNext } from '../../../store/features/tutorialSlice';
+import useTooltip from "../../components/tooltip-hook";
 
 const PremadePattern = (props) => {
   const {name, sequence, description} = props.item;
   const [descriptionBig, setDescriptionBig] = useState(false);
+
+  const dispatch = useDispatch()
+
+  const breathingIndex = useSelector(state => state.tutorial.breathing.completion);
+  const running = useSelector(state => state.tutorial.breathing.running);
+
+  const tooltip = useTooltip();
 
   const toggleReadMore = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
@@ -27,9 +40,35 @@ const PremadePattern = (props) => {
     ))
   }
 
+  const addLink = (text) => {
+    const results = Array.from(text.matchAll(/\[(.+)\]\((.+)\)/g))
+
+    if (results.length < 1) return {}
+
+
+    return results.reduce((curr, match, i) => {
+
+      const before = <>{text.substring(0, match.index)}</>
+      const after = <>{text.substring(match.index + match[0].length, match.input.length)}</>
+      return <>{before}<Text style={styles.link} onPress={() => Linking.openURL(match[2])}>{match[1]}</Text>{after}</>
+    }, <></>)
+  }
+
   const truncate = (text, length) => {
-    if (!text || !length) return text
-    return text.length > length ? text.substring(0, length) + "..." : text
+    let tempText
+
+    if (!text || !length) tempText = addLink(text)
+    else tempText = text.length > length ? text.substring(0, length) + "..." : text
+
+    return <Text style={styles.desc}>
+      {tempText}
+    </Text>
+  }
+
+  const handleUse = () => {
+    props.usePattern(props.item)
+
+    if (running && breathingIndex === 3) dispatch(guideNext("breathing"))
   }
 
 
@@ -38,7 +77,7 @@ const PremadePattern = (props) => {
       <Text style={styles.title}>{name}</Text>
       <View style={styles.patternContainer}>{renderSequence()}</View>
       <View style={styles.descContainer}>
-        <Text style={styles.desc}>{truncate(description, descriptionBig ? undefined : 40)}</Text>
+        {truncate(description, descriptionBig ? undefined : 40)}
         <View style={styles.readMore}>
           <TouchableOpacity onPress={toggleReadMore}>
             <Text style={styles.readMoreTitle}>{descriptionBig ? "Read Less" : "Read More"}</Text>
@@ -46,11 +85,14 @@ const PremadePattern = (props) => {
         </View>
       </View>
       <View style={styles.useContainer}>
-        <TouchableOpacity onPress={() => props.usePattern(props.item)}>
-          <View style={styles.useButton}>
-            <Text style={styles.useTitle}>Use Pattern</Text>
-          </View>
-        </TouchableOpacity>
+        {tooltip(
+          <TouchableOpacity onPress={handleUse}>
+            <View style={styles.useButton}>
+              <Text style={styles.useTitle}>Use Pattern</Text>
+            </View>
+          </TouchableOpacity>,
+          3
+        )}
       </View>
     </View>
   );
@@ -58,12 +100,16 @@ const PremadePattern = (props) => {
 
 PremadePattern.propTypes = {
   usePattern: PropTypes.func,
-  item: PropTypes.object
+  item: PropTypes.object,
+  tooltip: PropTypes.bool
 
 }
 
 
 const styles = StyleSheet.create({
+  link: {
+    color: colors.accent
+  },
   useContainer: {
     justifyContent: "center",
     alignItems: "center",
@@ -72,12 +118,12 @@ const styles = StyleSheet.create({
   useButton: {
     paddingHorizontal: 12,
     paddingVertical: 8,
-    backgroundColor: colors.accent2,
+    backgroundColor: colors.accent,
     borderRadius: 9
   },
   useTitle: {
     fontFamily: "Avenir-Heavy",
-    color: colors.primary,
+    color: colors.background,
     fontSize: 16,
   },
   readMore: {

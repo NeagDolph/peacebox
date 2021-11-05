@@ -11,21 +11,32 @@ import {colors} from "../../config/colors";
 import FadeGradient from "../../components/fade-gradient";
 import haptic from "../../helpers/haptic";
 import crashlytics from "@react-native-firebase/crashlytics";
+import {setEditVisible} from '../../store/features/breathingSlice'
 import PatternNew from "./components/pattern-new";
+import useTooltip from "../components/tooltip-hook";
 
 const PatternModal = ({route, navigation}) => {
-  const {newPattern} = route.params
-
-  const {id} = route.params
+  const {newPattern, id} = route.params
+  const dispatch = useDispatch()
   const patternData = useSelector(state => state.breathing.patterns[id]);
+  const editVisible = useSelector(state => state.breathing.editVisible);
+
+  const tooltip = useTooltip();
 
   const showEditModal = () => setEditModalVisible(true)
   const hideEditModal = () => setEditModalVisible(false)
   const [editModalVisible, setEditModalVisible] = useState(false)
 
+
   useEffect(() => {
     crashlytics().log("Page Loaded: Pattern Modal")
-  }, [])
+
+    const unsubscribe = navigation.addListener('beforeRemove', () => {
+      dispatch(setEditVisible(false))
+    });
+
+    return unsubscribe;
+  }, [navigation])
 
   const closeModal = () => {
     crashlytics().log("Done button pressed in pattern edit modal");
@@ -45,11 +56,14 @@ const PatternModal = ({route, navigation}) => {
         }
       </FadeGradient>
       <View style={styles.doneButtonContainer} pointerEvents="box-none">
-        <TouchableOpacity onPress={closeModal}>
-          <View style={styles.doneButton}>
-            <Text style={styles.doneText}>Done</Text>
-          </View>
-        </TouchableOpacity>
+        {tooltip(
+          <TouchableOpacity onPress={closeModal}>
+            <View style={styles.doneButton}>
+              <Text style={styles.doneText}>Done</Text>
+            </View>
+          </TouchableOpacity>,
+          4
+        )}
       </View>
       <Provider>
         <PauseModal hideEditModal={hideEditModal} visible={editModalVisible} patternData={patternData}/>

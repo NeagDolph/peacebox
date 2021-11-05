@@ -10,6 +10,7 @@ const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
   stateReconciler: autoMergeLevel2,
+  blacklist: ["tutorial"]
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

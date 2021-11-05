@@ -26,7 +26,7 @@ const Background = (props) => {
       count: 15,
     }
 
-    const url = `https://api.unsplash.com/photos/random?topics=nature&content_filter=high&orientation=portrait&client_id=3T3B_SA-ohORfg2VNrn0i09_31jonbG_DbSPaaGpcQY&count=15`
+    const url = `https://api.unsplash.com/photos/random?topics=nature&content_filter=high&orientation=portrait&client_id=3T3B_SA-ohORfg2VNrn0i09_31jonbG_DbSPaaGpcQY&count=5`
     // const url = `https://api.unsplash.com/photos/random?${new URLSearchParams(args).toString()}`;
 
     fetch(url)

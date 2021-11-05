@@ -4,10 +4,15 @@ import {contrastColor} from 'contrast-color';
 export const breathingSlice = createSlice({
   name: 'breathing',
   initialState: {
+    editScroll: 0,
     currentDuration: 0,
-    patterns: {}
+    patterns: {},
+    editVisible: false
   },
   reducers: {
+    setEditScroll: (state, action) => {
+      state.editScroll = action.payload
+    },
     setDuration: (state, action) => {
       state.currentDuration = action.payload
     },
@@ -42,11 +47,14 @@ export const breathingSlice = createSlice({
     },
     setStart: (state, action) => {
       if (state.patterns[action.payload.id]) state.patterns[action.payload.id].startTime = action.payload.start;
+    },
+    setEditVisible: (state, action) => {
+      state.editVisible = action.payload
     }
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { addPattern, editPattern, removePattern, setName, setSetting, setSequence, setDuration, setTotalDuration, setDurationType, setStart} = breathingSlice.actions
+export const { addPattern, editPattern, removePattern, setName, setSetting, setSequence, setDuration, setTotalDuration, setDurationType, setStart, setEditVisible, setEditScroll} = breathingSlice.actions
 
 export default breathingSlice.reducer

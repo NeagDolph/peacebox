@@ -30,14 +30,20 @@ const PatternItem = props => {
   const [itemHeight, setItemHeight] = useState(0);
   const [dragMode, setDragMode] = useState(0)
   const [beingDragged, setBeingDragged] = useState(false)
+  const lastDrag = useRef(null)
 
   const tapRef = useRef(null)
 
   const hasPause = useCallback(() => props.patternData.settings.breakBetweenCycles && !props.buttonVisible, [props.buttonVisible, props.patternData.settings.breakBetweenCycles])
 
   useEffect(() => {
-    console.log("dragmod", dragMode)
-    if (dragMode !== 0) haptic(1)
+    if (lastDrag.current !== 0 && dragMode === 0) {
+      haptic(1)
+
+      if (lastDrag.current !== 0) haptic(1);
+      if (lastDrag.current === 2) confirmDeletePattern();
+      else if (lastDrag.current === 1) props.editPattern(props.patternData.id, false);
+    }
   }, [dragMode])
 
   const dragX = useSharedValue(0);
@@ -77,18 +83,15 @@ const PatternItem = props => {
         stiffness: 260
       });
       console.log("end")
-
       runOnJS(swipeActivate)();
-      runOnJS(setDragMode)(0)
-      runOnJS(setBeingDragged)(false)
-    },
+    }
   })
 
   function swipeActivate() {
+
+    lastDrag.current = dragMode;
+    setDragMode(0);
     console.log("opin seame", props.patternData.id, dragMode)
-    if (dragMode !== 0) haptic(1);
-    if (dragMode === 2) confirmDeletePattern();
-    else if (dragMode === 1) props.editPattern(props.patternData.id);
   }
 
   const panStyle = useAnimatedStyle(() => {
@@ -152,13 +155,15 @@ const PatternItem = props => {
     }
   }
 
+
+
   return (
     <View style={[styles.itemOuter, {zIndex: beingDragged ? 200 : 0}]}>
       <Backplate height={itemHeight} dragX={dragX} dragMode={dragMode} setDragMode={setDragMode}/>
       <TapGestureHandler maxDist={0} onHandlerStateChange={handleTap} ref={tapRef}>
         <Animated.View>
 
-          <PanGestureHandler onGestureEvent={panHandler}>
+          <PanGestureHandler ref={props.panRef} onGestureEvent={panHandler} simultaneousHandlers={[props.scrollRef]}>
             <Animated.View style={[styles.patternItem, panStyle]}
                            onLayout={(event) => setItemHeight(event.nativeEvent.layout.height)}>
               {/*<View style={styles.swipeContainer}>*/}
@@ -179,6 +184,7 @@ const PatternItem = props => {
                   <Button
                     mode="contained"
                     style={styles.button}
+                    onPress={() => {return 5}}
                     contentStyle={{height: "100%", alignItems: "center"}}
                     labelStyle={styles.buttonText}
                     color={colors.accent}
@@ -200,7 +206,9 @@ PatternItem.propTypes = {
   patternData: PropTypes.object,
   editMargin: PropTypes.any,
   editMode: PropTypes.bool,
-  buttonVisible: PropTypes.bool
+  buttonVisible: PropTypes.bool,
+  panRef: PropTypes.any,
+  scrollRef: PropTypes.any
 }
 
 const styles = StyleSheet.create({

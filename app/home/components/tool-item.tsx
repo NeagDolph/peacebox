@@ -28,7 +28,7 @@ const ToolItem = (props: ToolData) => {
 
   const openMenu = () => {
     crashlytics().log("Tool Opened: " + props.title)
-    if (props.navigation) navigation.navigate(props.navigation);
+    if (props.navigation) props.navigation();
   }
 
   return (

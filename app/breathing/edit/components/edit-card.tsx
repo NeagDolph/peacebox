@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 
 import {
-  Alert,
+  Alert, Dimensions,
   Keyboard,
   LayoutAnimation,
   ScrollView,
@@ -22,6 +22,7 @@ import EditSettings from "../../components/edit-settings";
 import PauseModal from "../../components/pause-modal";
 import {useNavigation} from '@react-navigation/native';
 import PropTypes from 'prop-types'
+import {dispatchWalkthroughEvent, WalkthroughElement} from "react-native-walkthrough";
 
 
 const EditCard = (props) => {
@@ -34,7 +35,16 @@ const EditCard = (props) => {
 
   const titleRef = useRef(null);
 
+  const tutorialState = useSelector(state => state.tutorial);
+
   // const setPatternName = (name) => dispatch(setName({id, name}));
+
+  useEffect(() => {
+    // console.log("tuti", tutorialState)
+    // if (tutorialState.breathing.completion === 1 && tutorialState.breathing.open && tutorialState.currentTutorial === "breathing") {
+      // dispatchWalkthroughEvent('pattern-edit-open')
+    // }
+  }, [])
 
   useEffect(() => {
     if (patternTitle.length >= 1 && patternData.name !== patternTitle) dispatch(setName({id, name: patternTitle}));
@@ -90,29 +100,29 @@ const EditCard = (props) => {
 
   return (
     <>
-      <Surface style={styles.card}>
-        <View style={styles.titleContainer}>
-          <TextInput
-            placeholder="Pattern Name..."
-            style={styles.title}
-            value={patternTitle}
-            onChangeText={setPatternTitle}
-            blurOnSubmit={true}
-            clearButtonMode="always"
-            ref={titleRef}
-            autoCorrect={false}
-            autoCapitalize={"words"}
-            returnKeyType="done"
-          />
-        </View>
-        <Divider/>
-        <View style={styles.patternContainer}>
-          {renderPatternPicker()}
-        </View>
-        <Divider/>
-        <EditSettings id={id} showEditModal={showEditModal} patternSettings={patternData.settings}/>
-        {renderButton()}
-      </Surface>
+        <Surface style={styles.card}>
+          <View style={styles.titleContainer}>
+            <TextInput
+              placeholder="Pattern Name..."
+              style={styles.title}
+              value={patternTitle}
+              onChangeText={setPatternTitle}
+              blurOnSubmit={true}
+              clearButtonMode="always"
+              ref={titleRef}
+              autoCorrect={false}
+              autoCapitalize={"words"}
+              returnKeyType="done"
+            />
+          </View>
+          <Divider/>
+            <View style={styles.patternContainer}>
+              {renderPatternPicker()}
+            </View>
+          <Divider/>
+          <EditSettings id={id} showEditModal={showEditModal} patternSettings={patternData.settings}/>
+          {renderButton()}
+        </Surface>
     </>
   );
 };
@@ -190,7 +200,8 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: 20,
     elevation: 3,
-    overflow: "visible"
+    overflow: "visible",
+    width: Dimensions.get("window").width - 60
   }
 })
 
