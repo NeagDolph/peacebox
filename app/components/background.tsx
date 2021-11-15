@@ -1,8 +1,10 @@
 import React, {useState, useEffect, useRef, useLayoutEffect} from 'react';
 import {setTime, setUrl, setCredits, setColor, setBackgroundData} from "../store/features/backgroundSlice"
 import {useDispatch, useSelector} from "react-redux";
-import {ImageBackground, StyleSheet, View, Text, Dimensions} from "react-native";
+import {ImageBackground, StyleSheet, View, Text, Dimensions, Pressable} from "react-native";
 import FastImage from 'react-native-fast-image'
+import PropTypes from 'prop-types'
+
 
 const Background = (props) => {
   const lastSetTime = useSelector((state: any) => state.background.lastSetTime)
@@ -26,7 +28,7 @@ const Background = (props) => {
       count: 15,
     }
 
-    const url = `https://api.unsplash.com/photos/random?topics=nature&content_filter=high&orientation=portrait&client_id=3T3B_SA-ohORfg2VNrn0i09_31jonbG_DbSPaaGpcQY&count=5`
+    const url = `https://api.unsplash.com/photos/random?topics=nature&content_filter=high&query=nature&orientation=portrait&client_id=3T3B_SA-ohORfg2VNrn0i09_31jonbG_DbSPaaGpcQY&count=5`
     // const url = `https://api.unsplash.com/photos/random?${new URLSearchParams(args).toString()}`;
 
     fetch(url)
@@ -52,18 +54,30 @@ const Background = (props) => {
   }, [showBackground]);
 
 
+  const renderImage = () => {
+    const image = <FastImage
+      source={{uri: bgUrl, priority: FastImage.priority.high}}
+      force-cache="force-cache"
+      style={styles.backgroundImage}
+      resizeMode={FastImage.resizeMode.cover}
+      onLoad={props.onLoad}
+    />
+
+    return (showBackground && bgUrl) && <Pressable onPress={props.onPress} children={image}/>
+  }
+
   return (
     <View>
-      {(showBackground && bgUrl) && <FastImage
-        source={{uri: bgUrl, priority: FastImage.priority.high}}
-        force-cache="force-cache"
-        style={styles.backgroundImage}
-        resizeMode={FastImage.resizeMode.cover}
-        onLoad={props.onLoad}
-      />}
+      {renderImage()}
       {props.children}
     </View>
   )
+}
+
+Background.propTypes = {
+  showBackground: PropTypes.bool,
+  onLoad: PropTypes.func,
+  onPress: PropTypes.func
 }
 
 const styles = StyleSheet.create({

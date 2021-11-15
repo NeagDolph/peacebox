@@ -40,7 +40,6 @@ const EditCard = (props) => {
   // const setPatternName = (name) => dispatch(setName({id, name}));
 
   useEffect(() => {
-    // console.log("tuti", tutorialState)
     // if (tutorialState.breathing.completion === 1 && tutorialState.breathing.open && tutorialState.currentTutorial === "breathing") {
       // dispatchWalkthroughEvent('pattern-edit-open')
     // }
@@ -152,20 +151,20 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     marginVertical: 15,
     marginTop: 25,
-    display: "flex",
+    // display: "flex",
     flexDirection: 'column',
     justifyContent: "flex-start",
     alignItems: "flex-start",
   },
   patternContainer: {
     width: "100%",
-    display: "flex",
+    // display: "flex",
     flexDirection: "row",
     justifyContent: "space-evenly",
     marginVertical: 20
   },
   patternItem: {
-    flex: 1,
+    // flex: 1,
     minWidth: 70
   },
   patternTitle: {

@@ -27,7 +27,8 @@ import Animated, {
 import {useDispatch, useSelector} from "react-redux";
 import {setUsed, setSetting} from "../store/features/settingsSlice";
 import {colors} from "../config/colors";
-import Rate, {AndroidMarket} from 'react-native-rate'
+import Rate from 'react-native-rate'
+import {store} from "../store/store";
 
 interface ToolData {
   title: string;
@@ -39,52 +40,56 @@ interface ToolData {
 
 
 const HomePage = ({navigation}: any) => {
+  const settings = useSelector(state => state.settings.general);
+
   const askReview = () => {
-
     crashlytics().log("User clicked open review button.");
-    const options = {
-      AppleAppID: "1592436336",
-      preferInApp: true,
-      openAppStoreIfInAppFails: true,
-      fallbackPlatformURL: "https://peacebox.app/download",
+
+    if (settings.openedReview) {
+      Alert.alert(
+        "Throw us a review",
+        `Do you want to open the app store?`,
+        [
+
+          {
+            text: "Yes!", onPress: () => {
+              crashlytics().log("Opened app store to give review");
+              // https://apps.apple.com/us/app/peacebox-tools-for-your-mind/id1592436336
+
+              Linking.openURL("https://apps.apple.com/us/app/peacebox-tools-for-your-mind/id1592436336")
+              //   .catch((err) => {
+
+              // });
+            }
+
+          },
+          {text: "Nevermind"},
+        ]
+      );
+    } else {
+      const options = {
+        AppleAppID: "1592436336",
+        preferInApp: true,
+        openAppStoreIfInAppFails: true,
+        fallbackPlatformURL: "https://peacebox.app/download",
+      }
+      Rate.rate(options, (success, errorMessage) => {
+        if (success) {
+          // this technically only tells us if the user successfully went to the Review Page. Whether they actually did anything, we do not know.
+          crashlytics().log("User completed rating lifecycle.");
+          dispatch(setSetting({
+            page: "general",
+            setting: "openedReview",
+            value: true
+          }))
+        }
+        if (errorMessage) {
+          // errorMessage comes from the native code. Useful for debugging, but probably not for users to view
+          crashlytics().log("Error with reviewing.");
+          crashlytics().recordError(Error(errorMessage));
+        }
+      })
     }
-    Rate.rate(options, (success, errorMessage) => {
-      if (success) {
-        // this technically only tells us if the user successfully went to the Review Page. Whether they actually did anything, we do not know.
-        crashlytics().log("User completed rating lifecycle.");
-        dispatch(setSetting({
-          page: "general",
-          setting: "openedReview",
-          value: true
-        }))
-      }
-      if (errorMessage) {
-        // errorMessage comes from the native code. Useful for debugging, but probably not for users to view
-        crashlytics().log("Error with reviewing.");
-        crashlytics().recordError(Error(errorMessage));
-      }
-    })
-
-    Alert.alert(
-      "Throw us a review",
-      `Do you want to open the app store?`,
-      [
-
-        {
-          text: "Yes!", onPress: () => {
-            crashlytics().log("Opened app store to give review");
-            // https://apps.apple.com/us/app/peacebox-tools-for-your-mind/id1592436336
-
-            Linking.openURL("https://apps.apple.com/us/app/peacebox-tools-for-your-mind/id1592436336")
-            //   .catch((err) => {
-
-            // });
-          }
-
-        },
-        {text: "Nevermind"},
-      ]
-    );
   }
 
   const toolsData: ToolData[] = [
@@ -103,8 +108,8 @@ const HomePage = ({navigation}: any) => {
       tags: ["Anxiety", "Stress", "Discontentment"],
     },
     {
-      title: "Coming Soon...",
-      description: "Some very calming features are in the works...",
+      title: "More Coming Soon...",
+      description: "Tap this card this to give us a review!",
       nav: askReview,
       tags: [],
       icon: require("../assets/toolbox.png")
@@ -112,7 +117,6 @@ const HomePage = ({navigation}: any) => {
   ]
 
   const dispatch = useDispatch();
-  const settings = useSelector(state => state.settings.general);
 
   const scrollOffset = useSharedValue(0);
   const windowHeight = useSharedValue(Dimensions.get("window").height ?? 0);
@@ -153,7 +157,7 @@ const HomePage = ({navigation}: any) => {
   }
 
   const scrollBottom = () => {
-    scrollRef.current.scrollToEnd({animated: false})
+    scrollRef.current.scrollToEnd({animated: true})
   }
 
   const renderTools = (toolsData: ToolData[]) => {
@@ -181,6 +185,7 @@ const HomePage = ({navigation}: any) => {
         bounces={false}
         onScroll={scrollHandler}
         ref={scrollRef}
+        // decelerationRate={0.5}
         scrollEventThrottle={16}
         // scrollEnabled={!(endOfScroll && !endOfAnim)}
         scrollEnabled={true}

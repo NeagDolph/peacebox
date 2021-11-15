@@ -8,6 +8,7 @@ import {useDispatch} from "react-redux";
 import PropTypes from 'prop-types'
 import {setSetting} from "../../store/features/breathingSlice";
 import crashlytics from "@react-native-firebase/crashlytics"
+import {TapGestureHandler} from "react-native-gesture-handler";
 
 export const PauseSettings = props => {
   const dispatch = useDispatch();

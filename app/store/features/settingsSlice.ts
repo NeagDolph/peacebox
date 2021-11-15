@@ -6,7 +6,7 @@ export const settingsSlice = createSlice({
     freewriting: {
       used: false,
       showBackground: true,
-      showAnimations: true
+      showAnimations: true,
     },
     breathing: {
       used: false,

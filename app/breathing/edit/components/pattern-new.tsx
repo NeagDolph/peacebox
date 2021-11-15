@@ -9,13 +9,13 @@ import PropTypes from "prop-types";
 import {colors} from "../../../config/colors";
 import Tooltip from "react-native-walkthrough-tooltip";
 import breathingGuide from "../../../guides/breathing-guide";
-import useTooltip from "../../components/tooltip-hook";
+import useTooltip from "../../../components/tooltip-hook";
 
 const premadePatterns = [
   {
     name: "Box Breathing",
     sequence: [4, 4, 4, 4],
-    description: "Box breathing, also known as square breathing, is a technique used when taking slow, deep breaths. It can heighten performance and concentration while also being a powerful stress reliever. It’s also called four-square breathing.",
+    description: "Box breathing, also known as square breathing, is a technique used when taking slow, deep breaths. It can heighten performance and concentration while also being a powerful stress reliever.",
     settings: {
       breakBetweenCycles: false,
       pauseDuration: 5,
@@ -25,7 +25,7 @@ const premadePatterns = [
   {
     name: "Pranayama Counts",
     sequence: [4, 4, 6, 2],
-    description: "Breathing counts meant for pranayama yoga. Do these breaths for 3 sets of 20 when performing kriya.",
+    description: "Breathing counts meant for Pranayama yoga. These breaths can be utilized for 3 sets of 20 when performing daily Kriya.",
     settings: {
       breakBetweenCycles: true,
       pauseDuration: 20,
@@ -35,7 +35,7 @@ const premadePatterns = [
   {
     name: "4-7-8",
     sequence: [4, 7, 8, 0],
-    description: "The 4-7-8 breathing technique is based on pranayama breathing exercises. These types of mindful breathing exercises have been shown to have many benefits for stress reduction and relaxation. The 4-7-8 breathing technique was developed by Dr. Andrew Weil. He refers to it as a \"natural tranquilizer for the nervous system\".",
+    description: "The 4-7-8 breathing technique is based on pranayama breathing exercises. These types of mindful breathing exercises have been shown to have many benefits for stress reduction, relaxation and sleep. There are some proponents even claim that the method helps people \"get to sleep in 1 minute\"",
     settings: {
       breakBetweenCycles: false,
     }
@@ -58,21 +58,26 @@ const PatternNew = ({id, showEditModal, patternData}) => {
   const navigation = useNavigation()
   const scrollRef = useRef(null)
   const [scrollY, setScrollY] = useState(0)
-  const listenScrollY = useSelector(state => state.breathing.editScroll);
-
+  const breathingIndex = useSelector(state => state.tutorial.breathing.completion);
+  const open = useSelector(state => state.tutorial.breathing.open);
   const tooltip = useTooltip();
 
+  const listenScrollY = useSelector(state => state.breathing.editScroll);
+
   useEffect(() => {
-    scrollRef.current.scrollTo({y: listenScrollY, animated: true})
+    if (breathingIndex === 1 || breathingIndex === 3) scrollRef.current.scrollTo({y: listenScrollY, animated: true})
   }, [listenScrollY])
 
   const renderPremades = () => {
-    return premadePatterns.map((el, i) => {
-      if (i === 0) return (
-        tooltip(<PremadePattern key={i} item={el} usePattern={usePattern} tooltip={true}/>, 2)
-      )
-      else return <PremadePattern key={i} item={el} usePattern={usePattern} tooltip={false}/>
-    })
+    const patterns = <View style={styles.patternContainer} key={0}>{premadePatterns.map((el, i) => {
+      const pattern = <PremadePattern key={i} itemNum={i} item={el} usePattern={usePattern}/>
+
+      return breathingIndex === 3 && i === 0 ? tooltip(pattern, 3, i) : pattern
+    })}</View>
+
+    return breathingIndex === 2 ? tooltip(patterns, 2) : patterns
+
+
   }
 
   const usePattern = (item) => {
@@ -103,6 +108,7 @@ const PatternNew = ({id, showEditModal, patternData}) => {
         ref={scrollRef}
         onScroll={handleScroll}
         scrollEventThrottle={0}
+        scrollEnabled={!open}
       >
         <Text style={styles.premadeText}>Create a pattern</Text>
         {tooltip(<EditCard id={id} showEditModal={showEditModal} patternData={patternData} newPattern={true}/>, 1)}
@@ -115,6 +121,13 @@ const PatternNew = ({id, showEditModal, patternData}) => {
 };
 
 const styles = StyleSheet.create({
+  patternContainer: {
+    // display: "flex",
+    width: "100%",
+    backgroundColor: colors.background,
+    paddingHorizontal: 15,
+    borderRadius: 10
+  },
   footer: {
     height: 160
   },

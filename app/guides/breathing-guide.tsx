@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {View, Text, StyleSheet, Alert} from 'react-native';
+import {View, Text, StyleSheet, Alert, Pressable} from 'react-native';
 import {colors} from "../config/colors";
 import IconEntypo from "react-native-vector-icons/Entypo"
 import {store} from '../store/store';
@@ -16,10 +16,12 @@ const styles = StyleSheet.create({
     // backgroundColor: colors.background2,
     // color: colors.primary,
     // borderRadius: 16,
+    justifyContent: "center"
   },
   tooltipText: {
     color: 'black',
     fontSize: 18,
+    textAlign: "center"
   },
   buttonsContainer: {
     flexDirection: "row",
@@ -44,6 +46,21 @@ const styles = StyleSheet.create({
     lineHeight: 28,
     fontFamily: "Avenir",
     textAlign: "center"
+  },
+
+  exitButton: {
+    position: "absolute",
+    height: 30,
+    bottom: -36,
+    right: 6,
+  },
+  exit: {
+    fontSize: 17,
+    color: colors.background,
+    fontFamily: "Avenir",
+    fontWeight: "700",
+    textAlign: "right"
+
   }
 });
 
@@ -69,12 +86,9 @@ const closeNext = {
   ]
 }
 
-const runTut = (nextFound) => {
+const runTutorial = (nextFound) => {
   if (nextFound.length >= 1) {
-    if (nextFound[0].onRun) {
-      console.log("run")
-      nextFound[0].onRun();
-    }
+    if (nextFound[0].onRun) nextFound[0].onRun();
   }
 }
 
@@ -88,15 +102,12 @@ const completeTutorial = () => {
 const closeTutorial = () => {
   const state = store.getState();
 
-  const nextFound = closeNext[state.tutorial.currentTutorial].filter(tut => tut.id === state.tutorial[state.tutorial.currentTutorial].completion)
-
-  runTut(nextFound)
-  if (nextFound.length >= 1) {
-
-    if (nextFound[0].confirm && !nextFound[0].skip) {
+  // const nextFound = closeNext[state.tutorial.currentTutorial].filter(tut => tut.id === state.tutorial[state.tutorial.currentTutorial].completion)
+  //
+  // runTut(nextFound)
       return Alert.alert(
         "Exit tutorial?",
-        `Are you sure you want to exit the tutorial for ${state.tutorial.currentTutorial}? You can always restart it from the settings menu.`,
+        `Are you sure you want to exit this tutorial? You can always re-open the tutorial from the settings menu.`,
         [
           {
             text: "Cancel", onPress: () => {
@@ -110,27 +121,22 @@ const closeTutorial = () => {
           },
         ]
       );
-    }
 
-    if (nextFound[0].skip) setTimeout(() => {
-      // store.dispatch(guideNext(state.tutorial.currentTutorial))
-    }, 1);
-  }
+
 }
 
-const handleClose = () => {
+const handleClose = (timeout) => {
   const state = store.getState();
 
   store.dispatch(closedTutorial("breathing"))
   const nextFound = closeNext[state.tutorial.currentTutorial].filter(tut => tut.id === state.tutorial[state.tutorial.currentTutorial].completion)
-  runTut(nextFound)
+  runTutorial(nextFound)
   setTimeout(() => {
     store.dispatch(guideNext("breathing"))
-    store.dispatch(openedTutorial("breathing"))
-  }, 200)
+  }, timeout ?? 600)
 }
 
-const makeTooltipContent = (text) => <MakeTooltipRender text={text}/>
+const makeTooltipContent = (text, bottom) => <MakeTooltipRender text={text} bottom={bottom}/>
 
 
 const MakeTooltipRender = props => {
@@ -139,13 +145,18 @@ const MakeTooltipRender = props => {
       <View style={styles.tooltipView}>
         <Text style={styles.tooltipText}>{props.text}</Text>
       </View>
+      <View style={[styles.exitButton, {[props.bottom ? "bottom" : "top"]: props.bottom ? -36 : -28}]}>
+        <Pressable onPress={closeTutorial} hitSlop={20}>
+          <Text style={styles.exit}>Exit Tutorial</Text>
+        </Pressable>
+      </View>
     </>
   )
 }
 
 const guide = [
   {
-    content: makeTooltipContent("Tap here to create a new pattern"),
+    content: makeTooltipContent("Tap here to create a new pattern.", true),
     tooltipProps: {
       // accessible: true,
       allowChildInteraction: true,
@@ -157,62 +168,128 @@ const guide = [
       // closeOnChildInteraction: true,
       placement: "bottom",
       closeOnContentInteraction: true,
-      onClose: () => closeTutorial(),
+      // onClose: () => closeTutorial(),
+      contentStyle: {
+        overflow: "visible"
+      },
     }
   },
   {
-    content: makeTooltipContent("You can create custom patterns here."),
+    content: makeTooltipContent("You can customize your own pattern using these settings", true),
     tooltipProps: {
-      accessible: true,
       placement: "bottom",
       closeOnChildInteraction: true,
       closeOnContentInteraction: true,
+      displayInsets: {
+        left: 20,
+        right: 20
+      },
       // onClose: closeTutorial,
-      topAdjustment: 58,
-      onClose: handleClose
+      topAdjustment: 56,
+      onClose: () => handleClose(600),
+      contentStyle: {
+        overflow: "visible"
+      },
     }
   },
   {
-    content: makeTooltipContent("Or select a premade pattern"),
+    content: makeTooltipContent("For this tutorial we'll choose one of the curated patterns.", false),
     tooltipProps: {
-      placement: "bottom",
-      // displayInsets: {
-      //   bottom: 400
-      // },
-      // topAdjustment: 400
+      placement: "top",
 
       closeOnChildInteraction: true,
 
       allowChildInteraction: false,
       closeOnContentInteraction: true,
-      onClose: handleClose,
+      displayInsets: {
+        left: 20,
+        right: 20
+      },
+      onClose: () => handleClose(400),
+      contentStyle: {
+        overflow: "visible"
+      },
     }
   },
   {
-    content: makeTooltipContent("Tap here to use the box pattern"),
+    content: makeTooltipContent("You can read more or press \"Use Pattern\" to select this pattern.", true),
+    tooltipProps: {
+      // accessible: true,
+      allowChildInteraction: true,
+      placement: "bottom",
+      closeOnChildInteraction: false,
+      // topAdjustment: 0,
+      displayInsets: {
+        left: 0,
+        right: 20
+      },
+      closeOnContentInteraction: false,
+      childContentSpacing: 25,
+      // onClose: () => closeTutorial(),
+      contentStyle: {
+        overflow: "visible"
+      },
+    }
+  },
+  {
+    content: makeTooltipContent("Tap \"Done\" to save your new pattern", false),
     tooltipProps: {
 
       accessible: true,
       allowChildInteraction: true,
-      placement: "bottom",
+      placement: "top",
+      displayInsets: {
+        left: 20,
+        right: 20
+      },
+      // arrowSize: 0,
       closeOnChildInteraction: false,
-      closeOnContentInteraction: true,
-      onClose: () => closeTutorial(),
+      closeOnContentInteraction: false,
+      // onClose: () => closeTutorial(),
+      contentStyle: {
+        overflow: "visible"
+      },
     }
   },
-  // {
-  //   content: makeTooltipContent("Tap to save your box pattern"),
-  //   tooltipProps: {
-  //
-  //     accessible: true,
-  //     allowChildInteraction: true,
-  //     placement: "top",
-  //     arrowSize: 0,
-  //     closeOnChildInteraction: false,
-  //     closeOnContentInteraction: true,
-  //     onClose: () => closeTutorial(),
-  //   }
-  // }
+  {
+    content: makeTooltipContent("Tap your new pattern to use it.", false),
+    tooltipProps: {
+      accessible: true,
+      allowChildInteraction: true,
+      placement: "top",
+      displayInsets: {
+        left: 20,
+        right: 20
+      },
+      // arrowSize: 0,
+      closeOnChildInteraction: false,
+      closeOnContentInteraction: true,
+      // onClose: () => closeTutorial(),
+      contentStyle: {
+        overflow: "visible"
+      },
+    }
+  },
+  {
+    content: makeTooltipContent("You can set the duration and other settings from here. Press \"Start\" to begin the pattern."),
+    tooltipProps: {
+      accessible: false,
+      allowChildInteraction: true,
+      placement: "bottom",
+      displayInsets: {
+        left: 20,
+        right: 20
+      },
+      // arrowSize: 0,
+      closeOnChildInteraction: false,
+      closeOnContentInteraction: false,
+      useInteractionManager: true,
+      // onClose: () => closeTutorial(),
+      contentStyle: {
+        overflow: "visible"
+      },
+    }
+  }
 ];
 
 export default guide

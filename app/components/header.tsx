@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Dimensions, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Dimensions, Pressable, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useSelector} from "react-redux";
 import PropTypes from 'prop-types'
@@ -39,18 +39,18 @@ const PageHeader = ({title, settingsIcon, settingsCallback, titleWhite, settings
         blurType="light"
         blurAmount={8}
       />
-      <TouchableOpacity style={styles.backButton} onPress={goBack}>
+      <Pressable style={[styles.backButton, {top: notch ? 14 : 7}]} onPress={goBack} hitSlop={10}>
         <Icon name="arrow-left" color="black" size={26}/>
-      </TouchableOpacity>
-      <View style={styles.settingsButton}>
+      </Pressable>
+      <View style={[styles.settingsButton, {top: notch ? 14 : 7}]}>
         {
           (settingsButton ?? true) &&
-          <TouchableOpacity onPress={settingsCallback}>
+          <Pressable onPress={settingsCallback} hitSlop={10}>
             <Icon name={settingsIcon || "cog"} color="black" size={26}/>
-          </TouchableOpacity>
+          </Pressable>
         }
       </View>
-      <View style={[styles.titleContainer, {marginTop: notch ? 15 : 7}]} pointerEvents="box-none">
+      <View style={[styles.titleContainer, {marginTop: notch ? 16 : 7}]} pointerEvents="box-none">
         <Text numberOfLines={1} style={styles.title}>{title}</Text>
       </View>
     </View>
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     width: "100%",
-    height: Dimensions.get("window").height / 10,
+    height: Dimensions.get("window").height / 11,
     position: "relative",
   },
   absolute: {
@@ -89,12 +89,12 @@ const styles = StyleSheet.create({
     left: 0,
     bottom: 0,
     right: 0,
-    height: Dimensions.get("window").height / 10,
+    height: Dimensions.get("window").height / 11,
     // backgroundColor: "rgba(255, 255, 255, 0.4)",
   },
   title: {
-    fontWeight: "bold",
-    fontFamily: "Helvetica",
+    fontWeight: "400",
+    fontFamily: "Avenir",
     fontSize: 24
   },
   titleContainer: {
@@ -108,7 +108,6 @@ const styles = StyleSheet.create({
   },
   backButton: {
     position: "absolute",
-    top: 10,
     height: "100%",
     left: 25,
     alignItems: "center",

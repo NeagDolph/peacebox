@@ -32,7 +32,7 @@ export default RenderSequence
 
 const styles = StyleSheet.create({
   sequenceItem: {
-    width: 65,
+    width: 60,
     height: 60,
     backgroundColor: colors.background2,
     borderRadius: 11,
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     width: "100%",
     lineHeight: 18,
     fontWeight: "300",
-    fontSize: 16
+    fontSize: 15
   },
   sequenceCount: {
     fontFamily: "Avenir-Black",
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
   },
   sequenceContainer: {
     width: "100%",
-    justifyContent: "space-between",
+    justifyContent: "space-evenly",
     flexDirection: "row"
   },
 })

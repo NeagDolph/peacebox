@@ -105,7 +105,8 @@ const styles = StyleSheet.create({
     // justifyContent: "center",
     alignItems: "center",
     flexDirection: "column",
-    marginVertical: 80,
+    marginTop: 80,
+    marginBottom: 60
     // flex: 1,
     // width: 300
   },

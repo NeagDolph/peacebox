@@ -13,22 +13,41 @@ import {
 } from 'react-native';
 import {useSelector, useDispatch} from 'react-redux'
 import FastImage from "react-native-fast-image";
+import {NativeViewGestureHandler, State, TapGestureHandler} from "react-native-gesture-handler";
+import FadeGradient from "../../components/fade-gradient";
+import Animated from 'react-native-reanimated';
 
 const WritingCard = (props: any) => {
   const {inputRef, content, setContent, handleLayout, editable, placeholder} = props
   const [lineHeight, setLineHeight] = useState(0)
   const [pageHeight, setPageHeight] = useState(0)
   const [pageWidth, setPageWidth] = useState(0)
-  const innerText = useRef(null);
+
+  const tapRef = useRef(null)
 
   const cardLayout = ({nativeEvent: {layout}}) => {
     setLineHeight(layout.height / 18.9529614) // Constant for number of lines in the paper image
     setPageHeight(layout.width * 1.44142259) // Constant for paper image aspect ratio
+    // setPageHeight(layout.width * 1.94142259) // Constant for paper image aspect ratio
     setPageWidth(layout.width)
   }
 
+  const handleTap = (event) => {
+    console.log('handle', event.nativeEvent.state)
+    if (event.nativeEvent.state === State.ACTIVE) {
+      console.log("handle active")
+      setContent("")
+    } else if (event.nativeEvent.state = State.BEGAN && !inputRef.current.isFocused()) {
+      inputRef.current.focus();
+    }
+  }
+
+  const handleEvent = (event) => {
+    console.log(event.nativeEvent)
+  }
+
   return (
-    <Surface style={[styles.card, {height: pageHeight}]} onLayout={cardLayout}>
+    <View style={[styles.card, {height: pageHeight}]} onLayout={cardLayout}>
       <FastImage
         style={[styles.imageStyle, {height: pageHeight, width: pageWidth}]}
         source={require("../../assets/paper.jpg")}
@@ -47,13 +66,22 @@ const WritingCard = (props: any) => {
         autoFocus={false}
         keyboardType="default"
         editable={editable}
-        contextMenuHidden={true}
         ref={inputRef}
+        contextMenuHidden={true}
       >
-        <Text style={[styles.inputLine, {lineHeight}]} ref={innerText}>{content}</Text>
+        <Text style={[styles.inputLine, {lineHeight}]}>{content}</Text>
       </TextInput>
+      <TapGestureHandler onHandlerStateChange={handleTap} ref={tapRef} hitSlop={30} numberOfTaps={2}>
+        <Animated.View
+          style={{
+            zIndex: 1,
+            position: 'absolute',
+            ...StyleSheet.absoluteFillObject,
+          }}
+        />
+      </TapGestureHandler>
       {props.children}
-    </Surface>
+    </View>
   );
 };
 
@@ -73,9 +101,9 @@ const styles = StyleSheet.create({
 
     backgroundColor: "#f5f7ea",
     paddingTop: 3,
-    paddingLeft: "7%",
+    // paddingLeft: "7%",
     borderRadius: 8,
-    paddingRight: 10,
+    // paddingRight: 10,
     fontSize: 12,
     // overflow: "hidden",
     shadowColor: "rgba(0, 0, 0, 0.7)",
@@ -93,6 +121,8 @@ const styles = StyleSheet.create({
     height: "100%",
     fontSize: 14,
     lineHeight: 20,
+    paddingLeft: "7%",
+    paddingRight: 10,
     top: -8,
     position: "relative"
   },
@@ -103,4 +133,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default withTheme(WritingCard);
+export default WritingCard;

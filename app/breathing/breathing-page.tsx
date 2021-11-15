@@ -32,7 +32,7 @@ import GestureHandlerRootView, {NativeViewGestureHandler} from "react-native-ges
 import breathingGuide from '../guides/breathing-guide';
 import {openedTutorial, guideNext, startTutorial, pushRestart} from '../store/features/tutorialSlice';
 import Tooltip from 'react-native-walkthrough-tooltip';
-import useTooltip from "./components/tooltip-hook";
+import useTooltip from "../components/tooltip-hook";
 
 const modalContent = require("./info.json");
 
@@ -43,7 +43,9 @@ const BreathingPage = (props) => {
 
   const tooltip = useTooltip();
 
-  // const open = useSelector(state => state.tutorial.breathing.open);
+  const breathingIndex = useSelector(state => state.tutorial.breathing.completion);
+  const createdPattern = useSelector(state => state.tutorial.breathing.createdPattern);
+  const completion = useSelector(state => state.tutorial.breathing.completion);
   const dispatch = useDispatch();
 
 
@@ -57,6 +59,13 @@ const BreathingPage = (props) => {
 
   const panRef = useRef(null)
   const scrollRef = useRef(null)
+  const itemsScrollRef = useRef(null)
+
+  const listenScrollY = useSelector(state => state.breathing.editScroll);
+
+  useEffect(() => {
+    if (breathingIndex === 5) itemsScrollRef.current.scrollTo({y: listenScrollY, animated: true})
+  }, [listenScrollY])
 
 
   useEffect(() => {
@@ -71,10 +80,14 @@ const BreathingPage = (props) => {
 
     }
 
-    startGuide()
-
-
+    setTimeout(startGuide, 600);
   }, [])
+
+  useEffect(() => {
+    if (completion === 5) {
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut) //Tutorial new pattern animation
+    }
+  }, [completion])
 
 
   const startGuide = () => {
@@ -84,9 +97,6 @@ const BreathingPage = (props) => {
 
 
   const newPattern = () => {
-    console.log("NEWPA")
-
-    // setEditMode(false)
     const newId = uuidv4();
 
     const patternObj = {
@@ -124,19 +134,28 @@ const BreathingPage = (props) => {
     props.navigation.navigate("Use", {id})
   };
 
-  const renderPatterns = () => Object.values(patterns).map(el => (
-    <PatternItem
-      key={el.id}
-      editPattern={editPattern}
-      panRef={panRef}
-      usePattern={usePattern}
-      deletePattern={deletePattern}
-      patternData={el}
-      buttonVisible={buttonVisible}
-      editMode={editMode}
-      scrollRef={scrollRef}
-    />
-  ));
+  const renderPatterns = () => {
+    let patternValues = Object.values(patterns);
+
+    if (breathingIndex === 5 && createdPattern) patternValues = patternValues.sort((a,b) => a.id === createdPattern ? -1 : 1)
+
+    return patternValues.map(el => {
+      const item = <PatternItem
+        key={el.id}
+        id={el.id}
+        editPattern={editPattern}
+        panRef={panRef}
+        usePattern={usePattern}
+        deletePattern={deletePattern}
+        patternData={el}
+        buttonVisible={buttonVisible}
+        editMode={editMode}
+        scrollRef={scrollRef}
+      />
+
+      return item;
+    });
+  }
 
   const deletePattern = (id) => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
@@ -154,7 +173,6 @@ const BreathingPage = (props) => {
 
   return (
     <>
-
       <PageHeader
         title="Breathing"
         inlineTitle={true}
@@ -167,7 +185,7 @@ const BreathingPage = (props) => {
         })}/>
       <View style={styles.container}>
         <View style={styles.header}>
-          <Text style={styles.headerText}>Your Breathing Patterns</Text>
+          <Text style={styles.headerText}>Your Patterns</Text>
           {tooltip(<TouchableOpacity onPress={newPattern}>
               <View style={styles.newButton}>
                 <Icon name="plus" size={23} color={colors.accent}/>
@@ -176,7 +194,7 @@ const BreathingPage = (props) => {
         </View>
         <FadeGradient top={0.1} bottom={0}>
           <NativeViewGestureHandler ref={scrollRef} simultaneousHandlers={panRef}>
-            <ScrollView style={styles.scrollView} bounces={false}>
+            <ScrollView style={styles.scrollView} ref={itemsScrollRef} bounces={true}>
               <View style={styles.patternList}>
                 {renderPatterns()}
               </View>
@@ -252,6 +270,7 @@ const styles = StyleSheet.create({
     color: colors.primary,
     fontWeight: "300",
     position: "relative",
+    fontFamily: "System"
   },
   newButton: {
     width: 65,

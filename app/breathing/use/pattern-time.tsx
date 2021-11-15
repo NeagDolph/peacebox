@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 
-import {ActivityIndicator, AppState, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {ActivityIndicator, Alert, AppState, Linking, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import TimeHeader from "./components/time-header";
 import RenderSequence from "./components/render-sequence";
 import BreathingAnim from "./components/breathing-animation";
@@ -8,7 +8,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {setStart} from "../../store/features/breathingSlice";
 import TimeControls from "./components/time-controls";
 import PrefersHomeIndicatorAutoHidden from "react-native-home-indicator";
-import { useKeepAwake } from '@sayem314/react-native-keep-awake';
+import {useKeepAwake} from '@sayem314/react-native-keep-awake';
 import {pattern} from "../../helpers/haptic"
 import crashlytics from '@react-native-firebase/crashlytics';
 import Sound from "react-native-sound"
@@ -84,7 +84,7 @@ const PatternTime = ({route, navigation}) => {
 
     let intervalTime = 1000;
 
-    if ([1,3].includes(currentIndex) && currentTime + 1 === sequenceTime) intervalTime = 1300;
+    if ([1, 3].includes(currentIndex) && currentTime + 1 === sequenceTime) intervalTime = 1300;
 
     if (!paused) countInterval.current = setTimeout(countStep, intervalTime);
   }, [secondsPassed])
@@ -220,6 +220,26 @@ const PatternTime = ({route, navigation}) => {
 
   const exit = () => navigation.navigate("Patterns")
 
+  const confirmExit = () => {
+    crashlytics().log("Pressed exit button in pattern")
+    setPaused(true)
+    Alert.alert(
+      "Exit Breathing?",
+      `Are you sure you want to exit this breathing pattern?`,
+      [
+
+        {
+          text: "Confirm", onPress: () => {
+            crashlytics().log("Exited breathing pattern");
+            exit();
+          }
+
+        },
+        {text: "Nevermind"},
+      ]
+    );
+  }
+
   const completed = () => {
     crashlytics().log("Pattern timer completed | ID: " + id)
     navigation.goBack();
@@ -256,7 +276,7 @@ const PatternTime = ({route, navigation}) => {
   return (
     <View style={styles.container}>
       <PrefersHomeIndicatorAutoHidden/>
-      <TimeHeader exit={exit}/>
+      {/*<TimeHeader exit={exit}/>*/}
       <RenderSequence style={styles.sequenceContainer} sequence={patternData.sequence} backgroundColor="white"/>
       <View style={styles.animationContainer}>
         <BreathingAnim
@@ -277,16 +297,32 @@ const PatternTime = ({route, navigation}) => {
         togglePause={togglePause}
         paused={paused}
       />
+      <View style={styles.exitContainer}>
+
+        <TouchableOpacity onPress={confirmExit}>
+          <Text style={styles.exit}>Exit</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  exit: {
+    fontSize: 18,
+    fontFamily: "Avenir",
+    // fontWeight: "normal"
+  },
+  exitContainer: {
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center"
+  },
   sequenceContainer: {
     marginTop: 20
   },
   container: {
-    paddingTop: 15,
+    paddingTop: 40,
     paddingHorizontal: 30,
   },
   animationContainer: {

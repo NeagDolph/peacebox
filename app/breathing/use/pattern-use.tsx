@@ -15,12 +15,18 @@ import SettingsModal from "../components/settings-modal";
 import RenderSequence from "./components/render-sequence";
 import haptic from "../../helpers/haptic";
 import crashlytics from "@react-native-firebase/crashlytics";
+import useTooltip from "../../components/tooltip-hook";
+import { guideNext } from '../../store/features/tutorialSlice';
 
 const PatternUse = ({route, navigation}) => {
   const {id} = route.params
   const patternData = useSelector(state => state.breathing.patterns[id]);
   const dispatch = useDispatch();
+
+  const running = useSelector(state => state.tutorial.breathing.running);
   const [settingsVisible, setSettingsVisible] = useState(false);
+
+  const tooltip = useTooltip();
 
   const showSettingsModal = () => setSettingsVisible(true);
   const hideSettingsModal = () => setSettingsVisible(false);
@@ -45,17 +51,16 @@ const PatternUse = ({route, navigation}) => {
   const startTimer = () => {
     crashlytics().log("Page Opened: Pattern Timer");
     dispatch(setStart({id: patternData.id, start: Date.now()}));
+
+    if (running) {
+      dispatch(guideNext("breathing"));
+    }
+
     navigation.navigate("Time", {id});
   }
 
-  return (
-    <>
-      <PageHeader
-        title={patternData.name}
-        inlineTitle={true}
-        settingsButton={false}
-        titleWhite={false}
-      />
+  const renderCard = () => {
+    const card = (
       <Surface style={styles.card}>
         <RenderSequence sequence={patternData.sequence} backgroundColor={colors.background2}/>
         <View style={styles.timingContainer}>
@@ -74,7 +79,7 @@ const PatternUse = ({route, navigation}) => {
 
             activeFontStyle={{fontWeight: "bold", fontSize: 16, fontFamily: "Avenir-Heavy"}}/>
         </View>
-        <View style={styles.settingsContainer}>
+        <View style={styles.settingsContainer} pointerEvents={running ? "none" : "auto"}>
           <Button
             onPress={showSettingsModal}
             style={{borderRadius: 6}}
@@ -95,10 +100,29 @@ const PatternUse = ({route, navigation}) => {
             contentStyle={{marginHorizontal: 10, marginVertical: 5}}>Start</Button>
         </View>
       </Surface>
+    );
+
+    return tooltip(card, 6)
+  }
+
+  return (
+    <>
+      <PageHeader
+        title={patternData.name}
+        inlineTitle={true}
+        settingsButton={false}
+        titleWhite={false}
+      />
+      {renderCard()}
       <Provider>
         <SettingsModal hideEditModal={hideSettingsModal} visible={settingsVisible} patternData={patternData}/>
       </Provider>
-      {/*<FontList text={"Setting"}></FontList>*/}
+      {/*<FontL
+
+      ist text={"Setting"}></FontList>*/}
+
+
+
     </>
   );
 };

@@ -1,5 +1,14 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {LayoutAnimation, Linking, StyleSheet, Text, TouchableHighlight, TouchableOpacity, View} from 'react-native';
+import {
+  LayoutAnimation,
+  Linking,
+  Pressable,
+  StyleSheet,
+  Text,
+  TouchableHighlight,
+  TouchableOpacity,
+  View
+} from 'react-native';
 import {colors} from "../../../config/colors";
 import {Surface} from "react-native-paper";
 import Fade from "../../../components/fade-wrapper";
@@ -8,8 +17,8 @@ import {Link} from "@react-navigation/native";
 import Tooltip from "react-native-walkthrough-tooltip";
 import breathingGuide from "../../../guides/breathing-guide";
 import {useDispatch, useSelector} from "react-redux";
-import { guideNext } from '../../../store/features/tutorialSlice';
-import useTooltip from "../../components/tooltip-hook";
+import { guideNext, openedTutorial, closedTutorial } from '../../../store/features/tutorialSlice';
+import useTooltip from "../../../components/tooltip-hook";
 
 const PremadePattern = (props) => {
   const {name, sequence, description} = props.item;
@@ -43,32 +52,30 @@ const PremadePattern = (props) => {
   const addLink = (text) => {
     const results = Array.from(text.matchAll(/\[(.+)\]\((.+)\)/g))
 
-    if (results.length < 1) return {}
+    if (results.length < 1) return <Text style={styles.desc}>{text}</Text>
 
 
     return results.reduce((curr, match, i) => {
-
-      const before = <>{text.substring(0, match.index)}</>
-      const after = <>{text.substring(match.index + match[0].length, match.input.length)}</>
-      return <>{before}<Text style={styles.link} onPress={() => Linking.openURL(match[2])}>{match[1]}</Text>{after}</>
-    }, <></>)
+      const before = <Text style={styles.desc}>{text.substring(0, match.index)}</Text>
+      const after = <Text style={styles.desc}>{text.substring(match.index + match[0].length, match.input.length)}</Text>
+      return <Text style={styles.desc}>{before}<Text style={styles.link} onPress={() => Linking.openURL(match[2])}>{match[1]}</Text>{after}</Text>
+    }, <Text style={styles.desc}></Text>)
   }
 
   const truncate = (text, length) => {
-    let tempText
+    const inputText = text.length > (length) ? (text.substring(0, length) + "...") : text
 
-    if (!text || !length) tempText = addLink(text)
-    else tempText = text.length > length ? text.substring(0, length) + "..." : text
-
-    return <Text style={styles.desc}>
-      {tempText}
-    </Text>
+    const link = addLink(inputText)
+    return link
   }
 
   const handleUse = () => {
     props.usePattern(props.item)
+    dispatch(closedTutorial("breathing"))
 
-    if (running && breathingIndex === 3) dispatch(guideNext("breathing"))
+    if (running && breathingIndex === 3) setTimeout(() => {
+      dispatch(guideNext("breathing"))
+    }, 600)
   }
 
 
@@ -77,22 +84,19 @@ const PremadePattern = (props) => {
       <Text style={styles.title}>{name}</Text>
       <View style={styles.patternContainer}>{renderSequence()}</View>
       <View style={styles.descContainer}>
-        {truncate(description, descriptionBig ? undefined : 40)}
+        {truncate(description, descriptionBig ? 99999 : 70)}
         <View style={styles.readMore}>
-          <TouchableOpacity onPress={toggleReadMore}>
+          <Pressable onPress={toggleReadMore} hitSlop={30}>
             <Text style={styles.readMoreTitle}>{descriptionBig ? "Read Less" : "Read More"}</Text>
-          </TouchableOpacity>
+          </Pressable>
         </View>
       </View>
       <View style={styles.useContainer}>
-        {tooltip(
-          <TouchableOpacity onPress={handleUse}>
-            <View style={styles.useButton}>
-              <Text style={styles.useTitle}>Use Pattern</Text>
-            </View>
-          </TouchableOpacity>,
-          3
-        )}
+        <TouchableOpacity onPress={handleUse}>
+          <View style={styles.useButton}>
+            <Text style={styles.useTitle}>Use Pattern</Text>
+          </View>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -101,7 +105,7 @@ const PremadePattern = (props) => {
 PremadePattern.propTypes = {
   usePattern: PropTypes.func,
   item: PropTypes.object,
-  tooltip: PropTypes.bool
+  itemNum: PropTypes.number
 
 }
 
@@ -139,7 +143,7 @@ const styles = StyleSheet.create({
   },
   descContainer: {
     alignItems: "flex-start",
-    paddingRight: 8,
+    paddingHorizontal: 8,
     // marginTop: 5,
   },
   desc: {

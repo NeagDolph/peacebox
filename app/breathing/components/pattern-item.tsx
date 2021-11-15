@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {
   Alert,
   Dimensions,
-  Easing,
+  Easing, Pressable,
   StyleSheet,
   TouchableOpacity,
   TouchableWithoutFeedback,
@@ -25,6 +25,10 @@ import Animated, {
 } from "react-native-reanimated";
 import Backplate from "./backplate";
 import haptic from "../../helpers/haptic";
+import useTooltip from "../../components/tooltip-hook";
+import {useDispatch, useSelector} from "react-redux";
+import {openedTutorial, guideNext, startTutorial, pushRestart} from '../../store/features/tutorialSlice';
+import { closedTutorial } from '../../store/features/tutorialSlice';
 
 const PatternItem = props => {
   const [itemHeight, setItemHeight] = useState(0);
@@ -32,9 +36,18 @@ const PatternItem = props => {
   const [beingDragged, setBeingDragged] = useState(false)
   const lastDrag = useRef(null)
 
+  const breathingIndex = useSelector(state => state.tutorial.breathing.completion);
+  const createdPattern = useSelector(state => state.tutorial.breathing.createdPattern);
+  const open = useSelector(state => state.tutorial.breathing.open);
+
+  const dispatch = useDispatch();
+
   const tapRef = useRef(null)
 
+  const tooltip = useTooltip();
+
   const hasPause = useCallback(() => props.patternData.settings.breakBetweenCycles && !props.buttonVisible, [props.buttonVisible, props.patternData.settings.breakBetweenCycles])
+
 
   useEffect(() => {
     if (lastDrag.current !== 0 && dragMode === 0) {
@@ -82,16 +95,13 @@ const PatternItem = props => {
         damping: 25,
         stiffness: 260
       });
-      console.log("end")
       runOnJS(swipeActivate)();
     }
   })
 
   function swipeActivate() {
-
     lastDrag.current = dragMode;
     setDragMode(0);
-    console.log("opin seame", props.patternData.id, dragMode)
   }
 
   const panStyle = useAnimatedStyle(() => {
@@ -124,7 +134,7 @@ const PatternItem = props => {
       "Delete this pattern?",
       `Are you sure you want to delete "${props.patternData.name}"?`,
       [
-        {text: "Nevermind",},
+        {text: "Nevermind"},
         {
           text: "Confirm", onPress: () => {
             crashlytics().log("Pattern deleted: " + JSON.stringify(props.patternData));
@@ -150,11 +160,47 @@ const PatternItem = props => {
 
   const handleTap = (event) => {
     if (event.nativeEvent.state === State.ACTIVE) {
-      if (props.editMode) props.editPattern(props.patternData.id);
-      else props.usePattern(props.patternData.id)
+      props.usePattern(props.id)
+    } else if (breathingIndex === 5 && open && props.id === createdPattern) {
+      props.usePattern(props.id)
+      dispatch(closedTutorial("breathing"))
+
+      setTimeout(() => dispatch(guideNext("breathing")), 600);
     }
   }
 
+
+  const renderCard = () => {
+    const card = (<Animated.View style={[styles.patternItem, panStyle]} onLayout={(event) => setItemHeight(event.nativeEvent.layout.height)}>
+      <Text style={styles.title} numberOfLines={1}
+            adjustsFontSizeToFit>{truncateTitle(props.patternData.name)}</Text>
+      <View
+        style={styles.patternData}>
+        <View style={styles.arrowContainer}>
+          <IconEntypo style={styles.arrow} name="chevron-thin-left" size={25} color={colors.text2}/>
+          <View style={styles.sequenceList}>
+            {generateSequence(props.patternData.sequence)}
+          </View>
+          <IconEntypo style={styles.arrow} name="chevron-thin-right" size={25} color={colors.text2}/>
+        </View>
+        <View style={[styles.actionButtons, {marginVertical: hasPause() ? 0 : 10}]}>
+          <Button
+            mode="contained"
+            style={styles.button}
+            onPress={handleTap}
+            contentStyle={{height: "100%", alignItems: "center"}}
+            labelStyle={styles.buttonText}
+            color={colors.accent}
+          >Use</Button>
+        </View>
+        {renderPauseText()}
+      </View>
+    </Animated.View>)
+
+    if (breathingIndex === 5 && createdPattern === props.id) {
+      return tooltip(<Pressable onPress={handleTap}>{card}</Pressable>, 5)
+    } else return card
+  }
 
 
   return (
@@ -164,35 +210,7 @@ const PatternItem = props => {
         <Animated.View>
 
           <PanGestureHandler ref={props.panRef} onGestureEvent={panHandler} simultaneousHandlers={[props.scrollRef]}>
-            <Animated.View style={[styles.patternItem, panStyle]}
-                           onLayout={(event) => setItemHeight(event.nativeEvent.layout.height)}>
-              {/*<View style={styles.swipeContainer}>*/}
-              {/*  <IconMaterial size={20} color={colors.text} name="arrow-left-right"/>*/}
-              {/*</View>*/}
-              <Text style={styles.title} numberOfLines={1}
-                    adjustsFontSizeToFit>{truncateTitle(props.patternData.name)}</Text>
-              <View
-                style={[styles.patternData, {paddingBottom: (props.patternData.settings.breakBetweenCycles || props.editMode) ? 0 : 0}]}>
-                <View style={styles.arrowContainer}>
-                  <IconEntypo style={styles.arrow} name="chevron-thin-left" size={25} color={colors.text2}/>
-                  <View style={styles.sequenceList}>
-                    {generateSequence(props.patternData.sequence)}
-                  </View>
-                  <IconEntypo style={styles.arrow} name="chevron-thin-right" size={25} color={colors.text2}/>
-                </View>
-                <View style={[styles.actionButtons, {marginVertical: hasPause() ? 0 : 10}]}>
-                  <Button
-                    mode="contained"
-                    style={styles.button}
-                    onPress={() => {return 5}}
-                    contentStyle={{height: "100%", alignItems: "center"}}
-                    labelStyle={styles.buttonText}
-                    color={colors.accent}
-                  >Use</Button>
-                </View>
-                {renderPauseText()}
-              </View>
-            </Animated.View>
+            {renderCard()}
           </PanGestureHandler>
         </Animated.View>
       </TapGestureHandler>
@@ -208,7 +226,8 @@ PatternItem.propTypes = {
   editMode: PropTypes.bool,
   buttonVisible: PropTypes.bool,
   panRef: PropTypes.any,
-  scrollRef: PropTypes.any
+  scrollRef: PropTypes.any,
+  id: PropTypes.string
 }
 
 const styles = StyleSheet.create({
@@ -296,10 +315,10 @@ const styles = StyleSheet.create({
     fontFamily: "Avenir Next"
   },
   buttonText: {
-    marginHorizontal: 15,
+    marginHorizontal: 0,
     color: "white",
     marginVertical: 0,
-    lineHeight: 20,
+    lineHeight: 34,
     letterSpacing: 0.5,
   },
   button: {
@@ -314,11 +333,11 @@ const styles = StyleSheet.create({
     bottom: 0,
     flexDirection: "row",
     alignSelf: "center",
-    flex: 1,
+    // flex: 1,
     paddingHorizontal: 25,
     marginHorizontal: 15,
     alignItems: "stretch",
-    height: 30,
+    height: 34,
     opacity: 1,
   },
   patternItem: {

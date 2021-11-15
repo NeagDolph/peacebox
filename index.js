@@ -29,7 +29,7 @@ import GestureHandlerRootView from 'react-native-gesture-handler';
 //ignore logs
 
 // Ignore log notification by message:
-LogBox.ignoreLogs(['EventEmitter...']);
+LogBox.ignoreLogs(['EventEmitter.removeListener']);
 
 const RootStack = createNativeStackNavigator();
 

@@ -11,15 +11,19 @@ import {colors} from "../../config/colors";
 import FadeGradient from "../../components/fade-gradient";
 import haptic from "../../helpers/haptic";
 import crashlytics from "@react-native-firebase/crashlytics";
-import {setEditVisible} from '../../store/features/breathingSlice'
+import {setEditScroll, setEditVisible} from '../../store/features/breathingSlice'
 import PatternNew from "./components/pattern-new";
-import useTooltip from "../components/tooltip-hook";
+import useTooltip from "../../components/tooltip-hook";
+import { setCreatedPattern, guideNext } from '../../store/features/tutorialSlice';
 
 const PatternModal = ({route, navigation}) => {
   const {newPattern, id} = route.params
   const dispatch = useDispatch()
   const patternData = useSelector(state => state.breathing.patterns[id]);
   const editVisible = useSelector(state => state.breathing.editVisible);
+
+  const breathingIndex = useSelector(state => state.tutorial.breathing.completion);
+  const open = useSelector(state => state.tutorial.breathing.open);
 
   const tooltip = useTooltip();
 
@@ -42,6 +46,13 @@ const PatternModal = ({route, navigation}) => {
     crashlytics().log("Done button pressed in pattern edit modal");
     haptic(1);
     navigation.goBack();
+
+    setTimeout(() => {
+      if (open && breathingIndex === 4) {
+        dispatch(setCreatedPattern(id))
+        dispatch(guideNext("breathing"))
+      }
+    }, 200)
   }
 
   return (

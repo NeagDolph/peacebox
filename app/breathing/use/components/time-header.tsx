@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import {StyleSheet, Text, View, SafeAreaView, TouchableOpacity} from 'react-native';
 
-const TimeHeader = props => {
+const TimeFooter = props => {
   return (
     <SafeAreaView>
       <TouchableOpacity onPress={props.exit}>
@@ -15,7 +15,7 @@ const TimeHeader = props => {
   );
 };
 
-TimeHeader.propTypes = {
+TimeFooter.propTypes = {
   exit: PropTypes.func.isRequired
 }
 
