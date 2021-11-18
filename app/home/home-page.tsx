@@ -6,6 +6,7 @@ import {
   Pressable,
   SafeAreaView,
   ScrollView,
+  StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -175,6 +176,13 @@ const HomePage = ({navigation}: any) => {
 
   return (
     <>
+      {/*<StatusBar*/}
+      {/*  // animated={true}*/}
+      {/*  // backgroundColor="#61dafb"*/}
+      {/*  barStyle="dark-content"*/}
+      {/*  // showHideTransition="slide"*/}
+      {/*  />*/}
+
       {endOfAnim || <LogoBox
           scrollOffset={scrollOffset}
           endOfScroll={endOfScroll}

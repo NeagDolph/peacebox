@@ -80,12 +80,12 @@ const InfoContent = (props) => {
     const {content: text, size} = item;
     const splitText = text.split("\n")
 
-    return splitText.map(el => {
-      if (el.startsWith("-")) return <View style={styles.bulletItem}>
+    return splitText.map((el, i) => {
+      if (el.startsWith("-")) return <View style={styles.bulletItem} key={i}>
         <Icon name="dot-single" size={40} color={colors.primary}/><Text
         style={[styles.desc, {fontSize: size}]}>{el.replace("- ", "")}</Text>
       </View>;
-      else return <Text style={styles.desc}>{el}</Text>
+      else return <Text style={styles.desc} key={i}>{el}</Text>
     })
   }
 
@@ -137,7 +137,7 @@ const InfoContent = (props) => {
     const returnArray = []
     for (let i = 0; i < textContent.length; i++) {
       returnArray.push(
-        <Animated.View style={[styles.indicatorLine, indicatorStyles(i)]}></Animated.View>
+        <Animated.View key={i} style={[styles.indicatorLine, indicatorStyles(i)]}></Animated.View>
       )
     }
 
@@ -262,7 +262,8 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 450,
     padding: 20,
-    marginVertical: 15
+    marginBottom: 15,
+    marginTop: 25
   },
   exitIcon: {
     color: colors.primary,
@@ -275,7 +276,7 @@ const styles = StyleSheet.create({
     height: 36,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 10
+    // marginTop: 10
   },
   title: {
     fontSize: 27,

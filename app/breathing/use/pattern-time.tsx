@@ -1,6 +1,16 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 
-import {ActivityIndicator, Alert, AppState, Linking, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  ActivityIndicator,
+  Alert,
+  AppState,
+  Linking, Pressable,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
+} from 'react-native';
 import TimeHeader from "./components/time-header";
 import RenderSequence from "./components/render-sequence";
 import BreathingAnim from "./components/breathing-animation";
@@ -12,6 +22,9 @@ import {useKeepAwake} from '@sayem314/react-native-keep-awake';
 import {pattern} from "../../helpers/haptic"
 import crashlytics from '@react-native-firebase/crashlytics';
 import Sound from "react-native-sound"
+import useTooltip from "../../components/tooltip-hook";
+import {colors} from "../../config/colors";
+import {exitTutorial} from '../../store/features/tutorialSlice';
 
 Sound.setCategory('Playback');
 
@@ -26,6 +39,11 @@ const PatternTime = ({route, navigation}) => {
   useKeepAwake();
 
   const sequence = patternData.sequence;
+
+  //Tutorial state
+  const tutorial = useSelector(state => state.tutorial.breathing)
+  const tooltip = useTooltip();
+  const dispatch = useDispatch();
 
   //Timing State
   const [cycleCount, setCycleCount] = useState(1)
@@ -58,6 +76,13 @@ const PatternTime = ({route, navigation}) => {
         setPaused(true)
       }
     });
+
+
+    setTimeout(() => { //Pause on tutorial
+      if (tutorial.open && tutorial.completion === 6) {
+        setPaused(true);
+      }
+    }, 500)
 
 
     return () => {
@@ -221,6 +246,11 @@ const PatternTime = ({route, navigation}) => {
   const exit = () => navigation.navigate("Patterns")
 
   const confirmExit = () => {
+    if (tutorial.open && tutorial.completion === 7) {
+      handleTutorialExit()
+      return;
+    } //Use different tap handler
+
     crashlytics().log("Pressed exit button in pattern")
     setPaused(true)
     Alert.alert(
@@ -245,6 +275,13 @@ const PatternTime = ({route, navigation}) => {
     navigation.goBack();
     navigation.navigate("Completed", {id})
     dismountAudio();
+  }
+
+  const handleTutorialExit = () => {
+    if (tutorial.open && tutorial.completion === 7) {
+      dispatch(exitTutorial("breathing"));
+      completed()
+    }
   }
 
   /*
@@ -275,7 +312,7 @@ const PatternTime = ({route, navigation}) => {
 
   return (
     <View style={styles.container}>
-      <PrefersHomeIndicatorAutoHidden/>
+      {/*<PrefersHomeIndicatorAutoHidden/>*/}
       {/*<TimeHeader exit={exit}/>*/}
       <RenderSequence style={styles.sequenceContainer} sequence={patternData.sequence} backgroundColor="white"/>
       <View style={styles.animationContainer}>
@@ -297,17 +334,24 @@ const PatternTime = ({route, navigation}) => {
         togglePause={togglePause}
         paused={paused}
       />
-      <View style={styles.exitContainer}>
-
-        <TouchableOpacity onPress={confirmExit}>
-          <Text style={styles.exit}>Exit</Text>
-        </TouchableOpacity>
-      </View>
+      {
+        tooltip(<Pressable style={styles.exitPressable} hitSlop={20} onPress={handleTutorialExit}>
+          <View style={styles.exitContainer}>
+            <TouchableOpacity onPress={confirmExit}>
+              <Text style={styles.exit}>Exit</Text>
+            </TouchableOpacity>
+          </View>
+        </Pressable>, 7)
+      }
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  exitPressable: {
+    width: "100%",
+
+  },
   exit: {
     fontSize: 18,
     fontFamily: "Avenir",
@@ -316,7 +360,10 @@ const styles = StyleSheet.create({
   exitContainer: {
     width: "100%",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    height: 40,
+    backgroundColor: colors.background,
+    borderRadius: 6
   },
   sequenceContainer: {
     marginTop: 20

@@ -19,7 +19,7 @@ function useTooltip() {
   }, [breathingGuide, breathingIndex])
 
 
-  const craftTooltip = (inner, index, key) => {
+  const craftTooltip = (inner, index) => {
     const props = currentTooltip() && currentTooltip().tooltipProps
 
     const onClose = () => {
@@ -30,10 +30,10 @@ function useTooltip() {
     const showTooltip = () => currentTooltip() && open && breathingIndex === index && running
 
     return showTooltip() ? (
-        <Tooltip content={currentTooltip().content} isVisible={true} {...{...currentTooltip().tooltipProps, onClose}} key={key}>
+        <Tooltip content={currentTooltip().content} isVisible={true} {...{...currentTooltip().tooltipProps, onClose}} key={-1}>
           {inner}
         </Tooltip>) :
-      <View key={key}>{inner}</View>;
+      <View key={-3}>{inner}</View>;
   }
 
   useEffect(() => {
@@ -43,7 +43,7 @@ function useTooltip() {
 
   }, []);
 
-  return (children, index, key?) => craftTooltip(children, index, key ?? 0);
+  return (children, index) => craftTooltip(children, index);
 }
 
 

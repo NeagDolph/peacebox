@@ -100,6 +100,7 @@ const completeTutorial = () => {
 
 
 const closeTutorial = () => {
+  console.log("exitrun")
   const state = store.getState();
 
   // const nextFound = closeNext[state.tutorial.currentTutorial].filter(tut => tut.id === state.tutorial[state.tutorial.currentTutorial].completion)
@@ -158,7 +159,7 @@ const guide = [
   {
     content: makeTooltipContent("Tap here to create a new pattern.", true),
     tooltipProps: {
-      // accessible: true,
+      accessible: true,
       allowChildInteraction: true,
       closeOnChildInteraction: false,
       backgroundColor: "rgba(0,0,0,0.7)",
@@ -168,7 +169,7 @@ const guide = [
       // closeOnChildInteraction: true,
       placement: "bottom",
       closeOnContentInteraction: true,
-      // onClose: () => closeTutorial(),
+      // onClose: () => console.log("hi"),
       contentStyle: {
         overflow: "visible"
       },
@@ -271,7 +272,7 @@ const guide = [
     }
   },
   {
-    content: makeTooltipContent("You can set the duration and other settings from here. Press \"Start\" to begin the pattern."),
+    content: makeTooltipContent("You can set the duration and other settings from here. Press \"Start\" to begin the pattern.", true),
     tooltipProps: {
       accessible: false,
       allowChildInteraction: true,
@@ -285,6 +286,26 @@ const guide = [
       closeOnContentInteraction: false,
       useInteractionManager: true,
       // onClose: () => closeTutorial(),
+      contentStyle: {
+        overflow: "visible"
+      },
+    }
+  },
+  {
+    content: makeTooltipContent("Tap here to exit the breathing pattern and complete the tutorial", false),
+    tooltipProps: {
+      accessible: false,
+      allowChildInteraction: true,
+      placement: "top",
+      displayInsets: {
+        left: 20,
+        right: 20
+      },
+      // arrowSize: 0,
+      closeOnChildInteraction: false,
+      closeOnContentInteraction: true,
+      useInteractionManager: true,
+      // onClose: () => store.dispatch(exitTutorial("breathing")),
       contentStyle: {
         overflow: "visible"
       },

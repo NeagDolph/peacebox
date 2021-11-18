@@ -69,10 +69,10 @@ const PatternNew = ({id, showEditModal, patternData}) => {
   }, [listenScrollY])
 
   const renderPremades = () => {
-    const patterns = <View style={styles.patternContainer} key={0}>{premadePatterns.map((el, i) => {
-      const pattern = <PremadePattern key={i} itemNum={i} item={el} usePattern={usePattern}/>
+    const patterns = <View style={styles.patternContainer} key={-2}>{premadePatterns.map((el, i) => {
+      const pattern = <PremadePattern key={i + 1} itemNum={i} item={el} usePattern={usePattern}/>
 
-      return breathingIndex === 3 && i === 0 ? tooltip(pattern, 3, i) : pattern
+      return breathingIndex === 3 && i === 0 ? tooltip(pattern, 3) : pattern
     })}</View>
 
     return breathingIndex === 2 ? tooltip(patterns, 2) : patterns
