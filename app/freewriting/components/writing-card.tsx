@@ -16,6 +16,7 @@ import FastImage from "react-native-fast-image";
 import {NativeViewGestureHandler, State, TapGestureHandler} from "react-native-gesture-handler";
 import FadeGradient from "../../components/fade-gradient";
 import Animated from 'react-native-reanimated';
+import haptic from "../../helpers/haptic";
 
 const WritingCard = (props: any) => {
   const {inputRef, content, setContent, handleLayout, editable, placeholder} = props
@@ -37,6 +38,7 @@ const WritingCard = (props: any) => {
     if (event.nativeEvent.state === State.ACTIVE) {
       console.log("handle active")
       setContent("")
+      haptic(2)
     } else if (event.nativeEvent.state = State.BEGAN && !inputRef.current.isFocused()) {
       inputRef.current.focus();
     }

@@ -245,6 +245,7 @@ const PatternTime = ({route, navigation}) => {
 
   const exit = () => navigation.navigate("Patterns")
 
+
   const confirmExit = () => {
     if (tutorial.open && tutorial.completion === 7) {
       handleTutorialExit()

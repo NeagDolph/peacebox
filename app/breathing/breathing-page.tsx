@@ -10,7 +10,7 @@ import {
   Easing,
   Text,
   Dimensions,
-  LayoutAnimation
+  LayoutAnimation, Alert
 } from 'react-native';
 import PageHeader from "../components/header";
 import Icon from "react-native-vector-icons/Entypo"
@@ -22,7 +22,6 @@ import PatternItem from "./components/pattern-item";
 import 'react-native-get-random-values';
 import {v4 as uuidv4} from 'uuid';
 import NumberPicker from "./components/numberpicker";
-import InfoModal from "../freewriting/components/info-modal";
 import {Provider} from "react-native-paper";
 import {setUsed} from "../store/features/settingsSlice";
 import FadeGradient from "../components/fade-gradient";
@@ -33,6 +32,7 @@ import breathingGuide from '../guides/breathing-guide';
 import {openedTutorial, guideNext, startTutorial, pushRestart} from '../store/features/tutorialSlice';
 import Tooltip from 'react-native-walkthrough-tooltip';
 import useTooltip from "../components/tooltip-hook";
+import crashlytics from "@react-native-firebase/crashlytics";
 
 const modalContent = require("./info.json");
 
@@ -75,12 +75,14 @@ const BreathingPage = (props) => {
         // startGuide();
 
 
+        setTimeout(startGuide, 500);
+
         // setModalVisible(true);
       });
 
     }
 
-    setTimeout(startGuide, 600);
+    // setTimeout(startGuide, 600);
   }, [])
 
   useEffect(() => {
@@ -93,6 +95,24 @@ const BreathingPage = (props) => {
   const startGuide = () => {
     dispatch(setEditScroll(0))
     dispatch(startTutorial("breathing"))
+  }
+
+
+  const confirmTutorial = () => {
+    return Alert.alert(
+      "Restart tutorial?",
+      `Are you sure you want to start this tutorial?`,
+      [
+        {text: "Nevermind"},
+        {
+          text: "Confirm", onPress: () => {
+            crashlytics().log("Pattern Tutorial restarted: ");
+            props.navigation.goBack();
+            setTimeout(startGuide, 500)
+          }
+        },
+      ]
+    );
   }
 
 
@@ -163,13 +183,6 @@ const BreathingPage = (props) => {
     dispatch(removePattern(id))
   }
 
-  const toggleEditMode = () => {
-    if (editMode) setButtonVisible(false)
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut, () => {
-      if (!editMode) setButtonVisible(true)
-    })
-    setEditMode(lastMode => !lastMode);
-  }
 
   return (
     <>
@@ -181,7 +194,9 @@ const BreathingPage = (props) => {
         titleWhite={false}
         settingsCallback={() => props.navigation.push("settings", {
           page: "breathing",
-          pageTitle: "Breathing Settings"
+          pageTitle: "Breathing Settings",
+          infoIcon: true,
+          infoCallback: confirmTutorial
         })}/>
       <View style={styles.container}>
         <View style={styles.header}>
@@ -202,9 +217,6 @@ const BreathingPage = (props) => {
           </NativeViewGestureHandler>
         </FadeGradient>
       </View>
-      <Provider>
-        <InfoModal content={modalContent} modalVisible={modalVisible} setModalVisible={setModalVisible}/>
-      </Provider>
     </>
   );
 };

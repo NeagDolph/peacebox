@@ -24,7 +24,7 @@ const SettingItem = (props) => {
 }
 
 const SettingsPage = ({route, navigation}) => {
-  const {page, pageTitle} = route.params;
+  const {page, pageTitle, infoIcon, infoCallback} = route.params;
 
   const dispatch = useDispatch()
   const settingValues = useSelector(state => state.settings[page])
@@ -46,6 +46,8 @@ const SettingsPage = ({route, navigation}) => {
         titleWhite={false}
         title={pageTitle ?? "Settings"}
         navigation={navigation}
+        infoIcon={infoIcon}
+        infoCallback={infoCallback}
       />
 
       <SafeAreaView style={styles.safeView}>

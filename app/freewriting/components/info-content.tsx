@@ -43,6 +43,8 @@ const InfoContent = (props) => {
 
   const [modalWidth, setModalWidth] = useState(0)
 
+  const [currentTip, setCurrentTip] = useState("")
+
   const {closeEnabled, setCloseEnabled} = props
 
   const isLastPage = useCallback(() => {
@@ -55,11 +57,23 @@ const InfoContent = (props) => {
 
   useEffect(() => {
     if (props.modalVisible) {
-
       scrollRef.current.scrollTo({x: 0, animated: false})
       setPageInt(0)
+
+      setCurrentTip(randomTip());
     }
   }, [props.modalVisible])
+
+  const randomTip = () => {
+    const tips = [
+      "Double tap the page to clear it",
+      "Tap the ⓘ to reopen this info"
+    ]
+
+    const num = Math.floor(Math.random() * tips.length)
+
+    return tips[num ?? 0]
+  }
 
   const addLink = (text) => {
     const results = Array.from(text.matchAll(/\[(.+)\]\((.+)\)/g))
@@ -162,6 +176,7 @@ const InfoContent = (props) => {
             <View style={styles.exit}><Icon style={styles.exitIcon} size={28} name="cross"></Icon></View>
           </TouchableOpacity>
         </View>
+        <Text style={styles.tip}><Text style={styles.tipNote}>TIP&nbsp;&nbsp;</Text>{currentTip}</Text>
         <View style={styles.contentContainer}>
           <ScrollView
             pinchGestureEnabled={false}
@@ -208,6 +223,23 @@ const InfoContent = (props) => {
 };
 
 const styles = StyleSheet.create({
+  tipNote: {
+    fontFamily: "Helvetica",
+    fontWeight: "800",
+    color: colors.primary,
+    fontSize: 18,
+    paddingRight: 20,
+  },
+  tip: {
+    fontSize: 16,
+    color: colors.text,
+    letterSpacing: 0.8,
+    fontFamily: "Avenir",
+    fontWeight: "bold",
+    textAlign: "center",
+    width: "100%"
+
+  },
   exitContainer: {
     width: "100%",
     alignItems: "center",
@@ -263,7 +295,7 @@ const styles = StyleSheet.create({
     height: 450,
     padding: 20,
     marginBottom: 15,
-    marginTop: 25
+    marginTop: 8
   },
   exitIcon: {
     color: colors.primary,
@@ -287,6 +319,8 @@ const styles = StyleSheet.create({
   header: {
     justifyContent: "space-between",
     flexDirection: "row",
+
+    marginBottom: 15
     // paddingHorizontal: 10,
   },
   container: {

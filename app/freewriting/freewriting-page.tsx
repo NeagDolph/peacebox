@@ -3,7 +3,7 @@ import {
   Text,
   View,
   StyleSheet,
-  NativeSyntheticEvent, Pressable, Dimensions,
+  NativeSyntheticEvent, Pressable, Dimensions, Alert,
 } from 'react-native';
 import WritingCard from "./components/writing-card";
 import {ChangeEvent, Ref, RefObject, useEffect, useLayoutEffect, useRef, useState} from "react";
@@ -15,7 +15,6 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import {Provider, Snackbar, Surface} from "react-native-paper";
 
-import InfoModal from "./components/info-modal";
 import Background from "../components/background"
 import GenieCard from "./components/animations-page";
 
@@ -71,6 +70,7 @@ const Freewriting = (props: any) => {
       sheetRef.current.snapTo(0);
     }
   }, [modalVisible])
+
 
   const showAnimation = () => {
     if (settings.showAnimations) {

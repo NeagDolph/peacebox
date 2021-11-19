@@ -19,7 +19,7 @@ interface HeaderProps {
 
 }
 
-const PageHeader = ({title, settingsIcon, settingsCallback, titleWhite, settingsButton, shadow=true}) => {
+const PageHeader = ({title, settingsIcon, settingsCallback, titleWhite, settingsButton, shadow=true, infoIcon, infoCallback}) => {
   const navigation = useNavigation();
   const notch = hasNotch();
 
@@ -44,10 +44,14 @@ const PageHeader = ({title, settingsIcon, settingsCallback, titleWhite, settings
       </Pressable>
       <View style={[styles.settingsButton, {top: notch ? 14 : 7}]}>
         {
-          (settingsButton ?? true) &&
-          <Pressable onPress={settingsCallback} hitSlop={10}>
+          infoIcon ?
+            <Pressable onPress={infoCallback} hitSlop={20}>
+              <Icon name={"information"} color="black" size={26}/>
+            </Pressable> :
+          ((settingsButton ?? true) &&
+          <Pressable onPress={settingsCallback} hitSlop={20}>
             <Icon name={settingsIcon || "cog"} color="black" size={26}/>
-          </Pressable>
+          </Pressable>)
         }
       </View>
       <View style={[styles.titleContainer, {marginTop: notch ? 16 : 7}]} pointerEvents="box-none">
@@ -63,7 +67,9 @@ PageHeader.propTypes = {
   settingsIcon: PropTypes.any,
   settingsCallback: PropTypes.func,
   titleWhite: PropTypes.bool,
-  settingsButton: PropTypes.bool
+  settingsButton: PropTypes.bool,
+  infoCallback: PropTypes.func,
+  infoIcon: PropTypes.bool
 }
 
 const styles = StyleSheet.create({
