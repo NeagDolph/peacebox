@@ -10,6 +10,7 @@ import {colors} from "../../../config/colors";
 import Tooltip from "react-native-walkthrough-tooltip";
 import breathingGuide from "../../../guides/breathing-guide";
 import useTooltip from "../../../components/tooltip-hook";
+import { setAdjustment } from "../../../store/features/tutorialSlice";
 
 const premadePatterns = [
   {
@@ -99,6 +100,10 @@ const PatternNew = ({id, showEditModal, patternData}) => {
     setScrollY(nativeEvent.contentOffset.y)
   }
 
+  const scrollLayout = (layout) => {
+    dispatch(setAdjustment(layout.nativeEvent.layout.y - 30))
+  }
+
   return (
     <>
       <ScrollView
@@ -106,6 +111,7 @@ const PatternNew = ({id, showEditModal, patternData}) => {
         showsVerticalScrollIndicator={false}
         bounces={false}
         ref={scrollRef}
+        onLayout={scrollLayout}
         onScroll={handleScroll}
         scrollEventThrottle={0}
         scrollEnabled={!open}

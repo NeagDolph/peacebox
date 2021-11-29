@@ -100,7 +100,6 @@ const completeTutorial = () => {
 
 
 const closeTutorial = () => {
-  console.log("exitrun")
   const state = store.getState();
 
   // const nextFound = closeNext[state.tutorial.currentTutorial].filter(tut => tut.id === state.tutorial[state.tutorial.currentTutorial].completion)
@@ -169,7 +168,6 @@ const guide = [
       // closeOnChildInteraction: true,
       placement: "bottom",
       closeOnContentInteraction: true,
-      // onClose: () => console.log("hi"),
       contentStyle: {
         overflow: "visible"
       },

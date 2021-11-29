@@ -7,7 +7,7 @@ export const breathingSlice = createSlice({
     editScroll: 0,
     currentDuration: 0,
     patterns: {},
-    editVisible: false
+    editVisible: false,
   },
   reducers: {
     setEditScroll: (state, action) => {

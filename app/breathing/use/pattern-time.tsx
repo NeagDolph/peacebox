@@ -3,7 +3,7 @@ import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {
   ActivityIndicator,
   Alert,
-  AppState,
+  AppState, Dimensions,
   Linking, Pressable,
   StatusBar,
   StyleSheet,
@@ -259,14 +259,14 @@ const PatternTime = ({route, navigation}) => {
       `Are you sure you want to exit this breathing pattern?`,
       [
 
+        {text: "Nevermind"},
         {
           text: "Confirm", onPress: () => {
             crashlytics().log("Exited breathing pattern");
             exit();
           }
 
-        },
-        {text: "Nevermind"},
+        }
       ]
     );
   }

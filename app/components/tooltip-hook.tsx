@@ -12,6 +12,7 @@ function useTooltip() {
   const breathingIndex = useSelector(state => state.tutorial.breathing.completion);
   const open = useSelector(state => state.tutorial.breathing.open);
   const running = useSelector(state => state.tutorial.breathing.running);
+  const topAdjustment = useSelector(state => state.tutorial.breathing.topAdjustment);
   const lastAction = useSelector(state => state.tutorial.breathing.lastAction);
 
   const currentTooltip = useCallback(() => {
@@ -30,7 +31,7 @@ function useTooltip() {
     const showTooltip = () => currentTooltip() && open && breathingIndex === index && running
 
     return showTooltip() ? (
-        <Tooltip content={currentTooltip().content} isVisible={true} {...{...currentTooltip().tooltipProps, onClose}} key={-1}>
+        <Tooltip content={currentTooltip().content} isVisible={true} {...{...currentTooltip().tooltipProps, ...{topAdjustment: breathingIndex === 1 ? topAdjustment : undefined},onClose}} key={-1}>
           {inner}
         </Tooltip>) :
       <View key={-3}>{inner}</View>;
@@ -38,7 +39,7 @@ function useTooltip() {
 
   useEffect(() => {
     return () => {
-      haptic(1)
+      // haptic(1)
     }
 
   }, []);

@@ -13,11 +13,15 @@ export const tutorialSlice = createSlice({
       slideHistory: [],
       open: false, //True when tutorial starts, false when tutorial stops
       lastAction: Date.now(),
-      createdPattern: undefined
+      createdPattern: undefined,
+      topAdjustment: 56,
     }
 
   },
   reducers: {
+    setAdjustment: (state, action) => {
+      state.breathing.topAdjustment = action.payload;
+    },
     guideNext: (state, action) => {
       state[action.payload].completion = state[action.payload].completion + 1;
       state[action.payload].lastAction = Date.now();
@@ -59,6 +63,6 @@ export const tutorialSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { guideNext, guideSet, addSlide, closedTutorial, openedTutorial, startTutorial, pushRestart, exitTutorial, setCreatedPattern } = tutorialSlice.actions
+export const { setAdjustment, guideNext, guideSet, addSlide, closedTutorial, openedTutorial, startTutorial, pushRestart, exitTutorial, setCreatedPattern } = tutorialSlice.actions
 
 export default tutorialSlice.reducer

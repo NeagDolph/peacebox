@@ -76,6 +76,7 @@ const InfoContent = (props) => {
   }
 
   const addLink = (text) => {
+    if (!text.matchAll) return <Text style={styles.desc}>{text}</Text>
     const results = Array.from(text.matchAll(/\[(.+)\]\((.+)\)/g))
 
     if (results.length < 1) return <Text style={styles.desc}>{text}</Text>

@@ -148,7 +148,7 @@ const HomePage = ({navigation}: any) => {
     scrollOffset.value = event.contentOffset.y;
 
 
-    if (event.contentOffset.y + windowHeight.value + 5 >= event.contentSize.height) runOnJS(setEndOfScroll)(true);
+    if (event.contentOffset.y + windowHeight.value + 5 >= event.contentSize.height || (windowHeight.value < 800 && event.contentOffset.y > 610)) runOnJS(setEndOfScroll)(true);
     else if (endOfScroll) runOnJS(setEndOfScroll)(false);
   });
 

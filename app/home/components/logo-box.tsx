@@ -54,13 +54,16 @@ const LogoBox = (props) => {
   const visibleStyles = useAnimatedStyle(() => {
     const logoTop = Math.min(Math.max(props.safeViewHeight / 2, 0), 30) - 30;
     const opacity = interpolate(props.scrollOffset.value, [0, 100], [0.4, 1]);
-    const scrollTop = interpolate(props.scrollOffset.value, [0, windowHeight.value], [(windowHeight.value / 6), logoTop]);
+    const scrollTop = interpolate(props.scrollOffset.value, [0, windowHeight.value], [(windowHeight.value / 6), logoTop])
+
+    const smallCalc = Math.min(scrollTop, 610) - Math.max( props.scrollOffset.value- 610, 0);
+    const yTop = windowHeight.value > 800 ? scrollTop : smallCalc
 
     return {
       opacity: opacity,
       transform: [
 
-        {translateY: scrollTop},
+        {translateY: yTop},
         {translateX: leftOffset.value}
       ],
     };

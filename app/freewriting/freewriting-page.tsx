@@ -3,7 +3,7 @@ import {
   Text,
   View,
   StyleSheet,
-  NativeSyntheticEvent, Pressable, Dimensions, Alert,
+  NativeSyntheticEvent, Pressable, Dimensions, Alert, TextInput, AppState,
 } from 'react-native';
 import WritingCard from "./components/writing-card";
 import {ChangeEvent, Ref, RefObject, useEffect, useLayoutEffect, useRef, useState} from "react";
@@ -24,7 +24,7 @@ import PageHeader from "../components/header";
 import crashlytics from "@react-native-firebase/crashlytics";
 import haptic from "../helpers/haptic";
 import InfoContent from "./components/info-content";
-import { colors } from '../config/colors';
+import {colors} from '../config/colors';
 import {TapGestureHandler} from "react-native-gesture-handler";
 
 
@@ -34,11 +34,19 @@ const Freewriting = (props: any) => {
   const dispatch = useDispatch();
 
   const [content, setContent] = useState("")
-  const [contentHeight, setContentHeight] = useState(0)
+  // const [contentHeight, setContentHeight] = useState(0)
   const [placeholderText, setPlaceholderText] = useState("Just start typing...");
+  const [editable, setEditable] = useState(true)
+
+  const isEditable = useRef(true);
+  const contentHeight = useRef(0);
+
+
   const inputRef = useRef<any>(null);
+  const tempInputRef = useRef(null)
   const clearedRef = useRef(null);
   const sheetRef = useRef(null);
+  const startedDelete = useRef(null)
 
 
   //Animation state
@@ -47,10 +55,13 @@ const Freewriting = (props: any) => {
 
   //Modal state
   const [modalVisible, setModalVisible] = useState(false);
-  const [closeEnabled, setCloseEnabled] = useState(false)
+  const [closeEnabled, setCloseEnabled] = useState(false);
 
   //Background State
-  const [backgroundLoaded, setBackgroundLoaded] = useState(false)
+  const [backgroundLoaded, setBackgroundLoaded] = useState(false);
+
+  //Activity state
+  const [activityBg, setActivityBg] = useState(false)
 
   useEffect(() => {
     crashlytics().log("Page Opened: Freewriting")
@@ -60,10 +71,25 @@ const Freewriting = (props: any) => {
         dispatch(setUsed("freewriting"))
       }, 200)
     }
+
+    const subscription = AppState.addEventListener("change", nextAppState => {
+      if (nextAppState.match(/background/)) {
+        clearFull()
+      }
+
+      if (nextAppState.match(/inactive/)) {
+        setActivityBg(true);
+      } else if (nextAppState.match(/active/)) {
+        setActivityBg(false)
+      }
+    });
+
+    return () => {
+      subscription.remove();
+    }
   }, [])
 
   useEffect(() => {
-    console.log("modalvisible", modalVisible)
     if (modalVisible) {
       sheetRef.current.snapTo(1)
     } else {
@@ -81,30 +107,38 @@ const Freewriting = (props: any) => {
 
   //Input change callbacks
   const handleLayout = (event) => {
-    setContentHeight(event.nativeEvent.contentSize.height);
-
-    // Disable newlines
-    if (content.includes("\n")) {
-      // setContent(content.replace(/(.*)\n/g, "$1"));
-    }
+    contentHeight.current = event.nativeEvent.contentSize.height
+    // if (contentHeight >= 410) {
+    // if (contentHeight >= 410) {
+    //   isEditable.current = false;
+    //   showAnimation();
+    //   clearFull();
+    //
+    // }
   }
 
   const handleContent = async (event: NativeSyntheticEvent<any>) => {
-    if (contentHeight >= 420) {
-      crashlytics().log("Freewriting page completed.");
+    console.info(event)
+    if (contentHeight.current >= 400) {
+      clearFull()
       showAnimation();
+      haptic(0)
 
-      // inputRef.current.clear()
-      setContent(" ")
-      setTimeout(() => {
-        setContent("");
-        setPlaceholderText("");
-      }, 0)
     } else setContent(event?.nativeEvent?.text ?? "")
   }
 
+  const clearFull = () => {
+    setContent("")
+  }
+
+
   //Reset animation functions
-  const resetGenie = () => setGenieVisible(false);
+  const resetGenie = () => {
+    // inputRef.current.focus();
+    // isEditable.current = true;
+    // setEditable(true)
+    setGenieVisible(false);
+  }
 
   const onBgLoad = () => {
     setBackgroundLoaded(true);
@@ -116,7 +150,7 @@ const Freewriting = (props: any) => {
     <>
       <View style={{height: "100%"}} pointerEvents={modalVisible ? "none" : "auto"}>
         <PrefersHomeIndicatorAutoHidden/>
-        <Background showBackground={settings.showBackground} onLoad={onBgLoad} onPress={() => inputRef.current.blur()}>
+        <Background showBackground={settings.showBackground} onLoad={onBgLoad}>
           <PageHeader
             settingsIcon="cog"
             titleWhite={settings.showBackground}
@@ -126,14 +160,18 @@ const Freewriting = (props: any) => {
             })}
             title="Freewriting"
           />
+          <Pressable style={styles.pressable} onPress={() => inputRef.current.blur()} hitSlop={0}/>
           <View style={styles.container} pointerEvents='box-none'>
+            {/*<TextInput style={styles.tempInput} ref={tempInputRef} editable={true} multiline={true} autoCorrect={false} contextMenuHidden={true}/>*/}
             <WritingCard
               placeholder={placeholderText}
               editable={true}
               handleLayout={handleLayout}
               content={content}
+              clearFull={clearFull}
               inputRef={inputRef}
               setContent={handleContent}
+              activityBg={activityBg}
             >
 
               <View style={styles.footerContainer}>
@@ -154,7 +192,8 @@ const Freewriting = (props: any) => {
                     : "Loading background..."}
                 </Text>
                 <Pressable hitSlop={12} onPress={() => setModalVisible(true)}>
-                  <Icon name="information" size={30} color={settings.showBackground ? colors.background : colors.primary}/>
+                  <Icon name="information" size={30}
+                        color={settings.showBackground ? colors.background : colors.primary}/>
                 </Pressable>
               </View>
             </WritingCard>
@@ -176,7 +215,8 @@ const Freewriting = (props: any) => {
         snapPoints={[0, 630]}
         onCloseEnd={handleCloseInfo}
         borderRadius={20}
-        renderContent={() => <InfoContent modalVisible={modalVisible} handleClose={handleCloseInfo} closeEnabled={closeEnabled} setCloseEnabled={setCloseEnabled}/>}
+        renderContent={() => <InfoContent modalVisible={modalVisible} handleClose={handleCloseInfo}
+                                          closeEnabled={closeEnabled} setCloseEnabled={setCloseEnabled}/>}
         overflow={"visible"}
         enabledGestureInteraction={closeEnabled}
         enabledBottomInitialAnimation={true}
@@ -187,6 +227,21 @@ const Freewriting = (props: any) => {
 };
 
 const styles = StyleSheet.create({
+  pressable: {
+    position: "absolute",
+    width: Dimensions.get("window").width,
+    height: Dimensions.get("window").height,
+    top: 80,
+    left: 0
+  },
+  tempInput: {
+    // position: "absolute",
+    // top: -300,
+    // opacity: 0,
+    height: 20,
+    width: "100%",
+    backgroundColor: "white"
+  },
   footerContainer: {
     width: "100%",
     justifyContent: "space-between",

@@ -17,9 +17,10 @@ import {NativeViewGestureHandler, State, TapGestureHandler} from "react-native-g
 import FadeGradient from "../../components/fade-gradient";
 import Animated from 'react-native-reanimated';
 import haptic from "../../helpers/haptic";
+import {BlurView, VibrancyView} from "@react-native-community/blur";
 
 const WritingCard = (props: any) => {
-  const {inputRef, content, setContent, handleLayout, editable, placeholder} = props
+  const {inputRef, content, setContent, handleLayout, editable, placeholder, activityBg} = props
   const [lineHeight, setLineHeight] = useState(0)
   const [pageHeight, setPageHeight] = useState(0)
   const [pageWidth, setPageWidth] = useState(0)
@@ -34,60 +35,77 @@ const WritingCard = (props: any) => {
   }
 
   const handleTap = (event) => {
-    console.log('handle', event.nativeEvent.state)
     if (event.nativeEvent.state === State.ACTIVE) {
-      console.log("handle active")
-      setContent("")
+      props.clearFull();
       haptic(2)
     } else if (event.nativeEvent.state = State.BEGAN && !inputRef.current.isFocused()) {
       inputRef.current.focus();
     }
   }
 
-  const handleEvent = (event) => {
-    console.log(event.nativeEvent)
+  const gibberish = text => {
+    const letterMap = "abcdefghijklmnopqrstuvwxyz";
+
+    const chooseRandomLetter = () => {
+      return letterMap[Math.floor(letterMap.length * Math.random())]
+    }
+
+    return text.split("").map(char => char.match(/[\.\ \,\_]{1}/) ? char : chooseRandomLetter()).join("")
   }
 
   return (
-    <View style={[styles.card, {height: pageHeight}]} onLayout={cardLayout}>
-      <FastImage
-        style={[styles.imageStyle, {height: pageHeight, width: pageWidth}]}
-        source={require("../../assets/paper.jpg")}
-        resizeMode={FastImage.resizeMode.cover}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder={placeholder}
-        placeholderTextColor="#8A897C"
-        multiline={true}
-        autoCapitalize="none"
-        autoCorrect={false}
-        importantForAutofill="no"
-        onChange={setContent}
-        onContentSizeChange={props.handleLayout}
-        autoFocus={false}
-        keyboardType="default"
-        editable={editable}
-        ref={inputRef}
-        contextMenuHidden={true}
-      >
-        <Text style={[styles.inputLine, {lineHeight}]}>{content}</Text>
-      </TextInput>
-      <TapGestureHandler onHandlerStateChange={handleTap} ref={tapRef} hitSlop={30} numberOfTaps={2}>
-        <Animated.View
-          style={{
-            zIndex: 1,
-            position: 'absolute',
-            ...StyleSheet.absoluteFillObject,
-          }}
+    <>
+      <View style={[styles.card, {height: pageHeight}]} onLayout={cardLayout}>
+        <FastImage
+          style={[styles.imageStyle, {height: pageHeight, width: pageWidth}]}
+          source={require("../../assets/paper.jpg")}
+          resizeMode={FastImage.resizeMode.cover}
         />
-      </TapGestureHandler>
-      {props.children}
-    </View>
+        <TextInput
+          style={[styles.input, {lineHeight}]}
+          placeholder={placeholder}
+          placeholderTextColor="#8A897C"
+          multiline={true}
+          autoCapitalize="none"
+          importantForAutofill="no"
+          onChange={setContent}
+          onContentSizeChange={props.handleLayout}
+          autoFocus={false}
+          autoCorrect={false}
+          keyboardType="default"
+          editable={editable}
+          ref={inputRef}
+          contextMenuHidden={true}
+          value={activityBg ? gibberish(content) : content}
+        />
+        <TapGestureHandler onHandlerStateChange={handleTap} ref={tapRef} hitSlop={30} numberOfTaps={2}>
+          <Animated.View
+            style={{
+              zIndex: 1,
+              position: 'absolute',
+              ...StyleSheet.absoluteFillObject,
+            }}
+          />
+        </TapGestureHandler>
+      </View>
+
+      {props.children}</>
   );
 };
 
 const styles = StyleSheet.create({
+  background: {
+    color: "#fff0",
+    textShadowColor: "rgba(255,255,255,0.8)",
+    textShadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    textShadowRadius: 10,
+    fontSize: 14,
+    fontWeight: "600",
+    textTransform: "capitalize",
+  },
   imageStyle: {
     // height: Dimensions.get("window").height * 0.547740584,
     // width: Dimensions.get("window").height * 0.38,

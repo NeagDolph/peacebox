@@ -29,7 +29,7 @@ import haptic, {success} from "../helpers/haptic";
 import GestureHandlerRootView, {NativeViewGestureHandler} from "react-native-gesture-handler";
 
 import breathingGuide from '../guides/breathing-guide';
-import {openedTutorial, guideNext, startTutorial, pushRestart} from '../store/features/tutorialSlice';
+import {openedTutorial, guideNext, startTutorial, pushRestart, closedTutorial} from '../store/features/tutorialSlice';
 import Tooltip from 'react-native-walkthrough-tooltip';
 import useTooltip from "../components/tooltip-hook";
 import crashlytics from "@react-native-firebase/crashlytics";
@@ -137,12 +137,14 @@ const BreathingPage = (props) => {
 
     dispatch(addPattern(patternObj));
 
-    props.navigation.push("Edit", {id: newId, newPattern: true});
+    dispatch(closedTutorial("breathing"));
 
-    setEditVisible(true)
+    setEditVisible(true);
     editPattern(newId, true)
 
-    dispatch(guideNext("breathing"))
+      setTimeout(() => {
+        dispatch(guideNext("breathing"))
+      }, 1000);
   }
 
   const editPattern = (id, newPattern = false) => {
@@ -209,7 +211,7 @@ const BreathingPage = (props) => {
         </View>
         <FadeGradient top={0.1} bottom={0}>
           <NativeViewGestureHandler ref={scrollRef} simultaneousHandlers={panRef}>
-            <ScrollView style={styles.scrollView} ref={itemsScrollRef} bounces={true}>
+            <ScrollView style={styles.scrollView} ref={itemsScrollRef} bounces={false}>
               <View style={styles.patternList}>
                 {renderPatterns()}
               </View>

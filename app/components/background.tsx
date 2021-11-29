@@ -11,7 +11,9 @@ const Background = (props) => {
   const bgUrl = useSelector((state: any) => state.background.url)
   const [backgroundStyle, setBackgroundStyle] = useState({})
 
+
   const {showBackground} = props
+  const bgOld = useRef(showBackground)
 
 
   const dispatch = useDispatch();
@@ -43,14 +45,18 @@ const Background = (props) => {
   }
 
   useEffect(() => {
-    if (!showBackground) {
-      setBackgroundStyle({backgroundColor: "#f4f4f4"})
-      return
-    }
-
-    if (Date.now() - lastSetTime >= 3600000 || !lastSetTime) {
+    if (!bgOld.current && showBackground) {
+      loadSetBackground();
+    } else if (showBackground && (Date.now() - lastSetTime >= 3600000 || !lastSetTime)) {
       loadSetBackground();
     }
+
+    if (!showBackground) {
+      setBackgroundStyle({backgroundColor: "#f4f4f4"})
+    }
+
+    bgOld.current = showBackground
+
   }, [showBackground]);
 
 
@@ -63,7 +69,7 @@ const Background = (props) => {
       onLoad={props.onLoad}
     />
 
-    return (showBackground && bgUrl) && <Pressable onPress={props.onPress} children={image}/>
+    return (showBackground && bgUrl) ? <Pressable onPress={props.onPress} children={image}/> : <View style={[styles.backgroundImage, backgroundStyle]}></View>
   }
 
   return (

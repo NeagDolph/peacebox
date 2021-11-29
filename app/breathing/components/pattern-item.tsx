@@ -49,22 +49,13 @@ const PatternItem = props => {
   const hasPause = useCallback(() => props.patternData.settings.breakBetweenCycles && !props.buttonVisible, [props.buttonVisible, props.patternData.settings.breakBetweenCycles])
 
 
-  useEffect(() => {
-    if (lastDrag.current !== 0 && dragMode === 0) {
-      haptic(1)
-
-      if (lastDrag.current !== 0) haptic(1);
-      if (lastDrag.current === 2) confirmDeletePattern();
-      else if (lastDrag.current === 1) props.editPattern(props.patternData.id, false);
-    }
-  }, [dragMode])
-
   const dragX = useSharedValue(0);
 
   const panHandler = useAnimatedGestureHandler({
     onStart: (_, ctx) => {
       ctx.startX = dragX.value;
       ctx.directionPositive = undefined
+      ctx.dragMode = 0
       runOnJS(setBeingDragged)(true)
     },
     onActive: ({translationX}, ctx) => {
@@ -81,9 +72,21 @@ const PatternItem = props => {
         calcMove = translationXInput < 0 ? -dragSlowed : dragSlowed
       }
 
-      if (calcMove > offsetAmount) runOnJS(setDragMode)(1);
-      else if (calcMove < -offsetAmount) runOnJS(setDragMode)(2);
-      else runOnJS(setDragMode)(0);
+      if (calcMove > offsetAmount) {
+        if (ctx.dragMode !== 1) runOnJS(haptic)(2)
+        ctx.dragMode = 1
+        runOnJS(setDragMode)(1);
+      }
+      else if (calcMove < -offsetAmount) {
+        if (ctx.dragMode !== 2) runOnJS(haptic)(2)
+        ctx.dragMode = 2
+        runOnJS(setDragMode)(2);
+      }
+      else {
+        // if (ctx.dragMode !== 0) runOnJS(haptic)(1)
+        ctx.dragMode = 0
+        runOnJS(setDragMode)(0);
+      }
 
 
       dragX.value = ctx.startX + (calcMove ?? 0);
@@ -102,6 +105,11 @@ const PatternItem = props => {
   function swipeActivate() {
     lastDrag.current = dragMode;
     setDragMode(0);
+    // haptic(1)
+
+    if (dragMode !== 0) haptic(1);
+    if (dragMode === 2) confirmDeletePattern();
+    else if (dragMode === 1) props.editPattern(props.patternData.id, false);
   }
 
   const panStyle = useAnimatedStyle(() => {
@@ -177,11 +185,11 @@ const PatternItem = props => {
       <View
         style={styles.patternData}>
         <View style={styles.arrowContainer}>
-          <IconEntypo style={styles.arrow} name="chevron-thin-left" size={25} color={colors.text2}/>
+          <IconEntypo style={styles.arrowLeft} name="chevron-thin-left" size={25} color={colors.text2}/>
           <View style={styles.sequenceList}>
             {generateSequence(props.patternData.sequence)}
           </View>
-          <IconEntypo style={styles.arrow} name="chevron-thin-right" size={25} color={colors.text2}/>
+          <IconEntypo style={styles.arrowRight} name="chevron-thin-right" size={25} color={colors.text2}/>
         </View>
         <View style={[styles.actionButtons, {marginVertical: hasPause() ? 0 : 10}]}>
           <Button
@@ -231,9 +239,24 @@ PatternItem.propTypes = {
 }
 
 const styles = StyleSheet.create({
-  arrow: {
+  arrowLeft: {
     width: "14%",
-    height: "auto"
+    height: "auto",
+    left: -3,
+    transform: [
+      {scaleX: 0.8},
+      {scaleY: 1.2},
+      // {translateX: -5}
+    ],
+  },
+  arrowRight: {
+    width: "14%",
+    height: "auto",
+    transform: [
+      {scaleX: 0.8},
+      {scaleY: 1.2}
+    ]
+
   },
   arrowContainer: {
     justifyContent: "space-between",

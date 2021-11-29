@@ -1,13 +1,12 @@
-import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {Dimensions, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import ReanimatedArc from "./ReanimatedArc";
 import {colors} from "../../../config/colors";
 import Icon from "react-native-vector-icons/Ionicons";
-import React, {useCallback, useEffect, useRef, useState} from "react";
-import ReanimatedArcBase from './ReanimatedArcBase';
+import React from "react";
 import PropTypes from 'prop-types';
-import Reanimated, {EasingNode} from 'react-native-reanimated';
+import {interpolate} from 'react-native-reanimated';
 import VolumeSlider from "./volume-slider";
-import AnimatedArc from "./ReanimatedArcBase";
+import Extrapolate = module;
 
 const TimeControls = (props) => {
   // const arcAngle = useRef(new Reanimated.Value(0));
@@ -105,8 +104,7 @@ const styles = StyleSheet.create({
     // justifyContent: "center",
     alignItems: "center",
     flexDirection: "column",
-    marginTop: 80,
-    marginBottom: 60
+    marginVertical: interpolate(Dimensions.get("window").height, [650, 900], [0, 60], {extrapolateRight: "extend", extrapolateLeft: "clamp"}),
     // flex: 1,
     // width: 300
   },
