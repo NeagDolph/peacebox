@@ -185,7 +185,7 @@ const Freewriting = (props: any) => {
                       style={styles.creditName}
                       onPress={() => Linking.openURL(bgCredits?.link)}
                     >
-                      {bgCredits?.name.replace("  ", " ")}
+                      {bgCredits?.name?.replace("  ", " ")}
                     </Text>
                   </>
                   : "Loading background..."}
@@ -194,7 +194,7 @@ const Freewriting = (props: any) => {
                 <Icon
                   name="information"
                   size={30}
-                  color={settings.showBackground ? colors.background : colors.primary}
+                  color={colors.primary}
                 />
               </Pressable>
             </View>
@@ -347,7 +347,7 @@ const styles = StyleSheet.create({
     left: 50
   },
   credit: {
-    color: "#d6d6d6",
+    color: colors.primary,
     // position: "absolute",
     // bottom: -30,
     // left: 0,
@@ -356,6 +356,7 @@ const styles = StyleSheet.create({
   },
   creditName: {
     fontWeight: "bold",
+    color: colors.primary
   },
 });
 

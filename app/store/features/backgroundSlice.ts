@@ -30,13 +30,15 @@ export const backgroundSlice = createSlice({
       state.color = action.payload
     },
     setBackgroundData: (state, action) => {
-      state.color = action.payload.color;
-      state.url = action.payload.urls.raw;
+      if (!action.payload) return
+
+      state.color = action.payload?.color;
+      state.url = action.payload?.urls?.raw || (action.payload?.full || action.payload?.regular);
       state.credits = {
-        link: action.payload.links.html + "?utm_source=stoical&utm_medium=referral",
-        name: action.payload.user.name
+        link: action.payload.links?.html + "?utm_source=stoical&utm_medium=referral",
+        name: action.payload.user?.name
       };
-      state.textColor = contrastColor({ bgColor: action.payload.color });
+      state.textColor = contrastColor({ bgColor: action.payload?.color });
     }
   },
 })

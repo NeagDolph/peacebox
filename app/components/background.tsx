@@ -16,6 +16,14 @@ const Background = (props) => {
 
   const dispatch = useDispatch();
 
+  const brightness = (hex) => {
+      hex = hex.replace("#", "")
+      const r = parseInt(hex.substr(0, 2), 16);
+      const g = parseInt(hex.substr(2, 2), 16);
+      const b = parseInt(hex.substr(4, 2), 16);
+      return (r + g + b) / 3
+  }
+
   const loadSetBackground = () => {
     const collections = [3488059, 9400790, 3533949, 93804623]
     const topics = ["nature"]
@@ -28,7 +36,7 @@ const Background = (props) => {
       count: 15,
     }
 
-    const url = `https://api.unsplash.com/photos/random?topics=nature&content_filter=high&query=nature&orientation=portrait&client_id=3T3B_SA-ohORfg2VNrn0i09_31jonbG_DbSPaaGpcQY&count=5`
+    const url = `https://api.unsplash.com/photos/random?topics=nature&query=wallpaper&content_filter=high&orientation=portrait&client_id=3T3B_SA-ohORfg2VNrn0i09_31jonbG_DbSPaaGpcQY&count=20`
     // const url = `https://api.unsplash.com/photos/random?${new URLSearchParams(args).toString()}`;
 
     fetch(url)
@@ -36,14 +44,25 @@ const Background = (props) => {
         const responseObj = await response.json();
 
         //Filter images for images based on device appearance
-        const filterImages = responseObj.filter(el => {
-          el.color
-        })
 
-        const chosenImage = filterImages.reduce((o, imgData) => imgData.downloads > o.downloads ? imgData : o, {downloads: 0})
+
+        const sortedImages = responseObj.sort((a, b) => a.downloads - b.downloads).slice(0, 10)
+
+        // console.log(sortedImages[0])
+
+        const brightImage = sortedImages.slice(1).reduce((o, el) => {
+          const showImage = colors.dark ? brightness(o.color) > brightness(el.color) : brightness(el.color) > brightness(o.color) //Brightness difference
+
+          return showImage ? el : o
+        }, sortedImages[0])
+
+        console.log(sortedImages.map(el => brightness(el.color)))
+        console.log(sortedImages.map(el => el.user.name))
+
+        console.log(brightImage.color)
 
         dispatch(setTime(Date.now()));
-        dispatch(setBackgroundData(chosenImage));
+        dispatch(setBackgroundData(brightImage));
       })
   }
 
