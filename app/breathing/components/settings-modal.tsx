@@ -59,8 +59,8 @@ const ModalContent = props => {
                         mode="contained"
                         color={colors.accent}
                         uppercase={false}
-                        labelStyle={{fontSize: 20}}
-                        contentStyle={{margin: 6}}
+                        labelStyle={{fontSize: 20, color: colors.constantWhite}}
+                        contentStyle={{marginHorizontal: 6}}
                         onPress={props.hideModal}
                     >Done</Button>
                 </View>
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
 
   },
   containerStyle: {
-    backgroundColor: "white",
+    backgroundColor: colors.background2,
     padding: 20,
     borderRadius: 10,
     margin: 20,

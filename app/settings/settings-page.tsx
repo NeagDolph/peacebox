@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     padding: 20,
     margin: 30,
     paddingTop: 10,
-    backgroundColor: "white",
+    backgroundColor: colors.background2,
     borderRadius: 8,
     height: "100%"
   },
@@ -96,6 +96,7 @@ const styles = StyleSheet.create({
   settingName: {
     fontSize: 16,
     lineHeight: 28,
+    color: colors.primary
 
   }
 })

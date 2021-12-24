@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 
 import {Dimensions, StyleSheet, Text, View} from 'react-native';
 import {colors} from "../../config/colors";
@@ -20,11 +20,12 @@ const LogoBox = (props) => {
   const windowHeight = useSharedValue(Dimensions.get("window").height ?? 0);
   const windowWidth = useSharedValue(Dimensions.get("window").width ?? 0);
   const [layoutData, setLayoutData] = useState({
-    x: 0,
-    width: 0
+    x: 23.66666603088379,
+    width: 48
   });
 
   const handleLayout = ({nativeEvent: event}) => {
+    console.log(event.layout)
     setLayoutData(event.layout)
   }
 
@@ -36,17 +37,15 @@ const LogoBox = (props) => {
   }, [layoutData, props.endOfScroll])
 
   useEffect(() => {
-    // if (props.endOfScroll) {
-      crashlytics().log("Finished scrolling on home page")
-      leftOffset.value = withTiming(calcOffset(), {
-        duration: 900,
-        easing: Easing.out(Easing.circle)
-      }, (res) => {
-        if (res) {
-          // runOnJS(props.setEndOfAnim)(true);
-        }
-      });
-    // }
+    crashlytics().log("Finished scrolling on home page")
+    leftOffset.value = withTiming(calcOffset(), {
+      duration: 900,
+      easing: Easing.out(Easing.circle)
+    }, (res) => {
+      if (res) {
+        // runOnJS(props.setEndOfAnim)(true);
+      }
+    });
 
   }, [props.endOfScroll])
 
@@ -112,7 +111,8 @@ LogoBox.propTypes = {
   handleLayout: PropTypes.func,
   scrollOffset: PropTypes.any,
   setEndOfAnim: PropTypes.func,
-  safeViewHeight: PropTypes.number
+  safeViewHeight: PropTypes.number,
+  used: PropTypes.bool // Bool for if app has been opened before
 }
 
 
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
     width: Dimensions.get("window").width,
     height: 100,
     position: "absolute",
-    backgroundColor: "black",
+    backgroundColor: colors.black,
     zIndex: 10,
     top: 0,
     left: 0
@@ -154,10 +154,10 @@ const styles = StyleSheet.create({
     fontWeight: "900",
   },
   peace: {
-    color: "black"
+    color: colors.black
   },
   box: {
-    color: "black"
+    color: colors.black
   },
 });
 

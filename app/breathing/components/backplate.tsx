@@ -17,16 +17,18 @@ function Backplate(props: { height: number, dragX: any, dragMode: number, setDra
   const bgColor = useSharedValue(colors.primary);
 
   useEffect(() => {
-    bgColor.value = [colors.primary, colors.accent, colors.red][props.dragMode]
+    const calcColor = [colors.text, colors.accent, colors.red][props.dragMode]
+
+    bgColor.value = withTiming(calcColor, {
+      duration: colors.dark ? 0 : 100,
+      easing: Easing.linear
+    })
   }, [props.dragMode])
 
   const animatedStyles = useAnimatedStyle(() => {
     return {
       height: props.height - 1,
-      backgroundColor: withTiming(bgColor.value, {
-        duration: 100,
-        easing: Easing.linear
-      }),
+      backgroundColor: bgColor.value,
       transform: [
         {perspective: -300},
         {rotateY: props.dragX.value / 3 + 'deg'},
@@ -111,7 +113,7 @@ const styles = StyleSheet.create({
   },
   backplate: {
     width: (Dimensions.get('window').width - 84) / 2,
-    backgroundColor: colors.primary,
+    backgroundColor: colors.text,
     borderRadius: 15,
     position: "absolute",
     top: 0,

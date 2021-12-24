@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {StyleSheet, Text, View} from 'react-native';
+import {Pressable, StyleSheet, Text, View} from 'react-native';
 import {useDispatch, useSelector} from "react-redux";
 import {setSetting} from "../../store/features/breathingSlice";
 import {Divider, Switch, Button, Provider} from "react-native-paper";
@@ -54,7 +54,7 @@ const EditSettings = props => {
         <SegmentedControl
           style={styles.feedbackControl}
           values={['None', 'Vibrate', "Haptic"]}
-          appearance="light"
+          appearance={colors.dark ? "dark" : "light"}
           selectedIndex={props.patternSettings.feedbackType || 0}
           onValueChange={handleFeedbackChange}
           fontStyle={{fontSize: 12}}
@@ -71,7 +71,9 @@ const EditSettings = props => {
         <View style={styles.pauseTitle}>
           <Text style={styles.settingTitle}>Pause after cycle</Text>
           <Fade visible={props.patternSettings.breakBetweenCycles}>
-            <Button labelStyle={styles.pauseText} style={styles.pauseEdit} onPress={props.showEditModal}>Edit</Button>
+            <Pressable onPress={props.showEditModal} hitSlop={20}>
+              <Button labelStyle={styles.pauseText} style={styles.pauseEdit}>Edit</Button>
+            </Pressable>
           </Fade>
         </View>
         <Switch color={colors.accent} value={props.patternSettings.breakBetweenCycles} onValueChange={togglePause}/>
@@ -96,7 +98,7 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   pauseEdit: {
-    backgroundColor: colors.background2,
+    backgroundColor: colors.primary,
     borderRadius: 6,
     marginLeft: 5,
     minWidth: 40,
@@ -108,7 +110,7 @@ const styles = StyleSheet.create({
     textTransform: "none",
     fontWeight: "500",
     letterSpacing: 0,
-    color: colors.primary,
+    color: colors.background,
     marginVertical: 5,
 
   },

@@ -7,6 +7,7 @@ import { VibrancyView } from "@react-native-community/blur";
 import { useNavigation } from '@react-navigation/native';
 import crashlytics from "@react-native-firebase/crashlytics";
 import { hasNotch } from 'react-native-device-info';
+import {colors} from "../config/colors";
 
 interface HeaderProps {
   inlineTitle: boolean | void;
@@ -36,21 +37,21 @@ const PageHeader = ({title, settingsIcon, settingsCallback, titleWhite, settings
     <View style={[styles.headerContainer, shadow && styles.headerShadow]}>
       <VibrancyView
         style={styles.absolute}
-        blurType="light"
+        blurType={colors.dark ? "dark" : "light"}
         blurAmount={8}
       />
       <Pressable style={[styles.backButton, {top: notch ? 14 : 7}]} onPress={goBack} hitSlop={10}>
-        <Icon name="arrow-left" color="black" size={26}/>
+        <Icon name="arrow-left" color={colors.black} size={26}/>
       </Pressable>
       <View style={[styles.settingsButton, {top: notch ? 14 : 7}]}>
         {
           infoIcon ?
             <Pressable onPress={infoCallback} hitSlop={20}>
-              <Icon name={"information"} color="black" size={26}/>
+              <Icon name={"information"} color={colors.black} size={26}/>
             </Pressable> :
           ((settingsButton ?? true) &&
           <Pressable onPress={settingsCallback} hitSlop={20}>
-            <Icon name={settingsIcon || "cog"} color="black" size={26}/>
+            <Icon name={settingsIcon || "cog"} color={colors.black} size={26}/>
           </Pressable>)
         }
       </View>
@@ -88,6 +89,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: Dimensions.get("window").height / 11,
     position: "relative",
+    backgroundColor: colors.background3
   },
   absolute: {
     position: "absolute",
@@ -101,7 +103,8 @@ const styles = StyleSheet.create({
   title: {
     fontWeight: "400",
     fontFamily: "Avenir",
-    fontSize: 24
+    fontSize: 24,
+    color: colors.primary
   },
   titleContainer: {
     position: "relative",

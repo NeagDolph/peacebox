@@ -2,7 +2,6 @@ import React from 'react';
 
 import {StyleSheet, Text, View, ImageBackground, Image, TouchableHighlight, TouchableOpacity} from 'react-native';
 import {Chip, Surface, useTheme} from "react-native-paper";
-import {white} from "react-native-paper/lib/typescript/styles/colors";
 import {colors} from "../../config/colors";
 import {useNavigation} from '@react-navigation/native';
 import crashlytics from "@react-native-firebase/crashlytics";
@@ -10,25 +9,24 @@ import crashlytics from "@react-native-firebase/crashlytics";
 interface ToolData {
   title: string;
   icon: any;
+  iconDark: any;
   description: string;
   tags: string[];
-  navigation: string
+  nav: string
 }
 
-const renderTags = (chipList: ToolData["tags"], colors: any) => {
+const renderTags = (chipList: ToolData["tags"]) => {
   return chipList.map(el => (
     <Chip mode="flat" style={styles.chip} key={el}>{el}</Chip>
   ))
 }
 
 const ToolItem = (props: ToolData) => {
-  const {colors} = useTheme()
-  const navigation = useNavigation();
-  const imageSource = Image.resolveAssetSource(props.icon)
+  const imageSource = Image.resolveAssetSource(colors.dark ? props.iconDark : props.icon)
 
   const openMenu = () => {
     crashlytics().log("Tool Opened: " + props.title)
-    if (props.navigation) props.navigation();
+    if (props.nav) props.nav();
   }
 
   return (
@@ -40,17 +38,17 @@ const ToolItem = (props: ToolData) => {
             {
               props.tags.length >= 1 &&
               <View style={styles.chipView}>
-                {renderTags(props.tags, colors)}
+                {renderTags(props.tags)}
               </View>
             }
-            <Text style={[styles.toolItemTitle, {color: colors.text}]} numberOfLines={1}
+            <Text style={[styles.toolItemTitle]} numberOfLines={1}
                   adjustsFontSizeToFit>{props.title}</Text>
-            <Text style={[styles.toolItemDescription, {color: colors.placeholder}]}>{props.description}</Text>
+            <Text style={[styles.toolItemDescription]}>{props.description}</Text>
           </View>
           {
             imageSource &&
             <Image
-                source={props.icon}
+                source={colors.dark ? props.iconDark : props.icon}
                 resizeMode="cover" style={styles.iconBackground}
                 width={imageSource.width / (imageSource.height / 140)}
             />
@@ -78,7 +76,8 @@ let styles = StyleSheet.create({
     borderRadius: 20,
     padding: 15,
     borderWidth: 1,
-    borderColor: colors.background2,
+    backgroundColor: colors.background2,
+    borderColor: colors.dark ? colors.background : colors.background2,
     flexDirection: "column",
     marginVertical: 10,
     overflow: "hidden"
@@ -92,9 +91,11 @@ let styles = StyleSheet.create({
     marginVertical: 5,
     fontWeight: "bold",
     width: "100%",
+    color: colors.primary
   },
   toolItemDescription: {
     fontSize: 16,
+    color: colors.text
 
   },
   chipView: {

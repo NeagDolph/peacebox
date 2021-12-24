@@ -30,10 +30,12 @@ import {setUsed, setSetting} from "../store/features/settingsSlice";
 import {colors} from "../config/colors";
 import Rate from 'react-native-rate'
 import {store} from "../store/store";
+import {withTheme} from "react-native-paper";
 
 interface ToolData {
   title: string;
-  icon: string;
+  icon: any;
+  iconDark: any;
   description: string;
   tags: string[];
   nav: string | undefined;
@@ -42,6 +44,7 @@ interface ToolData {
 
 const HomePage = ({navigation}: any) => {
   const settings = useSelector(state => state.settings.general);
+  const copyUsed = useRef(settings.used)
 
   const askReview = () => {
     crashlytics().log("User clicked open review button.");
@@ -97,6 +100,7 @@ const HomePage = ({navigation}: any) => {
     {
       title: "Free Writing",
       icon: require("../assets/writing.png"),
+      iconDark: require("../assets/dark/writing.png"),
       description: "Let go of internal troubles by writing your thoughts.",
       tags: ["Anxiety", "Quick Relief"],
       nav: () => navigation.navigate("Freewriting")
@@ -104,6 +108,7 @@ const HomePage = ({navigation}: any) => {
     {
       title: "Breathing",
       icon: require("../assets/wind.png"),
+      iconDark: require("../assets/dark/wind.png"),
       description: "Breathing exercises to relax and improve your mood",
       nav: () => navigation.navigate("Patterns"),
       tags: ["Anxiety", "Stress", "Discontentment"],
@@ -113,7 +118,8 @@ const HomePage = ({navigation}: any) => {
       description: "Tap this card this to give us a review!",
       nav: askReview,
       tags: [],
-      icon: require("../assets/toolbox.png")
+      icon: require("../assets/toolbox.png"),
+      iconDark: require("../assets/dark/toolbox.png"),
     }
   ]
 
@@ -122,13 +128,8 @@ const HomePage = ({navigation}: any) => {
   const scrollOffset = useSharedValue(0);
   const windowHeight = useSharedValue(Dimensions.get("window").height ?? 0);
 
-  // const [endOfScroll, setEndOfScroll] = useState(settings.used)
-  // const [endOfAnim, setEndOfAnim] = useState(settings.used)
-
   const [endOfScroll, setEndOfScroll] = useState(false)
-  const [endOfAnim, setEndOfAnim] = useState(false)
 
-  const [safeViewHeight, setSafeViewHeight] = useState(50);
   const scrollRef = useRef(null)
 
 
@@ -140,6 +141,7 @@ const HomePage = ({navigation}: any) => {
     crashlytics().log("Page loaded: Home Page")
     if (!settings.used) {
       crashlytics().log("Home page loaded for the first time")
+      scrollRef.current.flashScrollIndicators()
     }
   }, [])
 
@@ -147,14 +149,13 @@ const HomePage = ({navigation}: any) => {
   const scrollHandler = useAnimatedScrollHandler((event) => {
     scrollOffset.value = event.contentOffset.y;
 
-
     if (event.contentOffset.y + windowHeight.value + 5 >= event.contentSize.height || (windowHeight.value < 800 && event.contentOffset.y > 610)) runOnJS(setEndOfScroll)(true);
     else if (endOfScroll) runOnJS(setEndOfScroll)(false);
   });
 
-  const safeViewLayout = ({nativeEvent}) => {
-    const openHeight = windowHeight.value - nativeEvent.layout.height
-    setSafeViewHeight(openHeight > 80 ? (openHeight / 2 - 20) : 0)
+
+  const approximateMargin = () => {
+    return Dimensions.get("window").height > 750 ? Dimensions.get("window").height / 10 : 0
   }
 
   const scrollBottom = () => {
@@ -164,18 +165,14 @@ const HomePage = ({navigation}: any) => {
   const renderTools = (toolsData: ToolData[]) => {
     return toolsData.map(data => {
       return <ToolItem
+        {...data}
         key={data.title}
-        tags={data.tags}
-        title={data.title}
-        icon={data.icon}
-        description={data.description}
-        navigation={data.nav}
       />
     })
   }
 
   return (
-    <>
+    <View style={styles.container}>
       {/*<StatusBar*/}
       {/*  // animated={true}*/}
       {/*  // backgroundColor="#61dafb"*/}
@@ -183,28 +180,26 @@ const HomePage = ({navigation}: any) => {
       {/*  // showHideTransition="slide"*/}
       {/*  />*/}
 
-      {endOfAnim || <LogoBox
-          scrollOffset={scrollOffset}
-          endOfScroll={endOfScroll}
-          setEndOfAnim={setEndOfAnim}
-          safeViewHeight={safeViewHeight}
-      />}
+      <LogoBox
+        used={settings.used}
+        scrollOffset={scrollOffset}
+        endOfScroll={endOfScroll}
+        safeViewHeight={approximateMargin()}
+      />
       <Animated.ScrollView
         bounces={false}
         onScroll={scrollHandler}
         ref={scrollRef}
+        contentOffset={{x: 0, y: (copyUsed.current) ? 10000 : 0}}
         // decelerationRate={0.5}
         scrollEventThrottle={16}
         // scrollEnabled={!(endOfScroll && !endOfAnim)}
         scrollEnabled={true}
         indicatorStyle="black"
-        showsVerticalScrollIndicator={!endOfAnim}
+        showsVerticalScrollIndicator={true}
       >
-        {endOfAnim && <View style={styles.logoContainer}>
-            <Text style={styles.logoText}>P</Text>
-        </View>}
-        {endOfAnim || <StartScreen scrollOffset={scrollOffset} scrollBottom={scrollBottom}/>}
-        <View style={{marginBottom: safeViewHeight}} onLayout={safeViewLayout}>
+        <StartScreen scrollOffset={scrollOffset} scrollBottom={scrollBottom}/>
+        <View style={{marginBottom: approximateMargin()}}>
           <View style={{paddingHorizontal: 20}}>
             <Header/>
             <View style={{marginTop: 20}}>
@@ -218,12 +213,15 @@ const HomePage = ({navigation}: any) => {
           </View>
         </View>
       </Animated.ScrollView>
-    </>
+    </View>
   );
 
 };
 
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: colors.background
+  },
   aboutContainer: {
     justifyContent: "center",
     alignItems: "center"

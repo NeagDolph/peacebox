@@ -8,8 +8,8 @@ function RenderSequence(props) {
 
   const renderItems = () => props.sequence.map((el, i) => (
     <View style={[styles.sequenceItem, {backgroundColor: props.backgroundColor}]} key={i}>
-      <Text style={[styles.sequenceCount, {color: props.numColor}]}>{el}</Text>
-      <Text style={[styles.sequenceTitle, {color: props.color}]}>{patternTitles[i]}</Text>
+      <Text style={[styles.sequenceCount]}>{el}</Text>
+      <Text style={[styles.sequenceTitle]}>{patternTitles[i]}</Text>
     </View>
   ));
 
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
   sequenceTitle: {
     fontFamily: "Avenir Next",
     textAlign: "center",
-    color: colors.primary,
+    color: colors.text,
     width: "100%",
     lineHeight: 18,
     fontWeight: "300",
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
   },
   sequenceCount: {
     fontFamily: "Avenir-Black",
-    color: colors.accent,
+    color: colors.primary,
     fontSize: 25,
     width: "100%",
     lineHeight: 30,

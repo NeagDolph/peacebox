@@ -13,13 +13,13 @@ const styles = StyleSheet.create({
   tooltipView: {
     paddingHorizontal: 24,
     paddingVertical: 8,
-    // backgroundColor: colors.background2,
+    backgroundColor: colors.background2,
     // color: colors.primary,
     // borderRadius: 16,
     justifyContent: "center"
   },
   tooltipText: {
-    color: 'black',
+    color: colors.primary,
     fontSize: 18,
     textAlign: "center"
   },
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
   },
   exit: {
     fontSize: 17,
-    color: colors.background,
+    color: colors.constantWhite,
     fontFamily: "Avenir",
     fontWeight: "700",
     textAlign: "right"
@@ -169,7 +169,8 @@ const guide = [
       placement: "bottom",
       closeOnContentInteraction: true,
       contentStyle: {
-        overflow: "visible"
+        overflow: "visible",
+        backgroundColor: colors.background2
       },
     }
   },
@@ -187,7 +188,8 @@ const guide = [
       topAdjustment: 56,
       onClose: () => handleClose(600),
       contentStyle: {
-        overflow: "visible"
+        overflow: "visible",
+        backgroundColor: colors.background2
       },
     }
   },
@@ -206,7 +208,8 @@ const guide = [
       },
       onClose: () => handleClose(400),
       contentStyle: {
-        overflow: "visible"
+        overflow: "visible",
+        backgroundColor: colors.background2
       },
     }
   },
@@ -226,7 +229,8 @@ const guide = [
       childContentSpacing: 25,
       // onClose: () => closeTutorial(),
       contentStyle: {
-        overflow: "visible"
+        overflow: "visible",
+        backgroundColor: colors.background2
       },
     }
   },
@@ -246,7 +250,8 @@ const guide = [
       closeOnContentInteraction: false,
       // onClose: () => closeTutorial(),
       contentStyle: {
-        overflow: "visible"
+        overflow: "visible",
+        backgroundColor: colors.background2
       },
     }
   },
@@ -265,7 +270,8 @@ const guide = [
       closeOnContentInteraction: true,
       // onClose: () => closeTutorial(),
       contentStyle: {
-        overflow: "visible"
+        overflow: "visible",
+        backgroundColor: colors.background2
       },
     }
   },
@@ -285,7 +291,8 @@ const guide = [
       useInteractionManager: true,
       // onClose: () => closeTutorial(),
       contentStyle: {
-        overflow: "visible"
+        overflow: "visible",
+        backgroundColor: colors.background2
       },
     }
   },
@@ -305,7 +312,8 @@ const guide = [
       useInteractionManager: true,
       // onClose: () => store.dispatch(exitTutorial("breathing")),
       contentStyle: {
-        overflow: "visible"
+        overflow: "visible",
+        backgroundColor: colors.background2
       },
     }
   }

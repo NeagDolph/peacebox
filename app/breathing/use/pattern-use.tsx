@@ -62,7 +62,7 @@ const PatternUse = ({route, navigation}) => {
   const renderCard = () => {
     const card = (
       <Surface style={styles.card}>
-        <RenderSequence sequence={patternData.sequence} backgroundColor={colors.background2}/>
+        <RenderSequence sequence={patternData.sequence} backgroundColor={colors.background4}/>
         <View style={styles.timingContainer}>
           <NumberPicker
             value={patternData.totalDuration}
@@ -72,7 +72,7 @@ const PatternUse = ({route, navigation}) => {
           <SegmentedControl
             style={styles.timingControl}
             values={['Minutes', "Cycles"]}
-            appearance="light"
+            appearance={colors.dark ? "dark" : "light"}
             selectedIndex={patternData.durationType === "Minutes" ? 0 : 1}
             onValueChange={setDurationTypeStore}
             fontStyle={{fontSize: 16, fontFamily: "Avenir Next"}}
@@ -86,7 +86,7 @@ const PatternUse = ({route, navigation}) => {
             labelStyle={styles.buttonLabel}
             uppercase={false}
             compact={true}
-            color={colors.background2}
+            color={colors.background3}
             mode="contained">Settings</Button>
         </View>
         <View style={styles.buttonContainer}>
@@ -96,7 +96,7 @@ const PatternUse = ({route, navigation}) => {
             uppercase={false}
             onPress={startTimer}
             style={styles.startStyle}
-            labelStyle={{fontSize: 20, fontFamily: "AppleSDGothicNeo-Medium"}}
+            labelStyle={{fontSize: 20, fontFamily: "AppleSDGothicNeo-Medium", color: colors.constantWhite}}
             contentStyle={{marginHorizontal: 10, marginVertical: 5}}>Start</Button>
         </View>
       </Surface>
@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
     marginTop: 45
   },
   buttonLabel: {
-    color: "black",
+    color: colors.primary,
     letterSpacing: 0.7,
     fontFamily: "Avenir-Light",
     fontWeight: "300",
@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
   sequenceItem: {
     width: 65,
     height: 60,
-    backgroundColor: colors.background2,
+    backgroundColor: colors.placeholder,
     borderRadius: 11,
     padding: 7
   },
@@ -196,7 +196,7 @@ const styles = StyleSheet.create({
   card: {
     margin: 28,
     padding: 20,
-    backgroundColor: "white",
+    backgroundColor: colors.background2,
     borderRadius: 20
   }
 })

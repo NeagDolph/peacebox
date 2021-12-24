@@ -66,7 +66,7 @@ export const PauseSettings = props => {
           uppercase={false}
           style={{borderColor: colors.accent, borderWidth: 1}}
           labelStyle={{fontSize: 20}}
-          contentStyle={{margin: 6}}
+          contentStyle={{marginHorizontal: 6}}
           onPress={props.hideModal}
         >{props.buttonText ?? "Done"}</Button>
       </View>
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
 
   },
   containerStyle: {
-    backgroundColor: "white",
+    backgroundColor: colors.background2,
     padding: 20,
     borderRadius: 10,
     margin: 20,

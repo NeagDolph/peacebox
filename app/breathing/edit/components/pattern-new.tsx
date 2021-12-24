@@ -44,7 +44,7 @@ const premadePatterns = [
   {
     name: "Coherent breathing",
     sequence: [5, 0, 5, 0],
-    description: "This is a simple breathing technique that requires you to complete five full breaths every minute. Coherent breathing maximizes your heart rate variability and can reduce stress. There was also a [study](https://www.liebertpub.com/doi/10.1089/acm.2016.0140) that showed it to be able to reduce symptoms associated with depression.",
+    description: "This is a simple breathing technique that requires you to complete five full breaths every minute. Coherent breathing maximizes your heart rate variability and can reduce stress. There is a [study](https://www.liebertpub.com/doi/10.1089/acm.2016.0140) that points to coherent breathing reducing symptoms associated with depression.",
     settings: {
       breakBetweenCycles: true,
       pauseDuration: 10,
@@ -144,7 +144,8 @@ const styles = StyleSheet.create({
   },
   premadeText: {
     fontSize: 26,
-    fontWeight: "bold"
+    fontWeight: "bold",
+    color: colors.primary
   },
   header: {
     marginBottom: 5,

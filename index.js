@@ -25,6 +25,7 @@ import crashlytics from '@react-native-firebase/crashlytics';
 
 import {LogBox} from 'react-native';
 import GestureHandlerRootView from 'react-native-gesture-handler';
+import {colors} from './app/config/colors';
 
 //ignore logs
 
@@ -36,7 +37,9 @@ const RootStack = createNativeStackNavigator();
 function RootStackScreen() {
     return (
 
-        <RootStack.Navigator theme={DarkTheme}>
+        <RootStack.Navigator theme={DarkTheme} screenOptions={{
+            cardStyle: { backgroundColor: colors.background }
+        }}>
             <RootStack.Screen name="Home" component={HomePage}
                               options={{headerShown: false, orientation: 'portrait_up'}}/>
             <RootStack.Screen name="Freewriting" component={Freewriting}
@@ -66,12 +69,11 @@ function RootStackScreen() {
 
 const theme = {
     ...DefaultTheme,
-    dark: false,
+    dark: colors.dark,
     roundness: 2,
     colors: {
         ...DefaultTheme.colors,
-        primary: '#3498db',
-        accent: '#f1c40f',
+        ...colors
     },
 };
 
@@ -81,7 +83,7 @@ export default function Main() {
         <Provider store={store}>
             <PersistGate loading={null} persistor={persistor}>
                 <PaperProvider theme={theme}>
-                    <NavigationContainer>
+                    <NavigationContainer theme={theme}>
                             <RootStackScreen/>
                     </NavigationContainer>
                 </PaperProvider>

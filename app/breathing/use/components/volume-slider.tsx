@@ -42,6 +42,7 @@ const VolumeSlider = (props) => {
         step={0.01}
         minimumTrackTintColor={colors.accent}
         maximumTrackTintColor={colors.primary}
+        thumbTintColor={colors.accent}
       />
       <Icon style={styles.icon} name="ios-volume-high" size={28} color={colors.primary}/>
     </View>
@@ -52,6 +53,7 @@ const styles = StyleSheet.create({
   slider: {
     width: "100%",
     height: 40,
+    color: colors.text,
   },
   icon: {
     width: 30,
@@ -62,6 +64,7 @@ const styles = StyleSheet.create({
     height: 50,
     position: "relative",
     paddingHorizontal: 40,
+    marginTop: 20,
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "row"

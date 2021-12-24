@@ -292,11 +292,10 @@ const styles = StyleSheet.create({
     position: "relative",
     borderRadius: 25,
     borderColor: "rgba(118, 118, 128, 0.32)",
-    backgroundColor: "white",
-    borderWidth: 0.5,
+    backgroundColor: colors.background2,
+    borderWidth: colors.dark ? 0 : 0.5,
     padding: 0,
     right: 0,
-    backgroundColor: "white",
     justifyContent: "center",
     alignItems: "center",
     marginTop: 2

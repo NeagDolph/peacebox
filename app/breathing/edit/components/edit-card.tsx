@@ -196,7 +196,7 @@ const styles = StyleSheet.create({
   card: {
     marginVertical: 18,
     padding: 15,
-    backgroundColor: "white",
+    backgroundColor: colors.background2,
     borderRadius: 20,
     elevation: 3,
     overflow: "visible",

@@ -4,7 +4,6 @@ import {createRef, useState} from "react";
 import {Animated, Easing, TouchableWithoutFeedback, Text, StyleSheet, View} from "react-native";
 import {colors} from "../../../config/colors";
 import PropTypes from 'prop-types'
-import {white} from "react-native-paper/lib/typescript/styles/colors";
 
 
 const AnimatedSvg = Animated.createAnimatedComponent(Svg);
@@ -44,7 +43,10 @@ class BreathingAnim extends React.Component {
       if (this.g) {
       // if (false) {
         const completion = ((circleRadius.value - this.baseSize) / this.fullsize) * 2;
-        const color = this.interpolateColor([0, 0, 0], [35, 53, 222], completion);
+        const baseColor = colors.dark ? [255, 255, 255] : [0, 0, 0]
+        const flowerColor = colors.dark ? [75,138,225] : [35, 53, 222]
+        // "rgb(95,168,255)"
+        const color = this.interpolateColor(baseColor, flowerColor, completion);
 
         this.g.setNativeProps({
           fill: color
@@ -188,8 +190,8 @@ class BreathingAnim extends React.Component {
               fy={this.canvasSize / 2}
               gradientUnits="userSpaceOnUse"
             >
-              <Stop offset="0" stopOpacity="1"/>
-              <Stop offset="1" stopOpacity="0.35"/>
+              <Stop offset="0" stopColor={colors.black} stopOpacity="1"/>
+              <Stop offset="1" stopColor={colors.black} stopOpacity="0.35"/>
             </RadialGradient>
           </Defs>
           <AnimatedG ref={ref => this.g = ref} fill="#000000" fillOpacity={0.35}>
@@ -267,15 +269,15 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   countText: {
-    color: "#ddd",
     fontSize: 18,
     lineHeight: 20,
-    fontFamily: "Avenir"
+    fontFamily: "Avenir",
+    color: colors.background4
   },
   count: {
     fontSize: 30,
     lineHeight: 35,
-    color: colors.background,
+    color: colors.background2,
     fontFamily: "Avenir-Heavy",
     fontWeight: "bold"
   },

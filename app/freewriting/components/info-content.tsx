@@ -111,11 +111,7 @@ const InfoContent = (props) => {
 
   const scrollHandler = (event, offsetX?) => {
     const offset = (event?.nativeEvent.contentOffset.x || offsetX) ?? 0;
-
-    // const pages = startLoc + ((offset / modalWidth) * 15)
-
     const currentPageCalc = offset / modalWidth
-
     currentPage.value = currentPageCalc; //animation
 
     if (currentPageCalc >= textContent.length - 1.5 && !closeEnabled) setCloseEnabled(true);
@@ -144,7 +140,8 @@ const InfoContent = (props) => {
 
     return {
       width: calcWidth,
-      backgroundColor: mixColor(pageDist, "#111111", "#c4c4c4")
+      // backgroundColor: mixColor(pageDist, "#111111", "#c4c4c4")
+      backgroundColor: mixColor(pageDist, colors.dark ? colors.accent : colors.primary, "#c4c4c4")
     }
   })
 
@@ -272,11 +269,11 @@ const styles = StyleSheet.create({
 
   },
   contentTitle: {
-    color: "#222",
     fontFamily: "Avenir",
     fontSize: 23,
     fontWeight: "600",
     paddingBottom: 20,
+    color: colors.primary
   },
   desc: {
     color: colors.primary,
@@ -290,7 +287,7 @@ const styles = StyleSheet.create({
     paddingTop: 5
   },
   contentContainer: {
-    backgroundColor: colors.background2,
+    backgroundColor: colors.background3,
     borderRadius: 15,
     width: "100%",
     height: 450,
@@ -303,7 +300,7 @@ const styles = StyleSheet.create({
   },
   exit: {
     borderRadius: 200,
-    backgroundColor: colors.background2,
+    backgroundColor: colors.dark ? colors.background4 : colors.background2,
     // padding: 4,
     width: 36,
     height: 36,
@@ -315,7 +312,7 @@ const styles = StyleSheet.create({
     fontSize: 27,
     fontFamily: "Avenir",
     fontWeight: "bold",
-    color: "black"
+    color: colors.primary
   },
   header: {
     justifyContent: "space-between",
@@ -331,7 +328,7 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     paddingHorizontal: 30,
     // flex: 1,
-    backgroundColor: "white",
+    backgroundColor: colors.background2,
     shadowColor: "rgba(0,0,0,1)",
     shadowOffset: {
       width: 0,

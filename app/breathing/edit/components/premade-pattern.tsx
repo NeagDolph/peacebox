@@ -17,7 +17,7 @@ import {Link} from "@react-navigation/native";
 import Tooltip from "react-native-walkthrough-tooltip";
 import breathingGuide from "../../../guides/breathing-guide";
 import {useDispatch, useSelector} from "react-redux";
-import { guideNext, openedTutorial, closedTutorial } from '../../../store/features/tutorialSlice';
+import {guideNext, openedTutorial, closedTutorial} from '../../../store/features/tutorialSlice';
 import useTooltip from "../../../components/tooltip-hook";
 
 const PremadePattern = (props) => {
@@ -60,7 +60,9 @@ const PremadePattern = (props) => {
     return results.reduce((curr, match, i) => {
       const before = <Text style={styles.desc}>{text.substring(0, match.index)}</Text>
       const after = <Text style={styles.desc}>{text.substring(match.index + match[0].length, match.input.length)}</Text>
-      return <Text style={styles.desc}>{before}<Text style={styles.link} onPress={() => Linking.openURL(match[2])}>{match[1]}</Text>{after}</Text>
+      return <Text style={styles.desc}>{before}<Text style={styles.link}
+                                                     onPress={() => Linking.openURL(match[2])}>{match[1]}</Text>{after}
+      </Text>
     }, <Text style={styles.desc}></Text>)
   }
 
@@ -85,14 +87,15 @@ const PremadePattern = (props) => {
     <View style={styles.container}>
       <Text style={styles.title}>{name}</Text>
       <View style={styles.patternContainer}>{renderSequence()}</View>
-      <View style={styles.descContainer}>
-        {truncate(description, descriptionBig ? 99999 : 70)}
-        <View style={styles.readMore}>
-          <Pressable onPress={toggleReadMore} hitSlop={30}>
+
+      <Pressable onPress={toggleReadMore} hitSlop={5}>
+        <View style={styles.descContainer}>
+          {truncate(description, descriptionBig ? 99999 : 70)}
+          <View style={styles.readMore}>
             <Text style={styles.readMoreTitle}>{descriptionBig ? "Read Less" : "Read More"}</Text>
-          </Pressable>
+          </View>
         </View>
-      </View>
+      </Pressable>
       <View style={styles.useContainer}>
         <TouchableOpacity onPress={handleUse}>
           <View style={styles.useButton}>
@@ -129,18 +132,18 @@ const styles = StyleSheet.create({
   },
   useTitle: {
     fontFamily: "Avenir-Heavy",
-    color: colors.background,
+    color: colors.constantWhite,
     fontSize: 16,
   },
   readMore: {
-    backgroundColor: colors.background2,
+    backgroundColor: colors.background3,
     paddingHorizontal: 8,
     paddingVertical: 4,
     marginVertical: 4,
     borderRadius: 100
   },
   readMoreTitle: {
-    color: "#676767",
+    color: colors.text,
     fontSize: 12
   },
   descContainer: {
@@ -193,11 +196,12 @@ const styles = StyleSheet.create({
     fontSize: 21,
     fontWeight: "500",
     lineHeight: 30,
-    fontFamily: "Avenir"
+    fontFamily: "Avenir",
+    color: colors.primary
   },
   container: {
     borderRadius: 12,
-    backgroundColor: "white",
+    backgroundColor: colors.background2,
     padding: 15,
     width: "100%",
     marginVertical: 15,

@@ -17,7 +17,6 @@ const Container = styled.View`
   overflow: hidden;
   align-self: center;
   width: ${props => props.wrapperWidth}px;
-  background-color: ${props => props.wrapperBackground};
 `;
 export const HighLightView = styled.View`
   position: absolute;
@@ -25,7 +24,7 @@ export const HighLightView = styled.View`
   height: ${props => props.wrapperHeight}px;
   width: ${props => props.wrapperWidth}px;
   border-radius: ${props => props.borderRadius}px;
-  background: ${colors.background2};
+  background: ${colors.background3};
   
 `;
 export const SelectedItem = styled.View`

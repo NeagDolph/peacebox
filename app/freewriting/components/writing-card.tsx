@@ -5,7 +5,7 @@ import {
   Dimensions,
   Image,
   ImageBackground, Keyboard,
-  NativeSyntheticEvent,
+  NativeSyntheticEvent, Pressable,
   StyleSheet,
   Text,
   TextInput,
@@ -18,9 +18,11 @@ import FadeGradient from "../../components/fade-gradient";
 import Animated from 'react-native-reanimated';
 import haptic from "../../helpers/haptic";
 import {BlurView, VibrancyView} from "@react-native-community/blur";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import {colors} from "../../config/colors";
 
 const WritingCard = (props: any) => {
-  const {inputRef, content, setContent, handleLayout, editable, placeholder, activityBg} = props
+  const {inputRef, content, setContent, handleLayout, editable, placeholder, activityBg, fullscreenToggle} = props
   const [lineHeight, setLineHeight] = useState(0)
   const [pageHeight, setPageHeight] = useState(0)
   const [pageWidth, setPageWidth] = useState(0)
@@ -62,7 +64,7 @@ const WritingCard = (props: any) => {
           resizeMode={FastImage.resizeMode.cover}
         />
         <TextInput
-          style={[styles.input, {lineHeight}]}
+          style={[styles.input, {lineHeight: lineHeight || 10}]}
           placeholder={placeholder}
           placeholderTextColor="#8A897C"
           multiline={true}
@@ -94,6 +96,23 @@ const WritingCard = (props: any) => {
 };
 
 const styles = StyleSheet.create({
+  fullScreen: {
+    borderRadius: 40,
+    backgroundColor: "rgba(140, 120, 140, 0.2)",
+    // width: 50,
+    padding: 9,
+    marginRight: 10,
+    right: 0
+  },
+  headerContainer: {
+    zIndex: 10,
+    // width: "100%",
+    // justifyContent: "flex-end",
+    // flexDirection: "column",
+    position: "absolute",
+    top: 10,
+    right: 0,
+  },
   background: {
     color: "#fff0",
     textShadowColor: "rgba(255,255,255,0.8)",

@@ -7,6 +7,7 @@ import * as React from 'react';
 import {View, ViewStyle, StyleProp, Platform} from 'react-native';
 import {Svg, Path, G} from 'react-native-svg';
 import Reanimated from 'react-native-reanimated';
+import {colors} from "../../../config/colors";
 
 const {
   add,
@@ -37,7 +38,7 @@ export type Props = {
 };
 
 export const defaultProps = {
-  color: 'black',
+  color: colors.black,
   rotation: 0,
   lineCap: 'round',
   arcSweepAngle: 360,

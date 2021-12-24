@@ -4,17 +4,15 @@ import {useDispatch, useSelector} from "react-redux";
 import {ImageBackground, StyleSheet, View, Text, Dimensions, Pressable} from "react-native";
 import FastImage from 'react-native-fast-image'
 import PropTypes from 'prop-types'
+import {colors} from "../config/colors";
 
 
 const Background = (props) => {
   const lastSetTime = useSelector((state: any) => state.background.lastSetTime)
   const bgUrl = useSelector((state: any) => state.background.url)
-  const [backgroundStyle, setBackgroundStyle] = useState({})
 
-
-  const {showBackground} = props
+  const {showBackground, visible} = props
   const bgOld = useRef(showBackground)
-
 
   const dispatch = useDispatch();
 
@@ -37,7 +35,12 @@ const Background = (props) => {
       .then(async response => {
         const responseObj = await response.json();
 
-        const chosenImage = responseObj.reduce((o, imgData) => imgData.downloads > o.downloads ? imgData : o, {downloads: 0})
+        //Filter images for images based on device appearance
+        const filterImages = responseObj.filter(el => {
+          el.color
+        })
+
+        const chosenImage = filterImages.reduce((o, imgData) => imgData.downloads > o.downloads ? imgData : o, {downloads: 0})
 
         dispatch(setTime(Date.now()));
         dispatch(setBackgroundData(chosenImage));
@@ -49,10 +52,6 @@ const Background = (props) => {
       loadSetBackground();
     } else if (showBackground && (Date.now() - lastSetTime >= 3600000 || !lastSetTime)) {
       loadSetBackground();
-    }
-
-    if (!showBackground) {
-      setBackgroundStyle({backgroundColor: "#f4f4f4"})
     }
 
     bgOld.current = showBackground
@@ -69,7 +68,7 @@ const Background = (props) => {
       onLoad={props.onLoad}
     />
 
-    return (showBackground && bgUrl) ? <Pressable onPress={props.onPress} children={image}/> : <View style={[styles.backgroundImage, backgroundStyle]}></View>
+    return (showBackground && bgUrl && visible) ? <Pressable onPress={props.onPress} children={image}/> : <View style={styles.backgroundImage}></View>
   }
 
   return (
@@ -81,9 +80,10 @@ const Background = (props) => {
 }
 
 Background.propTypes = {
-  showBackground: PropTypes.bool,
+  showBackground: PropTypes.bool.isRequired,
   onLoad: PropTypes.func,
-  onPress: PropTypes.func
+  onPress: PropTypes.func,
+  visible: PropTypes.bool
 }
 
 const styles = StyleSheet.create({

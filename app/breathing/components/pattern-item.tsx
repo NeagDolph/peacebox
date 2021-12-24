@@ -59,17 +59,18 @@ const PatternItem = props => {
       runOnJS(setBeingDragged)(true)
     },
     onActive: ({translationX}, ctx) => {
-      if (ctx.directionPositive === undefined) ctx.directionPositive = translationX - ctx.startX > 0
-
-      const offsetAmount = 30
-
-      const translationXInput = ctx.directionPositive ? Math.max(0, translationX) : Math.min(0, translationX)
+      const offsetAmount = 30 // Required movement of actual pattern card for activation
 
       let calcMove;
-      if (translationXInput !== 0) {
-        const absNum = Math.abs(translationXInput / 2)
+
+      if (translationX !== 0) {
+        const deadZone = 30 //Acts like min dist but works on both directions.
+        if (translationX > 0) translationX = Math.max(translationX - deadZone, 0);
+        else if (translationX < 0) translationX = Math.min(translationX + deadZone, 0);
+
+        const absNum = Math.abs(translationX / 2)
         const dragSlowed = Math.min(absNum, offsetAmount) + Math.pow(Math.max(0, absNum - offsetAmount), 0.6)
-        calcMove = translationXInput < 0 ? -dragSlowed : dragSlowed
+        calcMove = translationX < 0 ? -dragSlowed : dragSlowed
       }
 
       if (calcMove > offsetAmount) {
@@ -157,7 +158,7 @@ const PatternItem = props => {
     if (props.patternData.settings.breakBetweenCycles && !props.buttonVisible) {
       return (
         <View style={[styles.pauseContainer]}>
-          <IconMaterial name={"clock"} size={17} color={colors.placeholder}></IconMaterial>
+          <IconMaterial name={"clock"} size={17} color={colors.text}></IconMaterial>
           <Text style={styles.pauseText}>
             Pause {props.patternData.settings.pauseDuration}s {props.patternData.settings.pauseFrequency > 1 ? `/ ${props.patternData.settings.pauseFrequency}` : ""}
           </Text>
@@ -217,7 +218,7 @@ const PatternItem = props => {
       <TapGestureHandler maxDist={0} onHandlerStateChange={handleTap} ref={tapRef}>
         <Animated.View>
 
-          <PanGestureHandler ref={props.panRef} onGestureEvent={panHandler} simultaneousHandlers={[props.scrollRef]}>
+          <PanGestureHandler ref={props.panRef} minDist={0} onGestureEvent={panHandler} simultaneousHandlers={[props.scrollRef]}>
             {renderCard()}
           </PanGestureHandler>
         </Animated.View>
@@ -282,7 +283,7 @@ const styles = StyleSheet.create({
     marginVertical: 3
   },
   pauseText: {
-    color: colors.placeholder2,
+    color: colors.text2,
     fontSize: 13,
     fontWeight: "500",
     fontFamily: "Avenir Next",
@@ -339,7 +340,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     marginHorizontal: 0,
-    color: "white",
+    color: colors.white,
     marginVertical: 0,
     lineHeight: 34,
     letterSpacing: 0.5,
@@ -365,7 +366,7 @@ const styles = StyleSheet.create({
   },
   patternItem: {
     borderRadius: 15,
-    backgroundColor: "white",
+    backgroundColor: colors.background2,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,

@@ -5,7 +5,7 @@ import {colors} from "../../config/colors";
 import {setStart} from "../../store/features/breathingSlice";
 import {useDispatch} from "react-redux";
 import FastImage from "react-native-fast-image";
-import Clock from '../../assets/branch.svg'
+import Branch from '../../assets/branch.svg'
 import {SvgXml} from "react-native-svg";
 import crashlytics from "@react-native-firebase/crashlytics";
 
@@ -13,9 +13,9 @@ const PatternCompleted = ({navigation, route}) => {
   const dispatch = useDispatch();
   const {id} = route.params
 
-  const restart = () => {
-    crashlytics().log("Pattern Restarted | ID: " + id);
-    dispatch(setStart({id, start: Date.now()}));
+    const restart = () => {
+      crashlytics().log("Pattern Restarted | ID: " + id);
+      dispatch(setStart({id, start: Date.now()}));
     navigation.navigate("Time", {id});
   }
 
@@ -24,7 +24,7 @@ const PatternCompleted = ({navigation, route}) => {
   return (
     <SafeAreaView style={styles.container}>
 
-      <SvgXml style={styles.backgroundImage} fill="#e9e9e9" stroke="none" width={550} height={550} xml={Clock} />
+      <SvgXml style={styles.backgroundImage} fill={colors.dark ? "#0E0E0E" : "#e9e9e9"} stroke="none" width={550} height={550} xml={Branch} />
       <Text style={styles.completedText}>Pattern Completed</Text>
       <View style={styles.buttonContainer}>
         <TouchableOpacity onPress={restart}>
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
   },
   doneText: {
     fontSize: 27,
-    color: colors.background,
+    color: colors.constantWhite,
     textAlign: "center",
     width: "100%",
     fontFamily: "Avenir-Medium"
@@ -97,7 +97,8 @@ const styles = StyleSheet.create({
   completedText: {
     fontSize: 30,
     marginTop: 100,
-    textAlign: "center"
+    textAlign: "center",
+    color: colors.primary
   }
 })
 

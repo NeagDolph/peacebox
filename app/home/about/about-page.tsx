@@ -48,7 +48,7 @@ const AboutPage = ({navigation}) => {
 
           <View style={styles.infoContainer}>
             <Text style={styles.creditTitle}>Email</Text>
-            <TouchableOpacity onPress={() => Linking.openURL(`mailto:contact@peacebox.app`)}>
+            <TouchableOpacity onPress={() => Linking.openURL(`mailto:contact@peacebox.app`).catch(console.log)}>
               <Text style={[styles.credit, {color: "#0074cc"}]}>contact@peacebox.app</Text>
             </TouchableOpacity>
           </View>
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 30,
-    color: "black",
+    color: colors.black,
     fontFamily: "Futura",
     fontWeight: "700",
     marginTop: 5,
@@ -93,7 +93,8 @@ const styles = StyleSheet.create({
   },
   credit: {
     fontSize: 18,
-    fontFamily: "Helvetica"
+    fontFamily: "Helvetica",
+    color: colors.text
   },
 
   container: {
@@ -103,7 +104,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 55,
-    color: "black",
+    color: colors.black,
     fontFamily: "Futura",
     // textAlign: "center",
     fontWeight: "900"

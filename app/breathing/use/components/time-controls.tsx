@@ -31,7 +31,7 @@ const TimeControls = (props) => {
   return (
     <View style={styles.controlsContainer}>
       <View style={styles.progressContainer}>
-        <Text>{props.completionText}</Text>
+        <Text style={styles.completionText}>{props.completionText}</Text>
       </View>
       <TouchableOpacity onPress={props.togglePause}>
         <View style={styles.pauseButton}>
@@ -54,6 +54,9 @@ const TimeControls = (props) => {
 }
 
 const styles = StyleSheet.create({
+  completionText: {
+    color: colors.primary
+  },
   arcContainer: {
     position: "absolute",
     left: 1,
@@ -66,7 +69,7 @@ const styles = StyleSheet.create({
     height: 6,
     top: 0,
     left: 0,
-    backgroundColor: "black",
+    backgroundColor: colors.black,
     borderRadius: 20
   },
   maxValue: {
@@ -75,7 +78,7 @@ const styles = StyleSheet.create({
     height: 6,
     top: 0,
     left: 0,
-    backgroundColor: "white",
+    backgroundColor: colors.white,
     borderRadius: 20
   },
   progressBar: {
@@ -95,10 +98,10 @@ const styles = StyleSheet.create({
   pauseButton: {
     paddingVertical: 17,
     paddingHorizontal: 19,
-    backgroundColor: "white",
+    backgroundColor: colors.background2,
     borderRadius: 50,
-    borderColor: colors.background,
-    borderWidth: 7,
+    borderColor: colors.background3,
+    borderWidth: 6,
   },
   controlsContainer: {
     // justifyContent: "center",
