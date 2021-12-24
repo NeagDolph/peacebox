@@ -4,41 +4,21 @@ import {contrastColor} from 'contrast-color';
 export const backgroundSlice = createSlice({
   name: 'background',
   initialState: {
-    url: false,
     lastSetTime: 0,
     credits: {
       name: "hello",
       link: ""
     },
-    color: "#FFFFFF",
-    textColor: "#000000"
+    data: {}
   },
   reducers: {
-    setUrl: (state, action) => {
-      state.url = action.payload;
-    },
-    setTime: (state, action) => {
-      state.lastSetTime = action.payload
-    },
-    setCredits: (state, action) => {
-      state.credits = {
-        link: action.payload.html + "?utm_source=stoical&utm_medium=referral",
-        name: action.payload.name
-      }
-    },
-    setColor: (state, action) => {
-      state.color = action.payload
-    },
     setBackgroundData: (state, action) => {
-      if (!action.payload) return
-
-      state.color = action.payload?.color;
-      state.url = action.payload?.urls?.raw || (action.payload?.full || action.payload?.regular);
+      state.data = action.payload
       state.credits = {
-        link: action.payload.links?.html + "?utm_source=stoical&utm_medium=referral",
-        name: action.payload.user?.name
-      };
-      state.textColor = contrastColor({ bgColor: action.payload?.color });
+        link: action.payload.links.html + "?utm_source=stoical&utm_medium=referral",
+        name: action.payload.user.name
+      }
+      state.lastSetTime = Date.now();
     }
   },
 })

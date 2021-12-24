@@ -1,15 +1,17 @@
 import React, {useState, useEffect, useRef, useLayoutEffect} from 'react';
-import {setTime, setUrl, setCredits, setColor, setBackgroundData} from "../store/features/backgroundSlice"
+import {setBackgroundData} from "../store/features/backgroundSlice"
 import {useDispatch, useSelector} from "react-redux";
 import {ImageBackground, StyleSheet, View, Text, Dimensions, Pressable} from "react-native";
 import FastImage from 'react-native-fast-image'
 import PropTypes from 'prop-types'
 import {colors} from "../config/colors";
+import {Blurhash} from "react-native-blurhash";
 
 
 const Background = (props) => {
-  const lastSetTime = useSelector((state: any) => state.background.lastSetTime)
-  const bgUrl = useSelector((state: any) => state.background.url)
+  // const lastSetTime = useSelector((state: any) => state.background.lastSetTime)
+  // const bgUrl = useSelector((state: any) => state.background.url)
+  const background = useSelector((state: any) => state.background)
 
   const {showBackground, visible} = props
   const bgOld = useRef(showBackground)
@@ -22,6 +24,10 @@ const Background = (props) => {
       const g = parseInt(hex.substr(2, 2), 16);
       const b = parseInt(hex.substr(4, 2), 16);
       return (r + g + b) / 3
+  }
+
+  const onLoad = () => {
+    props.setLoaded(true)
   }
 
   const loadSetBackground = () => {
@@ -56,12 +62,6 @@ const Background = (props) => {
           return showImage ? el : o
         }, sortedImages[0])
 
-        console.log(sortedImages.map(el => brightness(el.color)))
-        console.log(sortedImages.map(el => el.user.name))
-
-        console.log(brightImage.color)
-
-        dispatch(setTime(Date.now()));
         dispatch(setBackgroundData(brightImage));
       })
   }
@@ -69,7 +69,7 @@ const Background = (props) => {
   useEffect(() => {
     if (!bgOld.current && showBackground) {
       loadSetBackground();
-    } else if (showBackground && (Date.now() - lastSetTime >= 3600000 || !lastSetTime)) {
+    } else if (showBackground && (Date.now() - background.lastSetTime >= 3600000 || !background.lastSetTime)) {
       loadSetBackground();
     }
 
@@ -79,20 +79,26 @@ const Background = (props) => {
 
 
   const renderImage = () => {
+    const imgUrl = background.data.urls?.raw || (background.data.urls?.full || background.data.urls?.regular)
     const image = <FastImage
-      source={{uri: bgUrl, priority: FastImage.priority.high}}
+      source={{uri: imgUrl, priority: FastImage.priority.high}}
       force-cache="force-cache"
-      style={styles.backgroundImage}
+      style={[styles.backgroundImage]}
       resizeMode={FastImage.resizeMode.cover}
-      onLoad={props.onLoad}
+      onLoad={() => props.setLoaded(true)}
+      onLoadStart={() => props.setLoaded(false)}
     />
 
-    return (showBackground && bgUrl && visible) ? <Pressable onPress={props.onPress} children={image}/> : <View style={styles.backgroundImage}></View>
+    return (showBackground && imgUrl && visible) ? <Pressable onPress={props.onPress} children={image}/> : <View style={styles.backgroundImage}></View>
   }
 
   return (
     <View>
       {renderImage()}
+      {props.loaded || <Blurhash
+          blurhash={background.data.blur_hash}
+          style={styles.blur}
+      />}
       {props.children}
     </View>
   )
@@ -106,6 +112,14 @@ Background.propTypes = {
 }
 
 const styles = StyleSheet.create({
+  blur: {
+    height: Dimensions.get("window").height,
+    width: Dimensions.get("window").width,
+    position: "absolute",
+    top: 0,
+    left: 0,
+    // height: "100%",
+  },
   backgroundImage: {
     height: Dimensions.get("window").height,
     width: Dimensions.get("window").width,
@@ -113,7 +127,7 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     // height: "100%",
-  }
+  },
 })
 
 export default Background

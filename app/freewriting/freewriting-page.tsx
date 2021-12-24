@@ -153,8 +153,6 @@ const Freewriting = (props: any) => {
   });
 
 
-
-  const onBgLoad = () => setBackgroundLoaded(true);
   const handleCloseInfo = () => setModalVisible(false)
 
   const normalWritingCard = () => {
@@ -176,7 +174,6 @@ const Freewriting = (props: any) => {
             <View style={styles.footerContainer}>
               <Text style={[styles.credit, {
                 opacity: settings.showBackground ? 1 : 0,
-                color: backgroundLoaded ? "white" : "black"
               }]}>
                 {backgroundLoaded ?
                   <>
@@ -239,7 +236,7 @@ const Freewriting = (props: any) => {
             </View>
           </Pressable>
         </Animated.View>
-        <Background showBackground={settings.showBackground} visible={!fullscreen} onLoad={onBgLoad}>
+        <Background showBackground={settings.showBackground} visible={!fullscreen} setLoaded={setBackgroundLoaded} loaded={backgroundLoaded}>
           <PageHeader
             settingsIcon="cog"
             titleWhite={settings.showBackground}
