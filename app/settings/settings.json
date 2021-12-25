@@ -8,6 +8,10 @@
       "name": "Show Animations",
       "setting": "showAnimations"
     },
+    {
+      "name": "Show Completed Pages",
+      "setting": "showCompletedPages"
+    }
   ],
   "breathing": [
     {

@@ -100,7 +100,7 @@ const BreathingPage = (props) => {
 
   const confirmTutorial = () => {
     return Alert.alert(
-      "Restart tutorial?",
+      "Start tutorial?",
       `Are you sure you want to start this tutorial?`,
       [
         {text: "Nevermind"},

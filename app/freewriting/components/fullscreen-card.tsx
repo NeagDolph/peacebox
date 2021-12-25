@@ -8,9 +8,7 @@ import {State, TapGestureHandler} from "react-native-gesture-handler";
 import Animated from "react-native-reanimated";
 import haptic from "../../helpers/haptic";
 
-const FullscreenCard = (props) => {
-  const {inputRef, content, setContent, handleLayout, editable, placeholder, activityBg, fullscreenToggle} = props
-
+const FullscreenCard = ({inputRef, content, setContent, handleLayout, editable, placeholder, activityBg, fullscreenValue, clearFull}) => {
   const [lineHeight, setLineHeight] = useState(0)
   const [pageHeight, setPageHeight] = useState(0)
   const [pageWidth, setPageWidth] = useState(0)
@@ -29,7 +27,7 @@ const FullscreenCard = (props) => {
 
   const handleTap = (event) => {
     if (event.nativeEvent.state === State.ACTIVE) {
-      props.clearFull();
+      clearFull();
       haptic(2)
     } else if (event.nativeEvent.state = State.BEGAN && !inputRef.current.isFocused()) {
       inputRef.current.focus();
@@ -50,7 +48,7 @@ const FullscreenCard = (props) => {
     <View style={[styles.card, {width: Dimensions.get("window").width, height: Dimensions.get("window").height}]}>
       <FastImage
         style={[styles.imageStyle, {width: Dimensions.get("window").width, height: pageHeight ?? 1000}]}
-        source={require("../../assets/long_paper.png")}
+        source={colors.dark ? require("../../assets/dark/long_paper.png") : require("../../assets/long_paper.png")}
         resizeMode={FastImage.resizeMode.contain}
         // onLayout={cardLayout}
         onLoad={cardLayout}
@@ -59,11 +57,12 @@ const FullscreenCard = (props) => {
         style={[styles.input, {lineHeight: lineHeight || 30}]}
         placeholder={placeholder}
         placeholderTextColor="#8A897C"
+        selectionColor={colors.accent}
         multiline={true}
         autoCapitalize="none"
         importantForAutofill="no"
         onChange={setContent}
-        onContentSizeChange={props.handleLayout}
+        onContentSizeChange={handleLayout}
         autoFocus={false}
         autoCorrect={false}
         keyboardType="default"
@@ -109,7 +108,6 @@ const styles = StyleSheet.create({
   imageStyle: {
     // height: Dimensions.get("window").height * 0.547740584,
     // width: Dimensions.get("window").height * 0.38,
-    borderRadius: 8,
     top:0,
     left: 0,
     position: "absolute"
@@ -118,7 +116,7 @@ const styles = StyleSheet.create({
     // height: Dimensions.get("window").height * 0.547740584,
     // width: Dimensions.get("window").height * 0.38,
     width: "100%",
-    backgroundColor: "#f5f7ea",
+    backgroundColor: colors.background,
     // paddingTop: 3,
     // paddingLeft: "7%",
     // paddingRight: 10,
@@ -139,6 +137,7 @@ const styles = StyleSheet.create({
     height: "100%",
     fontSize: 16,
     lineHeight: 20,
+    color: colors.primary,
     paddingLeft: "7%",
     paddingRight: 10,
     top: -6,

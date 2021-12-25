@@ -7,7 +7,8 @@ export const settingsSlice = createSlice({
       used: false,
       showBackground: true,
       showAnimations: true,
-      fullscreen: false
+      fullscreen: false,
+      showCompletedPages: true,
     },
     breathing: {
       used: false,

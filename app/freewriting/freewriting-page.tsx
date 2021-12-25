@@ -25,7 +25,7 @@ import haptic from "../helpers/haptic";
 import InfoContent from "./components/info-content";
 import {colors} from '../config/colors';
 import FullscreenCard from "./components/fullscreen-card";
-import Extrapolate = module;
+import useSession from "./components/session-hook";
 
 
 const Freewriting = (props: any) => {
@@ -35,6 +35,9 @@ const Freewriting = (props: any) => {
 
   const dispatch = useDispatch();
 
+
+  //Pages session manager hook
+  const {pages, addPage} = useSession();
 
   const setFullScreen = (value) => dispatch(setSetting({page: "freewriting", setting: "fullscreen", value}));
 
@@ -115,8 +118,9 @@ const Freewriting = (props: any) => {
   }
 
   const handleContent = async (event: NativeSyntheticEvent<any>) => {
-    if (contentHeight.current >= 400) {
-      clearFull()
+    if (contentHeight.current >= 400) { //Page completion
+      addPage();
+      clearFull();
       if (!fullscreen) showAnimation();
       haptic(0)
 
@@ -152,6 +156,14 @@ const Freewriting = (props: any) => {
     };
   });
 
+  const containerStyles = useAnimatedStyle(() => {
+    return {
+      marginTop: interpolate(fullscreenValue.value, [0, 1], [40, 18]),
+      marginHorizontal: interpolate(fullscreenValue.value, [0, 1], [40, 0])
+    }
+  })
+
+
 
   const handleCloseInfo = () => setModalVisible(false)
 
@@ -159,7 +171,7 @@ const Freewriting = (props: any) => {
     return (
       <>
         <Pressable style={styles.pressable} onPress={() => inputRef.current.blur()} hitSlop={0}/>
-        <View style={[styles.container]}>
+        <Animated.View style={[styles.container, containerStyles]}>
           <WritingCard
             placeholder={placeholderText}
             editable={true}
@@ -168,12 +180,12 @@ const Freewriting = (props: any) => {
             clearFull={clearFull}
             inputRef={inputRef}
             setContent={handleContent}
-            fullscreenToggle={fullscreenToggle}
             activityBg={activityBg}
+            fullscreen={fullscreen}
           >
             <View style={styles.footerContainer}>
               <Text style={[styles.credit, {
-                opacity: settings.showBackground ? 1 : 0,
+                opacity: (settings.showBackground && !fullscreen) ? 1 : 0,
               }]}>
                 {backgroundLoaded ?
                   <>
@@ -196,7 +208,7 @@ const Freewriting = (props: any) => {
               </Pressable>
             </View>
           </WritingCard>
-        </View>
+        </Animated.View>
         {settings.showAnimations &&
         genieVisible &&
         <GenieCard
@@ -206,22 +218,6 @@ const Freewriting = (props: any) => {
             resetGenie={resetGenie}
         />}
       </>
-    )
-  }
-
-  const fullscreenWritingCard = () => {
-    return (
-      <FullscreenCard
-        placeholder={placeholderText}
-        editable={true}
-        handleLayout={handleLayout}
-        content={content}
-        clearFull={clearFull}
-        inputRef={inputRef}
-        setContent={handleContent}
-        fullscreenToggle={fullscreenToggle}
-        activityBg={activityBg}
-      />
     )
   }
 
@@ -246,7 +242,8 @@ const Freewriting = (props: any) => {
             })}
             title="Freewriting"
           />
-          {fullscreen ? fullscreenWritingCard() : normalWritingCard()}
+          {normalWritingCard()}
+
         </Background>
       </View>
       <BottomSheet
@@ -326,9 +323,9 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 40,
+    // marginTop: 40,
     zIndex: 0,
-    paddingHorizontal: 40
+    // paddingHorizontal: 40
   },
   genieCard: {
     position: "absolute",

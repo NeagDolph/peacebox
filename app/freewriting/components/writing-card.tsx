@@ -15,14 +15,14 @@ import {useSelector, useDispatch} from 'react-redux'
 import FastImage from "react-native-fast-image";
 import {NativeViewGestureHandler, State, TapGestureHandler} from "react-native-gesture-handler";
 import FadeGradient from "../../components/fade-gradient";
-import Animated from 'react-native-reanimated';
+import Animated, {useAnimatedStyle, useSharedValue} from 'react-native-reanimated';
 import haptic from "../../helpers/haptic";
 import {BlurView, VibrancyView} from "@react-native-community/blur";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import {colors} from "../../config/colors";
+import createAnimatedComponent = module
 
-const WritingCard = (props: any) => {
-  const {inputRef, content, setContent, handleLayout, editable, placeholder, activityBg, fullscreenToggle} = props
+const WritingCard = ({clearFull, inputRef, content, setContent, handleLayout, editable, placeholder, activityBg, fullscreen, children}) => {
   const [lineHeight, setLineHeight] = useState(0)
   const [pageHeight, setPageHeight] = useState(0)
   const [pageWidth, setPageWidth] = useState(0)
@@ -30,15 +30,18 @@ const WritingCard = (props: any) => {
   const tapRef = useRef(null)
 
   const cardLayout = ({nativeEvent: {layout}}) => {
-    setLineHeight(layout.height / 18.9529614) // Constant for number of lines in the paper image
-    setPageHeight(layout.width * 1.44142259) // Constant for paper image aspect ratio
-    // setPageHeight(layout.width * 1.94142259) // Constant for paper image aspect ratio
+    const lineConstant = fullscreen ? 37.9059228 : 18.9529614 // Constant for number of lines in the paper image
+    const aspectRatio = fullscreen ? 2.88284518 : 1.44142259 // Constant for paper image height/width
+
+    setLineHeight(layout.height / lineConstant)
+    setPageHeight(layout.width * aspectRatio)
+
     setPageWidth(layout.width)
   }
 
   const handleTap = (event) => {
     if (event.nativeEvent.state === State.ACTIVE) {
-      props.clearFull();
+      clearFull();
       haptic(2)
     } else if (event.nativeEvent.state = State.BEGAN && !inputRef.current.isFocused()) {
       inputRef.current.focus();
@@ -55,27 +58,38 @@ const WritingCard = (props: any) => {
     return text.split("").map(char => char.match(/[\.\ \,\_]{1}/) ? char : chooseRandomLetter()).join("")
   }
 
+  const calcImageSource = () => {
+    if (colors.dark) {
+      return fullscreen ? require("../../assets/dark/long_paper.png") : require("../../assets/dark/paper.png")
+    } else {
+      return fullscreen ? require("../../assets/long_paper.png") : require("../../assets/paper.jpg")
+    }
+  }
+
+
   return (
     <>
-      <View style={[styles.card, {height: pageHeight}]} onLayout={cardLayout}>
+      <View style={[styles.card, {height: pageHeight, shadowRadius: fullscreen ? 0 : 4.4,}]} onLayout={cardLayout}>
         <FastImage
-          style={[styles.imageStyle, {height: pageHeight, width: pageWidth}]}
-          source={require("../../assets/paper.jpg")}
+          style={[styles.imageStyle, {height: pageHeight, width: pageWidth, borderRadius: fullscreen ? 0 : 8}]}
+          source={calcImageSource()}
           resizeMode={FastImage.resizeMode.cover}
         />
         <TextInput
-          style={[styles.input, {lineHeight: lineHeight || 10}]}
+          style={[styles.input, {lineHeight: lineHeight || 10, fontSize: fullscreen ? 16 : 14}]}
           placeholder={placeholder}
           placeholderTextColor="#8A897C"
           multiline={true}
           autoCapitalize="none"
           importantForAutofill="no"
           onChange={setContent}
-          onContentSizeChange={props.handleLayout}
+          onContentSizeChange={handleLayout}
           autoFocus={false}
           autoCorrect={false}
           keyboardType="default"
           editable={editable}
+
+          selectionColor={colors.accent}
           ref={inputRef}
           contextMenuHidden={true}
           value={activityBg ? gibberish(content) : content}
@@ -90,8 +104,8 @@ const WritingCard = (props: any) => {
           />
         </TapGestureHandler>
       </View>
-
-      {props.children}</>
+      {children}
+      </>
   );
 };
 
@@ -128,7 +142,6 @@ const styles = StyleSheet.create({
   imageStyle: {
     // height: Dimensions.get("window").height * 0.547740584,
     // width: Dimensions.get("window").height * 0.38,
-    borderRadius: 8,
     top: 0,
     left: 0,
     position: "absolute"
@@ -138,7 +151,7 @@ const styles = StyleSheet.create({
     // width: Dimensions.get("window").height * 0.38,
     width: "100%",
 
-    backgroundColor: "#f5f7ea",
+    backgroundColor: colors.dark ? colors.background2 : "#f5f7ea",
     paddingTop: 3,
     // paddingLeft: "7%",
     borderRadius: 8,
@@ -152,7 +165,6 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.35,
     shadowRadius: 4.4,
-
     elevation: 2,
   },
   input: {
@@ -161,6 +173,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     lineHeight: 20,
     paddingLeft: "7%",
+    color: colors.primary,
     paddingRight: 10,
     top: -8,
     position: "relative"

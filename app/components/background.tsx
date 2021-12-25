@@ -62,6 +62,8 @@ const Background = (props) => {
           return showImage ? el : o
         }, sortedImages[0])
 
+        console.log(brightImage.blur_hash)
+
         dispatch(setBackgroundData(brightImage));
       })
   }
@@ -95,7 +97,7 @@ const Background = (props) => {
   return (
     <View>
       {renderImage()}
-      {props.loaded || <Blurhash
+      {(showBackground && visible && !props.loaded) && <Blurhash
           blurhash={background.data.blur_hash}
           style={styles.blur}
       />}
