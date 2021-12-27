@@ -4,8 +4,8 @@ import {withTheme, Surface, Title, Paragraph, Button, Chip} from "react-native-p
 import {
   Dimensions,
   Image,
-  ImageBackground, Keyboard,
-  NativeSyntheticEvent, Pressable,
+  ImageBackground, Keyboard, KeyboardAvoidingView,
+  NativeSyntheticEvent, Platform, Pressable,
   StyleSheet,
   Text,
   TextInput,
@@ -20,12 +20,18 @@ import haptic from "../../helpers/haptic";
 import {BlurView, VibrancyView} from "@react-native-community/blur";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import {colors} from "../../config/colors";
-import createAnimatedComponent = module
+import useKeyboardHeight from "../../components/keyboard-hook";
 
-const WritingCard = ({clearFull, inputRef, content, setContent, handleLayout, editable, placeholder, activityBg, fullscreen, children}) => {
+const WritingCard = ({
+                       clearFull, inputRef, content, setContent, handleLayout,
+                       editable, placeholder, activityBg, fullscreen,
+                       children, pages, settings
+                    }) => {
   const [lineHeight, setLineHeight] = useState(0)
   const [pageHeight, setPageHeight] = useState(0)
   const [pageWidth, setPageWidth] = useState(0)
+
+  const keyboardHeight = useKeyboardHeight()
 
   const tapRef = useRef(null)
 
@@ -41,8 +47,10 @@ const WritingCard = ({clearFull, inputRef, content, setContent, handleLayout, ed
 
   const handleTap = (event) => {
     if (event.nativeEvent.state === State.ACTIVE) {
+      // inputRef.current.blur() // Causing issues
       clearFull();
       haptic(2)
+      setTimeout(() => inputRef.current.blur(), 100)
     } else if (event.nativeEvent.state = State.BEGAN && !inputRef.current.isFocused()) {
       inputRef.current.focus();
     }
@@ -66,10 +74,24 @@ const WritingCard = ({clearFull, inputRef, content, setContent, handleLayout, ed
     }
   }
 
+  const pagesStyle = useAnimatedStyle(() => {
+    return {
+      transform: [
+        {translateY: fullscreen ? -keyboardHeight.value * 1.01 : 0},
+      ]
+    }
+  }, [fullscreen])
+
+  const renderPageCount = () => {
+    return settings?.showCompletedPages && <Animated.View style={[styles.countContainer, fullscreen ? {top: Dimensions.get("window").height - 148, right: 15} : {bottom: 0}, pagesStyle]}>
+      <Text style={[styles.count, {fontSize: fullscreen ? 28 : 24}]}>{pages}</Text>
+    </Animated.View>
+  }
+
 
   return (
     <>
-      <View style={[styles.card, {height: pageHeight, shadowRadius: fullscreen ? 0 : 4.4,}]} onLayout={cardLayout}>
+      <View style={[styles.card, {height: pageHeight, shadowRadius: fullscreen ? 0 : 4.4}]} onLayout={cardLayout}>
         <FastImage
           style={[styles.imageStyle, {height: pageHeight, width: pageWidth, borderRadius: fullscreen ? 0 : 8}]}
           source={calcImageSource()}
@@ -88,14 +110,13 @@ const WritingCard = ({clearFull, inputRef, content, setContent, handleLayout, ed
           autoCorrect={false}
           keyboardType="default"
           editable={editable}
-
           selectionColor={colors.accent}
           ref={inputRef}
           contextMenuHidden={true}
           value={activityBg ? gibberish(content) : content}
         />
         <TapGestureHandler onHandlerStateChange={handleTap} ref={tapRef} hitSlop={30} numberOfTaps={2}>
-          <Animated.View
+          <View
             style={{
               zIndex: 1,
               position: 'absolute',
@@ -103,6 +124,7 @@ const WritingCard = ({clearFull, inputRef, content, setContent, handleLayout, ed
             }}
           />
         </TapGestureHandler>
+        {renderPageCount()}
       </View>
       {children}
       </>
@@ -110,6 +132,17 @@ const WritingCard = ({clearFull, inputRef, content, setContent, handleLayout, ed
 };
 
 const styles = StyleSheet.create({
+  countContainer: {
+    position: "absolute",
+
+    right: 0,
+    padding: 10,
+  },
+  count: {
+    color: colors.primary,
+    fontFamily: "Futura",
+    fontSize: 20
+  },
   fullScreen: {
     borderRadius: 40,
     backgroundColor: "rgba(140, 120, 140, 0.2)",

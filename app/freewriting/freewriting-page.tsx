@@ -83,13 +83,13 @@ const Freewriting = (props: any) => {
     }
 
     const subscription = AppState.addEventListener("change", nextAppState => {
-      if (nextAppState.match(/background/)) {
+      if (nextAppState.match(/^background$/)) {
         clearFull()
       }
 
-      if (nextAppState.match(/inactive/)) {
+      if (nextAppState.match(/^inactive$/)) {
         setActivityBg(true);
-      } else if (nextAppState.match(/active/)) {
+      } else if (nextAppState.match(/^active$/)) {
         setActivityBg(false)
       }
     });
@@ -123,6 +123,9 @@ const Freewriting = (props: any) => {
       clearFull();
       if (!fullscreen) showAnimation();
       haptic(0)
+      // setTimeout(() => {
+      //   inputRef.current.selection(100, 100)
+      // }, 100)
 
     } else setContent(event?.nativeEvent?.text ?? "")
   }
@@ -167,7 +170,7 @@ const Freewriting = (props: any) => {
 
   const handleCloseInfo = () => setModalVisible(false)
 
-  const normalWritingCard = () => {
+  const writingCard = () => {
     return (
       <>
         <Pressable style={styles.pressable} onPress={() => inputRef.current.blur()} hitSlop={0}/>
@@ -182,6 +185,8 @@ const Freewriting = (props: any) => {
             setContent={handleContent}
             activityBg={activityBg}
             fullscreen={fullscreen}
+            pages={pages}
+            settings={settings}
           >
             <View style={styles.footerContainer}>
               <Text style={[styles.credit, {
@@ -226,13 +231,13 @@ const Freewriting = (props: any) => {
       <View style={styles.pageContainer} pointerEvents={modalVisible ? "none" : "auto"}>
         <PrefersHomeIndicatorAutoHidden/>
         <Animated.View style={[styles.headerContainer, fullscreenStyles]}>
-          <Pressable hitSlop={20} onPress={() => fullscreenToggle()}>
+          <Pressable hitSlop={5} onPress={() => fullscreenToggle()}>
             <View style={styles.fullScreen}>
               <Icon name="arrow-expand" size={27} color={colors.primary}/>
             </View>
           </Pressable>
         </Animated.View>
-        <Background showBackground={settings.showBackground} visible={!fullscreen} setLoaded={setBackgroundLoaded} loaded={backgroundLoaded}>
+        <Background showBackground={settings.showBackground} opacity={fullscreenValue} setLoaded={setBackgroundLoaded} loaded={backgroundLoaded}>
           <PageHeader
             settingsIcon="cog"
             titleWhite={settings.showBackground}
@@ -242,7 +247,7 @@ const Freewriting = (props: any) => {
             })}
             title="Freewriting"
           />
-          {normalWritingCard()}
+          {writingCard()}
 
         </Background>
       </View>

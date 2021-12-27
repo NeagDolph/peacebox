@@ -14,10 +14,10 @@ import Animated, {
 import AnimatedArc from "../use/components/ReanimatedArcBase";
 
 function Backplate(props: { height: number, dragX: any, dragMode: number, setDragMode: (number) => void }) {
-  const bgColor = useSharedValue(colors.primary);
+  const bgColor = useSharedValue(colors.white);
 
   useEffect(() => {
-    const calcColor = [colors.text, colors.accent, colors.red][props.dragMode]
+    const calcColor = [colors.white, colors.accent, colors.red][props.dragMode]
 
     bgColor.value = withTiming(calcColor, {
       duration: colors.dark ? 0 : 100,
@@ -69,10 +69,10 @@ function Backplate(props: { height: number, dragX: any, dragMode: number, setDra
     </Animated.View>
     <Animated.View style={[styles.editContainer, editStyle]}>
       {/*<Text style={[styles.edit, {fontWeight: props.dragMode !== 0 ? "500" : "800"}]}>Edit</Text>*/}
-      <IconEntypo size={22} name="pencil" color={colors.background}/>
+      <IconEntypo size={22} name="pencil" color={colors.primary}/>
     </Animated.View>
     <Animated.View style={[styles.trashContainer, deleteStyle]}>
-      <IconEntypo size={22} name="trash" color={colors.background}/>
+      <IconEntypo size={22} name="trash" color={colors.primary}/>
     </Animated.View>
   </Animated.View>;
 }
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
   },
   backplate: {
     width: (Dimensions.get('window').width - 84) / 2,
-    backgroundColor: colors.text,
+    backgroundColor: colors.white,
     borderRadius: 15,
     position: "absolute",
     top: 0,

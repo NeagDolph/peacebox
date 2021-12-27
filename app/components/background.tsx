@@ -6,6 +6,7 @@ import FastImage from 'react-native-fast-image'
 import PropTypes from 'prop-types'
 import {colors} from "../config/colors";
 import {Blurhash} from "react-native-blurhash";
+import Animated, {interpolate, useAnimatedStyle} from "react-native-reanimated";
 
 
 const Background = (props) => {
@@ -26,9 +27,11 @@ const Background = (props) => {
       return (r + g + b) / 3
   }
 
-  const onLoad = () => {
-    props.setLoaded(true)
-  }
+  const opacityStyle = useAnimatedStyle(() => {
+    return {
+      opacity: interpolate(props.opacity.value, [0, 1], [1, 0]),
+    }
+  })
 
   const loadSetBackground = () => {
     const collections = [3488059, 9400790, 3533949, 93804623]
@@ -54,15 +57,11 @@ const Background = (props) => {
 
         const sortedImages = responseObj.sort((a, b) => a.downloads - b.downloads).slice(0, 10)
 
-        // console.log(sortedImages[0])
-
         const brightImage = sortedImages.slice(1).reduce((o, el) => {
           const showImage = colors.dark ? brightness(o.color) > brightness(el.color) : brightness(el.color) > brightness(o.color) //Brightness difference
 
           return showImage ? el : o
         }, sortedImages[0])
-
-        console.log(brightImage.blur_hash)
 
         dispatch(setBackgroundData(brightImage));
       })
@@ -85,22 +84,24 @@ const Background = (props) => {
     const image = <FastImage
       source={{uri: imgUrl, priority: FastImage.priority.high}}
       force-cache="force-cache"
-      style={[styles.backgroundImage]}
+      style={styles.backgroundImage}
       resizeMode={FastImage.resizeMode.cover}
       onLoad={() => props.setLoaded(true)}
       onLoadStart={() => props.setLoaded(false)}
     />
 
-    return (showBackground && imgUrl && visible) ? <Pressable onPress={props.onPress} children={image}/> : <View style={styles.backgroundImage}></View>
+    return (showBackground && imgUrl) ? <Pressable onPress={props.onPress} children={image}/> : <View style={styles.backgroundImage}></View>
   }
 
   return (
     <View>
-      {renderImage()}
-      {(showBackground && visible && !props.loaded) && <Blurhash
-          blurhash={background.data.blur_hash}
-          style={styles.blur}
-      />}
+      <Animated.View style={opacityStyle}>
+        {renderImage()}
+        {(showBackground && !props.loaded) && <Blurhash
+            blurhash={background.data.blur_hash}
+            style={styles.blur}
+        />}
+      </Animated.View>
       {props.children}
     </View>
   )

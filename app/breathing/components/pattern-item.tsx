@@ -167,11 +167,9 @@ const PatternItem = props => {
     }
   }
 
-  const handleTap = (event) => {
-    if (event.nativeEvent.state === State.ACTIVE) {
-      props.usePattern(props.id)
-    } else if (breathingIndex === 5 && open && props.id === createdPattern) {
-      props.usePattern(props.id)
+  const handleTap = () => {
+    props.usePattern(props.id)
+    if (breathingIndex === 5 && open && props.id === createdPattern) {
       dispatch(closedTutorial("breathing"))
 
       setTimeout(() => dispatch(guideNext("breathing")), 600);
@@ -215,10 +213,10 @@ const PatternItem = props => {
   return (
     <View style={[styles.itemOuter, {zIndex: beingDragged ? 200 : 0}]}>
       <Backplate height={itemHeight} dragX={dragX} dragMode={dragMode} setDragMode={setDragMode}/>
-      <TapGestureHandler maxDist={0} onHandlerStateChange={handleTap} ref={tapRef}>
+      <TapGestureHandler maxDist={0} ref={tapRef} onActivated={handleTap}>
         <Animated.View>
 
-          <PanGestureHandler ref={props.panRef} minDist={0} onGestureEvent={panHandler} simultaneousHandlers={[props.scrollRef]}>
+          <PanGestureHandler ref={props.panRef} minDist={0} onGestureEvent={panHandler} waitFor={tapRef} simultaneousHandlers={[props.scrollRef]}>
             {renderCard()}
           </PanGestureHandler>
         </Animated.View>

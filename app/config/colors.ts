@@ -52,8 +52,6 @@ const darkcolors = {
   black: "#FFFFFF",
 }
 
-console.log("CALC", calcDarkElevation(3))
-
 const themecolors = colorScheme === "dark" ? darkcolors : lightcolors
 
 const constants = {

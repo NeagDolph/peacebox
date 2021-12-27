@@ -46,6 +46,8 @@ const HomePage = ({navigation}: any) => {
   const settings = useSelector(state => state.settings.general);
   const copyUsed = useRef(settings.used)
 
+  const lockConstant = 680
+
   const askReview = () => {
     crashlytics().log("User clicked open review button.");
 
@@ -126,7 +128,6 @@ const HomePage = ({navigation}: any) => {
   const dispatch = useDispatch();
 
   const scrollOffset = useSharedValue(0);
-  const windowHeight = useSharedValue(Dimensions.get("window").height ?? 0);
 
   const [endOfScroll, setEndOfScroll] = useState(false)
 
@@ -149,13 +150,13 @@ const HomePage = ({navigation}: any) => {
   const scrollHandler = useAnimatedScrollHandler((event) => {
     scrollOffset.value = event.contentOffset.y;
 
-    if (event.contentOffset.y + windowHeight.value + 5 >= event.contentSize.height || (windowHeight.value < 800 && event.contentOffset.y > 610)) runOnJS(setEndOfScroll)(true);
+    if (event.contentOffset.y > lockConstant) runOnJS(setEndOfScroll)(true);
     else if (endOfScroll) runOnJS(setEndOfScroll)(false);
   });
 
 
   const approximateMargin = () => {
-    return Dimensions.get("window").height > 750 ? Dimensions.get("window").height / 10 : 0
+    return Dimensions.get("window").height > 750 ? Dimensions.get("window").height / 14 : 0
   }
 
   const scrollBottom = () => {
@@ -184,13 +185,14 @@ const HomePage = ({navigation}: any) => {
         used={settings.used}
         scrollOffset={scrollOffset}
         endOfScroll={endOfScroll}
+        lockConstant={lockConstant}
         safeViewHeight={approximateMargin()}
       />
       <Animated.ScrollView
         bounces={false}
         onScroll={scrollHandler}
         ref={scrollRef}
-        contentOffset={{x: 0, y: (copyUsed.current) ? 10000 : 0}}
+        contentOffset={{x: 0, y: (copyUsed.current) ? lockConstant + 5 : 0}}
         // decelerationRate={0.5}
         scrollEventThrottle={16}
         // scrollEnabled={!(endOfScroll && !endOfAnim)}

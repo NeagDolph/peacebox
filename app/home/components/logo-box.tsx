@@ -25,7 +25,6 @@ const LogoBox = (props) => {
   });
 
   const handleLayout = ({nativeEvent: event}) => {
-    console.log(event.layout)
     setLayoutData(event.layout)
   }
 
@@ -51,18 +50,25 @@ const LogoBox = (props) => {
 
 
   const visibleStyles = useAnimatedStyle(() => {
+    //
     const logoTop = Math.min(Math.max(props.safeViewHeight / 2, 0), 30) - 30;
     const opacity = interpolate(props.scrollOffset.value, [0, 100], [0.4, 1]);
-    const scrollTop = interpolate(props.scrollOffset.value, [0, windowHeight.value], [(windowHeight.value / 6), logoTop])
+
+    const calcTop = (val) => interpolate(val, [0, windowHeight.value], [(windowHeight.value / 6), logoTop])
+
+    const scrollTop = calcTop(props.scrollOffset.value);
 
     const smallCalc = Math.min(scrollTop, 610) - Math.max( props.scrollOffset.value- 610, 0);
     const yTop = windowHeight.value > 800 ? scrollTop : smallCalc
+
+
+    const lockTop = props.scrollOffset.value <= props.lockConstant ? scrollTop : calcTop(props.lockConstant) - (props.scrollOffset.value - props.lockConstant)
 
     return {
       opacity: opacity,
       transform: [
 
-        {translateY: yTop},
+        {translateY: lockTop},
         {translateX: leftOffset.value}
       ],
     };
@@ -111,6 +117,7 @@ LogoBox.propTypes = {
   handleLayout: PropTypes.func,
   scrollOffset: PropTypes.any,
   setEndOfAnim: PropTypes.func,
+  lockConstant: PropTypes.number,
   safeViewHeight: PropTypes.number,
   used: PropTypes.bool // Bool for if app has been opened before
 }

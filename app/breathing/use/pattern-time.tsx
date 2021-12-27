@@ -36,8 +36,6 @@ const PatternTime = ({route, navigation}) => {
 
   useKeepAwake();
 
-  const sequence = patternData.sequence;
-
   //Tutorial state
   const tutorial = useSelector(state => state.tutorial.breathing)
   const tooltip = useTooltip();
@@ -87,7 +85,6 @@ const PatternTime = ({route, navigation}) => {
       subscription.remove();
     }
   }, [])
-
 
   /*
    Pause Functions

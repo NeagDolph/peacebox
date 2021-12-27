@@ -105,6 +105,7 @@ function useTimer({id, paused, completed}) {
     setSequenceTime(patternData.settings.pauseDuration)
     playAudio("relax.mp3")
   }
+
   const nextCycle = () => {
     setCycleCount(count => count + 1)
     setCurrentIndex(0)
@@ -211,10 +212,12 @@ function useTimer({id, paused, completed}) {
 
   const feedback = () => {
     // ['None', 'Vibrate', "Haptic"]
-    switch (patternData.feedbackType) {
+    console.log("feed", patternData)
+    switch (patternData.settings.feedbackType) {
       case 0:
         break;
       case 1:
+        console.log("vib")
         Vibration.vibrate()
         break;
       case 2:

@@ -16,8 +16,6 @@ const FullscreenCard = ({inputRef, content, setContent, handleLayout, editable, 
   const tapRef = useRef(null)
 
   const cardLayout = ({nativeEvent}) => {
-    console.log("E", nativeEvent)
-
     const aspectRatio = nativeEvent.height / nativeEvent.width
     const newPageHeight = aspectRatio * Dimensions.get("window").width
     setPageHeight(newPageHeight)
