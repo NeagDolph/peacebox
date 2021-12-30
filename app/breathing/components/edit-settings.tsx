@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   pauseEdit: {
-    backgroundColor: colors.primary,
+    backgroundColor: colors.background3,
     borderRadius: 6,
     marginLeft: 5,
     minWidth: 40,
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
     textTransform: "none",
     fontWeight: "500",
     letterSpacing: 0,
-    color: colors.background,
+    color: colors.primary,
     marginVertical: 5,
 
   },

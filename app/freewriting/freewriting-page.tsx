@@ -24,7 +24,6 @@ import crashlytics from "@react-native-firebase/crashlytics";
 import haptic from "../helpers/haptic";
 import InfoContent from "./components/info-content";
 import {colors} from '../config/colors';
-import FullscreenCard from "./components/fullscreen-card";
 import useSession from "./components/session-hook";
 
 
@@ -46,15 +45,16 @@ const Freewriting = (props: any) => {
   const [placeholderText, setPlaceholderText] = useState("Just start typing...");
   const [editable, setEditable] = useState(true)
 
+  const [lineHeight, setLineHeight] = useState(0)
+
   const isEditable = useRef(true);
   const contentHeight = useRef(0);
 
 
   const inputRef = useRef<any>(null);
-  const tempInputRef = useRef(null)
-  const clearedRef = useRef(null);
+  const lastClear = useRef(Date.now());
   const sheetRef = useRef(null);
-  const startedDelete = useRef(null)
+
 
 
   //Background State
@@ -114,20 +114,27 @@ const Freewriting = (props: any) => {
 
   //Input change callbacks
   const handleLayout = (event) => {
-    contentHeight.current = event.nativeEvent.contentSize.height
+    contentHeight.current = event.nativeEvent.contentSize.height //Using state isn't working with events
   }
 
   const handleContent = async (event: NativeSyntheticEvent<any>) => {
-    if (contentHeight.current >= 400) { //Page completion
+    const pageHeight = fullscreen ? lineHeight * 15 : lineHeight * 18
+    const timeSinceClear = Date.now() - lastClear.current;
+
+    //Page completion
+    if (contentHeight.current >= pageHeight && timeSinceClear > 2000) {
       addPage();
       clearFull();
       if (!fullscreen) showAnimation();
       haptic(0)
+      lastClear.current = Date.now()
       // setTimeout(() => {
       //   inputRef.current.selection(100, 100)
       // }, 100)
 
-    } else setContent(event?.nativeEvent?.text ?? "")
+    } else {
+      setContent(event?.nativeEvent?.text ?? "")
+    }
   }
 
   const clearFull = () => setContent("")
@@ -163,6 +170,9 @@ const Freewriting = (props: any) => {
     return {
       marginTop: interpolate(fullscreenValue.value, [0, 1], [40, 18]),
       marginHorizontal: interpolate(fullscreenValue.value, [0, 1], [40, 0])
+      // transform: [
+      //   {scale: interpolate(fullscreenValue.value, [0, 1], [0.9, 1.5])}
+      // ]
     }
   })
 
@@ -186,6 +196,8 @@ const Freewriting = (props: any) => {
             activityBg={activityBg}
             fullscreen={fullscreen}
             pages={pages}
+            lineHeight={lineHeight}
+            setLineHeight={setLineHeight}
             settings={settings}
           >
             <View style={styles.footerContainer}>

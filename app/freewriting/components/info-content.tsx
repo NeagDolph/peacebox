@@ -43,8 +43,6 @@ const InfoContent = (props) => {
 
   const [modalWidth, setModalWidth] = useState(0)
 
-  const [currentTip, setCurrentTip] = useState("")
-
   const {closeEnabled, setCloseEnabled} = props
 
   const isLastPage = useCallback(() => {
@@ -59,21 +57,8 @@ const InfoContent = (props) => {
     if (props.modalVisible) {
       scrollRef.current.scrollTo({x: 0, animated: false})
       setPageInt(0)
-
-      setCurrentTip(randomTip());
     }
   }, [props.modalVisible])
-
-  const randomTip = () => {
-    const tips = [
-      "Double tap the page to clear it",
-      "Tap the ⓘ to reopen this info"
-    ]
-
-    const num = Math.floor(Math.random() * tips.length)
-
-    return tips[num ?? 0]
-  }
 
   const addLink = (text) => {
     if (!text.matchAll) return <Text style={styles.desc}>{text}</Text>
@@ -85,9 +70,13 @@ const InfoContent = (props) => {
     return results.reduce((curr, match, i) => {
       const before = <Text style={styles.desc}>{text.substring(0, match.index)}</Text>
       const after = <Text style={styles.desc}>{text.substring(match.index + match[0].length, match.input.length)}</Text>
-      return (<Text style={styles.desc}>{before}
-        <Text style={[styles.link]} onPress={() => Linking.openURL(match[2])}>{match[1]}</Text>{after}
-      </Text>)
+      return (<Text>
+                <Text style={styles.desc}>{before}</Text>
+                <TouchableOpacity onPress={() => Linking.openURL(match[2])}>
+                  <Text style={[styles.desc, styles.link]}>{match[1]}</Text>
+                </TouchableOpacity>
+                <Text style={styles.desc}>{after}</Text>
+              </Text>)
     }, <Text style={styles.desc}></Text>)
   }
 
@@ -174,7 +163,7 @@ const InfoContent = (props) => {
             <View style={styles.exit}><Icon style={styles.exitIcon} size={28} name="cross"></Icon></View>
           </TouchableOpacity>
         </View>
-        <Text style={styles.tip}><Text style={styles.tipNote}>TIP&nbsp;&nbsp;</Text>{currentTip}</Text>
+        <Text style={styles.tip}><Text style={styles.tipNote}>TIP&nbsp;&nbsp;</Text>Double tap the page to clear it</Text>
         <View style={styles.contentContainer}>
           <ScrollView
             pinchGestureEnabled={false}
@@ -212,7 +201,7 @@ const InfoContent = (props) => {
 
         <View style={styles.exitContainer}>
           <Fade visible={isLastPage()} duration={400}>
-            <Button color={colors.primary} onPress={props.handleClose} mode="outlined">Exit</Button>
+            <Button color={colors.primary} onPress={props.handleClose} mode="outlined">Done</Button>
           </Fade>
         </View>
       </View>

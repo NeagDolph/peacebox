@@ -71,15 +71,20 @@ const BreathingPage = (props) => {
   useEffect(() => {
     if (!settings.used) {
       setImmediate(() => {
-        dispatch(setUsed("breathing"))
-        // startGuide();
-
-
-        setTimeout(startGuide, 500);
-
-        // setModalVisible(true);
+        Alert.alert(
+          "Begin Tutorial?",
+          `You can access it later from the ⓘ icon in settings menu`,
+          [
+            {
+              text: "Yes", onPress: () => {
+                setTimeout(startGuide, 100)
+              }
+            },
+            {text: "Nevermind"},
+          ]
+        );
       });
-
+      dispatch(setUsed("breathing"))
     }
 
     // setTimeout(startGuide, 600);
@@ -93,6 +98,7 @@ const BreathingPage = (props) => {
 
 
   const startGuide = () => {
+    crashlytics().log("Breathing walkthrough started");
     dispatch(setEditScroll(0))
     dispatch(startTutorial("breathing"))
   }
@@ -194,7 +200,7 @@ const BreathingPage = (props) => {
         shadow={false}
         settingsButton={true}
         titleWhite={false}
-        settingsCallback={() => props.navigation.push("settings", {
+        settingsCallback={() => props.navigation.navigate("settings", {
           page: "breathing",
           pageTitle: "Breathing Settings",
           infoIcon: true,

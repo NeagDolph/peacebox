@@ -38,7 +38,7 @@ interface ToolData {
   iconDark: any;
   description: string;
   tags: string[];
-  nav: string | undefined;
+  nav: () => void;
 }
 
 
@@ -156,7 +156,7 @@ const HomePage = ({navigation}: any) => {
 
 
   const approximateMargin = () => {
-    return Dimensions.get("window").height > 750 ? Dimensions.get("window").height / 14 : 0
+    return Dimensions.get("window").height > 750 ? Dimensions.get("window").height / 22 : 0
   }
 
   const scrollBottom = () => {

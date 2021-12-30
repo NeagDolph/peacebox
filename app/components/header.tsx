@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     fontFamily: "Avenir",
     fontSize: 24,
-    color: colors.primary
+    color: colors.black
   },
   titleContainer: {
     position: "relative",

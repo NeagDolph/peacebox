@@ -281,7 +281,7 @@ const styles = StyleSheet.create({
     marginVertical: 3
   },
   pauseText: {
-    color: colors.text2,
+    color: colors.text,
     fontSize: 13,
     fontWeight: "500",
     fontFamily: "Avenir Next",

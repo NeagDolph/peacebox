@@ -1,7 +1,7 @@
 {
   "freewriting": [
     {
-      "name": "Show Background",
+      "name": "Background Image",
       "setting": "showBackground"
     },
     {
@@ -9,17 +9,17 @@
       "setting": "showAnimations"
     },
     {
-      "name": "Show Completed Pages",
+      "name": "Display Page Number",
       "setting": "showCompletedPages"
     }
   ],
   "breathing": [
     {
-      "name": "Narrate Instructions",
+      "name": "Narrate Breathing Counts",
       "setting": "narrate"
     },
     {
-      "name": "Breathing Animations",
+      "name": "Show Breathing Animation",
       "setting": "showAnimations"
     }
   ]

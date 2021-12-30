@@ -25,11 +25,9 @@ import useKeyboardHeight from "../../components/keyboard-hook";
 const WritingCard = ({
                        clearFull, inputRef, content, setContent, handleLayout,
                        editable, placeholder, activityBg, fullscreen,
-                       children, pages, settings
+                       children, pages, settings, lineHeight, setLineHeight
                     }) => {
-  const [lineHeight, setLineHeight] = useState(0)
   const [pageHeight, setPageHeight] = useState(0)
-  const [pageWidth, setPageWidth] = useState(0)
 
   const keyboardHeight = useKeyboardHeight()
 
@@ -39,10 +37,8 @@ const WritingCard = ({
     const lineConstant = fullscreen ? 37.9059228 : 18.9529614 // Constant for number of lines in the paper image
     const aspectRatio = fullscreen ? 2.88284518 : 1.44142259 // Constant for paper image height/width
 
-    setLineHeight(layout.height / lineConstant)
+    if (setLineHeight) setLineHeight(layout.height / lineConstant) //For some reason setLineHeight is undefined when layout event runs on page deletion
     setPageHeight(layout.width * aspectRatio)
-
-    setPageWidth(layout.width)
   }
 
   const handleTap = (event) => {
@@ -57,7 +53,7 @@ const WritingCard = ({
   }
 
   const gibberish = text => {
-    const letterMap = "abcdefghijklmnopqrstuvwxyz";
+    const letterMap = "abcdefghijklmnopqrstuvwxyzƲƴƷǦǾϔϤϦϪϩϬϿЂЉЏПЬЯҨӘӾԂԎԳԻՂՋՑձփ೧ႬႶಠß￦ΨΔ߷ႾႰႹႧᏆᗟඞ";
 
     const chooseRandomLetter = () => {
       return letterMap[Math.floor(letterMap.length * Math.random())]
@@ -91,9 +87,10 @@ const WritingCard = ({
 
   return (
     <>
-      <View style={[styles.card, {height: pageHeight, shadowRadius: fullscreen ? 0 : 4.4}]} onLayout={cardLayout}>
+      <View style={[styles.card, {height: pageHeight, shadowRadius: fullscreen ? 0 : 4.4}]}>
         <FastImage
-          style={[styles.imageStyle, {height: pageHeight, width: pageWidth, borderRadius: fullscreen ? 0 : 8}]}
+          onLayout={cardLayout}
+          style={[styles.imageStyle, {height: "100%", width: "100%", borderRadius: fullscreen ? 0 : 8}]}
           source={calcImageSource()}
           resizeMode={FastImage.resizeMode.cover}
         />
