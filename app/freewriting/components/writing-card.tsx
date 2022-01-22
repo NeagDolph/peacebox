@@ -1,4 +1,4 @@
-import React, {Props, useEffect, useLayoutEffect, useRef, useState} from 'react';
+import React, {Props, useCallback, useEffect, useLayoutEffect, useRef, useState} from 'react';
 
 import {withTheme, Surface, Title, Paragraph, Button, Chip} from "react-native-paper";
 import {
@@ -25,8 +25,8 @@ import useKeyboardHeight from "../../components/keyboard-hook";
 const WritingCard = ({
                        clearFull, inputRef, content, setContent, handleLayout,
                        editable, placeholder, activityBg, fullscreen,
-                       children, pages, settings, lineHeight, setLineHeight
-                    }) => {
+                       children, pages, settings, lineHeight, setLineHeight, moveHeight
+                     }) => {
   const [pageHeight, setPageHeight] = useState(0)
 
   const keyboardHeight = useKeyboardHeight()
@@ -34,7 +34,7 @@ const WritingCard = ({
   const tapRef = useRef(null)
 
   const cardLayout = ({nativeEvent: {layout}}) => {
-    const lineConstant = fullscreen ? 37.9059228 : 18.9529614 // Constant for number of lines in the paper image
+    const lineConstant = fullscreen ? 37.9059228 : 18.9209614 // Constant for number of lines in the paper image
     const aspectRatio = fullscreen ? 2.88284518 : 1.44142259 // Constant for paper image height/width
 
     if (setLineHeight) setLineHeight(layout.height / lineConstant) //For some reason setLineHeight is undefined when layout event runs on page deletion
@@ -51,6 +51,10 @@ const WritingCard = ({
       inputRef.current.focus();
     }
   }
+
+  const inputContainerHeight = useCallback(() => {
+    return (pageHeight ?? 0) - (lineHeight ?? 0) + 1
+  }, [pageHeight, lineHeight])
 
   const gibberish = text => {
     const letterMap = "abcdefghijklmnopqrstuvwxyzƲƴƷǦǾϔϤϦϪϩϬϿЂЉЏПЬЯҨӘӾԂԎԳԻՂՋՑձփ೧ႬႶಠß￦ΨΔ߷ႾႰႹႧᏆᗟඞ";
@@ -79,8 +83,11 @@ const WritingCard = ({
   }, [fullscreen])
 
   const renderPageCount = () => {
-    return settings?.showCompletedPages && <Animated.View style={[styles.countContainer, fullscreen ? {top: Dimensions.get("window").height - 148, right: 15} : {bottom: 0}, pagesStyle]}>
-      <Text style={[styles.count, {fontSize: fullscreen ? 28 : 24}]}>{pages}</Text>
+    return settings?.showCompletedPages && <Animated.View style={[styles.countContainer, fullscreen ? {
+      top: Dimensions.get("window").height - 148,
+      right: 15
+    } : {bottom: 0}, pagesStyle]}>
+        <Text style={[styles.count, {fontSize: fullscreen ? 28 : 24}]}>{pages}</Text>
     </Animated.View>
   }
 
@@ -94,24 +101,26 @@ const WritingCard = ({
           source={calcImageSource()}
           resizeMode={FastImage.resizeMode.cover}
         />
-        <TextInput
-          style={[styles.input, {lineHeight: lineHeight || 10, fontSize: fullscreen ? 16 : 14}]}
-          placeholder={placeholder}
-          placeholderTextColor="#8A897C"
-          multiline={true}
-          autoCapitalize="none"
-          importantForAutofill="no"
-          onChange={setContent}
-          onContentSizeChange={handleLayout}
-          autoFocus={false}
-          autoCorrect={false}
-          keyboardType="default"
-          editable={editable}
-          selectionColor={colors.accent}
-          ref={inputRef}
-          contextMenuHidden={true}
-          value={activityBg ? gibberish(content) : content}
-        />
+        <View style={[styles.inputContainer, {width: "100%", height: inputContainerHeight()}]}>
+          <TextInput
+            style={[styles.input, {lineHeight: lineHeight || 10, fontSize: fullscreen ? 16 : 14}]}
+            placeholder={placeholder}
+            placeholderTextColor="#8A897C"
+            multiline={true}
+            autoCapitalize="none"
+            importantForAutofill="no"
+            onChange={setContent}
+            onContentSizeChange={handleLayout}
+            autoFocus={false}
+            autoCorrect={false}
+            keyboardType="default"
+            editable={editable}
+            selectionColor={colors.accent}
+            ref={inputRef}
+            contextMenuHidden={true}
+            value={activityBg ? gibberish(content) : content}
+          />
+        </View>
         <TapGestureHandler onHandlerStateChange={handleTap} ref={tapRef} hitSlop={30} numberOfTaps={2}>
           <View
             style={{
@@ -124,11 +133,14 @@ const WritingCard = ({
         {renderPageCount()}
       </View>
       {children}
-      </>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
+  inputContainer: {
+    overflow: "hidden",
+  },
   countContainer: {
     position: "absolute",
 
@@ -181,8 +193,9 @@ const styles = StyleSheet.create({
     // width: Dimensions.get("window").height * 0.38,
     width: "100%",
 
+    // overflow: "hidden",
     backgroundColor: colors.dark ? colors.background2 : "#f5f7ea",
-    paddingTop: 3,
+    paddingTop: 0,
     // paddingLeft: "7%",
     borderRadius: 8,
     // paddingRight: 10,
@@ -199,13 +212,13 @@ const styles = StyleSheet.create({
   },
   input: {
     width: "100%",
-    height: "100%",
+    height: 99999,
     fontSize: 14,
     lineHeight: 20,
     paddingLeft: "7%",
     color: colors.primary,
     paddingRight: 10,
-    top: -8,
+    top: -5,
     position: "relative"
   },
   inputLine: {

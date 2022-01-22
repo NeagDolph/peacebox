@@ -1,12 +1,13 @@
 import React, {useState, useEffect, useRef, useLayoutEffect} from 'react';
 import {setBackgroundData} from "../store/features/backgroundSlice"
 import {useDispatch, useSelector} from "react-redux";
-import {ImageBackground, StyleSheet, View, Text, Dimensions, Pressable} from "react-native";
+import {ImageBackground, StyleSheet, View, Text, Dimensions, Pressable, Alert} from "react-native";
 import FastImage from 'react-native-fast-image'
 import PropTypes from 'prop-types'
 import {colors} from "../config/colors";
 import {Blurhash} from "react-native-blurhash";
 import Animated, {interpolate, useAnimatedStyle} from "react-native-reanimated";
+import { setSetting } from '../store/features/settingsSlice';
 
 
 const Background = (props) => {
@@ -33,6 +34,10 @@ const Background = (props) => {
     }
   })
 
+  const setBackground = (value) => {
+    dispatch(setSetting({page: "freewriting", setting: "showBackground", value}));
+  }
+
   const loadSetBackground = () => {
     const collections = [3488059, 9400790, 3533949, 93804623]
     const topics = ["nature"]
@@ -52,6 +57,12 @@ const Background = (props) => {
       .then(async response => {
         const responseObj = await response.json();
 
+        if (!responseObj || !Array.isArray(responseObj)) {
+          console.log("Error loading background image", responseObj?.errors)
+          dispatch(setSetting({page: "freewriting", setting: "showBackground", value: false}))
+          return
+        }
+
         //Filter images for images based on device appearance
 
 
@@ -64,6 +75,18 @@ const Background = (props) => {
         }, sortedImages[0])
 
         dispatch(setBackgroundData(brightImage));
+      })
+      .catch((err) => {
+        console.log("err", err)
+        //disabled background on error - will fix later
+        Alert.alert(
+          "Error",
+          "Unable to load background",
+          [
+            { text: "Okay", onPress: () => setBackground(false)},
+            { text: "Retry", onPress: loadSetBackground}
+          ]
+        );
       })
   }
 

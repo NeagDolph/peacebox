@@ -119,20 +119,19 @@ const Freewriting = (props: any) => {
 
   const handleContent = async (event: NativeSyntheticEvent<any>) => {
     const pageHeight = fullscreen ? lineHeight * 15 : lineHeight * 18
+    // const pageHeight = fullscreen ? lineHeight * 15 : lineHeight * 18
     const timeSinceClear = Date.now() - lastClear.current;
 
     //Page completion
-    if (contentHeight.current >= pageHeight && timeSinceClear > 2000) {
+    if (contentHeight.current >= pageHeight && timeSinceClear > 1000) {
+      console.log("WORKING timesince:", timeSinceClear, "height:", contentHeight.current)
       addPage();
       clearFull();
       if (!fullscreen) showAnimation();
       haptic(0)
       lastClear.current = Date.now()
-      // setTimeout(() => {
-      //   inputRef.current.selection(100, 100)
-      // }, 100)
 
-    } else {
+    } else if (timeSinceClear > 200) {
       setContent(event?.nativeEvent?.text ?? "")
     }
   }
