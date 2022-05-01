@@ -1,0 +1,73 @@
+[
+  {
+    "name": "Reversing Depression",
+    "icon": "../assets/audioIcons/magic_of_dreams",
+    "files": [
+      {
+        "name": "Introduction",
+        "episode": 0,
+        "parts": [
+          {
+            "url": "https://firebasestorage.googleapis.com/v0/b/stoicalapp.appspot.com/o/4b%20Finding%20Creative%20Solutions.mp3?alt=media&token=d552018b-a702-4665-8e3d-5dbd1ace27d6",
+            "type": "listen",
+            "time": "22:00"
+          },
+          {
+            "url": "PUT STREAM URL HERE",
+            "type": "listen"
+          }
+        ]
+      },
+      {
+        "name": "Healing the Wounded Spirit",
+        "episode": 1,
+        "parts": [
+          {
+            "url": "PUT STREAM URL HERE",
+            "type": "relax"
+          }
+        ]
+      },
+      {
+        "name": "Finding the Power to Overcome Failure",
+        "episode": 2,
+        "parts": [
+          {
+            "url": "PUT STREAM URL HERE",
+            "type": "relax"
+          }
+        ]
+      },
+      {
+        "name": "Recreating Self-trust",
+        "episode": 3,
+        "parts": [
+          {
+            "url": "PUT STREAM URL HERE",
+            "type": "relax"
+          }
+        ]
+      },
+      {
+        "name": "Stabilizing Self-control",
+        "episode": 4,
+        "parts": [
+          {
+            "url": "PUT STREAM URL HERE",
+            "type": "relax"
+          }
+        ]
+      },
+      {
+        "name": "Harmonizing the Inner Balance of Power",
+        "episode": 5,
+        "parts": [
+          {
+            "url": "PUT STREAM URL HERE",
+            "type": "relax"
+          }
+        ]
+      }
+    ]
+  }
+]

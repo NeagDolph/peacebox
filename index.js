@@ -10,6 +10,7 @@ import PatternTime from './app/breathing/use/pattern-time';
 import PatternUse from './app/breathing/use/pattern-use';
 import PatternCompleted from './app/breathing/use/pattern-completed';
 import AboutPage from './app/home/about/about-page';
+import AudioPage from './app/audio/audio-page';
 
 import {name as appName} from './app.json';
 import {DefaultTheme, Provider as PaperProvider, Text} from 'react-native-paper';
@@ -23,9 +24,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import DevMenu from 'react-native-dev-menu';
 import crashlytics from '@react-native-firebase/crashlytics';
 
+import TrackPlayer from 'react-native-track-player';
+
 import {LogBox} from 'react-native';
 import GestureHandlerRootView from 'react-native-gesture-handler';
 import {colors} from './app/config/colors';
+import AudioPlayer from './app/audio/player/audio-player';
 
 //ignore logs
 
@@ -38,7 +42,7 @@ function RootStackScreen() {
     return (
 
         <RootStack.Navigator theme={DarkTheme} screenOptions={{
-            cardStyle: { backgroundColor: colors.background }
+            cardStyle: {backgroundColor: colors.background},
         }}>
             <RootStack.Screen name="Home" component={HomePage}
                               options={{headerShown: false, orientation: 'portrait_up'}}/>
@@ -62,6 +66,10 @@ function RootStackScreen() {
                               options={{headerShown: false, animation: 'fade', orientation: 'portrait_up'}}/>
             <RootStack.Screen name="About" component={AboutPage}
                               options={{headerShown: false, orientation: 'portrait_up'}}/>
+            <RootStack.Screen name="Audio" component={AudioPage}
+                              options={{headerShown: false, orientation: 'portrait_up'}}/>
+            <RootStack.Screen name="AudioPlayer" component={AudioPlayer}
+                              options={{headerShown: false, orientation: 'portrait_up'}}/>
         </RootStack.Navigator>
 
     );
@@ -73,7 +81,7 @@ const theme = {
     roundness: 2,
     colors: {
         ...DefaultTheme.colors,
-        ...colors
+        ...colors,
     },
 };
 
@@ -84,7 +92,7 @@ export default function Main() {
             <PersistGate loading={null} persistor={persistor}>
                 <PaperProvider theme={theme}>
                     <NavigationContainer theme={theme}>
-                            <RootStackScreen/>
+                        <RootStackScreen/>
                     </NavigationContainer>
                 </PaperProvider>
             </PersistGate>
@@ -95,5 +103,5 @@ export default function Main() {
 DevMenu.addItem('Clear AsyncStorage', () => AsyncStorage.clear());
 DevMenu.addItem('Crash App', () => crashlytics().crash());
 
-
+TrackPlayer.registerPlaybackService(() => require('./app/services/audio'))
 AppRegistry.registerComponent(appName, () => Main);

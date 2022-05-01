@@ -12,9 +12,11 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		28025713272A7A8C00C0E47A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		280A30C92792751800619468 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 28D219C6272C76A30073687F /* Ionicons.ttf */; };
+		2839692227A29CDD000D896F /* Baloo2.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2839692127A29CDD000D896F /* Baloo2.ttf */; };
 		289631622793630F0043FAA9 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 28D219C4272C76A20073687F /* MaterialCommunityIcons.ttf */; };
 		28963163279363120043FAA9 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 28D219DA272FEA540073687F /* Entypo.ttf */; };
 		28963164279363120043FAA9 /* Futura.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 28D219C5272C76A20073687F /* Futura.ttf */; };
+		28AF4498281B2B9000647426 /* Roboto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 28AF4497281B2B9000647426 /* Roboto.ttf */; };
 		28BD8185271CA8FB00C37F28 /* 6.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 28BD8175271CA8FA00C37F28 /* 6.mp3 */; };
 		28BD8186271CA8FB00C37F28 /* 11.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 28BD8176271CA8FA00C37F28 /* 11.mp3 */; };
 		28BD8187271CA8FB00C37F28 /* 2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 28BD8177271CA8FA00C37F28 /* 2.mp3 */; };
@@ -57,6 +59,10 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = neiltools/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = neiltools/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = neiltools/main.m; sourceTree = "<group>"; };
+		2839692127A29CDD000D896F /* Baloo2.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Baloo2.ttf; path = ../../../app/assets/fonts/Baloo2.ttf; sourceTree = "<group>"; };
+		284327AF281DF1C00041BBBF /* neiltoolsDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = neiltoolsDebug.entitlements; path = neiltools/neiltoolsDebug.entitlements; sourceTree = "<group>"; };
+		284327B0281DF27C0041BBBF /* neiltools.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = neiltools.entitlements; path = neiltools/neiltools.entitlements; sourceTree = "<group>"; };
+		28AF4497281B2B9000647426 /* Roboto.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Roboto.ttf; path = ../../../app/assets/fonts/Roboto.ttf; sourceTree = "<group>"; };
 		28BD8175271CA8FA00C37F28 /* 6.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = 6.mp3; path = ../app/assets/audio/6.mp3; sourceTree = "<group>"; };
 		28BD8176271CA8FA00C37F28 /* 11.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = 11.mp3; path = ../app/assets/audio/11.mp3; sourceTree = "<group>"; };
 		28BD8177271CA8FA00C37F28 /* 2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = 2.mp3; path = ../app/assets/audio/2.mp3; sourceTree = "<group>"; };
@@ -128,6 +134,8 @@
 		13B07FAE1A68108700A75B9A /* neiltools */ = {
 			isa = PBXGroup;
 			children = (
+				284327B0281DF27C0041BBBF /* neiltools.entitlements */,
+				284327AF281DF1C00041BBBF /* neiltoolsDebug.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -141,6 +149,8 @@
 		28A2685727195FB200D57E05 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				28AF4497281B2B9000647426 /* Roboto.ttf */,
+				2839692127A29CDD000D896F /* Baloo2.ttf */,
 				28D219DA272FEA540073687F /* Entypo.ttf */,
 				28D219C5272C76A20073687F /* Futura.ttf */,
 				28D219C6272C76A30073687F /* Ionicons.ttf */,
@@ -319,6 +329,7 @@
 				289631622793630F0043FAA9 /* MaterialCommunityIcons.ttf in Resources */,
 				280A30C92792751800619468 /* Ionicons.ttf in Resources */,
 				28BD818F271CA8FB00C37F28 /* relax.mp3 in Resources */,
+				2839692227A29CDD000D896F /* Baloo2.ttf in Resources */,
 				28BD8188271CA8FB00C37F28 /* 5.mp3 in Resources */,
 				28BD8193271CA8FB00C37F28 /* 10.mp3 in Resources */,
 				28BD818A271CA8FB00C37F28 /* 7.mp3 in Resources */,
@@ -328,6 +339,7 @@
 				28BD8189271CA8FB00C37F28 /* 8.mp3 in Resources */,
 				28BD8187271CA8FB00C37F28 /* 2.mp3 in Resources */,
 				28BD8186271CA8FB00C37F28 /* 11.mp3 in Resources */,
+				28AF4498281B2B9000647426 /* Roboto.ttf in Resources */,
 				28BD818E271CA8FB00C37F28 /* hold.mp3 in Resources */,
 				28BD818B271CA8FB00C37F28 /* 3.mp3 in Resources */,
 				28025713272A7A8C00C0E47A /* Images.xcassets in Resources */,
@@ -579,6 +591,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = neiltools/neiltoolsDebug.entitlements;
 				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = GM3EN8YD6S;
 				ENABLE_BITCODE = NO;
@@ -612,6 +625,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = neiltools/neiltools.entitlements;
 				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = GM3EN8YD6S;
 				INFOPLIST_FILE = neiltools/Info.plist;

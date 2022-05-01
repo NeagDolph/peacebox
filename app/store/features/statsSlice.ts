@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-export const settingsSlice = createSlice({
+export const statsSlice = createSlice({
   name: 'settings',
   initialState: {},
   reducers: {
@@ -21,6 +21,6 @@ export const settingsSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { setSetting, decrementSetting, incrementSetting } = settingsSlice.actions
+export const { setSetting, decrementSetting, incrementSetting } = statsSlice.actions
 
-export default settingsSlice.reducer
+export default statsSlice.reducer

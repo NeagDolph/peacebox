@@ -95,32 +95,37 @@ const WritingCard = ({
   return (
     <>
       <View style={[styles.card, {height: pageHeight, shadowRadius: fullscreen ? 0 : 4.4}]}>
-        <FastImage
-          onLayout={cardLayout}
-          style={[styles.imageStyle, {height: "100%", width: "100%", borderRadius: fullscreen ? 0 : 8}]}
-          source={calcImageSource()}
-          resizeMode={FastImage.resizeMode.cover}
-        />
-        <View style={[styles.inputContainer, {width: "100%", height: inputContainerHeight()}]}>
-          <TextInput
-            style={[styles.input, {lineHeight: lineHeight || 10, fontSize: fullscreen ? 16 : 14}]}
-            placeholder={placeholder}
-            placeholderTextColor="#8A897C"
-            multiline={true}
-            autoCapitalize="none"
-            importantForAutofill="no"
-            onChange={setContent}
-            onContentSizeChange={handleLayout}
-            autoFocus={false}
-            autoCorrect={false}
-            keyboardType="default"
-            editable={editable}
-            selectionColor={colors.accent}
-            ref={inputRef}
-            contextMenuHidden={true}
-            value={activityBg ? gibberish(content) : content}
+        { activityBg && <VibrancyView
+            style={styles.absolute}
+            blurType={colors.dark ? "dark" : "light"}
+            blurAmount={8}
+          />}
+          <FastImage
+            onLayout={cardLayout}
+            style={[styles.imageStyle, {height: "100%", width: "100%", borderRadius: fullscreen ? 0 : 8}]}
+            source={calcImageSource()}
+            resizeMode={FastImage.resizeMode.cover}
           />
-        </View>
+          <View style={[styles.inputContainer, {width: "100%", height: inputContainerHeight()}]}>
+            <TextInput
+              style={[styles.input, {lineHeight: lineHeight || 10, fontSize: fullscreen ? 16 : 14}]}
+              placeholder={placeholder}
+              placeholderTextColor="#8A897C"
+              multiline={true}
+              autoCapitalize="none"
+              importantForAutofill="no"
+              onChange={setContent}
+              onContentSizeChange={handleLayout}
+              autoFocus={false}
+              autoCorrect={false}
+              keyboardType="default"
+              editable={editable}
+              selectionColor={colors.accent}
+              ref={inputRef}
+              contextMenuHidden={true}
+              value={content}
+            />
+          </View>
         <TapGestureHandler onHandlerStateChange={handleTap} ref={tapRef} hitSlop={30} numberOfTaps={2}>
           <View
             style={{
@@ -187,6 +192,15 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     position: "absolute"
+  },
+  absolute: {
+    width: "100%",
+    top: 0,
+    left: 0,
+    height: "100%",
+    zIndex: 99,
+    position: "absolute",
+    borderRadius: 8,
   },
   card: {
     // height: Dimensions.get("window").height * 0.547740584,

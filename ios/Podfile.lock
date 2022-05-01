@@ -14,6 +14,9 @@ PODS:
   - Firebase/AnalyticsWithoutAdIdSupport (8.8.0):
     - Firebase/CoreOnly
     - FirebaseAnalytics/WithoutAdIdSupport (~> 8.8.0)
+  - Firebase/AppCheck (8.8.0):
+    - Firebase/CoreOnly
+    - FirebaseAppCheck (~> 8.8.0-beta)
   - Firebase/CoreOnly (8.8.0):
     - FirebaseCore (= 8.8.0)
   - Firebase/Crashlytics (8.8.0):
@@ -28,6 +31,10 @@ PODS:
     - GoogleUtilities/Network (~> 7.4)
     - "GoogleUtilities/NSData+zlib (~> 7.4)"
     - nanopb (~> 2.30908.0)
+  - FirebaseAppCheck (8.8.0-beta):
+    - FirebaseCore (~> 8.0)
+    - GoogleUtilities/Environment (~> 7.4)
+    - PromisesObjC (< 3.0, >= 1.2)
   - FirebaseCore (8.8.0):
     - FirebaseCoreDiagnostics (~> 8.0)
     - GoogleUtilities/Environment (~> 7.4)
@@ -294,7 +301,7 @@ PODS:
   - React-jsinspector (0.65.1)
   - react-native-blur (0.8.0):
     - React
-  - react-native-blurhash (1.1.8):
+  - react-native-blurhash (1.1.10):
     - React-Core
   - react-native-get-random-values (1.7.0):
     - React-Core
@@ -310,6 +317,9 @@ PODS:
     - React-Core
   - react-native-splash-screen (3.2.0):
     - React
+  - react-native-track-player (2.1.3):
+    - React-Core
+    - SwiftAudioEx (= 0.14.7)
   - React-perflogger (0.65.1)
   - React-RCTActionSheet (0.65.1):
     - React-Core/RCTActionSheetHeaders (= 0.65.1)
@@ -395,6 +405,10 @@ PODS:
   - RNFBApp (12.9.3):
     - Firebase/CoreOnly (= 8.8.0)
     - React-Core
+  - RNFBAppCheck (14.9.1):
+    - Firebase/AppCheck (= 8.8.0)
+    - React-Core
+    - RNFBApp
   - RNFBCrashlytics (12.9.3):
     - Firebase/Crashlytics (= 8.8.0)
     - React-Core
@@ -452,6 +466,7 @@ PODS:
   - SDWebImageWebPCoder (0.6.1):
     - libwebp (~> 1.0)
     - SDWebImage/Core (~> 5.7)
+  - SwiftAudioEx (0.14.7)
   - Yoga (1.14.0)
 
 DEPENDENCIES:
@@ -483,6 +498,7 @@ DEPENDENCIES:
   - "react-native-segmented-control (from `../node_modules/@react-native-segmented-control/segmented-control`)"
   - "react-native-slider (from `../node_modules/@react-native-community/slider`)"
   - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
+  - react-native-track-player (from `../node_modules/react-native-track-player`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
@@ -502,6 +518,7 @@ DEPENDENCIES:
   - RNFastImage (from `../node_modules/react-native-fast-image`)
   - "RNFBAnalytics (from `../node_modules/@react-native-firebase/analytics`)"
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
+  - "RNFBAppCheck (from `../node_modules/@react-native-firebase/app-check`)"
   - "RNFBCrashlytics (from `../node_modules/@react-native-firebase/crashlytics`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNRate (from `../node_modules/react-native-rate`)
@@ -518,6 +535,7 @@ SPEC REPOS:
     - boost-for-react-native
     - Firebase
     - FirebaseAnalytics
+    - FirebaseAppCheck
     - FirebaseCore
     - FirebaseCoreDiagnostics
     - FirebaseCrashlytics
@@ -531,6 +549,7 @@ SPEC REPOS:
     - PromisesObjC
     - SDWebImage
     - SDWebImageWebPCoder
+    - SwiftAudioEx
 
 EXTERNAL SOURCES:
   BVLinearGradient:
@@ -585,6 +604,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/slider"
   react-native-splash-screen:
     :path: "../node_modules/react-native-splash-screen"
+  react-native-track-player:
+    :path: "../node_modules/react-native-track-player"
   React-perflogger:
     :path: "../node_modules/react-native/ReactCommon/reactperflogger"
   React-RCTActionSheet:
@@ -623,6 +644,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-firebase/analytics"
   RNFBApp:
     :path: "../node_modules/@react-native-firebase/app"
+  RNFBAppCheck:
+    :path: "../node_modules/@react-native-firebase/app-check"
   RNFBCrashlytics:
     :path: "../node_modules/@react-native-firebase/crashlytics"
   RNGestureHandler:
@@ -652,6 +675,7 @@ SPEC CHECKSUMS:
   FBReactNativeSpec: df8f81d2a7541ee6755a047b398a5cb5a72acd0e
   Firebase: 629510f1a9ddb235f3a7c5c8ceb23ba887f0f814
   FirebaseAnalytics: 5506ea8b867d8423485a84b4cd612d279f7b0b8a
+  FirebaseAppCheck: 2c23e71c305cc93be7770fdf20bee65dec6f700b
   FirebaseCore: 98b29e3828f0a53651c363937a7f7d92a19f1ba2
   FirebaseCoreDiagnostics: 5daa63f1c1409d981a2d5007daa100b36eac6a34
   FirebaseCrashlytics: 3660c045c8e45cc4276110562a0ef44cf43c8157
@@ -677,7 +701,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 43f2542aed3c26e42175b339f8d37fe3dd683765
   React-jsinspector: 41e58e5b8e3e0bf061fdf725b03f2144014a8fb0
   react-native-blur: cad4d93b364f91e7b7931b3fa935455487e5c33c
-  react-native-blurhash: b7ed7b7de81ae1f9ce52d694f43c5b5cddddcae1
+  react-native-blurhash: add4df9a937b4e021a24bc67a0714f13e0bd40b7
   react-native-get-random-values: 237bffb1c7e05fb142092681531810a29ba53015
   react-native-home-indicator: a1f77ce9aa57008272a67a6d8a4c04ac5ad5d1c7
   react-native-keep-awake: e63964d58c890de02bfb6519dedb7d90b5c782de
@@ -685,6 +709,7 @@ SPEC CHECKSUMS:
   react-native-segmented-control: 06607462630512ff8eef652ec560e6235a30cc3e
   react-native-slider: c98f8413776ec1218ec9cd4f8ed32bfd91d428fc
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
+  react-native-track-player: c4147afddd29de936caa06561f78a32d6502eb12
   React-perflogger: fd28ee1f2b5b150b00043f0301d96bd417fdc339
   React-RCTActionSheet: 7f3fa0855c346aa5d7c60f9ced16e067db6d29fa
   React-RCTAnimation: 2119a18ee26159004b001bc56404ca5dbaae6077
@@ -704,6 +729,7 @@ SPEC CHECKSUMS:
   RNFastImage: a7384db75df352500261e8e8f1ac2026def26102
   RNFBAnalytics: 1b0e5ddb5e99c534403817ae93edb10d685378e9
   RNFBApp: 729c0666395b1953198dc4a1ec6deb8fbe1c302e
+  RNFBAppCheck: 3993f7316b505d9dd5217586e58cdf9e45b9c9e3
   RNFBCrashlytics: 2061ca863e8e2fa1aae9b12477d7dfa8e88ca0f9
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
   RNRate: 94f57c773e155ca0d0aeeba9c10a32bce9030daf
@@ -715,6 +741,7 @@ SPEC CHECKSUMS:
   RNVectorIcons: 31cebfcf94e8cf8686eb5303ae0357da64d7a5a4
   SDWebImage: 4dc3e42d9ec0c1028b960a33ac6b637bb432207b
   SDWebImageWebPCoder: d0dac55073088d24b2ac1b191a71a8f8d0adac21
+  SwiftAudioEx: 3a4024e48f3b3e45dac6bf2668d7adbe7b83f50e
   Yoga: aa0cb45287ebe1004c02a13f279c55a95f1572f4
 
 PODFILE CHECKSUM: 40cb925b19e016fe88cc31f9a81081c1fd4171b6

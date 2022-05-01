@@ -116,6 +116,14 @@ const HomePage = ({navigation}: any) => {
       tags: ["Anxiety", "Stress", "Discontentment"],
     },
     {
+      title: "Audio",
+      description: "Transformative sleep meditations to use at night",
+      nav: () => navigation.navigate("Audio"),
+      icon: "",
+      iconDark: "",
+      tags: ["Sleep", "Meditation"]
+    },
+    {
       title: "More Coming Soon...",
       description: "Tap this card this to give us a review!",
       nav: askReview,
@@ -150,7 +158,7 @@ const HomePage = ({navigation}: any) => {
   const scrollHandler = useAnimatedScrollHandler((event) => {
     scrollOffset.value = event.contentOffset.y;
 
-    if (event.contentOffset.y > lockConstant) runOnJS(setEndOfScroll)(true);
+    if (event.contentOffset.y > lockConstant - 100) runOnJS(setEndOfScroll)(true);
     else if (endOfScroll) runOnJS(setEndOfScroll)(false);
   });
 

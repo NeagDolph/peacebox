@@ -16,7 +16,8 @@ const lightcolors = {
   placeholder2: "#C0C0C0",
   red: '#f85256',
   white: "#FFFFFF",
-  black: "#000000"
+  black: "#000000",
+  green: "#7BC78B"
 }
 
 function calcDarkElevation(dp) {
@@ -50,6 +51,7 @@ const darkcolors = {
   red: '#f85256',
   white: "#000000",
   black: "#FFFFFF",
+  green: "#7BC78B"
 }
 
 const themecolors = colorScheme === "dark" ? darkcolors : lightcolors
