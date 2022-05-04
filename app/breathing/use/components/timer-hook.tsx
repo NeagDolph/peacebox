@@ -212,12 +212,10 @@ function useTimer({id, paused, completed}) {
 
   const feedback = () => {
     // ['None', 'Vibrate', "Haptic"]
-    console.log("feed", patternData)
     switch (patternData.settings.feedbackType) {
       case 0:
         break;
       case 1:
-        console.log("vib")
         Vibration.vibrate()
         break;
       case 2:

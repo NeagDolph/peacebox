@@ -3,7 +3,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import {Dimensions, PanResponder, Pressable, StyleSheet, Text, View} from 'react-native';
 import Animated, {useAnimatedStyle, useSharedValue, withTiming} from "react-native-reanimated";
 import useAnimatedValue from "react-native-paper/lib/typescript/utils/useAnimatedValue";
-import {colors} from "../../../config/colors";
+import {colors} from "../config/colors";
 import Slider from "@react-native-community/slider";
 import SystemSetting from 'react-native-system-setting'
 import Icon from "react-native-vector-icons/Ionicons";
@@ -62,11 +62,11 @@ const styles = StyleSheet.create({
   container: {
     width: "100%",
     height: 50,
-    position: "relative",
-    paddingHorizontal: 40,
+    // position: "relative",
+    // paddingHorizontal: 40,
     marginTop: 20,
     alignItems: "center",
-    justifyContent: "center",
+    // justifyContent: "center",
     flexDirection: "row"
   }
 })

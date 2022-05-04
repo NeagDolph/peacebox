@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 
 import {Pressable, StyleSheet, Text, View} from 'react-native';
 import {colors} from "../../config/colors";
@@ -8,18 +8,16 @@ import IconMaterial from "react-native-vector-icons/MaterialCommunityIcons";
 import {useSelector} from "react-redux";
 
 const AudioSetFiles = (props) => {
-  const viewedData = useSelector(state => state.tapes[props.setTitle])
+  const viewedData = useSelector(state => state.tapes[props.set.name])
   const [checkmarkConts, setCheckmarkConts] = useState([]);
 
-  const [completedCalc, setCompletedCalc] = useState(Array(props.files.length).fill(false));
-
-  useEffect(() => {
+  const completedCalc = useMemo(() => {
     const completedVal = viewedData?.map((file, i) => {
-      return file?.parts?.slice(0,props.files[i]?.parts?.length).every(el => el === true)
+      return file?.parts?.slice(0,props.set.files[i]?.parts?.length).every(el => el === true)
     }) ?? []
-    const falseList = Array(props.files.length).fill(false)
+    const falseList = Array(props.set.files.length).fill(false)
 
-    setCompletedCalc(completedVal.concat(falseList))
+    return completedVal.concat(falseList)
   }, [viewedData]);
 
   const layoutCheckmarks = ({nativeEvent}, index) => {
@@ -44,8 +42,6 @@ const AudioSetFiles = (props) => {
       const lineViewed = completedCalc?.slice(0, checkmark.index + 2).every(el => {
         return el === true
       })
-
-      // if (checkmark.index == 0) console.log("EEK", completedCalc?.slice(0, checkmark.index + 2), completedCalc)
 
       const calcTop = checkmark.y + checkmark.height / 2 + 15
       const lineHeight = nextCheckmark?.y + nextCheckmark?.height / 2 - 15 - calcTop
@@ -72,7 +68,7 @@ const AudioSetFiles = (props) => {
   }
 
   const renderTapes = () => {
-    return props.files.map(file => {
+    return props.set.files.map(file => {
       const allCompleted = completedCalc?.[file.episode]
 
       return <View
@@ -81,7 +77,7 @@ const AudioSetFiles = (props) => {
         onLayout={(e) => layoutCheckmarks(e, file.episode)}
       >
         {renderCheckmark(allCompleted)}
-        <AudioSetFilesTape file={file} setTitle={props.setTitle}/>
+        <AudioSetFilesTape file={file} set={props.set}/>
       </View>
     })
   }
@@ -95,9 +91,7 @@ const AudioSetFiles = (props) => {
 };
 
 AudioSetFiles.propTypes = {
-  files: PropTypes.array,
-  setTitle: PropTypes.string,
-  layout: PropTypes.func
+  set: PropTypes.object,
 }
 
 const styles = StyleSheet.create({

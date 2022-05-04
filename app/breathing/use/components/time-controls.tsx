@@ -5,8 +5,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 import React from "react";
 import PropTypes from 'prop-types';
 import {interpolate} from 'react-native-reanimated';
-import VolumeSlider from "./volume-slider";
-import Extrapolate = module;
+import VolumeSlider from "../../../components/volume-slider";
 
 const TimeControls = (props) => {
   // const arcAngle = useRef(new Reanimated.Value(0));
@@ -48,12 +47,18 @@ const TimeControls = (props) => {
           />
         </View>
       </TouchableOpacity>
-      <VolumeSlider/>
+      <View style={styles.volumeContainer}>
+        <VolumeSlider/>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  volumeContainer: {
+    paddingHorizontal: 40,
+    marginTop: 20
+  },
   completionText: {
     color: colors.primary
   },
@@ -107,7 +112,10 @@ const styles = StyleSheet.create({
     // justifyContent: "center",
     alignItems: "center",
     flexDirection: "column",
-    marginVertical: interpolate(Dimensions.get("window").height, [650, 900], [0, 60], {extrapolateRight: "extend", extrapolateLeft: "clamp"}),
+    marginVertical: interpolate(Dimensions.get("window").height, [650, 900], [0, 60], {
+      extrapolateRight: "extend",
+      extrapolateLeft: "clamp"
+    }),
     // flex: 1,
     // width: 300
   },

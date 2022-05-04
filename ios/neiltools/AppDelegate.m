@@ -9,6 +9,8 @@
 #import <RNHomeIndicator.h>
 #import <Firebase.h>
 
+#import <RNBackgroundDownloader.h>
+
 
 #if RCT_DEV
 #import <React/RCTDevLoadingView.h>
@@ -19,6 +21,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   [FIRApp configure];
+
 
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
 
@@ -44,6 +47,12 @@
 
   return YES;
 }
+
+- (void)application:(UIApplication *)application handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(void (^)(void))completionHandler
+{
+  [RNBackgroundDownloader setCompletionHandlerWithIdentifier:identifier completionHandler:completionHandler];
+}
+
 
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
 {

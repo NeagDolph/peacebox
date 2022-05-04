@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useReducer, useState} from 'react';
 import {LayoutAnimation, Pressable, StyleSheet, Text, View} from "react-native";
 import {Surface} from "react-native-paper";
 import PropTypes from 'prop-types'
@@ -10,51 +10,85 @@ import Animated, {
   withTiming,
   Easing,
   interpolate,
-  Extrapolation,
-  concat
+  concat, runOnJS
 } from "react-native-reanimated";
 import createAnimatedComponent from "react-native-reanimated";
 import IconEntypo from "react-native-vector-icons/Entypo";
 import AudioSetFiles from "./audio-set-files";
+import {useDispatch, useSelector} from "react-redux";
+import IconIonicons from "react-native-vector-icons/Ionicons";
+import {downloadAudioSet} from "../../helpers/downloadAudio";
+import {setDownload, setDownloaded, setProgress} from "../../store/features/tapesSlice";
+import RNBackgroundDownloader from 'react-native-background-downloader'
+import IconMaterial from "react-native-vector-icons/MaterialCommunityIcons";
 
 const AudioSet = (props) => {
+  const downloads = useSelector(state => state.tapes[props.set.name]);
+  const dispatch = useDispatch();
+
+  const anyDownloaded = useMemo(() => {
+    return downloads?.some(tape => tape?.downloads?.some(part => part?.downloadState >= 1) ?? false) ?? false
+  }, [downloads])
+
+  const tapeSize = useMemo(() => {
+    return props.set.files.map(file => file.parts.length)
+  }, [props.set]);
+
+  // const allDownloaded = useMemo(() => {
+  //   return downloads?.every((tape, i) => {
+  //     return tape?.downloads?.slice(0, tapeSize[i]).every(part => part.downloadState === 3) ?? false
+  //   }) ?? false
+  // }, [downloads]);
 
   const filesLength = (audioSet) => audioSet.files.reduce((tot, el) => tot + el.parts.length, 0)
 
   const [open, setOpen] = useState(false);
-  const toggleOpen = () => setOpen(last => !last)
+
+  const [showOpen, setShowOpen] = useState(false);
+  useEffect(() => {
+    if (open) {
+      setShowOpen(true)
+    }
+    openOpacity.value = open ? 1 : 0
+  }, [open]);
 
 
 
-  const [contentHeight, setContentHeight] = useState(0)
+  const toggleOpen = () => {
+    setOpen(last => !last)
+  }
+
   const layoutContent = ({nativeEvent}) => {
-    console.log(nativeEvent.layout.height)
-    setContentHeight(nativeEvent.layout.height + 105)
     openHeightValue.value = nativeEvent.layout.height + 105
   }
 
 
   useEffect(() => {
     openValue.value = open ? 1 : 0
-
-    // LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
   }, [open])
 
   const openValue = useSharedValue(0)
   const openHeightValue = useSharedValue(0)
+  const openOpacity = useSharedValue(0)
+
+  const stopShowOpen = () => {
+    setShowOpen(false)
+  }
 
   const heightStyle = useAnimatedStyle(() => {
     const heightValue = interpolate(openValue.value, [0, 1], [72, openHeightValue.value], {});
     return {
       height: withTiming(heightValue, {
-        duration: 350,
-        easing: Easing.ease,
+        duration: 300,
+        easing: Easing.bezier(0.4, 0, 1, 1),
+      }, () => {
+        if (!open) runOnJS(stopShowOpen)()
       }),
     };
-  });
+  }, [open]);
 
   const buttonStyle = useAnimatedStyle(() => {
-    const rotateValue = interpolate(openValue.value, [0, 1], [0, 90], { extrapolateRight: "clamp" });
+    const rotateValue = interpolate(openValue.value, [0, 1], [0, 90], {extrapolateRight: "clamp"});
 
     return {
       transform: [
@@ -68,29 +102,57 @@ const AudioSet = (props) => {
     }
   })
 
+  const downloadSet = () => {
+
+    downloadAudioSet(props.set)
+      .catch(console.error)
+  }
+
   return (
 
     <Animated.View style={[styles.animatedContainer, heightStyle]}>
       <Surface style={styles.audioSet} key={props.set.name}>
         <View style={styles.topContainer}>
-
           <Pressable style={{width: "100%", flexDirection: "row"}} onPress={toggleOpen}>
             <View style={{justifyContent: "center"}}>
-              <View style={styles.setIcon}></View>
+              <View style={[styles.setIcon, {backgroundColor: props.set.icon}]}></View>
             </View>
             <View style={styles.titleContainer}>
               <Text style={styles.title} adjustsFontSizeToFit numberOfLines={1}>{props.set.name}</Text>
               <Text style={styles.subtitle}>{filesLength(props.set)} Tapes</Text>
             </View>
             <View style={styles.openButtonContainer}>
-              <Animated.View style={[styles.openButton, buttonStyle]}>
-                <IconEntypo size={22} name="chevron-right" color={colors.text}/>
-              </Animated.View>
+              {anyDownloaded ?
+                <Animated.View style={[styles.openButton, buttonStyle]}>
+                  <IconEntypo size={22} name="chevron-right" color={colors.text}/>
+                </Animated.View> :
+                <Pressable onPress={downloadSet}>
+                  <View style={styles.downloadButton}>
+                    <IconIonicons size={25} name="md-download-outline" color={colors.primary}/>
+                  </View>
+                </Pressable>
+              }
             </View>
           </Pressable>
         </View>
-        <View style={styles.audioContainer} >
-          <AudioSetFiles files={props.set.files} layout={layoutContent} setTitle={props.set.name}/>
+        <View style={styles.audioContainer}>
+          <View onLayout={layoutContent}>
+            {
+              showOpen &&
+                <>
+                  <View style={styles.descriptionContainerOuter}>
+                    <View style={styles.descriptionContainer}>
+                      <View style={styles.descriptionTitleContainer}>
+                        <IconMaterial name="note-text-outline" size={25} color={colors.primary}/>
+                        <Text style={styles.descriptionTitle}>About This Tape</Text>
+                      </View>
+                      <Text style={styles.description}>{props.set.description}</Text>
+                    </View>
+                  </View>
+                  <AudioSetFiles set={props.set}/>
+                </>
+            }
+          </View>
         </View>
       </Surface>
     </Animated.View>
@@ -102,6 +164,43 @@ AudioSet.propTypes = {
 }
 
 const styles = StyleSheet.create({
+  descriptionTitleContainer: {
+    flexDirection: "row",
+
+  },
+  descriptionTitle: {
+    fontSize: 18,
+    color: colors.primary,
+    marginLeft: 5,
+    fontFamily: "Baloo 2",
+  },
+  description: {
+    fontSize: 16,
+    paddingHorizontal: 2,
+    fontFamily: "Baloo 2",
+    color: colors.primary
+  },
+  descriptionContainer: {
+    width: "100%",
+    backgroundColor: colors.background3,
+    paddingVertical: 8,
+    borderRadius: 5,
+    paddingHorizontal: 12
+  },
+
+  descriptionContainerOuter: {
+    width: "100%",
+    paddingHorizontal: 5
+  },
+  downloadButton: {
+    // padding: 9,
+    width: 42,
+    height: 42,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: colors.background3,
+    borderRadius: 50
+  },
   openButtonContainer: {
     justifyContent: "center",
     marginRight: 5,
@@ -134,7 +233,7 @@ const styles = StyleSheet.create({
     flex: 1,
     minHeight: 65,
     width: "100%",
-    backgroundColor: "white",
+    backgroundColor: colors.background2,
     borderRadius: 10,
     paddingHorizontal: 15,
     paddingVertical: 12,

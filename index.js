@@ -30,7 +30,10 @@ import {LogBox} from 'react-native';
 import GestureHandlerRootView from 'react-native-gesture-handler';
 import {colors} from './app/config/colors';
 import AudioPlayer from './app/audio/player/audio-player';
-
+import {deleteTape, setAudioData, setDownloaded, setProgress} from './app/store/features/tapesSlice';
+import RNBackgroundDownloader, {download, completeHandler} from 'react-native-background-downloader'
+import {useEffect} from 'react';
+import {getAudioList} from './app/helpers/getAudioList';
 //ignore logs
 
 // Ignore log notification by message:
@@ -86,8 +89,17 @@ const theme = {
 };
 
 export default function Main() {
-    return (
+    useEffect(() => {
+        reattachDownloads()
+            .catch(console.error)
 
+        console.log("RUN")
+        getAudioList()
+            .then(data => store.dispatch(setAudioData({audioData: data})))
+            .catch(e => console.warn(e))
+    }, [])
+
+    return (
         <Provider store={store}>
             <PersistGate loading={null} persistor={persistor}>
                 <PaperProvider theme={theme}>
@@ -98,6 +110,28 @@ export default function Main() {
             </PersistGate>
         </Provider>
     );
+}
+
+const reattachDownloads = async() => {
+    let lostTasks = await RNBackgroundDownloader.checkForExistingDownloads();
+
+    for (let task of lostTasks) {
+        console.log(`Task ${task.id} was found!`)
+        const [set, tape, part] = task.id.split("/")
+
+        if (!set || !tape || !part) continue;
+        task.progress(percent => {
+            console.log(task.id, `Downloaded: ${percent * 100}%`)
+            store.dispatch(setProgress({set, tape, part, progress: percent * 100}))
+        }).done(() => {
+            console.log('Download is done!')
+            store.dispatch(setDownloaded({set, tape, part}))
+            completeHandler(task.id)
+        }).error(error => {
+            console.log('Download canceled due to error: ', error)
+            store.dispatch(deleteTape({set, tape}));
+        })
+    }
 }
 
 DevMenu.addItem('Clear AsyncStorage', () => AsyncStorage.clear());

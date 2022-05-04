@@ -100,6 +100,7 @@ class ReanimatedArc extends React.Component<Props> {
         lineCap={lineCap}
         hideSmallAngle={hideSmallAngle}
         style={style}
+
       />
     );
   }

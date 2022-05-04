@@ -124,7 +124,6 @@ const Freewriting = (props: any) => {
 
     //Page completion
     if (contentHeight.current >= pageHeight && timeSinceClear > 1000) {
-      console.log("WORKING timesince:", timeSinceClear, "height:", contentHeight.current)
       addPage();
       clearFull();
       if (!fullscreen) showAnimation();

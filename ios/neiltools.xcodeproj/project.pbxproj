@@ -13,6 +13,7 @@
 		28025713272A7A8C00C0E47A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		280A30C92792751800619468 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 28D219C6272C76A30073687F /* Ionicons.ttf */; };
 		2839692227A29CDD000D896F /* Baloo2.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2839692127A29CDD000D896F /* Baloo2.ttf */; };
+		284327B2281F2AEE0041BBBF /* audio-files.json in Resources */ = {isa = PBXBuildFile; fileRef = 284327B1281F2AEE0041BBBF /* audio-files.json */; };
 		289631622793630F0043FAA9 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 28D219C4272C76A20073687F /* MaterialCommunityIcons.ttf */; };
 		28963163279363120043FAA9 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 28D219DA272FEA540073687F /* Entypo.ttf */; };
 		28963164279363120043FAA9 /* Futura.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 28D219C5272C76A20073687F /* Futura.ttf */; };
@@ -62,6 +63,7 @@
 		2839692127A29CDD000D896F /* Baloo2.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Baloo2.ttf; path = ../../../app/assets/fonts/Baloo2.ttf; sourceTree = "<group>"; };
 		284327AF281DF1C00041BBBF /* neiltoolsDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = neiltoolsDebug.entitlements; path = neiltools/neiltoolsDebug.entitlements; sourceTree = "<group>"; };
 		284327B0281DF27C0041BBBF /* neiltools.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = neiltools.entitlements; path = neiltools/neiltools.entitlements; sourceTree = "<group>"; };
+		284327B1281F2AEE0041BBBF /* audio-files.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "audio-files.json"; path = "../app/assets/audio-files.json"; sourceTree = "<group>"; };
 		28AF4497281B2B9000647426 /* Roboto.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Roboto.ttf; path = ../../../app/assets/fonts/Roboto.ttf; sourceTree = "<group>"; };
 		28BD8175271CA8FA00C37F28 /* 6.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = 6.mp3; path = ../app/assets/audio/6.mp3; sourceTree = "<group>"; };
 		28BD8176271CA8FA00C37F28 /* 11.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = 11.mp3; path = ../app/assets/audio/11.mp3; sourceTree = "<group>"; };
@@ -181,6 +183,7 @@
 			isa = PBXGroup;
 			children = (
 				28D219D0272CF15D0073687F /* GoogleService-Info.plist */,
+				284327B1281F2AEE0041BBBF /* audio-files.json */,
 				28BD8197271CAF2800C37F28 /* breatheout.mp3 */,
 				28BD8181271CA8FB00C37F28 /* 1.mp3 */,
 				28BD8177271CA8FA00C37F28 /* 2.mp3 */,
@@ -344,6 +347,7 @@
 				28BD818B271CA8FB00C37F28 /* 3.mp3 in Resources */,
 				28025713272A7A8C00C0E47A /* Images.xcassets in Resources */,
 				28BD8194271CA8FB00C37F28 /* 4.mp3 in Resources */,
+				284327B2281F2AEE0041BBBF /* audio-files.json in Resources */,
 				28BD8198271CAF2800C37F28 /* breatheout.mp3 in Resources */,
 				28BD8190271CA8FB00C37F28 /* 9.mp3 in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,

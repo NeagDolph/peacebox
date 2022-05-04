@@ -77,7 +77,6 @@ const Background = (props) => {
         dispatch(setBackgroundData(brightImage));
       })
       .catch((err) => {
-        console.log("err", err)
         //disabled background on error - will fix later
         Alert.alert(
           "Error",
