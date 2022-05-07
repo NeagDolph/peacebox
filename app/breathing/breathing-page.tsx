@@ -33,6 +33,7 @@ import {openedTutorial, guideNext, startTutorial, pushRestart, closedTutorial} f
 import Tooltip from 'react-native-walkthrough-tooltip';
 import useTooltip from "../components/tooltip-hook";
 import crashlytics from "@react-native-firebase/crashlytics";
+import PromptOptional from "../components/prompt-optional";
 
 const modalContent = require("./info.json");
 
@@ -50,6 +51,7 @@ const BreathingPage = (props) => {
 
 
   const [editMode, setEditMode] = useState(false);
+  const [showTutorialPrompt, setShowTutorialPrompt] = useState(false);
   const editMargin = useRef(new Animated.Value(6)).current;
   const buttonScaleOpacity = Animated.add(Animated.divide(editMargin, -6), 1);
   const buttonScaleHeight = Animated.multiply(buttonScaleOpacity, 50)
@@ -68,23 +70,30 @@ const BreathingPage = (props) => {
   }, [listenScrollY])
 
 
+  const closeTutorialPrompt = () => {
+    setShowTutorialPrompt(false)
+    dispatch(setUsed("breathing"))
+  }
+
   useEffect(() => {
     if (!settings.used) {
+      setShowTutorialPrompt(true)
       setImmediate(() => {
-        Alert.alert(
-          "Begin Tutorial?",
-          `You can access it later from the ⓘ icon in settings menu`,
-          [
-            {
-              text: "Yes", onPress: () => {
-                setTimeout(startGuide, 100)
-              }
-            },
-            {text: "Nevermind"},
-          ]
-        );
+
+        // Alert.alert(
+        //   "Begin Tutorial?",
+        //   `You can access it later from the ⓘ icon in settings menu`,
+        //   [
+        //     {
+        //       text: "Yes", onPress: () => {
+        //         setTimeout(startGuide, 100)
+        //       }
+        //     },
+        //     {text: "Nevermind"},
+        //   ]
+        // );
       });
-      dispatch(setUsed("breathing"))
+      // dispatch(setUsed("breathing"))
     }
 
     // setTimeout(startGuide, 600);
@@ -225,6 +234,7 @@ const BreathingPage = (props) => {
           </NativeViewGestureHandler>
         </FadeGradient>
       </View>
+      <PromptOptional visible={showTutorialPrompt} callback={startGuide} close={closeTutorialPrompt} title={"Start Tutorial?"} subtitle={"Would you like a tutorial on how to use the breathing section?"}/>
     </>
   );
 };

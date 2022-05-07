@@ -3,7 +3,7 @@ import React, {useEffect, useState} from 'react';
 import {Pressable, StyleSheet, Text, View} from 'react-native';
 import PageHeader from "../../components/header";
 import {setViewed} from "../../store/features/tapesSlice";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import TrackPlayer, {Event, State, useProgress, useTrackPlayerEvents} from "react-native-track-player";
 import {colors} from "../../config/colors";
 import IconMaterial from "react-native-vector-icons/MaterialCommunityIcons";
@@ -12,12 +12,15 @@ import SeekTime from "./components/seek-time";
 import VolumeSlider from "../../components/volume-slider";
 
 const AudioPlayer = (props) => {
-  const {trackData, set, tape, part, fileName, tapeName, partData} = props.route.params
+  const currentAudio = useSelector(state => state.tapes.currentlyPlaying)
+  const {set, tapeNum: tape, tapeName, partData, part, artist, totalParts} = currentAudio
+
+
   const dispatch = useDispatch()
   const progress = useProgress();
 
   const [currentTime, setCurrentTime] = useState(0);
-  const [paused, setPaused] = useState(true);
+  const [paused, setPaused] = useState(false);
 
   const events = [
     Event.PlaybackState,
@@ -26,7 +29,7 @@ const AudioPlayer = (props) => {
 
   useTrackPlayerEvents(events, (event) => {
     if (event.type === Event.PlaybackError) {
-      console.warn('An error occured while playing the current track.');
+      console.warn('An error occured while playing the current track.', event);
     }
     if (event.type === Event.PlaybackState) {
       if (event.state === State.Paused || event.state === State.Stopped) setPaused(true);
@@ -53,9 +56,7 @@ const AudioPlayer = (props) => {
   }
 
   useEffect(() => {
-    TrackPlayer.add([trackData]);
-    playAudio()
-    setPaused(false)
+    // playAudio()
 
     return () => { //unload
       audioEnded()
@@ -96,14 +97,14 @@ const AudioPlayer = (props) => {
 
   return (
     <>
-      <PageHeader title={trackData.artist} settingsButton={false}/>
+      <PageHeader title={artist} settingsButton={false}/>
       <View style={styles.container}>
-        <Text style={styles.setTitle}>{set}</Text>
-        <Text style={styles.title} numberOfLines={1} adjustsFontSizeToFit={true}>{fileName}</Text>
-        {tapeName !== fileName && <Text style={styles.subtitle}>{tapeName}</Text>}
+        <Text style={styles.setTitle}>{set?.name}</Text>
+        <Text style={styles.title} numberOfLines={1} adjustsFontSizeToFit={true}>{tapeName}</Text>
+        {totalParts >= 2 && <Text style={styles.subtitle}>Part {"ABCDEFG"[part]}</Text>}
         <View style={styles.listenTypeContainer}>
-          {typeIcons[partData.type]}
-          <Text style={styles.listenType}>{typeDesc[partData.type]}</Text>
+          {typeIcons[partData?.[part]?.type ?? 0]}
+          <Text style={styles.listenType}>{typeDesc[partData?.[part]?.type]}</Text>
         </View>
         <View style={styles.controlsContainer}>
           <Pressable style={styles.skipContainer} onPress={skipBackwards}>

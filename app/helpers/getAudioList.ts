@@ -1,17 +1,19 @@
 // require the
 import RNFS, {DownloadFileOptions} from 'react-native-fs'
 import {CDNENDPOINT} from "./constants";
+const audioJson = require("../assets/audio-files.json")
 
 export const getAudioList = async () => {
   const downloadLink = `${CDNENDPOINT}/audio-files.json`
 
-  const toPath = RNFS.MainBundlePath + "/audio-files.json"
+  const toPath = "../assets/audio-files.json"
 
   const downloadOptions: DownloadFileOptions = {
     fromUrl: downloadLink,
     toFile: toPath,
     background: false,
-    cacheable: false
+    cacheable: false,
+    readTimeout: 1000
   }
 
   let jsonData
@@ -22,31 +24,48 @@ export const getAudioList = async () => {
     })
     jsonData = await response.json()
   } catch (e) {
-    console.warn("Error downloading audio list:", e)
+    console.log("Error downloading audio list:", e)
+
+    if (e.message.includes("timed out")) {
+      return audioJson
+    }
   }
 
   if (!jsonData) {
     try {
-      await RNFS.downloadFile(downloadOptions)
+      const download = RNFS.downloadFile(downloadOptions)
+
+      const downloadPromise = await download.promise
     } catch (e) {
-      console.warn("Error downloading audio list:", e)
+
+      console.log("Error downloading audio list:", e.message)
+      if (e.message.includes("timed out")) {
+        return audioJson
+      }
     }
 
-    const audioStat = await RNFS.stat(toPath);
 
     try {
+      const audioStat = await RNFS.stat(toPath);
+
       if (audioStat.isFile()) {
         // if we have a file, read it
-        jsonData = JSON.parse(await RNFS.readFile(toPath, 'utf8'));
+        jsonData = JSON.parse(await RNFS.readFile(require("../assets/audio-files.json"), 'utf8'));
+
+        return jsonData
       } else {
         // if file doesn't exist that means it was either deleted or was not bundled with app and cannot be downloaded
-        console.warn("Could not find audio list!")
-        return false
+        console.log("Could not find audio list!")
+
+        return audioJson
+        // return false
       }
     } catch (e) {
-      console.error(e)
+      console.log("Error", e)
+
+      return audioJson
     }
   }
 
-  return jsonData;
+  return jsonData ?? audioJson;
 }

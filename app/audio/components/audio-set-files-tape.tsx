@@ -14,6 +14,10 @@ import ReanimatedArc from "../../breathing/use/components/ReanimatedArc";
 import {cancelDownload, deleteAudio, downloadAudioSet, downloadAudioTape} from "../../helpers/downloadAudio";
 import crashlytics from "@react-native-firebase/crashlytics";
 import {confirm} from "../../helpers/confirm"
+import TrackPlayer from "react-native-track-player";
+import {playAudio} from "../../helpers/playAudio";
+import RNFS from "react-native-fs";
+import haptic from "../../helpers/haptic";
 
 const AudioSetFilesTape = (props) => {
   // @ts-ignore
@@ -39,31 +43,23 @@ const AudioSetFilesTape = (props) => {
   }
 
 
-  const playAudio = ({index, partData, tapeName, fileName}) => {
-    const fileUrl = downloadData?.[index]
-
-    // @ts-ignore
+  const playAudioTrack = ({part, partData, tapeName, tapeNum, totalParts}) => {
+    const fileUrl = downloadData?.[part]
     if (!(fileUrl?.downloadState === 3) || !fileUrl.location) return
 
-    var trackData = {
-      url: fileUrl.location,
-      title: fileName + (fileName !== tapeName ? (" " + tapeName) : ""), // if tape has multiple parts it shows name then part otherwise just the name
-      artist: 'Richard L. Johnson',
-      album: props.set.name,
-      genre: 'Sleep Meditation',
-      date: '2014-05-20T07:00:00+00:00', // RFC 3339
-      duration: props.file.parts[index].duration
-    };
+    RNFS.exists(`${RNFS.DocumentDirectoryPath}/${fileUrl.location}`).then(fileExists => {
+      if (!fileExists) {
+        deleteAudio({set: props.set.name, tape: tapeNum}).then(() => {
+          dispatch(deleteTape({set: props.set.name, tape: tapeNum}))
+          downloadAudioTape(props.set, props.file.episode).catch(console.error);
+        })
+      } else {
+        playAudio({part, tapeNum, tapeName, partData, set: props.set, totalParts})
+          .then(() => {
+            navigation.navigate("AudioPlayer")
+          })
+      }
 
-    // @ts-ignore
-    navigation.navigate('AudioPlayer', {
-      trackData,
-      set: props.set.name,
-      tape: props.file.episode,
-      part: index,
-      fileName,
-      tapeName,
-      partData
     })
   }
 
@@ -71,36 +67,45 @@ const AudioSetFilesTape = (props) => {
   const handleCancel = (downloadState) => {
     switch (downloadState) {
       case 3:
-        confirm({title: "Delete Audio?", message: `\Delete "${props.file.name}" from downloads?`, destructive: true}, () => {
+        confirm({
+          title: "Delete Audio?",
+          message: `\Delete "${props.file.name}" from downloads?`,
+          destructive: true
+        }, () => {
+          haptic(1)
           deleteAudio({set: props.set.name, tape: props.file.episode}).catch(console.error);
           dispatch(deleteTape({set: props.set.name, tape: props.file.episode}));
         })
         break;
       case 1:
       case 2:
-        confirm({title: `Cancel Download?`, message: `Stop downloading "${props.file.name}"?`, destructive: true}, () => {
-            cancelDownload({set: props.set.name, tape: props.file.episode}).catch(console.error);
-            deleteAudio({set: props.set.name, tape: props.file.episode}).catch(console.error);
-            dispatch(deleteTape({set: props.set.name, tape: props.file.episode}));
+        confirm({
+          title: `Cancel Download?`,
+          message: `Stop downloading "${props.file.name}"?`,
+          destructive: true
+        }, () => {
+          haptic(1)
+          cancelDownload({set: props.set.name, tape: props.file.episode}).catch(console.error);
+          deleteAudio({set: props.set.name, tape: props.file.episode}).catch(console.error);
+          dispatch(deleteTape({set: props.set.name, tape: props.file.episode}));
         })
 
         break;
       default:
+        haptic(1)
         downloadAudioTape(props.set, props.file.episode).catch(console.error);
-
 
 
     }
   }
 
-  const renderDownload = ({index = 0, inner}) => {
+  const renderDownload = ({index: part = 0, inner}) => {
     //If audio is part of two-set or more then it averages progress between files
-    const progression = downloadData?.slice(0, props.file.parts.length).map(el => el?.progress ?? 0) ?? []
-
     const dlaverage = average(downloadData?.slice(0, props.file.parts.length).map(el => el?.progress ?? 0) ?? []) ?? 0
 
     let calcStatus
 
+    // calculates status to show for entire set based on download status of individual parts
     if (props.file.parts.length >= 2 && downloadData) {
       const mapData = (downloadData ?? []).map(e => e.downloadState)
 
@@ -108,9 +113,9 @@ const AudioSetFilesTape = (props) => {
       else if (mapData.some(data => data >= 1)) calcStatus = 2;
       else calcStatus = 0
 
-    } else calcStatus = downloadData?.[index]?.downloadState ?? 0
+    } else calcStatus = downloadData?.[part]?.downloadState ?? 0
 
-    let partDownload = inner ? dlaverage : downloadData?.[index]?.progress
+    let partDownload = inner ? dlaverage : downloadData?.[part]?.progress
 
     //Pressable needs to be on outside and have variable onpress because pressable creates alignment issues
     return <Pressable
@@ -148,17 +153,20 @@ const AudioSetFilesTape = (props) => {
     </Pressable>
   }
 
-  const renderSingle = ({tapeName, partData, index, inner = false, fileName}) => { //Tapename is name of part (eg. part A, part B or can also be same as filename)
-    return <Pressable onPress={() => playAudio({index, partData, tapeName, fileName})}>
+  const renderSingle = ({totalParts = 1, tapeName, partData, part = 0, inner = false}) => {
+    const partNames = ["Part A", "Part B", "Part C", "Part D"]
+
+    return <Pressable
+      onPress={() => playAudioTrack({part, partData, tapeName, tapeNum: props.file.episode, totalParts})}>
       <View style={inner ? styles.singleTapeInner : styles.singleTape}>
         <IconIonicons name="play" size={28} color={colors.text} style={disabledColor}/>
         <View style={styles.titleContainer}>
-          <Text style={[styles.title, disabledColor]}>{tapeName}</Text>
+          <Text style={[styles.title, disabledColor]}>{inner ? partNames[part] : tapeName}</Text>
           <View style={styles.subtitle}>
-            {typeIcons[partData.type]}
-            <Text style={[styles.tapeTime, disabledColor]}>{partData.time || "22:00"}</Text>
+            {typeIcons[partData[part].type]}
+            <Text style={[styles.tapeTime, disabledColor]}>{partData[part].time || "22:00"}</Text>
           </View>
-          {!inner && renderDownload({index, inner: false})}
+          {!inner && renderDownload({part, inner: false})}
         </View>
       </View>
     </Pressable>
@@ -167,16 +175,17 @@ const AudioSetFilesTape = (props) => {
   const renderMulti = (file) => {
     const partNames = ["Part A", "Part B", "Part C", "Part D"]
     return <View style={styles.multiTape}>
-      <Text style={[styles.multiTapeTitle, disabledColor]}>{file.name}</Text>
+      <Text style={[styles.multiTapeTitle, disabledColor]} adjustsFontSizeToFit={true}
+            numberOfLines={1}>{file.name}</Text>
       {renderDownload({inner: true})}
       <View style={{flexDirection: "row"}}>
         {file.parts.map((part, i) => {
           return <View style={styles.multiInner} key={i}>{renderSingle({
-            tapeName: partNames[i],
-            partData: part,
-            index: i,
-            inner: true,
-            fileName: file.name
+            tapeName: file.name,
+            partData: file.parts,
+            totalParts: file.parts.length,
+            part: i,
+            inner: true
           })}</View>
         })}
       </View>
@@ -186,7 +195,7 @@ const AudioSetFilesTape = (props) => {
   return (
     <View style={styles.container}>
       {props.file.parts.length === 1 ?
-        renderSingle({tapeName: props.file.name, partData: props.file.parts[0], fileName: props.file.name, index: 0}) :
+        renderSingle({tapeName: props.file.name, partData: props.file.parts}) :
         renderMulti(props.file)
       }
     </View>
@@ -227,8 +236,9 @@ const styles = StyleSheet.create({
   multiTapeTitle: {
     marginLeft: 6,
     marginTop: 8,
+    // marginRight: 20,
     fontFamily: "Baloo 2",
-    maxWidth: 230,
+    maxWidth: 205,
     lineHeight: 23,
     color: colors.primary,
     fontSize: 19,
@@ -245,12 +255,14 @@ const styles = StyleSheet.create({
   titleContainer: {
     marginLeft: 5,
     paddingTop: 6,
+    // marginRight: 10,
     justifyContent: "center"
   },
   title: {
     fontFamily: "Baloo 2",
-    maxWidth: 230,
+    maxWidth: 220,
     lineHeight: 21,
+    // marginRight: 30,
     fontSize: 18,
     // textAlign: "center",
     textAlignVertical: "bottom",
@@ -278,6 +290,7 @@ const styles = StyleSheet.create({
     borderRadius: 7,
     backgroundColor: colors.background3,
     paddingLeft: 8,
+    maxWidth: 270,
     paddingTop: 2,
     paddingBottom: 2,
     paddingRight: 16,

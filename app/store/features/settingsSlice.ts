@@ -5,7 +5,7 @@ export const settingsSlice = createSlice({
   initialState: {
     freewriting: {
       used: false,
-      showBackground: true,
+      showBackground: false,
       showAnimations: true,
       fullscreen: false,
       showCompletedPages: true,

@@ -60,6 +60,13 @@ const InfoContent = (props) => {
     }
   }, [props.modalVisible])
 
+
+  const [scrolling, setScrolling] = useState(false);
+  const openLink = (link) => {
+    if (!scrolling)
+    Linking.openURL(link);
+  }
+
   const addLink = (text) => {
     if (!text.matchAll) return <Text style={styles.desc}>{text}</Text>
     const results = Array.from(text.matchAll(/\[(.+)\]\((.+)\)/g))
@@ -72,9 +79,7 @@ const InfoContent = (props) => {
       const after = <Text style={styles.desc}>{text.substring(match.index + match[0].length, match.input.length)}</Text>
       return (<Text>
                 <Text style={styles.desc}>{before}</Text>
-                <TouchableOpacity onPress={() => Linking.openURL(match[2])}>
-                  <Text style={[styles.desc, styles.link]}>{match[1]}</Text>
-                </TouchableOpacity>
+                <Text style={[styles.desc, styles.link]} onPress={() => openLink(match[2])}>{match[1]}</Text>
                 <Text style={styles.desc}>{after}</Text>
               </Text>)
     }, <Text style={styles.desc}></Text>)
@@ -174,6 +179,8 @@ const InfoContent = (props) => {
             pagingEnabled={true}
             disableScrollViewPanResponder={true}
             showsHorizontalScrollIndicator={false}
+            onScrollEndDrag={() => setScrolling(false)}
+            onScrollBeginDrag={() => setScrolling(true)}
             snapToAlignment="start"
             decelerationRate="fast"
             scrollEventThrottle={33}

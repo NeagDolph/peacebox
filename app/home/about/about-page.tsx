@@ -2,6 +2,7 @@ import React from 'react';
 
 import {Linking, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import PageHeader from "../../components/header";
+const packageJson = require('../../../package.json');
 import {colors} from "../../config/colors";
 
 const credits = [
@@ -37,7 +38,7 @@ const AboutPage = ({navigation}) => {
         bounces={true}
       >
         <Text style={styles.title}>PeaceBox</Text>
-        <Text style={styles.subtitle}>Version 1.0</Text>
+        <Text style={styles.subtitle}>Version {packageJson.version}</Text>
         <View style={styles.credits}>
           <Text style={styles.sectionTitle}>Credits</Text>
           {renderCredits()}

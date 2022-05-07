@@ -45,7 +45,7 @@ const Freewriting = (props: any) => {
   const [placeholderText, setPlaceholderText] = useState("Just start typing...");
   const [editable, setEditable] = useState(true)
 
-  const [lineHeight, setLineHeight] = useState(0)
+  const [lineHeight, setLineHeight] = useState(25)
 
   const isEditable = useRef(true);
   const contentHeight = useRef(0);

@@ -119,8 +119,8 @@ const HomePage = ({navigation}: any) => {
       title: "Audio",
       description: "Transformative sleep meditations to use at night",
       nav: () => navigation.navigate("Audio"),
-      icon: "",
-      iconDark: "",
+      icon: require("../assets/audio-waves.png"),
+      iconDark: require("../assets/dark/audio-waves.png"),
       tags: ["Sleep", "Meditation"]
     },
     {

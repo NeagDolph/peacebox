@@ -55,10 +55,11 @@ const darkcolors = {
 }
 
 const themecolors = colorScheme === "dark" ? darkcolors : lightcolors
+const oppositecolors = colorScheme === "dark" ? lightcolors : darkcolors
 
 const constants = {
   dark: colorScheme === "dark",
   constantWhite: "#f4f4f4"
 }
 
-export const colors = {...themecolors, ...constants}
+export const colors = {...themecolors, ...constants, opposite: oppositecolors}

@@ -90,10 +90,9 @@ const theme = {
 
 export default function Main() {
     useEffect(() => {
-        reattachDownloads()
-            .catch(console.error)
 
-        console.log("RUN")
+        TrackPlayer.setupPlayer()
+
         getAudioList()
             .then(data => store.dispatch(setAudioData({audioData: data})))
             .catch(e => console.warn(e))
@@ -120,6 +119,7 @@ const reattachDownloads = async() => {
         const [set, tape, part] = task.id.split("/")
 
         if (!set || !tape || !part) continue;
+
         task.progress(percent => {
             console.log(task.id, `Downloaded: ${percent * 100}%`)
             store.dispatch(setProgress({set, tape, part, progress: percent * 100}))
@@ -128,11 +128,14 @@ const reattachDownloads = async() => {
             store.dispatch(setDownloaded({set, tape, part}))
             completeHandler(task.id)
         }).error(error => {
-            console.log('Download canceled due to error: ', error)
+            console.log('Download canceled due to error (Reattached): ', error)
             store.dispatch(deleteTape({set, tape}));
         })
     }
 }
+
+reattachDownloads()
+    .catch(console.error)
 
 DevMenu.addItem('Clear AsyncStorage', () => AsyncStorage.clear());
 DevMenu.addItem('Crash App', () => crashlytics().crash());
