@@ -54,13 +54,23 @@ const styles = StyleSheet.create({
     bottom: -36,
     right: 6,
   },
+
+  nextStep: {
+    position: "absolute",
+    height: 30,
+    bottom: -36,
+    left: 0,
+  },
   exit: {
     fontSize: 17,
     color: colors.constantWhite,
     fontFamily: "Avenir",
     fontWeight: "700",
     textAlign: "right"
-
+  },
+  next: {
+    fontSize: 16,
+    color: colors.constantWhite
   }
 });
 
@@ -136,7 +146,7 @@ const handleClose = (timeout) => {
   }, timeout ?? 600)
 }
 
-const makeTooltipContent = (text, bottom) => <MakeTooltipRender text={text} bottom={bottom}/>
+const makeTooltipContent = (text, bottom, tip) => <MakeTooltipRender text={text} bottom={bottom} tip={tip}/>
 
 
 const MakeTooltipRender = props => {
@@ -145,10 +155,14 @@ const MakeTooltipRender = props => {
       <View style={styles.tooltipView}>
         <Text style={styles.tooltipText}>{props.text}</Text>
       </View>
-      <View style={[styles.exitButton, {[props.bottom ? "bottom" : "top"]: props.bottom ? -36 : -28}]}>
+      <View style={[styles.exitButton, props.bottom ? {bottom: -36} : {top: -28}]}>
         <Pressable onPress={closeTutorial} hitSlop={20}>
           <Text style={styles.exit}>Exit Tutorial</Text>
         </Pressable>
+      </View>
+
+      <View style={[styles.nextStep, props.bottom ? {bottom: -36} : {top: -28}]}>
+          <Text style={styles.next}>{props.tip}</Text>
       </View>
     </>
   )
@@ -156,7 +170,7 @@ const MakeTooltipRender = props => {
 
 const guide = [
   {
-    content: makeTooltipContent("Tap here to create a new pattern.", true),
+    content: makeTooltipContent("Use this button to create new breathing patterns", true, "Tap plus button to continue"),
     tooltipProps: {
       accessible: true,
       allowChildInteraction: true,
@@ -175,7 +189,7 @@ const guide = [
     }
   },
   {
-    content: makeTooltipContent("You can customize your own pattern using these settings", true),
+    content: makeTooltipContent("You can customize your own pattern using these settings", true, "Tap anywhere to continue"),
     tooltipProps: {
       placement: "bottom",
       closeOnChildInteraction: true,
@@ -194,7 +208,7 @@ const guide = [
     }
   },
   {
-    content: makeTooltipContent("For this tutorial we'll choose one of the curated patterns.", false),
+    content: makeTooltipContent("Or you can select from one of the pre-made patterns", false, "Tap anywhere to continue"),
     tooltipProps: {
       placement: "top",
 
@@ -214,7 +228,7 @@ const guide = [
     }
   },
   {
-    content: makeTooltipContent("You can read more or press \"Use Pattern\" to select this pattern.", true),
+    content: makeTooltipContent("We'll select the Box Breathing pattern as an example", true, "Tap \"Use Pattern\" to continue"),
     tooltipProps: {
       // accessible: true,
       allowChildInteraction: true,
@@ -222,7 +236,7 @@ const guide = [
       closeOnChildInteraction: false,
       // topAdjustment: 0,
       displayInsets: {
-        left: 0,
+        left: 20,
         right: 20
       },
       closeOnContentInteraction: false,
@@ -235,7 +249,7 @@ const guide = [
     }
   },
   {
-    content: makeTooltipContent("Tap \"Done\" to save your new pattern", false),
+    content: makeTooltipContent("Now you can save your newly created breathing pattern", false, "Tap \"Done\" to continue"),
     tooltipProps: {
 
       accessible: true,
@@ -256,11 +270,13 @@ const guide = [
     }
   },
   {
-    content: makeTooltipContent("Tap your new pattern to use it.", false),
+    content: makeTooltipContent("You can access all your saved patterns from the home screen. Try using the one you just created.", false, "Tap pattern to continue"),
     tooltipProps: {
       accessible: true,
       allowChildInteraction: true,
-      placement: "top",
+      placement: "bottom",
+      // topAdjustment: -56,
+      childContentSpacing: 26,
       displayInsets: {
         left: 20,
         right: 20
@@ -276,7 +292,7 @@ const guide = [
     }
   },
   {
-    content: makeTooltipContent("You can set the duration and other settings from here. Press \"Start\" to begin the pattern.", true),
+    content: makeTooltipContent("You can set the duration and other settings from here. Press \"Start\" to begin the pattern.", true, "Tap \"Start\" to continue"),
     tooltipProps: {
       accessible: false,
       allowChildInteraction: true,
@@ -297,7 +313,7 @@ const guide = [
     }
   },
   {
-    content: makeTooltipContent("Tap here to exit the breathing pattern and complete the tutorial", false),
+    content: makeTooltipContent("If you decide to finish your breathing early you can tap here to exit the breathing pattern", false, ""),
     tooltipProps: {
       accessible: false,
       allowChildInteraction: true,

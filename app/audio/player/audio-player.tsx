@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 
 import {Pressable, StyleSheet, Text, View} from 'react-native';
 import PageHeader from "../../components/header";
@@ -21,6 +21,7 @@ const AudioPlayer = (props) => {
 
   const [currentTime, setCurrentTime] = useState(0);
   const [paused, setPaused] = useState(false);
+  const beginTimeRef = useRef(Date.now())
 
   const events = [
     Event.PlaybackState,
@@ -35,12 +36,9 @@ const AudioPlayer = (props) => {
       if (event.state === State.Paused || event.state === State.Stopped) setPaused(true);
       else if (event.state === State.Playing) setPaused(false)
 
-      if (event.state === State.Stopped) audioEnded();
+      // if (event.state === State.Stopped) TrackPlayer.reset();
     }
-
   });
-
-
 
 
   const typeIcons = {
@@ -57,19 +55,21 @@ const AudioPlayer = (props) => {
 
   useEffect(() => {
     // playAudio()
+    beginTimeRef.current = Date.now();
 
     return () => { //unload
-      audioEnded()
+      //If player open for more than 30 seconds then set viewed to true
+      const msSinceStart = Date.now() - beginTimeRef.current
+      if (msSinceStart >= 30000) confirmView()
+
+
+      TrackPlayer.reset();
     }
+
   }, []);
 
-  const playAudio = () => {
-    TrackPlayer.play();
-  }
-
-  const pauseAudio = () => {
-    TrackPlayer.pause();
-  }
+  const playAudio = () => TrackPlayer.play();
+  const pauseAudio = () => TrackPlayer.pause();
 
   const skipForward = () => {
     TrackPlayer.getPosition().then(pos => {
@@ -89,9 +89,8 @@ const AudioPlayer = (props) => {
     TrackPlayer.seekTo(time);
   }
 
-  const audioEnded = () => {
-    TrackPlayer.reset();
-    dispatch(setViewed({set, tape, part, viewed: true}));
+  const confirmView = () => {
+    dispatch(setViewed({set: set?.name, tape, part, viewed: true}));
   }
 
 

@@ -10,11 +10,11 @@
 		00E356F31AD99517003FC87E /* neiltoolsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* neiltoolsTests.m */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		2801DA4A2827895B005F3883 /* Baloo2.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2839692127A29CDD000D896F /* Baloo2.ttf */; };
+		2801DA4B2827895E005F3883 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 28D219DA272FEA540073687F /* Entypo.ttf */; };
 		28025713272A7A8C00C0E47A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2804C5192825D15900ACDFDC /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 28D219C4272C76A20073687F /* MaterialCommunityIcons.ttf */; };
-		2804C51A2825D15900ACDFDC /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 28D219DA272FEA540073687F /* Entypo.ttf */; };
 		2804C51B2825D15900ACDFDC /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 28D219C6272C76A30073687F /* Ionicons.ttf */; };
-		2839692227A29CDD000D896F /* Baloo2.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2839692127A29CDD000D896F /* Baloo2.ttf */; };
 		284327B2281F2AEE0041BBBF /* audio-files.json in Resources */ = {isa = PBXBuildFile; fileRef = 284327B1281F2AEE0041BBBF /* audio-files.json */; };
 		28963164279363120043FAA9 /* Futura.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 28D219C5272C76A20073687F /* Futura.ttf */; };
 		28AF4498281B2B9000647426 /* Roboto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 28AF4497281B2B9000647426 /* Roboto.ttf */; };
@@ -212,6 +212,7 @@
 			sourceTree = "<group>";
 			tabWidth = 2;
 			usesTabs = 0;
+			wrapsLines = 0;
 		};
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
@@ -330,11 +331,12 @@
 				2804C51B2825D15900ACDFDC /* Ionicons.ttf in Resources */,
 				28BD8191271CA8FB00C37F28 /* 1.mp3 in Resources */,
 				28BD818F271CA8FB00C37F28 /* relax.mp3 in Resources */,
-				2839692227A29CDD000D896F /* Baloo2.ttf in Resources */,
 				28BD8188271CA8FB00C37F28 /* 5.mp3 in Resources */,
 				28BD8193271CA8FB00C37F28 /* 10.mp3 in Resources */,
 				28BD818A271CA8FB00C37F28 /* 7.mp3 in Resources */,
 				28BD8192271CA8FB00C37F28 /* breathein.mp3 in Resources */,
+				2801DA4B2827895E005F3883 /* Entypo.ttf in Resources */,
+				2801DA4A2827895B005F3883 /* Baloo2.ttf in Resources */,
 				28BD8185271CA8FB00C37F28 /* 6.mp3 in Resources */,
 				28963164279363120043FAA9 /* Futura.ttf in Resources */,
 				28BD8189271CA8FB00C37F28 /* 8.mp3 in Resources */,
@@ -346,7 +348,6 @@
 				28025713272A7A8C00C0E47A /* Images.xcassets in Resources */,
 				28BD8194271CA8FB00C37F28 /* 4.mp3 in Resources */,
 				284327B2281F2AEE0041BBBF /* audio-files.json in Resources */,
-				2804C51A2825D15900ACDFDC /* Entypo.ttf in Resources */,
 				28BD8198271CAF2800C37F28 /* breatheout.mp3 in Resources */,
 				28BD8190271CA8FB00C37F28 /* 9.mp3 in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
@@ -609,7 +610,7 @@
 					"$(SDKROOT)/usr/lib/swift",
 					"$(inherited)",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.1.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -632,6 +633,11 @@
 				CODE_SIGN_ENTITLEMENTS = neiltools/neiltools.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = GM3EN8YD6S;
+				"EXCLUDED_SOURCE_FILE_NAMES[arch=*]" = (
+					Entypo.ttf,
+					Ionicons.ttf,
+					MaterialCommunityIcons.ttf,
+				);
 				INFOPLIST_FILE = neiltools/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -642,7 +648,7 @@
 					"$(SDKROOT)/usr/lib/swift",
 					"$(inherited)",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.1.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",

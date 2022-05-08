@@ -2,6 +2,7 @@ import {store} from "../store/store";
 import {setCurrent} from "../store/features/tapesSlice";
 import TrackPlayer from "react-native-track-player";
 import RNFS from "react-native-fs";
+import RNBackgroundDownloader from "react-native-background-downloader";
 
 
 export const playAudio = async({part, partData, tapeName, set, tapeNum, totalParts}) => {
@@ -15,7 +16,7 @@ export const playAudio = async({part, partData, tapeName, set, tapeNum, totalPar
   const partName = totalParts >= 2 ? partArray[part] : ""
 
   const trackData = {
-    url: `${RNFS.DocumentDirectoryPath}/${fileUrl.location}`,
+    url: `${RNBackgroundDownloader.directories.documents}/${fileUrl.location}`,
     title: tapeName + " " + partName,
     artist: 'Richard L. Johnson',
     album: set.name,
@@ -46,7 +47,7 @@ export const playAudio = async({part, partData, tapeName, set, tapeNum, totalPar
     const partName = partArray[otherPart]
 
     const trackData = {
-      url: `${RNFS.DocumentDirectoryPath}/${fileUrl.location}`,
+      url: `${RNBackgroundDownloader.directories.documents}/${fileUrl.location}`,
       title: tapeName + " " + partName,
       artist: 'Richard L. Johnson',
       album: set.name,

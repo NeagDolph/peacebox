@@ -1,21 +1,37 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useEffect, useMemo, useRef, useState} from 'react';
 
-import {Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {FlatList, Pressable, SafeAreaView, ScrollView, SectionList, StyleSheet, Text, View} from 'react-native';
 import PageHeader from "../components/header";
 import {colors} from "../config/colors";
 import {Surface} from "react-native-paper";
-import AudioSet from "./components/audio-set";
+import AudioSet from "./set/audio-set";
 import {getAudioList} from "../helpers/getAudioList";
 import {useDispatch, useSelector} from "react-redux";
 import Fade from "../components/fade-wrapper";
 import DisclaimerModal from "./components/disclaimer-modal";
 import IconMaterial from "react-native-vector-icons/MaterialCommunityIcons";
 import IconIonicons from "react-native-vector-icons/Ionicons";
+import Animated, {
+  FadeInUp,
+  FadeOutUp,
+  Layout,
+  SlideInRight,
+  SlideInUp,
+  SlideOutDown,
+  SlideOutRight
+} from 'react-native-reanimated';
+import AudioSetFilesTape from "./set/audio-set-files-tape";
+import audioSet from "./set/audio-set";
 
 
 const AudioPage = () => {
   const audioData = useSelector(state => state.tapes.audioData)
   const favorites = useSelector(state => state.tapes.favorites)
+  const lastViewed = useSelector(state => state.tapes.lastViewed)
+  const downloads = useSelector(state => state.tapes[lastViewed.set]);
+
+  const scrollRef = useRef(0);
+
   const dispatch = useDispatch()
 
   const [disclaimerVisible, setDisclaimerVisible] = useState(false);
@@ -25,45 +41,144 @@ const AudioPage = () => {
     return audioData.filter(el => favorites.includes(el.name))
   }, [favorites, audioData]);
 
+  const renderNextTape = () => {
+    const {set, tape, part, timestamp} = lastViewed
+    const timeSinceView = Date.now() - timestamp
+
+    let nextTape, nextPart
+
+
+    const maxLastTimeout = 172800000 //2 days
+
+    if (timeSinceView > maxLastTimeout) return [];
+
+    const audioSet = audioData?.find(el => el.name === set)
+    const totalParts = audioSet?.files?.[tape]?.parts
+    const totalTapes = audioSet?.files
+
+    if (!totalParts || !totalTapes || !audioSet) return;
+
+    if (part >= totalParts.length - 1) { //Final part of tape
+      nextPart = 0
+      nextTape = tape + 1
+
+      if (nextTape >= totalTapes - 1) return;
+    } else { //Next part of tape
+      nextPart = part + 1
+      nextTape = tape
+    }
+
+    const tapeItem = <View style={styles.nextContainer}>
+      <Text style={styles.sectionTitle}>Keep Listening</Text>
+      <View style={styles.nextTitleContainer}>
+        <IconIonicons name={"caret-forward-circle"} color={audioSet.icon} size={25}/>
+        <Text style={styles.nextTitle}>{set}</Text>
+      </View>
+      <AudioSetFilesTape set={audioSet} file={audioSet.files[nextTape]} downloadData={downloads?.[nextTape]?.downloads}/>
+    </View>
+
+    return tapeItem
+  }
+
+
+  const renderDisclaimer = () => {
+    return <Pressable style={styles.disclaimerButtonContainer} onPress={() => setDisclaimerVisible(true)}>
+      <View style={styles.disclaimerButton}>
+        <IconMaterial name="alert-box-outline" size={25} color={colors.primary}/>
+        <Text style={styles.disclaimerButtonText}>Disclaimer</Text>
+      </View>
+    </Pressable>
+  }
+
+  const renderHeader = () => {
+    return <>
+      {renderDisclaimer()}
+      {renderNextTape()}
+    </>
+  }
+
+  const renderItem = ({item, index, separators}) => {
+    return <View style={{marginVertical: 10}}><AudioSet set={item} scrollRef={scrollRef}/></View>
+  }
+
+  const sections = useMemo(() => {
+    return [
+      {
+        title: "Favorites",
+        data: favoriteSets ?? []
+      },
+      {
+        title: "All Audio-sets",
+        data: audioData ?? []
+      }
+    ]
+  }, [favoriteSets, audioData]);
+
+  const renderTitle = ({section}) => {
+    return section.data.length >= 1 && <View style={styles.titleContainer}>
+      <Text style={styles.sectionTitle}>{section.title}</Text>
+    </View>
+  }
+
   return (
     <>
       <PageHeader title={"Audio"} settingsButton={false}/>
-      <ScrollView style={styles.container}>
-        <Pressable style={styles.disclaimerButtonContainer} onPress={() => setDisclaimerVisible(true)}>
-          <View style={styles.disclaimerButton}>
-            <IconMaterial name="alert-box-outline" size={25} color={colors.primary}/>
-            <Text style={styles.disclaimerButtonText}>Disclaimer</Text>
-          </View>
-        </Pressable>
-
-        <View style={{paddingTop: 0, marginBottom: 40}}>
+      <SectionList
+        style={styles.container}
+        ref={scrollRef}
+        // contentContainerStyle={{height: '100%'}}
+        renderItem={renderItem}
+        sections={[
           {
-            favoriteSets.length >= 1 &&
-            <>
-              <Text style={styles.sectionTitle}>Favorites</Text>
-              {favoriteSets.map((el, i) => <AudioSet key={i} set={el}/>)}
-            </>
-          }
-        </View>
-
-        <View style={{paddingTop: 0, marginBottom: 100}}>
-          <Text style={styles.sectionTitle}>All Sets</Text>
+            title: "Favorites",
+            data: favoriteSets ?? []
+          },
           {
-            audioData !== false ?
-              audioData.map((el, i) => <AudioSet key={i} set={el} setIndex={i}/>) :
-              <Text style={styles.loadingText}>Loading...</Text>
+            title: "All Audio-sets",
+            data: audioData ?? []
           }
-        </View>
-      </ScrollView>
+        ]}
+        ListHeaderComponent={renderHeader()}
+        // ItemSeparatorComponent={() => <View style={{marginVertical: 10}}/>}
+        renderSectionHeader={renderTitle}
+        renderSectionFooter={({section: {data}}) => data.length >= 1 && <View style={{marginBottom: 60}}/>}
+
+      />
       <DisclaimerModal disclaimerVisible={disclaimerVisible} setDisclaimerVisible={setDisclaimerVisible}/>
     </>
   );
 };
 
 const styles = StyleSheet.create({
+  nextContainer: {
+    marginBottom: 40,
+    maxWidth: 290
+  },
+  nextTitleContainer: {
+    flexDirection: "row",
+    alignContent: "center",
+
+    marginTop: 12,
+    marginBottom: 5,
+  },
+  nextTitle: {
+    color: colors.primary,
+    fontSize: 20,
+    lineHeight: 30,
+    marginLeft: 5,
+
+    fontFamily: "baloo 2"
+  },
+  titleContainer: {
+    width: "100%",
+    backgroundColor: colors.background,
+    paddingBottom: 6,
+    paddingTop: 10,
+  },
   sectionTitle: {
     fontSize: 30,
-    marginLeft: 10,
+    marginLeft: 0,
+    lineHeight: 40,
     color: colors.primary,
     fontFamily: "avenir"
   },
@@ -71,7 +186,8 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "flex-start",
     alignItems: "flex-start",
-    paddingBottom: 10,
+    paddingBottom: 30,
+    paddingTop: 10,
   },
   disclaimerButton: {
     flexDirection: "row",
@@ -101,7 +217,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     paddingHorizontal: 24,
-    paddingTop: 30,
+    paddingTop: 0,
   }
 })
 

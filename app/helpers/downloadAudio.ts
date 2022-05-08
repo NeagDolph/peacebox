@@ -9,7 +9,7 @@ import {CDNENDPOINT} from "./constants";
 
 const isDownloaded = async ({set, tape, part, localPath}) => {
   const currentState = store.getState();
-  const fileExists = await RNFS.exists(`${RNFS.DocumentDirectoryPath}/${localPath}`)
+  const fileExists = await RNFS.exists(`${RNBackgroundDownloader.directories.documents}/${localPath}`)
 
   const downloading = currentState.tapes?.[set]?.[tape]?.downloads?.[part]?.downloadState
 
@@ -45,9 +45,9 @@ export const deleteAudio = async ({set, tape}) => {
     for (let file of downloads) {
       if (file.location.length <= 10) continue
 
-      const fileExists = await RNFS.exists(`${RNFS.DocumentDirectoryPath}/${file.location}`)
+      const fileExists = await RNFS.exists(`${RNBackgroundDownloader.directories.documents}/${file.location}`)
 
-      if (fileExists) await RNFS.unlink(`${RNFS.DocumentDirectoryPath}/${file.location}`).catch(console.warn)
+      if (fileExists) await RNFS.unlink(`${RNBackgroundDownloader.directories.documents}/${file.location}`).catch(console.warn)
     }
   }
 }
@@ -59,7 +59,7 @@ export const downloadAudioSet = async (set) => {
 }
 
 // export const downloadAudioTape = async (set, tape) => {
-//   await RNFS.mkdir(`${RNFS.DocumentDirectoryPath}/${set.author}/${set.name}`);
+//   await RNFS.mkdir(`${RNBackgroundDownloader.directories.documents}/${set.author}/${set.name}`);
 //
 //   const partCount = set.files[tape].parts.length
 //
@@ -80,7 +80,7 @@ export const downloadAudioSet = async (set) => {
 //       const task = download({
 //         id: jobId,
 //         url: downloadPath,
-//         destination: `${RNFS.DocumentDirectoryPath}/${localPath}`,
+//         destination: `${RNBackgroundDownloader.directories.documents}/${localPath}`,
 //
 //       }).begin(({expectedBytes}) => {
 //         console.log(fileName, `Going to download ${expectedBytes} bytes!`)
@@ -105,7 +105,7 @@ export const downloadAudioSet = async (set) => {
 // }
 
 export const downloadAudioTape = async (set, tape) => {
-  await RNFS.mkdir(`${RNFS.DocumentDirectoryPath}/${set.author}/${set.name}`);
+  await RNFS.mkdir(`${RNBackgroundDownloader.directories.documents}/${set.author}/${set.name}`);
 
   const partCount = set.files[tape].parts.length
 
@@ -126,7 +126,7 @@ export const downloadAudioTape = async (set, tape) => {
       const task = download({
         id: jobId,
         url: downloadPath,
-        destination: `${RNFS.DocumentDirectoryPath}/${localPath}`,
+        destination: `${RNBackgroundDownloader.directories.documents}/${localPath}`,
 
       }).begin(({expectedBytes}) => {
         console.log(fileName, `Going to download ${expectedBytes} bytes!`)

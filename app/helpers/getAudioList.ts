@@ -61,7 +61,7 @@ export const getAudioList = async () => {
         // return false
       }
     } catch (e) {
-      console.log("Error", e)
+      console.log("Error loading audio: ", e)
 
       return audioJson
     }

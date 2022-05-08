@@ -76,24 +76,12 @@ const BreathingPage = (props) => {
   }
 
   useEffect(() => {
+
+    // setShowTutorialPrompt(true)
+
+
     if (!settings.used) {
       setShowTutorialPrompt(true)
-      setImmediate(() => {
-
-        // Alert.alert(
-        //   "Begin Tutorial?",
-        //   `You can access it later from the ⓘ icon in settings menu`,
-        //   [
-        //     {
-        //       text: "Yes", onPress: () => {
-        //         setTimeout(startGuide, 100)
-        //       }
-        //     },
-        //     {text: "Nevermind"},
-        //   ]
-        // );
-      });
-      // dispatch(setUsed("breathing"))
     }
 
     // setTimeout(startGuide, 600);

@@ -114,7 +114,7 @@ PODS:
     - fmt (~> 6.2.1)
     - glog
   - RCTRequired (0.65.1)
-  - RCTSystemSetting (1.7.6):
+  - RCTSystemSetting (1.8.0-alpha.0):
     - React
   - RCTTypeSafety (0.65.1):
     - FBLazyVector (= 0.65.1)
@@ -309,6 +309,8 @@ PODS:
     - React-Core
   - react-native-home-indicator (0.2.7):
     - React-Core
+  - react-native-ios-context-menu (1.7.4):
+    - React-Core
   - react-native-keep-awake (1.0.4):
     - React
   - react-native-safe-area-context (3.3.0):
@@ -423,7 +425,7 @@ PODS:
     - React-Core
   - RNReactNativeHapticFeedback (1.11.0):
     - React-Core
-  - RNReanimated (2.2.4):
+  - RNReanimated (2.8.0):
     - DoubleConversion
     - FBLazyVector
     - FBReactNativeSpec
@@ -431,7 +433,6 @@ PODS:
     - RCT-Folly
     - RCTRequired
     - RCTTypeSafety
-    - React
     - React-callinvoker
     - React-Core
     - React-Core/DevSupport
@@ -449,7 +450,6 @@ PODS:
     - React-RCTNetwork
     - React-RCTSettings
     - React-RCTText
-    - React-RCTVibration
     - ReactCommon/turbomodule/core
     - Yoga
   - RNScreens (3.5.0):
@@ -498,6 +498,7 @@ DEPENDENCIES:
   - react-native-blurhash (from `../node_modules/react-native-blurhash`)
   - react-native-get-random-values (from `../node_modules/react-native-get-random-values`)
   - react-native-home-indicator (from `../node_modules/react-native-home-indicator`)
+  - react-native-ios-context-menu (from `../node_modules/react-native-ios-context-menu`)
   - "react-native-keep-awake (from `../node_modules/@sayem314/react-native-keep-awake`)"
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - "react-native-segmented-control (from `../node_modules/@react-native-segmented-control/segmented-control`)"
@@ -602,6 +603,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-get-random-values"
   react-native-home-indicator:
     :path: "../node_modules/react-native-home-indicator"
+  react-native-ios-context-menu:
+    :path: "../node_modules/react-native-ios-context-menu"
   react-native-keep-awake:
     :path: "../node_modules/@sayem314/react-native-keep-awake"
   react-native-safe-area-context:
@@ -700,7 +703,7 @@ SPEC CHECKSUMS:
   PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58
   RCT-Folly: 0dd9e1eb86348ecab5ba76f910b56f4b5fef3c46
   RCTRequired: 6cf071ab2adfd769014b3d94373744ee6e789530
-  RCTSystemSetting: 5107b7350d63b3f7b42a1277d07e4e5d9df879be
+  RCTSystemSetting: f8ca075e134cbbd152bd2bc830bf785a74102710
   RCTTypeSafety: b829c59453478bb5b02487b8de3336386ab93ab1
   React: 29d8a785041b96a2754c25cc16ddea57b7a618ce
   React-callinvoker: 2857b61132bd7878b736e282581f4b42fd93002b
@@ -715,6 +718,7 @@ SPEC CHECKSUMS:
   react-native-blurhash: add4df9a937b4e021a24bc67a0714f13e0bd40b7
   react-native-get-random-values: 237bffb1c7e05fb142092681531810a29ba53015
   react-native-home-indicator: a1f77ce9aa57008272a67a6d8a4c04ac5ad5d1c7
+  react-native-ios-context-menu: 7bf49ec6006cc0c61d873419557b85eb1b9629fb
   react-native-keep-awake: e63964d58c890de02bfb6519dedb7d90b5c782de
   react-native-safe-area-context: 61c8c484a3a9e7d1fda19f7b1794b35bbfd2262a
   react-native-segmented-control: 06607462630512ff8eef652ec560e6235a30cc3e
@@ -746,7 +750,7 @@ SPEC CHECKSUMS:
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
   RNRate: 94f57c773e155ca0d0aeeba9c10a32bce9030daf
   RNReactNativeHapticFeedback: 653a8c126a0f5e88ce15ffe280b3ff37e1fbb285
-  RNReanimated: f58d4f027fcea2197b63588138decdf5f8ac5e89
+  RNReanimated: 40cf17b319e14401ebf6b188cce5c3a45ae81041
   RNScreens: 01ab149b5dd5c27f5ff26741b1d2bdf2cee1af35
   RNSound: da030221e6ac7e8290c6b43f2b5f2133a8e225b0
   RNSVG: 551acb6562324b1d52a4e0758f7ca0ec234e278f

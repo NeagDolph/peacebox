@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 export const tapesSlice = createSlice({
   name: 'settings',
   initialState: {
+    lastViewed: {},
     favorites: [],
     audioData: {},
     currentlyPlaying: {}
@@ -17,8 +18,10 @@ export const tapesSlice = createSlice({
     setViewed: (state, {payload: {set, tape, part, viewed=true}}) => {
       if (!state[set]) state[set] = Array(tape + 1).fill(undefined);
       if (!state[set][tape]) state[set][tape] = {}
-      if (!state[set][tape].parts) state[set][tape].parts = [false, false, false, false]
+      if (!state[set][tape].parts) state[set][tape].parts = [false, false]
       state[set][tape].parts[part] = viewed
+
+      state.lastViewed = {set, tape, part, timestamp: Date.now()}
     },
     setDownload: (state, {payload: {set, tape, part, location, downloadState, progress}}) => {
       if (!state[set]) state[set] = Array(tape + 1).fill(undefined);

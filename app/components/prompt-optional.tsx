@@ -9,7 +9,6 @@ import IconIonicons from "react-native-vector-icons/Ionicons";
 const PromptOptional = (props) => {
   const [containerHeight, setContainerHeight] = useState(0);
   const containerLayout = ({nativeEvent}) => {
-    console.log("HEUGHT", nativeEvent.layout.height)
     setContainerHeight(nativeEvent.layout.height);
   }
 
@@ -21,7 +20,7 @@ const PromptOptional = (props) => {
 
   return props.visible && (
     <View style={styles.container}>
-      <Surface style={styles.prompt} onLayout={containerLayout}>
+      <View style={styles.prompt} onLayout={containerLayout}>
         <View style={styles.titleContainer}>
           <Text style={styles.title}>{props.title ?? "hi"}</Text>
           <Text style={styles.subtitle}>{props.subtitle}</Text>
@@ -29,9 +28,9 @@ const PromptOptional = (props) => {
 
 
         <Pressable style={styles.exitButton} onPress={props.close} hitSlop={20}>
-          <IconIonicons name="close-circle-outline" size={28} color={colors.white}/>
+          <IconIonicons name="close-circle-outline" size={28} color={colors.primary}/>
         </Pressable>
-        <View style={[styles.options, {top: 25}]}>
+        <View style={[styles.options]}>
           <Pressable onPress={confirm}
                      style={[styles.optionButton, {borderRightColor: colors.text, borderRightWidth: 1}]}>
             <Text style={styles.optionText}>Okay</Text>
@@ -41,7 +40,7 @@ const PromptOptional = (props) => {
             <Text style={styles.optionText}>No Thanks</Text>
           </Pressable>
         </View>
-      </Surface>
+      </View>
     </View>
   );
 };
@@ -61,12 +60,12 @@ const styles = StyleSheet.create({
     paddingTop: 5,
   },
   title: {
-    color: colors.opposite.primary,
+    color: colors.primary,
     fontSize: 18,
     fontFamily: "baloo 2"
   },
   subtitle: {
-    color: colors.opposite.text,
+    color: colors.text,
     fontSize: 16,
     fontFamily: "baloo 2"
   },
@@ -82,11 +81,11 @@ const styles = StyleSheet.create({
   options: {
     flexDirection: "row",
 
-    backgroundColor: colors.opposite.background4,
+    backgroundColor: colors.background4,
 
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
-    top: 36,
+    top: 20,
     // alignItems: "stretch",
     alignSelf: "flex-end",
     // height: "100%"
@@ -98,7 +97,7 @@ const styles = StyleSheet.create({
     right: 4
   },
   optionText: {
-    color: colors.opposite.primary,
+    color: colors.primary,
     fontSize: 18,
     textAlign: "center",
     lineHeight: 40,
@@ -114,9 +113,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 40
   },
   prompt: {
+    borderWidth: 1,
     width: "100%",
+    borderColor: colors.text2,
     // backgroundColor: colors.background3,
-    backgroundColor: colors.opposite.background3,
+    backgroundColor: colors.background3,
     borderRadius: 8,
     paddingBottom: 20,
     height: "100%",
