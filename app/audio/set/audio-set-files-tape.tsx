@@ -1,29 +1,27 @@
-import React, {useMemo} from 'react';
+import React, { useMemo } from "react";
 
-import {Alert, Linking, Pressable, StyleSheet, Text, View} from 'react-native';
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import PropTypes from "prop-types";
-import {colors} from "../../config/colors";
-import IconEntypo from "react-native-vector-icons/Entypo";
+import { colors } from "../../config/colors";
 import IconMaterial from "react-native-vector-icons/MaterialCommunityIcons";
-import {useDispatch, useSelector} from "react-redux";
-import {deleteTape, setViewed} from "../../store/features/tapesSlice";
+import { useDispatch } from "react-redux";
+import { deleteTape, setDownloaded } from "../../store/features/tapesSlice";
 
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
 import IconIonicons from "react-native-vector-icons/Ionicons";
 import ReanimatedArc from "../../breathing/use/components/ReanimatedArc";
-import {cancelDownload, deleteAudio, downloadAudioSet, downloadAudioTape} from "../../helpers/downloadAudio";
-import crashlytics from "@react-native-firebase/crashlytics";
-import {confirm} from "../../helpers/confirm"
-import TrackPlayer from "react-native-track-player";
-import {playAudio} from "../../helpers/playAudio";
+import { cancelDownload, deleteAudio, downloadAudioTape } from "../../helpers/downloadAudio";
+import { confirm } from "../../helpers/confirm";
+import { playAudio } from "../../helpers/playAudio";
 import RNFS from "react-native-fs";
 import haptic from "../../helpers/haptic";
-import RNBackgroundDownloader from "react-native-background-downloader";
+import RNBackgroundDownloader, { completeHandler } from "react-native-background-downloader";
+import { store } from "../../store/store";
 
 const AudioSetFilesTape = (props) => {
   const calcDownloadData = useMemo(() => {
-    let dlaverage
-    let calcStatus
+    let dlaverage;
+    let calcStatus;
 
     const average = arr => arr.reduce((a, b) => a + b, 0) / arr.length;
 
@@ -104,16 +102,25 @@ const AudioSetFilesTape = (props) => {
           message: `Stop downloading "${props.file.name}"?`,
           destructive: true
         }, () => {
-          haptic(1)
-          cancelDownload({set: props.set.name, tape: props.file.episode}).catch(console.error);
-          deleteAudio({set: props.set.name, tape: props.file.episode}).catch(console.error);
-          dispatch(deleteTape({set: props.set.name, tape: props.file.episode}));
+          haptic(1);
+          cancelDownload({ set: props.set.name, tape: props.file.episode }).catch(console.error);
+          deleteAudio({ set: props.set.name, tape: props.file.episode }).catch(console.error);
+          dispatch(deleteTape({ set: props.set.name, tape: props.file.episode }));
         })
 
         break;
       default:
-        haptic(1)
-        downloadAudioTape(props.set, props.file.episode).catch(console.error);
+        haptic(1);
+        downloadAudioTape(props.set, props.file.episode).catch(console.error).then(tasks => {
+          for (let idx in tasks) {
+            const { task, partIdx } = tasks[idx];
+
+            task.done(() => {
+              store.dispatch(setDownloaded({ set: props.set.name, tape: props.file.episode, part: partIdx }));
+              completeHandler(task.id);
+            });
+          }
+        });
 
 
     }
@@ -132,17 +139,27 @@ const AudioSetFilesTape = (props) => {
       {
         (status === 1 || status === 2) &&
           <View style={[styles.loadingContainer, inner && {top: 8}]}>
-              <IconIonicons name={"ios-square"} size={10} color={colors.primary}/>
-              <ReanimatedArc
-                  color={colors.text}
-                  style={{position: "absolute"}}
-                  diameter={22}
-                  width={2}
-                  arcSweepAngle={(average * 3.5) ?? 0}
-                // arcSweepAngle={360}
-                  animationDuration={100}
-                  lineCap="round"
-              />
+            <IconIonicons name={"ios-square"} size={10} color={colors.primary} />
+            <ReanimatedArc
+              color={colors.text2}
+              style={{ position: "absolute" }}
+              diameter={22}
+              width={2}
+              arcSweepAngle={359}
+              // arcSweepAngle={360}
+              animationDuration={0}
+              lineCap="round"
+            />
+            <ReanimatedArc
+              color={colors.text}
+              style={{ position: "absolute" }}
+              diameter={22}
+              width={2}
+              arcSweepAngle={(average * 3.5) ?? 0}
+              // arcSweepAngle={360}
+              animationDuration={100}
+              lineCap="round"
+            />
           </View>
       }
 

@@ -1,44 +1,33 @@
-import React, {useEffect, useMemo, useRef, useState} from 'react';
+import React, { useMemo, useRef, useState } from "react";
 
-import {FlatList, Pressable, SafeAreaView, ScrollView, SectionList, StyleSheet, Text, View} from 'react-native';
+import { Pressable, SectionList, StyleSheet, Text, View } from "react-native";
 import PageHeader from "../components/header";
-import {colors} from "../config/colors";
-import {Surface} from "react-native-paper";
+import { colors } from "../config/colors";
 import AudioSet from "./set/audio-set";
-import {getAudioList} from "../helpers/getAudioList";
-import {useDispatch, useSelector} from "react-redux";
-import Fade from "../components/fade-wrapper";
+import { useDispatch, useSelector } from "react-redux";
 import DisclaimerModal from "./components/disclaimer-modal";
 import IconMaterial from "react-native-vector-icons/MaterialCommunityIcons";
 import IconIonicons from "react-native-vector-icons/Ionicons";
-import Animated, {
-  FadeInUp,
-  FadeOutUp,
-  Layout,
-  SlideInRight,
-  SlideInUp,
-  SlideOutDown,
-  SlideOutRight
-} from 'react-native-reanimated';
 import AudioSetFilesTape from "./set/audio-set-files-tape";
-import audioSet from "./set/audio-set";
 
 
 const AudioPage = () => {
-  const audioData = useSelector(state => state.tapes.audioData)
-  const favorites = useSelector(state => state.tapes.favorites)
-  const lastViewed = useSelector(state => state.tapes.lastViewed)
+  const audioData = useSelector(state => state.tapes.audioData);
+  const favorites = useSelector(state => state.tapes.favorites);
+  const lastViewed = useSelector(state => state.tapes.lastViewed);
   const downloads = useSelector(state => state.tapes[lastViewed.set]);
 
   const scrollRef = useRef(0);
 
-  const dispatch = useDispatch()
+  const [currentOpen, setCurrentOpen] = useState("");
+
+  const dispatch = useDispatch();
 
   const [disclaimerVisible, setDisclaimerVisible] = useState(false);
 
 
   const favoriteSets = useMemo(() => {
-    return audioData.filter(el => favorites.includes(el.name))
+    return audioData.filter(el => favorites.includes(el.name));
   }, [favorites, audioData]);
 
   const renderNextTape = () => {
@@ -94,31 +83,21 @@ const AudioPage = () => {
     return <>
       {renderDisclaimer()}
       {renderNextTape()}
-    </>
-  }
+    </>;
+  };
 
-  const renderItem = ({item, index, separators}) => {
-    return <View style={{marginVertical: 10}}><AudioSet set={item} scrollRef={scrollRef}/></View>
-  }
+  const renderItem = ({ item, index, separators, section }) => {
+    return <View style={{ marginVertical: 10 }}>
+      <AudioSet set={item} scrollRef={scrollRef} currentOpen={currentOpen} renderId={`${section.title}${index}`}
+                setCurrentOpen={setCurrentOpen} />
+    </View>;
+  };
 
-  const sections = useMemo(() => {
-    return [
-      {
-        title: "Favorites",
-        data: favoriteSets ?? []
-      },
-      {
-        title: "All Audio-sets",
-        data: audioData ?? []
-      }
-    ]
-  }, [favoriteSets, audioData]);
-
-  const renderTitle = ({section}) => {
+  const renderTitle = ({ section }) => {
     return section.data.length >= 1 && <View style={styles.titleContainer}>
       <Text style={styles.sectionTitle}>{section.title}</Text>
-    </View>
-  }
+    </View>;
+  };
 
   return (
     <>

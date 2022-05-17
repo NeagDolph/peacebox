@@ -1,34 +1,28 @@
-import React, {useEffect, useMemo, useReducer, useRef, useState} from 'react';
-import {Alert, LayoutAnimation, Pressable, StyleSheet, Text, View} from "react-native";
-import {Surface} from "react-native-paper";
-import PropTypes from 'prop-types'
-import {colors} from "../../config/colors";
-import AudioPage from "../audio-page";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import { LayoutAnimation, Pressable, StyleSheet, Text, View } from "react-native";
+import PropTypes from "prop-types";
+import { colors } from "../../config/colors";
 import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
   Easing,
   interpolate,
-  FadeInUp,
-  FadeOut,
-  runOnJS, Layout, FadeOutUp, FadeIn, useAnimatedGestureHandler, withSpring,
+  runOnJS,
+  useAnimatedGestureHandler,
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+  withTiming
 } from "react-native-reanimated";
 
 import IconEntypo from "react-native-vector-icons/Entypo";
 import AudioSetFiles from "./audio-set-files";
-import {useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import IconIonicons from "react-native-vector-icons/Ionicons";
-import {downloadAudioSet} from "../../helpers/downloadAudio";
-import {setDownload, setDownloaded, setFavorite, setProgress} from "../../store/features/tapesSlice";
-import RNBackgroundDownloader from 'react-native-background-downloader'
-import IconMaterial from "react-native-vector-icons/MaterialCommunityIcons";
+import { cancelDownload, deleteAudio, downloadAudioSet } from "../../helpers/downloadAudio";
+import { deleteTape, removeFromQueue, setFavorite } from "../../store/features/tapesSlice";
 import ReanimatedArc from "../../breathing/use/components/ReanimatedArc";
 import haptic from "../../helpers/haptic";
-import LabelBackground from "react-native-paper/lib/typescript/components/TextInput/Label/LabelBackground";
-import {ContextMenuButton, ContextMenuView} from "react-native-ios-context-menu";
-import {PanGestureHandler} from "react-native-gesture-handler";
-import background from "../../components/background";
+import { ContextMenuView } from "react-native-ios-context-menu";
+import { PanGestureHandler } from "react-native-gesture-handler";
 
 const AudioSet = (props) => {
   const downloads = useSelector(state => state.tapes[props.set.name]);
@@ -37,26 +31,35 @@ const AudioSet = (props) => {
   const pressTimeRef = useRef(Date.now());
   const panRef = useRef();
 
-  const [dragMode, setDragMode] = useState(0)
-  const [mounted, setMounted] = useState(false)
-  const [open, setOpen] = useState(false);
+
+  const isFavorite = useMemo(() => favorites.includes(props.set.name), [props.set.name, favorites]);
+
+  const [dragMode, setDragMode] = useState(0);
   const [showOpen, setShowOpen] = useState(false);
   const [tapeHeight, setTapeHeight] = useState(0);
 
+
+  const open = useMemo(() => {
+    return props.currentOpen === props.renderId;
+  }, [props.currentOpen, props.renderId]);
+
+  const setOpen = () => {
+    props.setCurrentOpen(props.currentOpen === props.renderId ? "" : props.renderId);
+  };
+
   const dragX = useSharedValue(0);
 
-  const swipeActivate = () => {
-    toggleFavorite()
-  }
+  const activateFavorite = () => toggleFavorite();
+
 
   const panHandler = useAnimatedGestureHandler({
     onStart: (_, ctx) => {
       ctx.startX = dragX.value;
-      ctx.activateOffset = 30
-      ctx.dragMode = 0
+      ctx.activateOffset = 30;
+      ctx.dragMode = 0;
     },
-    onActive: ({translationX}, ctx) => {
-      if (open) return
+    onActive: ({ translationX }, ctx) => {
+      if (open) return;
 
       if (translationX !== 0) {
         // const deadZone = 30 //Acts like min dist
@@ -81,48 +84,69 @@ const AudioSet = (props) => {
       dragX.value = ctx.startX + translationX;
     },
     onEnd: (_, ctx) => {
+      console.log("ER", ctx.totalMove < -ctx.activateOffset, ctx.totalMove, -ctx.activateOffset);
+      if (ctx.totalMove < -ctx.activateOffset) runOnJS(activateFavorite)();
+
+      ctx.totalMove = 0;
+
       dragX.value = withSpring(0, {
         overshootClamping: true,
         mass: 3.5,
         damping: 25,
         stiffness: 340
       });
-
-      if (ctx.totalMove < -ctx.activateOffset && !open) runOnJS(swipeActivate)();
     }
   }, [open, dragMode])
 
-  const panStyle = useAnimatedStyle(() => ({transform: [{translateX: dragX.value}]}));
+  const panStyle = useAnimatedStyle(() => ({ transform: [{ translateX: dragX.value }] }));
 
 
   const dispatch = useDispatch();
 
   const anyDownloaded = useMemo(() => {
-    return downloads?.some(tape => tape?.downloads?.some(part => part?.downloadState >= 1) ?? false) ?? false
-  }, [downloads])
+    return downloads?.some(tape => tape?.downloads?.some(part => part?.downloadState >= 1) ?? false) ?? false;
+  }, [downloads]);
 
+  const anyDownloading = useMemo(() => {
+    return downloads?.some(tape => tape?.downloads?.some(part => part?.downloadState === 1 || part?.downloadState === 2) ?? false) ?? false;
+  }, [downloads]);
 
-  const isFavorite = useMemo(() => favorites.includes(props.set.name), [props.set.name, favorites]);
 
   const toggleFavorite = () => {
-    haptic(1)
-    LayoutAnimation.easeInEaseOut()
-    if (isFavorite) dispatch(setFavorite({set: props.set.name, favorite: false}));
-    else {
-      dispatch(setFavorite({set: props.set.name, favorite: true}))
+    haptic(1);
+    LayoutAnimation.easeInEaseOut();
+    if (favorites.includes(props.set.name)) {
+      dispatch(setFavorite({ set: props.set.name, favorite: false }));
+      console.log("settrue");
+    } else {
+      dispatch(setFavorite({ set: props.set.name, favorite: true }));
+      console.log("setfalse", favorites);
     }
-  }
+  };
 
   const average = arr => arr.reduce((a, b) => a + b, 0) / arr.length;
 
   const [downloadingAll, setDownloadingAll] = useState(false);
 
+
+  const calculateProgess = () => {
+    return downloads?.reduce((tot, el, i) => {
+      const partsLength = props.set.files[i].parts.length;
+
+      return tot.concat(el?.downloads
+        ?.slice(0, partsLength)
+        ?.map(item => item.progress));
+    }, []);
+  };
+
   const fullProgressCalc = useMemo(() => {
-    return downloadingAll ? downloads?.reduce((tot, el, i) => {
-      return tot.concat(el?.downloads?.slice(0, props.set.files[i].parts.length).reduce((tot2, el2) => {
-        return tot2.concat([el2?.progress])
-      }, []))
-    }, []) : [0]
+    // return downloadingAll ? downloads?.reduce((tot, el, i) => {
+    //   return tot.concat(el?.downloads?.slice(0, props.set.files[i].parts.length).reduce((tot2, el2) => {
+    //     return tot2.concat([el2?.progress])
+    //   }, []))
+    // }, []) : [0]
+
+    return downloadingAll ? calculateProgess() : [0];
   }, [downloads, downloadingAll]);
 
   const allDownloaded = useMemo(() => { //If all parts of all tapes are downloaded
@@ -134,14 +158,14 @@ const AudioSet = (props) => {
   const filesLength = (audioSet) => audioSet.files.reduce((tot, el) => tot + el.parts.length, 0)
 
   useEffect(() => {
-    if (open && mounted) {
-      openValue.value = 1
+    if (open) {
+      openValue.value = 1;
     } else {
-      openValue.value = 0
+      openValue.value = 0;
     }
 
-    if (open) setShowOpen(true)
-  }, [mounted, open]);
+    if (open) setShowOpen(true);
+  }, [open]);
 
   useEffect(() => {
     if (allDownloaded) setDownloadingAll(false)
@@ -155,8 +179,6 @@ const AudioSet = (props) => {
   const openValue = useSharedValue(0)
   const openHeightValue = useSharedValue(0)
 
-  const stopShowOpen = () => setShowOpen(false)
-
   const heightStyle = useAnimatedStyle(() => {
     const heightValue = interpolate(openValue.value, [0, 1], [90, openHeightValue.value], {extrapolateLeft: "clamp"});
     // const heightValue = (openHeightValue.value < 200 && open) ? 900 : interpolate(openValue.value, [0, 1], [72, openHeightValue.value], {});
@@ -166,7 +188,9 @@ const AudioSet = (props) => {
         duration: 300,
         easing: Easing.linear
       }, () => {
-        if (!open) runOnJS(stopShowOpen)()
+        if (openValue.value < 0.5) {
+          runOnJS(setShowOpen)(false);
+        }
       }),
     };
   }, [open]);
@@ -178,8 +202,8 @@ const AudioSet = (props) => {
       transform: [
         {
           rotateZ: withTiming(rotateValue + "deg", {
-            duration: 250,
-            easing: Easing.bezier(0.25, 0.1, 0.25, 1),
+            duration: 150,
+            easing: Easing.bezier(0.25, 0.1, 0.25, 1)
           })
         }
       ]
@@ -187,21 +211,34 @@ const AudioSet = (props) => {
   })
 
   const downloadSet = () => {
-    haptic(0)
-    setDownloadingAll(true)
+    haptic(0);
+    setDownloadingAll(true);
     downloadAudioSet(props.set)
-      .catch(console.error)
-  }
+      .catch(console.error);
+  };
+
+  const cancelAllDownloads = () => {
+    dispatch(removeFromQueue({ set: props.set.name }));
+    setDownloadingAll(false);
+    for (let file of props.set.files) {
+      const downloadVal = downloads?.[file.episode]?.downloads?.some(el => el.downloadState === 1 || el.downloadState === 2);
+      if (downloadVal) {
+        cancelDownload({ set: props.set.name, tape: file.episode }).catch(console.error);
+        deleteAudio({ set: props.set.name, tape: file.episode }).catch(console.error);
+        dispatch(deleteTape({ set: props.set.name, tape: file.episode }));
+      }
+    }
+  };
 
   const renderOpenButton = () => {
-    const calcAverage = average(fullProgressCalc)
+    const calcAverage = average(fullProgressCalc);
     return <View style={styles.animatedButtonContainer}>
       {
         (calcAverage < 100 && downloadingAll) &&
-          <ReanimatedArc
-              color={colors.text}
-              style={{position: "absolute"}}
-              diameter={38}
+        <ReanimatedArc
+          color={colors.text}
+          style={{ position: "absolute" }}
+          diameter={38}
               width={2}
               arcSweepAngle={(average(fullProgressCalc) * 3.6) ?? 0}
             // arcSweepAngle={(75 * 3.6) ?? 0}
@@ -242,10 +279,20 @@ const AudioSet = (props) => {
             actionKey: "downloadAll",
             actionTitle: "Download all Tapes",
             icon: {
-              type: 'IMAGE_SYSTEM',
+              type: "IMAGE_SYSTEM",
               imageValue: {
-                systemName: 'square.and.arrow.down.on.square',
-              },
+                systemName: "square.and.arrow.down.on.square"
+              }
+            }
+          },
+          anyDownloading && {
+            actionKey: "cancelAll",
+            actionTitle: "Cancel Downloads",
+            icon: {
+              type: "IMAGE_SYSTEM",
+              imageValue: {
+                systemName: "square.and.arrow.down.on.square"
+              }
             }
           }
         ],
@@ -253,6 +300,7 @@ const AudioSet = (props) => {
       onPressMenuItem={({nativeEvent}) => {
         if (nativeEvent.actionKey === "toggleFavorite") setTimeout(toggleFavorite, 550);
         if (nativeEvent.actionKey === "downloadAll") downloadSet();
+        if (nativeEvent.actionKey === "cancelAll") cancelAllDownloads();
       }}
     >
       <View style={[styles.backplate, {height: Math.min(tapeHeight, 90)}]}>
@@ -269,13 +317,13 @@ const AudioSet = (props) => {
       <PanGestureHandler ref={panRef} minDist={30} onGestureEvent={panHandler}
                          simultaneousHandlers={[props.scrollRef]}
       >
-        <Animated.View style={[styles.animatedContainer, heightStyle, panStyle]}>
-          <Surface onLayout={(e) => {
-            setTapeHeight(e.nativeEvent.layout.height)
-          }} style={[styles.audioSet, {borderLeftWidth: 6, borderLeftColor: props.set.icon}]}
-                   key={props.set.name}>
+        <Animated.View style={[styles.animatedContainer, panStyle]}>
+          <Animated.View onLayout={(e) => {
+            setTapeHeight(e.nativeEvent.layout.height);
+          }} style={[styles.audioSet, { borderLeftWidth: 6, borderLeftColor: props.set.icon }, heightStyle]}
+                         key={props.set.name}>
             <View style={styles.topContainer}>
-              <Pressable style={{width: "100%", flexDirection: "row"}}
+              <Pressable style={{ width: "100%", flexDirection: "row" }}
                          onPressIn={() => pressTimeRef.current = Date.now()}
                          onPress={pressToggle}>
                 <View style={styles.titleContainer}>
@@ -284,11 +332,13 @@ const AudioSet = (props) => {
                   <Text style={styles.subtitle}>{filesLength(props.set)} Tapes</Text>
                 </View>
                 <View style={styles.openButtonContainer}>
+
+                  {isFavorite && <IconIonicons style={{ right: 4 }} size={14} name="heart" color={colors.red} />}
                   {anyDownloaded ?
                     renderOpenButton() :
                     <Pressable onPress={downloadSet}>
                       <View style={styles.downloadButton}>
-                        <IconIonicons size={25} name="md-download-outline" color={colors.primary}/>
+                        <IconIonicons size={25} name="md-download-outline" color={colors.primary} />
                       </View>
                     </Pressable>
                   }
@@ -317,12 +367,12 @@ const AudioSet = (props) => {
                       {/*        <Text style={styles.description}>{props.set.description}</Text>*/}
                       {/*    </View>*/}
                       {/*</View>*/}
-                        <AudioSetFiles layout={() => setMounted(true)} set={props.set} downloadData={downloads}/>
+                      <AudioSetFiles set={props.set} downloadData={downloads} />
                     </>
                 }
               </View>
             </View>
-          </Surface>
+          </Animated.View>
         </Animated.View>
 
       </PanGestureHandler>
@@ -333,7 +383,10 @@ const AudioSet = (props) => {
 AudioSet.propTypes = {
   set: PropTypes.object,
   setIndex: PropTypes.number,
-  scrollRef: PropTypes.any
+  scrollRef: PropTypes.any,
+  currentOpen: PropTypes.string,
+  setCurrentOpen: PropTypes.func,
+  renderId: PropTypes.string
 }
 
 const styles = StyleSheet.create({
@@ -435,13 +488,14 @@ const styles = StyleSheet.create({
     width: "100%",
     backgroundColor: colors.background2,
     borderRadius: 10,
+    // height: "100%",
     paddingLeft: 15,
     paddingRight: 5,
     paddingVertical: 5,
     // justifyContent: "center",
-    flexDirection: "column",
-    elevation: 2,
-    marginBottom: 0
+    flexDirection: "column"
+    // elevation: 2,
+    // marginBottom: 0
   },
   setIcon: {
     backgroundColor: "#71A8FA",

@@ -1,43 +1,41 @@
-import * as React from 'react';
-import {AppRegistry} from 'react-native';
+import * as React from "react";
+import { useEffect } from "react";
+import { AppRegistry, LogBox } from "react-native";
 
-import HomePage from './app/home/home-page';
-import Freewriting from './app/freewriting/freewriting-page';
-import SettingsPage from './app/settings/settings-page';
-import BreathingHome from './app/breathing/breathing-page';
-import PatternModal from './app/breathing/edit/pattern-edit';
-import PatternTime from './app/breathing/use/pattern-time';
-import PatternUse from './app/breathing/use/pattern-use';
-import PatternCompleted from './app/breathing/use/pattern-completed';
-import AboutPage from './app/home/about/about-page';
-import AudioPage from './app/audio/audio-page';
+import HomePage from "./app/home/home-page";
+import Freewriting from "./app/freewriting/freewriting-page";
+import SettingsPage from "./app/settings/settings-page";
+import BreathingHome from "./app/breathing/breathing-page";
+import PatternModal from "./app/breathing/edit/pattern-edit";
+import PatternTime from "./app/breathing/use/pattern-time";
+import PatternUse from "./app/breathing/use/pattern-use";
+import PatternCompleted from "./app/breathing/use/pattern-completed";
+import AboutPage from "./app/home/about/about-page";
+import AudioPage from "./app/audio/audio-page";
 
-import {name as appName} from './app.json';
-import {DefaultTheme, Provider as PaperProvider, Text} from 'react-native-paper';
-import {Provider} from 'react-redux';
-import {PersistGate} from 'redux-persist/integration/react';
-import {NavigationContainer, DarkTheme} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {store, persistor} from './app/store/store';
+import { name as appName } from "./app.json";
+import { DefaultTheme, Provider as PaperProvider } from "react-native-paper";
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
+import { DarkTheme, NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { persistor, store } from "./app/store/store";
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import DevMenu from 'react-native-dev-menu';
-import crashlytics from '@react-native-firebase/crashlytics';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import DevMenu from "react-native-dev-menu";
+import crashlytics from "@react-native-firebase/crashlytics";
 
-import TrackPlayer from 'react-native-track-player';
-
-import {LogBox} from 'react-native';
-import GestureHandlerRootView from 'react-native-gesture-handler';
-import {colors} from './app/config/colors';
-import AudioPlayer from './app/audio/player/audio-player';
-import {deleteTape, setAudioData, setDownloaded, setProgress} from './app/store/features/tapesSlice';
-import RNBackgroundDownloader, {download, completeHandler} from 'react-native-background-downloader'
-import {useEffect} from 'react';
-import {getAudioList} from './app/helpers/getAudioList';
+import TrackPlayer from "react-native-track-player";
+import { colors } from "./app/config/colors";
+import AudioPlayer from "./app/audio/player/audio-player";
+import { deleteTape, setAudioData, setDownloaded, setProgress } from "./app/store/features/tapesSlice";
+import RNBackgroundDownloader, { completeHandler } from "react-native-background-downloader";
+import { getAudioList } from "./app/helpers/getAudioList";
+import { processDownloadQ } from "./app/helpers/downloadAudio";
 //ignore logs
 
 // Ignore log notification by message:
-LogBox.ignoreLogs(['EventEmitter.removeListener']);
+LogBox.ignoreLogs(["EventEmitter.removeListener"]);
 
 const RootStack = createNativeStackNavigator();
 
@@ -121,12 +119,13 @@ const reattachDownloads = async() => {
         if (!set || !tape || !part) continue;
 
         task.progress(percent => {
-            console.log(task.id, `Downloaded: ${percent * 100}%`)
+            // console.log(task.id, `Downloaded: ${percent * 100}%`)
             store.dispatch(setProgress({set, tape, part, progress: percent * 100}))
         }).done(() => {
             console.log('Download is done!')
             store.dispatch(setDownloaded({set, tape, part}))
-            completeHandler(task.id)
+            completeHandler(task.id);
+            processDownloadQ();
         }).error(error => {
             console.log('Download canceled due to error (Reattached): ', error)
             store.dispatch(deleteTape({set, tape}));

@@ -1,22 +1,15 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, { useMemo, useState } from "react";
 
-import {Pressable, StyleSheet, Text, View} from 'react-native';
-import {colors} from "../../config/colors";
+import { StyleSheet, View } from "react-native";
+import { colors } from "../../config/colors";
 import AudioSetFilesTape from "./audio-set-files-tape";
 import PropTypes from "prop-types";
 import IconMaterial from "react-native-vector-icons/MaterialCommunityIcons";
-import {useSelector} from "react-redux";
+import { useSelector } from "react-redux";
 
 const AudioSetFiles = (props) => {
-  const viewedData = useSelector(state => state.tapes[props.set.name])
+  const viewedData = useSelector(state => state.tapes[props.set.name]);
   const [checkmarkConts, setCheckmarkConts] = useState([]);
-
-  useEffect(() => {
-    return () => {
-      props.layout(false)
-    };
-  }, []);
-
 
   const completedCalc = useMemo(() => {
     const completedVal = viewedData?.map((file, i) => {
@@ -90,7 +83,7 @@ const AudioSetFiles = (props) => {
   }
 
   return (
-    <View style={styles.container} onLayout={() => props.layout(true)}>
+    <View style={styles.container}>
       {renderProgress()}
       {renderTapes()}
     </View>
