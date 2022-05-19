@@ -128,7 +128,8 @@ const reattachDownloads = async() => {
             processDownloadQ();
         }).error(error => {
             console.log('Download canceled due to error (Reattached): ', error)
-            store.dispatch(deleteTape({set, tape}));
+            store.dispatch(deleteTape({ set, tape }));
+            completeHandler(task.id);
         })
     }
 }

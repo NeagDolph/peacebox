@@ -1,93 +1,74 @@
-
-
-
-
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Welcome to Firebase Hosting</title>
-
-    <!-- update the version number as needed -->
-    <script defer src="/__/firebase/9.2.0/firebase-app-compat.js"></script>
-    <!-- include only the Firebase features as you need -->
-    <script defer src="/__/firebase/9.2.0/firebase-auth-compat.js"></script>
-    <script defer src="/__/firebase/9.2.0/firebase-database-compat.js"></script>
-    <script defer src="/__/firebase/9.2.0/firebase-firestore-compat.js"></script>
-    <script defer src="/__/firebase/9.2.0/firebase-functions-compat.js"></script>
-    <script defer src="/__/firebase/9.2.0/firebase-messaging-compat.js"></script>
-    <script defer src="/__/firebase/9.2.0/firebase-storage-compat.js"></script>
-    <script defer src="/__/firebase/9.2.0/firebase-analytics-compat.js"></script>
-    <script defer src="/__/firebase/9.2.0/firebase-remote-config-compat.js"></script>
-    <script defer src="/__/firebase/9.2.0/firebase-performance-compat.js"></script>
-    <!--
-      initialize the SDK after all desired features are loaded, set useEmulator to false
-      to avoid connecting the SDK to running emulators.
-    -->
-    <script defer src="/__/firebase/init.js?useEmulator=true"></script>
-
-    <style media="screen">
-      body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
-      #message { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; }
-      #message h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
-      #message h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
-      #message p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
-      #message a { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; }
-      #message, #message a { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
-      #load { color: rgba(0,0,0,0.4); text-align: center; font-size: 13px; }
-      @media (max-width: 600px) {
-        body, #message { margin-top: 0; background: white; box-shadow: none; }
-        body { border-top: 16px solid #ffa100; }
-      }
-    </style>
-  </head>
-  <body>
-    <div id="message">
-      <h2>Welcome</h2>
-      <h1>Firebase Hosting Setup Complete</h1>
-      <p>You're seeing this because you've successfully setup Firebase Hosting. Now it's time to go build something extraordinary!</p>
-      <a target="_blank" href="https://firebase.google.com/docs/hosting/">Open Hosting Documentation</a>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>PeaceBox : Tools for your Mind</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.63f1eba2.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.8e9b2089.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.0070952f.png">
+  <link rel="stylesheet" type="text/css" href="/index.47a0c223.css">
+  <link rel="stylesheet" href="/index.cf45d5b9.css">
+  <script src="https://kit.fontawesome.com/af75aac62e.js" crossorigin></script>
+</head>
+<body onload="document.querySelector('#copyright').innerText = new Date().getFullYear()">
+<div class="siteWrapper">
+  <div
+    class="backdrop-blur-sm border-b border-gray-900 flex flex-row h-28 header items-center justify-between lg:pl-16 pl-2 sm:pl-8">
+    <div class="flex flex-row"><p class="font-bold font-futura md:text-5xl text-7xl text-black tracking-tight">P</p>
+      <p class="font-bold font-futura hidden md:block text-5xl text-black tracking-tight">eaceBox</p></div>
+    <div class="flex flex-row h-full items-center">
+      <div class="lg:mr-12 md:mr-8 mr-4 py-2"><a href="mailto:contact@peacebox.app" target="_blank"><p
+        class="font-baloo2 text-md"><i class="fa-envelope fa-md fa-solid"></i> &nbsp;Email</p></a></div>
+      <div class="hidden lg:mr-14 md:mr-10 mr-6 py-2 sm:block"><a href="https://github.com/neagdolph/peacebox"
+                                                                  target="_blank"><p class="font-baloo2 text-md"><i
+        class="fa-brands fa-github fa-md"></i> &nbsp;Github</p></a></div>
+      <div class="border-gray-900 border-l flex h-full items-center md:px-16 px-4 sm:px-8"><a
+        href="https://apps.apple.com/us/app/peacebox-tools-for-your-mind/id1592436336">
+        <div class="border-2 border-gray-900 px-2 py-1 rounded-sm sm:px-3"><p class="font-baloo2 text-lg"><i
+          class="fa-download fa-solid"></i> &nbsp;Download</p></div>
+      </a></div>
     </div>
-    <p id="load">Firebase SDK Loading&hellip;</p>
-
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const loadEl = document.querySelector('#load');
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-        // // The Firebase SDK is initialized and available here!
-        //
-        // firebase.auth().onAuthStateChanged(user => { });
-        // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
-        // firebase.firestore().doc('/foo/bar').get().then(() => { });
-        // firebase.functions().httpsCallable('yourFunction')().then(() => { });
-        // firebase.messaging().requestPermission().then(() => { });
-        // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
-        // firebase.analytics(); // call to activate
-        // firebase.analytics().logEvent('tutorial_completed');
-        // firebase.performance(); // call to activate
-        //
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-
-        try {
-          let app = firebase.app();
-          let features = [
-            'auth',
-            'database',
-            'firestore',
-            'functions',
-            'messaging',
-            'storage',
-            'analytics',
-            'remoteConfig',
-            'performance',
-          ].filter(feature => typeof app[feature] === 'function');
-          loadEl.textContent = `Firebase SDK loaded with ${features.join(', ')}`;
-        } catch (e) {
-          console.error(e);
-          loadEl.textContent = 'Error loading the Firebase SDK, check the console.';
-        }
-      });
-    </script>
-  </body>
+  </div>
+  <div class="mainContainer">
+    <div
+      class="flex flex-row h-full innerContainer items-center justify-between justify-center lg:px-16 sm:px-8 w-full">
+      <div class="basis-full flex justify-center lg:basis-3/5 lg:px-0 md:basis-2/3 px-6 sm:mr-10 w-full">
+        <div class="container max-w-xl w-fit"><p
+          class="font-light font-vollkorn lg:text-7xl sm:text-6xl text-5xl text-primary">Hi, I'm PeaceBox</p>
+          <p class="font-baloo2 font-extralight mb-6 mt-8 sm:max-w-prose text-lg text-primary"> We all deal with stress
+            and anxiety in our lives but most of us don't know how to effectively let go of it. <span
+              class="h-10 inline-block sm:hidden"></span> PeaceBox is like a toolbox for your mind with the tools and
+            techniques you need to relax and de-stress. </p>
+          <div class="flex flex-row items-center justify-around sm:justify-start"><a
+            href="https://apps.apple.com/us/app/peacebox-tools-for-your-mind/id1592436336"> <img
+            src="/appstore.41f902e9.svg" class="borderAppStore min-w-32 w-44"> </a>
+            <div class="mx-4 sm:mx-16"><a href="https://github.com/neagdolph/peacebox" target="_blank"><p
+              class="font-baloo2 sm:text-xl text-md text-primary whitespace-nowrap"><i
+              class="fa-brands fa-github fa-md sm:fa-lg"></i> &nbsp;Github</p></a></div>
+          </div>
+        </div>
+      </div>
+      <div class="basis-1/3 hidden items-center lg:basis-2/5 md:flex mt-10 w-full">
+        <div class="h-56 lg:h-72 lg:rounded-6xl lg:w-72 mx-auto rounded-5xl w-56"><img
+          src="/logo-transparent-white-blue.45446153.png" class="h-fit w-fit"></div>
+      </div>
+    </div>
+  </div>
+  <div class="bg-primaryBg h-32 left-0 p-12 w-full">
+    <div class="flex flex-row h-full items-center justify-around sm:justify-center sm:w-auto w-full"><a
+      href="https://github.com/neagdolph/peacebox" target="_blank"><p
+      class="font-baloo2 text-light text-xl whitespace-nowrap"><i class="fa-brands fa-github fa-md sm:fa-lg"></i> &nbsp;Github
+    </p></a>
+      <div class="bg-light h-0.5 min-w-2 mx-3 rounded-full sm:min-w-6 sm:mx-12 sm:w-6 w-2"></div>
+      <a href="https://apps.apple.com/us/app/peacebox-tools-for-your-mind/id1592436336" class="hidden sm:block"> <img
+        src="/appstore_black.efed0846.svg" class="borderAppStore min-w-32 w-44"> </a>
+      <div class="bg-light h-0.5 hidden min-w-2 mx-3 rounded-full sm:block sm:min-w-6 sm:mx-12 sm:w-6 w-2"></div>
+      <a href="mailto:contact@peacebox.app" target="_blank"><p class="font-baloo2 text-light text-xl whitespace-nowrap">
+        <i class="fa-envelope fa-md fa-solid sm:fa-lg"></i> &nbsp;Email </p></a></div>
+  </div>
+  <div class="absolute bottom-2 right-2"><p class="font-roboto text-light text-md"> © <span id="copyright">2022</span>
+    Neil Agrawal </p></div>
+</div>
+</body>
 </html>

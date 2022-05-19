@@ -67,14 +67,11 @@ export const tapesSlice = createSlice({
       state.queue.splice(0, amount ?? 1);
     },
     removeFromQueue: (state, { payload: { set, tape } }) => {
-      console.log("remove", set, tape);
-      console.log(state.queue);
       if (tape) {
         state.queue = state.queue.filter(el => !(el.set.name === set && el.tape === tape));
       } else {
         state.queue = state.queue.filter(el => el.set.name !== set);
       }
-      console.log(state.queue);
     }
   }
 });

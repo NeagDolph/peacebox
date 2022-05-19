@@ -84,7 +84,6 @@ const AudioSet = (props) => {
       dragX.value = ctx.startX + translationX;
     },
     onEnd: (_, ctx) => {
-      console.log("ER", ctx.totalMove < -ctx.activateOffset, ctx.totalMove, -ctx.activateOffset);
       if (ctx.totalMove < -ctx.activateOffset) runOnJS(activateFavorite)();
 
       ctx.totalMove = 0;
@@ -115,13 +114,7 @@ const AudioSet = (props) => {
   const toggleFavorite = () => {
     haptic(1);
     LayoutAnimation.easeInEaseOut();
-    if (favorites.includes(props.set.name)) {
-      dispatch(setFavorite({ set: props.set.name, favorite: false }));
-      console.log("settrue");
-    } else {
-      dispatch(setFavorite({ set: props.set.name, favorite: true }));
-      console.log("setfalse", favorites);
-    }
+    dispatch(setFavorite({ set: props.set.name, favorite: !favorites.includes(props.set.name) }));
   };
 
   const average = arr => arr.reduce((a, b) => a + b, 0) / arr.length;
@@ -150,9 +143,12 @@ const AudioSet = (props) => {
   }, [downloads, downloadingAll]);
 
   const allDownloaded = useMemo(() => { //If all parts of all tapes are downloaded
+    if (downloads?.length < props.set.files.length) // If not all downloads items are initialized
+      return false;
+
     return downloads?.every((tape, i) => {
-      return tape?.downloads?.slice(0, props.set.files[i].parts.length).every(part => part.downloadState === 3) ?? false
-    }) ?? false
+      return tape?.downloads?.slice(0, props.set.files[i].parts.length).every(part => part.downloadState === 3) ?? false;
+    }) ?? false;
   }, [downloads]);
 
   const filesLength = (audioSet) => audioSet.files.reduce((tot, el) => tot + el.parts.length, 0)
@@ -466,6 +462,7 @@ const styles = StyleSheet.create({
   animatedContainer: {
     // marginTop: 15,
     overflow: "hidden",
+    borderRadius: 10
     // flex: 1,
     // padding: 3,
   },

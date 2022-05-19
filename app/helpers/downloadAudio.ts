@@ -62,22 +62,30 @@ export const deleteAudio = async ({ set, tape }) => {
 };
 
 export const downloadAudioSet = async (set) => {
+  const state = store.getState();
+
   for (let file of set.files) {
 
     // await downloadAudioTapeWrapper(set, file.episode, taskReturn);
 
-    for (let partIdx in file.parts) {
-      await store.dispatch(setDownload({
-        set: set.name,
-        tape: file.episode,
-        part: partIdx,
-        progress: 0,
-        location: "",
-        downloadState: 1
-      }));
-    }
+    const currentDownloads = state.tapes[set.name][file.episode].downloads;
+    const partCount = set.files[file.episode].parts.length;
 
-    await store.dispatch(queueDownload({ set: set, tape: file.episode }));
+
+    if (currentDownloads?.slice(0, partCount)?.some(el => el?.downloadState === 0)) {
+      for (let partIdx in file.parts) {
+        await store.dispatch(setDownload({
+          set: set.name,
+          tape: file.episode,
+          part: partIdx,
+          progress: 0,
+          location: "",
+          downloadState: 1
+        }));
+      }
+
+      await store.dispatch(queueDownload({ set: set, tape: file.episode }));
+    }
   }
 
   processDownloadQ();
@@ -99,9 +107,9 @@ export const processDownloadQ = () => {
       store.dispatch(shiftDownload(2)); // remove first two queue items from queue
 
       currentQTasks.forEach(qTask => {
-        const { set, tape } = qTask;
+        const { set, tape, part } = qTask;
 
-        downloadAudioTape(set, tape).then(tasks => {
+        downloadAudioTape(set, tape, part).then(tasks => {
           let taskList = Array(tasks.length).fill(false);
 
           for (let idx in tasks) {
@@ -120,14 +128,15 @@ export const processDownloadQ = () => {
     });
 };
 
-export const downloadAudioTape = async (set, tape) => {
+export const downloadAudioTape = async (set, tape, part = undefined) => {
   await RNFS.mkdir(`${RNBackgroundDownloader.directories.documents}/${set.author}/${set.name}`);
 
-  const partCount = set.files[tape].parts.length;
+  const partStart = part ?? 0;
+  const partCount = part ? partStart + 1 : set.files[tape].parts.length;
 
   const tasks = [];
 
-  for (let partIdx = 0; partIdx < partCount; partIdx++) { //Parts in cdn start at 1
+  for (let partIdx = partStart; partIdx < partCount; partIdx++) { //Parts in cdn start at 1
     const fileName = `${tape + 1}_${partIdx + 1}.mp3`;
     const localPath = `${set.author}/${set.name}/${fileName}`;
 
@@ -169,6 +178,7 @@ export const downloadAudioTape = async (set, tape) => {
       }).error(error => {
         console.log("Download canceled due to error: ", error);
         store.dispatch(deleteTape({ set: set.name, tape }));
+        completeHandler(task.id);
       });
 
       task.resume();

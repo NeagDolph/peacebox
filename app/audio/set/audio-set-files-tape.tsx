@@ -90,12 +90,15 @@ const AudioSetFilesTape = (props) => {
           message: `\Delete "${props.file.name}" from downloads?`,
           destructive: true
         }, () => {
-          haptic(1)
-          deleteAudio({set: props.set.name, tape: props.file.episode}).catch(console.error);
-          dispatch(deleteTape({set: props.set.name, tape: props.file.episode}));
+          haptic(1);
+          deleteAudio({ set: props.set.name, tape: props.file.episode }).catch(console.error);
+          dispatch(deleteTape({ set: props.set.name, tape: props.file.episode }));
         })
         break;
       case 1:
+        cancelDownload({ set: props.set.name, tape: props.file.episode }).catch(console.error);
+        dispatch(deleteTape({ set: props.set.name, tape: props.file.episode }));
+        break;
       case 2:
         confirm({
           title: `Cancel Download?`,

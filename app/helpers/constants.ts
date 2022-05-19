@@ -1,1 +1,1 @@
-export const CDNENDPOINT = 'https://cdn.peacebox.app';
+export const CDNENDPOINT = "https://peacebox.b-cdn.net/";
