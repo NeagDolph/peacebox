@@ -18,15 +18,18 @@
 <body onload="document.querySelector('#copyright').innerText = new Date().getFullYear()">
 <div class="siteWrapper">
   <div
-    class="flex flex-row h-28 items-center pl-2 sm:pl-8 lg:pl-16 border-b border-gray-900 justify-between backdrop-blur-sm header">
+    class="flex flex-row h-28 items-center sm:pl-8 lg:pl-16 border-b border-gray-900 bg-white justify-between header w-full">
     <div class="flex flex-row">
-      <p class="text-black font-futura font-bold tracking-tight text-7xl md:text-5xl">P</p>
-      <p class="text-black font-futura font-bold tracking-tight text-5xl hidden md:block">eaceBox</p>
+      <p class="text-black font-futura font-bold tracking-tight text-7xl md:text-5xl hidden md:block">PeaceBox</p>
+
+      <div class="max-w-28 min-w-24 pr-3 md:hidden">
+        <img src="assets/logo-transparent-white-blue.png" class="w-auto" />
+      </div>
     </div>
     <div class="flex flex-row h-full items-center">
       <div class="mr-4 md:mr-8 lg:mr-12 py-2">
         <a href="mailto:contact@peacebox.app" target="_blank">
-          <p class="font-baloo2 text-md"><i class="fa-solid fa-envelope fa-md"></i> &nbsp;Email</p>
+          <p class="font-baloo2 text-md whitespace-nowrap"><i class="fa-solid fa-envelope fa-md"></i> &nbsp;Email</p>
         </a>
       </div>
       <div class="mr-6 md:mr-10 lg:mr-14 py-2 hidden sm:block">
@@ -38,7 +41,7 @@
 
         <a href="https://apps.apple.com/us/app/peacebox-tools-for-your-mind/id1592436336">
           <div class="border-2 rounded-sm border-gray-900 px-2 sm:px-3 py-1">
-            <p class="font-baloo2 text-lg"><i class="fa-solid fa-download"></i> &nbsp;Download</p>
+            <p class="font-baloo2 text-lg whitespace-nowrap"><i class="fa-solid fa-download"></i> &nbsp;Download</p>
           </div>
         </a>
       </div>

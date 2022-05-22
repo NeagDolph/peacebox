@@ -25,7 +25,7 @@ import { ContextMenuView } from "react-native-ios-context-menu";
 import { PanGestureHandler } from "react-native-gesture-handler";
 
 const AudioSet = (props) => {
-  const downloads = useSelector(state => state.tapes[props.set.name]);
+  const downloads = useSelector(state => state.tapes.downloadData[props.set.name]);
   const favorites = useSelector(state => state.tapes.favorites);
 
   const pressTimeRef = useRef(Date.now());

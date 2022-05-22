@@ -1,6 +1,4 @@
 import RNBackgroundDownloader, { completeHandler, download } from "react-native-background-downloader";
-
-
 import RNFS from "react-native-fs";
 import { store } from "../store/store";
 import {
@@ -10,23 +8,53 @@ import {
   setDownload,
   setDownloaded,
   setProgress,
+  setTapeData,
   shiftDownload
 } from "../store/features/tapesSlice";
+import _ from "lodash";
 import { CDNENDPOINT } from "./constants";
 
+
+export const hydrateDownloadData = (sets) => {
+  const currentState = store.getState();
+
+  const totalData = _.merge(constructDownloadFrame(sets), currentState.tapes.downloadData);
+
+  store.dispatch(setTapeData(totalData));
+};
+
+const constructDownloadFrame = (sets) => {
+  const globalObj = {};
+
+  sets.forEach(set => {
+
+    globalObj[set.name] = set.files.map(file => ({
+      downloads: file.parts.map(() => ({
+        downloadState: 0,
+        progress: 0,
+        viewed: false
+      }))
+    }));
+
+  });
+
+  return globalObj;
+};
 
 const isDownloaded = async ({ set, tape, part, localPath }) => {
   const currentState = store.getState();
   const fileExists = await RNFS.exists(`${RNBackgroundDownloader.directories.documents}/${localPath}`);
 
-  const downloading = currentState.tapes?.[set]?.[tape]?.downloads?.[part]?.downloadState;
+  const downloading = currentState.tapes.downloadData[set][tape].downloads[part].downloadState;
 
   return fileExists || downloading >= 2;
 };
+
+
 const isDownloading = async ({ set, tape, part }) => {
   const currentState = store.getState();
 
-  const downloading = currentState.tapes?.[set]?.[tape]?.downloads?.[part]?.downloadState;
+  const downloading = currentState.tapes.downloadData[set][tape].downloads[part].downloadState;
 
   return downloading === 2;
 };
@@ -46,7 +74,7 @@ export const cancelDownload = async ({ set, tape }) => {
 export const deleteAudio = async ({ set, tape }) => {
   const currentState = store.getState();
 
-  const downloads = currentState.tapes?.[set]?.[tape]?.downloads;
+  const downloads = currentState.tapes.downloadData[set][tape].downloads;
 
   const betterDownloads = downloads.slice(0, currentState.tapes.audioData?.[set]?.files?.[tape]?.parts?.length);
 
@@ -68,11 +96,11 @@ export const downloadAudioSet = async (set) => {
 
     // await downloadAudioTapeWrapper(set, file.episode, taskReturn);
 
-    const currentDownloads = state.tapes[set.name][file.episode].downloads;
+    const currentDownloads = state.tapes.downloadData[set.name][file.episode].downloads;
     const partCount = set.files[file.episode].parts.length;
 
 
-    if (currentDownloads?.slice(0, partCount)?.some(el => el?.downloadState === 0)) {
+    if (currentDownloads?.slice(0, partCount)?.some(el => !el?.downloadState || el?.downloadState === 0) || !currentDownloads) {
       for (let partIdx in file.parts) {
         await store.dispatch(setDownload({
           set: set.name,
@@ -83,6 +111,8 @@ export const downloadAudioSet = async (set) => {
           downloadState: 1
         }));
       }
+
+      console.log("QUEUE", set.name, file.episode);
 
       await store.dispatch(queueDownload({ set: set, tape: file.episode }));
     }
@@ -110,6 +140,8 @@ export const processDownloadQ = () => {
         const { set, tape, part } = qTask;
 
         downloadAudioTape(set, tape, part).then(tasks => {
+          if (tasks === false || tasks.length <= 0) return processDownloadQ();
+
           let taskList = Array(tasks.length).fill(false);
 
           for (let idx in tasks) {
@@ -194,6 +226,8 @@ export const downloadAudioTape = async (set, tape, part = undefined) => {
         location: localPath,
         downloadState: 3
       }));
+
+      continue;
     }
   }
 

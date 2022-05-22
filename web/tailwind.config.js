@@ -7,6 +7,12 @@ module.exports = {
       minWidth: {
         "32": "8rem",
         "24": "6rem",
+        "28": "7rem",
+      },
+      maxWidth: {
+        "32": "8rem",
+        "24": "6rem",
+        "28": "7rem",
       },
       fontFamily: {
         "roboto": ["Roboto"],

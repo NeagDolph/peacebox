@@ -1,15 +1,15 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, { useEffect, useMemo, useState } from "react";
 
-import {StyleSheet, Text, View} from 'react-native';
-import {colors} from "../../../config/colors";
+import { StyleSheet, Text, View } from "react-native";
+import { colors } from "../../../config/colors";
 import Slider from "@react-native-community/slider";
-import TrackPlayer, {State, useProgress} from "react-native-track-player";
+import TrackPlayer, { State } from "react-native-track-player";
 import PropTypes from "prop-types";
 
 const SeekTime = (props) => {
 
-  const [sliding, setSliding] = useState(false)
-  const [slidingVal, setSlidingVal] = useState(0)
+  const [sliding, setSliding] = useState(false);
+  const [slidingVal, setSlidingVal] = useState(0);
   const [showSliding, setShowSliding] = useState(false);
 
   const [slideWhilePlaying, setSlideWhilePlaying] = useState(false);
@@ -24,7 +24,7 @@ const SeekTime = (props) => {
 
   const formatTime = (time) => {
     const date = new Date(0);
-    date.setSeconds(time); // specify value for SECONDS here
+    date.setSeconds(Math.max(time, 0)); // specify value for SECONDS here
     return date.toISOString().substr(11, 8).replace("00:", "");
   }
 

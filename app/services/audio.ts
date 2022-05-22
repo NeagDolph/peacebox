@@ -1,6 +1,6 @@
-import TrackPlayer, {Capability, RepeatMode} from 'react-native-track-player';
-import {store} from "../store/store";
-import {playAudio} from "../helpers/playAudio";
+import TrackPlayer, { Capability, RepeatMode } from "react-native-track-player";
+import { store } from "../store/store";
+import { playAudio } from "../helpers/playAudio";
 
 
 module.exports = async function() {
@@ -8,8 +8,8 @@ module.exports = async function() {
   // but it will be used later in the "Receiving Events" section
 
 
-  TrackPlayer.addEventListener('remote-next', () => {
-    TrackPlayer.skipToNext().catch(console.log)
+  TrackPlayer.addEventListener("remote-next", () => {
+    TrackPlayer.skipToNext().catch(console.log);
 
     const state = store.getState()
     // @ts-ignore
@@ -20,14 +20,10 @@ module.exports = async function() {
   });
 
   TrackPlayer.addEventListener('remote-previous', () => {
-    TrackPlayer.skipToPrevious().catch(console.log)
+    TrackPlayer.play().then(() => {
+      TrackPlayer.seekTo(0);
+    });
 
-    const state = store.getState()
-    // @ts-ignore
-    const currentData = state.tapes.currentlyPlaying;
-    const nextPart = Math.max(currentData.part - 1, 0)
-
-    playAudio({...currentData, part: nextPart})
   });
 
   TrackPlayer.addEventListener('remote-seek', ({position}) => {
@@ -46,7 +42,6 @@ module.exports = async function() {
     capabilities: [
       Capability.Play,
       Capability.Pause,
-      Capability.SkipToNext,
       Capability.SkipToPrevious,
       Capability.Stop,
       Capability.SeekTo

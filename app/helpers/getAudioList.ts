@@ -1,12 +1,13 @@
 // require the
-import RNFS, {DownloadFileOptions} from 'react-native-fs'
-import {CDNENDPOINT} from "./constants";
-const audioJson = require("../assets/audio-files.json")
+import RNFS, { DownloadFileOptions } from "react-native-fs";
+import { CDNENDPOINT } from "./constants";
+
+const audioJson = require("../assets/audio-files.json");
 
 export const getAudioList = async () => {
-  const downloadLink = `${CDNENDPOINT}/audio-files.json`
+  const downloadLink = `${CDNENDPOINT}/audio-files.json`;
 
-  const toPath = "../assets/audio-files.json"
+  const toPath = "../assets/audio-files.json";
 
   const downloadOptions: DownloadFileOptions = {
     fromUrl: downloadLink,
@@ -57,15 +58,17 @@ export const getAudioList = async () => {
         // if file doesn't exist that means it was either deleted or was not bundled with app and cannot be downloaded
         console.log("Could not find audio list!")
 
-        return audioJson
+        return audioJson;
         // return false
       }
     } catch (e) {
-      console.log("Error loading audio: ", e)
+      console.log("Error loading audio: ", e);
 
-      return audioJson
+      return audioJson;
     }
   }
 
-  return jsonData ?? audioJson;
+  const returnData = jsonData ?? audioJson;
+
+  return returnData;
 }

@@ -1,19 +1,19 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from "react";
 
-import {Pressable, StyleSheet, Text, View} from 'react-native';
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import PageHeader from "../../components/header";
-import {setViewed} from "../../store/features/tapesSlice";
-import {useDispatch, useSelector} from "react-redux";
-import TrackPlayer, {Event, State, useProgress, useTrackPlayerEvents} from "react-native-track-player";
-import {colors} from "../../config/colors";
+import { setViewed } from "../../store/features/tapesSlice";
+import { useDispatch, useSelector } from "react-redux";
+import TrackPlayer, { Event, State, useProgress, useTrackPlayerEvents } from "react-native-track-player";
+import { colors } from "../../config/colors";
 import IconMaterial from "react-native-vector-icons/MaterialCommunityIcons";
 import PauseButton from "./components/pause-button";
 import SeekTime from "./components/seek-time";
 import VolumeSlider from "../../components/volume-slider";
 
 const AudioPlayer = (props) => {
-  const currentAudio = useSelector(state => state.tapes.currentlyPlaying)
-  const {set, tapeNum: tape, tapeName, partData, part, artist, totalParts} = currentAudio
+  const currentAudio = useSelector(state => state.tapes.currentlyPlaying);
+  const { set, tapeNum: tape, tapeName, partData, part, artist, totalParts } = currentAudio;
 
 
   const dispatch = useDispatch()
@@ -73,20 +73,23 @@ const AudioPlayer = (props) => {
 
   const skipForward = () => {
     TrackPlayer.getPosition().then(pos => {
-      TrackPlayer.seekTo(pos + 10);
-      setCurrentTime(pos + 10)
+      setTime(pos + 10);
+      setCurrentTime(pos + 10);
     })
   }
 
   const skipBackwards = () => {
     TrackPlayer.getPosition().then(pos => {
-      TrackPlayer.seekTo(pos - 10);
-      setCurrentTime(pos - 10)
+      setTime(pos - 10);
+      setCurrentTime(pos - 10);
     })
   }
 
   const setTime = (time) => {
-    TrackPlayer.seekTo(time);
+    TrackPlayer.play().then(() => {
+      TrackPlayer.seekTo(time);
+    });
+
   }
 
   const confirmView = () => {

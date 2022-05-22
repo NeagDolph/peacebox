@@ -15,10 +15,6 @@ body {
     /* background by SVGBackgrounds.com */
 }
 
-.header {
-    background-color: rgba(104, 116, 232, 0.2);
-}
-
 .borderAppStore {
     border: 1.5px black solid;
     border-radius: 10px;

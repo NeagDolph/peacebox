@@ -8,16 +8,16 @@ import IconMaterial from "react-native-vector-icons/MaterialCommunityIcons";
 import { useSelector } from "react-redux";
 
 const AudioSetFiles = (props) => {
-  const viewedData = useSelector(state => state.tapes[props.set.name]);
+  const viewedData = useSelector(state => state.tapes.downloadData[props.set.name]);
   const [checkmarkConts, setCheckmarkConts] = useState([]);
 
   const completedCalc = useMemo(() => {
-    const completedVal = viewedData?.map((file, i) => {
-      return file?.parts?.slice(0,props.set.files[i]?.parts?.length).every(el => el === true)
-    }) ?? []
-    const falseList = Array(props.set.files.length).fill(false)
+    const completedVal = viewedData?.map(file => {
+      return file.downloads.every(el => el.viewed === true);
+    }) ?? [];
 
-    return completedVal.concat(falseList)
+
+    return completedVal;
   }, [viewedData]);
 
   const layoutCheckmarks = ({nativeEvent}, index) => {
@@ -28,12 +28,13 @@ const AudioSetFiles = (props) => {
       index: index,
     }
 
+    // Data for every checkmark element so progress bars between checkmarks can be correctly positioned
     setCheckmarkConts(state => [...state, checkmarkData])
   }
 
   const renderProgress = () => {
     return checkmarkConts.map((checkmark, i) => {
-      if (checkmark.index >= checkmarkConts.length - 1) return
+      if (checkmark.index >= props.set.files.length - 1) return;
 
       const nextCheckmark = checkmarkConts.find(el => {
         return el.index == checkmark.index + 1

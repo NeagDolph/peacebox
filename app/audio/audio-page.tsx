@@ -15,7 +15,7 @@ const AudioPage = () => {
   const audioData = useSelector(state => state.tapes.audioData);
   const favorites = useSelector(state => state.tapes.favorites);
   const lastViewed = useSelector(state => state.tapes.lastViewed);
-  const downloads = useSelector(state => state.tapes[lastViewed.set]);
+  const downloads = useSelector(state => state.tapes.downloadData[lastViewed.set]);
 
   const scrollRef = useRef(0);
 
@@ -82,7 +82,9 @@ const AudioPage = () => {
   const renderHeader = () => {
     return <>
       {renderDisclaimer()}
-      {renderNextTape()}
+
+      {/* Implement advanced next tape algorithm next update */}
+      {/*{renderNextTape()}*/}
     </>;
   };
 
@@ -118,7 +120,6 @@ const AudioPage = () => {
           }
         ]}
         ListHeaderComponent={renderHeader()}
-        // ItemSeparatorComponent={() => <View style={{marginVertical: 10}}/>}
         renderSectionHeader={renderTitle}
         renderSectionFooter={({section: {data}}) => data.length >= 1 && <View style={{marginBottom: 60}}/>}
 
