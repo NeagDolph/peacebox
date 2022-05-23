@@ -168,7 +168,7 @@ const AudioSetFilesTape = (props) => {
 
       {
         status === 3 &&
-          <IconMaterial style={{top: 5, height: 30}} name={"cancel"} size={20} color={colors.primary}/>
+          <IconIonicons style={{ top: 5, height: 30 }} name={"trash-bin-outline"} size={20} color={colors.primary} />
       }
 
       {
