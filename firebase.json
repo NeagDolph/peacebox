@@ -12,11 +12,24 @@
     "analytics_auto_collection_enabled": true
   },
   "hosting": {
-    "public": "public",
+    "site": "stoicalapp",
+    "public": "public-web",
     "ignore": [
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "function": "svelteSSR"
+      }
+    ],
+    "predeploy": [
+      "cd web/web-svelte && npm run build"
     ]
+  },
+  "functions": {
+    "source": "./web/functions"
   }
 }

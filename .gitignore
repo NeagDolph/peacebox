@@ -79,4 +79,4 @@ yarn.lock
 pnpm-lock.yaml
 .parcel-cache/
 dist/
-public/
+public-web/

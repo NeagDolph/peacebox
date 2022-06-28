@@ -1,120 +1,172 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, {useEffect, useRef, useState} from 'react';
 
-import { Pressable, StyleSheet, Text, View } from "react-native";
-import PageHeader from "../../components/header";
-import { setViewed } from "../../store/features/tapesSlice";
-import { useDispatch, useSelector } from "react-redux";
-import TrackPlayer, { Event, State, useProgress, useTrackPlayerEvents } from "react-native-track-player";
-import { colors } from "../../config/colors";
-import IconMaterial from "react-native-vector-icons/MaterialCommunityIcons";
-import PauseButton from "./components/pause-button";
-import SeekTime from "./components/seek-time";
-import VolumeSlider from "../../components/volume-slider";
+import {Pressable, StyleSheet, Text, View} from 'react-native';
+import PageHeader from '../../components/header';
+import {setViewed} from '../../store/features/tapesSlice';
+import {useDispatch, useSelector} from 'react-redux';
+import TrackPlayer, {
+  Event,
+  State,
+  useProgress,
+  useTrackPlayerEvents,
+} from 'react-native-track-player';
+import {colors} from '../../config/colors';
+import IconMaterial from 'react-native-vector-icons/MaterialCommunityIcons';
+import PauseButton from './components/pause-button';
+import SeekTime from './components/seek-time';
+import VolumeSlider from '../../components/volume-slider';
 
-const AudioPlayer = (props) => {
+const AudioPlayer = props => {
   const currentAudio = useSelector(state => state.tapes.currentlyPlaying);
-  const { set, tapeNum: tape, tapeName, partData, part, artist, totalParts } = currentAudio;
+  const {
+    set,
+    tapeNum: tape,
+    tapeName,
+    partData,
+    part,
+    artist,
+    totalParts,
+  } = currentAudio;
 
-
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const progress = useProgress();
 
   const [currentTime, setCurrentTime] = useState(0);
   const [paused, setPaused] = useState(false);
-  const beginTimeRef = useRef(Date.now())
+  const beginTimeRef = useRef(Date.now());
 
-  const events = [
-    Event.PlaybackState,
-    Event.PlaybackError,
-  ];
+  const [localViewed, setLocalViewed] = useState(false);
 
-  useTrackPlayerEvents(events, (event) => {
+  const events = [Event.PlaybackState, Event.PlaybackError];
+
+  useTrackPlayerEvents(events, event => {
     if (event.type === Event.PlaybackError) {
       console.warn('An error occured while playing the current track.', event);
     }
     if (event.type === Event.PlaybackState) {
-      if (event.state === State.Paused || event.state === State.Stopped) setPaused(true);
-      else if (event.state === State.Playing) setPaused(false)
+      if (event.state === State.Paused || event.state === State.Stopped)
+        setPaused(true);
+      else if (event.state === State.Playing) setPaused(false);
 
       // if (event.state === State.Stopped) TrackPlayer.reset();
     }
   });
 
-
   const typeIcons = {
-    "listen": <IconMaterial name="headphones" style={{paddingTop: 4}} size={25} color={colors.text}/>,
-    "sleep": <IconMaterial name="sleep" size={30} color={colors.text}/>,
-    "relax": <IconMaterial name="bed-queen-outline" size={32} color={colors.text}/>,
-  }
+    listen: (
+      <IconMaterial
+        name="headphones"
+        style={{paddingTop: 4}}
+        size={25}
+        color={colors.text}
+      />
+    ),
+    sleep: <IconMaterial name="sleep" size={30} color={colors.text} />,
+    relax: (
+      <IconMaterial name="bed-queen-outline" size={32} color={colors.text} />
+    ),
+  };
 
-  const typeDesc = {
-    "listen": "Listen While Awake",
-    "relax": "Listen with Eyes Closed",
-    "sleep": "Play Audio before Sleeping"
-  }
+  onst typeDesc = {
+    listen: 'Listen While Awake',
+    relax: 'Listen with Eyes Closed',
+    sleep: 'Play Audio before Sleeping',
+  };
 
+  // Page load
   useEffect(() => {
-    // playAudio()
     beginTimeRef.current = Date.now();
 
-    return () => { //unload
-      //If player open for more than 30 seconds then set viewed to true
-      const msSinceStart = Date.now() - beginTimeRef.current
-      if (msSinceStart >= 30000) confirmView()
-
-
+    return () => {
+      //unload
       TrackPlayer.reset();
-    }
-
+    };
   }, []);
 
-  const playAudio = () => TrackPlayer.play();
+  // If audio is running for more than 50% of track time then mark audio as listened
+  useEffect(() => {
+    const msSinceStart = Date.now() - beginTimeRef.current;
+    const msHalfTape = (progress.duration * 1000) / 2; //Total Milliseconds of audio tape divided by 2
+
+    if (msSinceStart < 1000 || msHalfTape < 1000) return;
+
+    if (msSinceStart > msHalfTape) {
+      if (!localViewed) {
+        confirmView();
+        setLocalViewed(true);
+      }
+    }
+  }, [progress]);
+
+  const playAudio = () => {
+    if (progress.duration - progress.position < 1) {
+      TrackPlayer.seekTo(0);
+    }
+    TrackPlayer.play();
+  };
   const pauseAudio = () => TrackPlayer.pause();
 
   const skipForward = () => {
     TrackPlayer.getPosition().then(pos => {
       setTime(pos + 10);
       setCurrentTime(pos + 10);
-    })
-  }
+    });
+  };
 
   const skipBackwards = () => {
     TrackPlayer.getPosition().then(pos => {
       setTime(pos - 10);
       setCurrentTime(pos - 10);
-    })
-  }
-
-  const setTime = (time) => {
-    TrackPlayer.play().then(() => {
-      TrackPlayer.seekTo(time);
     });
+  };
 
-  }
+  const setTime = time => {
+    if (!paused)
+      TrackPlayer.play().then(() => {
+        TrackPlayer.seekTo(time);
+      });
+    else TrackPlayer.seekTo(time);
+  };
 
   const confirmView = () => {
     dispatch(setViewed({set: set?.name, tape, part, viewed: true}));
-  }
-
+  };
 
   return (
     <>
-      <PageHeader title={artist} settingsButton={false}/>
+      <PageHeader title={artist} settingsButton={false} />
       <View style={styles.container}>
         <Text style={styles.setTitle}>{set?.name}</Text>
-        <Text style={styles.title} numberOfLines={1} adjustsFontSizeToFit={true}>{tapeName}</Text>
-        {totalParts >= 2 && <Text style={styles.subtitle}>Part {"ABCDEFG"[part]}</Text>}
+        <Text
+          style={styles.title}
+          numberOfLines={1}
+          adjustsFontSizeToFit={true}>
+          {tapeName}
+        </Text>
+        {totalParts >= 2 && (
+          <Text style={styles.subtitle}>Part {"ABCDEFG"[part]}</Text>
+        )}
         <View style={styles.listenTypeContainer}>
           {typeIcons[partData?.[part]?.type ?? 0]}
-          <Text style={styles.listenType}>{typeDesc[partData?.[part]?.type]}</Text>
+          <Text style={styles.listenType}>
+            {typeDesc[partData?.[part]?.type]}
+          </Text>
         </View>
         <View style={styles.controlsContainer}>
           <Pressable style={styles.skipContainer} onPress={skipBackwards}>
-            <IconMaterial name={"rewind-10"} color={colors.primary} size={40}/>
+            <IconMaterial name={"rewind-10"} color={colors.primary} size={40} />
           </Pressable>
-          <PauseButton paused={paused} pauseAudio={pauseAudio} playAudio={playAudio}/>
+          <PauseButton
+            paused={paused}
+            pauseAudio={pauseAudio}
+            playAudio={playAudio}
+          />
           <Pressable style={styles.skipContainer} onPress={skipForward}>
-            <IconMaterial name={"fast-forward-10"} color={colors.primary} size={40}/>
+            <IconMaterial
+              name={"fast-forward-10"}
+              color={colors.primary}
+              size={40}
+            />
           </Pressable>
         </View>
         <SeekTime
@@ -126,7 +178,7 @@ const AudioPlayer = (props) => {
           pauseAudio={pauseAudio}
         />
         <View style={styles.volumeContainer}>
-          <VolumeSlider/>
+          <VolumeSlider />
         </View>
       </View>
     </>
@@ -157,7 +209,7 @@ const styles = StyleSheet.create({
     fontFamily: "Baloo 2",
     fontWeight: "500",
     lineHeight: 32,
-    marginLeft: 10,
+    marginLeft: 10
   },
   listenTypeContainer: {
     flexDirection: "row",
@@ -175,22 +227,22 @@ const styles = StyleSheet.create({
     color: colors.primary,
     textAlign: "center",
 
-    fontFamily: "Avenir",
+    fontFamily: "Avenir"
   },
   subtitle: {
     fontSize: 19,
     textAlign: "center",
 
     color: colors.text,
-    fontFamily: "Avenir",
+    fontFamily: "Avenir"
   },
   container: {
     width: "100%",
     alignItems: "center",
     height: "100%",
     padding: 15,
-    paddingTop: 50,
+    paddingTop: 50
   }
-})
+});
 
 export default AudioPlayer;

@@ -1,0 +1,54 @@
+@layer base {
+    .rounded-6xl {
+        border-radius: 3rem;
+    }
+
+    .rounded-5xl {
+        border-radius: 2.2rem;
+    }
+}
+
+body {
+    /* background-image: url("../assets/background.png"); */
+    /* background-size: 100% 150px; */
+    overflow-x: hidden;
+    /* background by SVGBackgrounds.com */
+}
+
+.borderAppStore {
+    border: 1.5px black solid;
+    border-radius: 10px;
+}
+
+/* Hack to position background svg to bottom without interacting with search bar */
+.bottomHack {
+    transform: translateY(-100%);
+    top: 100vh;
+}
+
+.below {
+    z-index: -1;
+    -webkit-transform: translate3d(0, 0, 0) !important;
+}
+
+.below2 {
+    z-index: -2;
+}
+
+.mainContainer {
+    height: calc(100vh)
+}
+
+.innerContainer {
+    margin-top: -15vh;
+}
+
+.siteWrapper {
+    width: 100vw;
+    position: relative;
+    overflow-x: hidden
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
