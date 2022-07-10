@@ -1,0 +1,24 @@
+<svg width="220" height="220" viewBox="0 0 220 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g id="closed">
+        <ellipse id="10" cx="108.679" cy="110.042" rx="25" ry="25" transform="rotate(36 108.679 110.042)" fill="#6062FF"
+                 fill-opacity="0.37"/>
+        <circle id="9" cx="108.866" cy="109.838" r="25" transform="rotate(78 108.866 109.838)" fill="#6062FF"
+                fill-opacity="0.37"/>
+        <circle id="8" cx="108.714" cy="109.845" r="25" transform="rotate(114 108.714 109.845)" fill="#6062FF"
+                fill-opacity="0.37"/>
+        <ellipse id="7" cx="109.11" cy="110.11" rx="25" ry="25" transform="rotate(144 109.11 110.11)" fill="#6062FF"
+                 fill-opacity="0.37"/>
+        <circle id="6" cx="109.11" cy="110.11" r="25" transform="rotate(-180 109.11 110.11)" fill="#6062FF"
+                fill-opacity="0.37"/>
+        <circle id="5" cx="109.111" cy="110.11" r="25" transform="rotate(-144 109.111 110.11)" fill="#6062FF"
+                fill-opacity="0.37"/>
+        <circle id="4" cx="109.11" cy="110.11" r="25" transform="rotate(-108 109.11 110.11)" fill="#6062FF"
+                fill-opacity="0.37"/>
+        <circle id="3" cx="109.11" cy="110.11" r="25" transform="rotate(-72 109.11 110.11)" fill="#6062FF"
+                fill-opacity="0.37"/>
+        <ellipse id="2" cx="109.11" cy="110.11" rx="25" ry="25" transform="rotate(-36 109.11 110.11)" fill="#6062FF"
+                 fill-opacity="0.37"/>
+        <circle id="1" cx="109" cy="110" r="25" fill="#6062FF" fill-opacity="0.37"/>
+        <circle id="main" cx="109" cy="111" r="25" fill="#6062FF" fill-opacity="0.37"/>
+    </g>
+</svg>

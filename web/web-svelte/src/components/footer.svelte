@@ -25,19 +25,19 @@
     <div class="flex flex-row items-center justify-around sm:justify-center w-full sm:w-auto my-4">
       <a href="/privacy">
         <p class="font-baloo2 text-md text-light whitespace-nowrap">
-          <i class="fa-solid fa-lock fa-sm sm:fa-md"></i>&nbsp; Privacy
+          &nbsp; Privacy
         </p>
       </a>
       <div class="min-w-2 w-2 sm:min-w-6 sm:w-6 h-0.5 rounded-full bg-light mx-3 sm:mx-12 hidden sm:block"></div>
       <a href="/terms">
         <p class="font-baloo2 text-md text-light whitespace-nowrap">
-          <i class="fa-solid fa-book fa-sm sm:fa-lg"></i>&nbsp; Terms
+          &nbsp; Terms
         </p>
       </a>
       <div class="min-w-2 w-2 sm:min-w-6 sm:w-6 h-0.5 rounded-full bg-light mx-3 sm:mx-12 hidden sm:block"></div>
       <a href="/license">
         <p class="font-baloo2 text-md text-light whitespace-nowrap">
-          <i class="fa-regular fa-file-code sm:fa-lg"></i>&nbsp; License
+          &nbsp; License
         </p>
       </a>
     </div>

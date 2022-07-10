@@ -26,6 +26,11 @@ body {
     top: 100vh;
 }
 
+.verticalHack {
+    z-index: 500;
+    /*transform: translateY(100%);*/
+}
+
 .below {
     z-index: -1;
     -webkit-transform: translate3d(0, 0, 0) !important;
@@ -47,6 +52,36 @@ body {
     width: 100vw;
     position: relative;
     overflow-x: hidden
+}
+
+@layer utilities {
+
+    .smallTapes {
+        /*height: 620px;*/
+    }
+
+    .tapesImage {
+        width: calc(700px + 10vw);
+        /*min-width: 700px;*/
+        /*max-width: 850px;*/
+        /*height: 600px;*/
+        padding-bottom: 200px;
+        left: calc(-250px + 30%);
+        /*-webkit-mask-image: linear-gradient(to bottom right, black 0%, rgba(0, 0, 0, 0.8) 50%, rgba(0, 0, 0, 0.0) 95%);*/
+    }
+
+    .mobileCard {
+        border-radius: 20px;
+        padding: 30px 20px;
+        background: rgba(251, 251, 251, 0.7);
+        @apply shadow-lg
+    }
+
+    .antiMobileCard {
+        background: 0;
+        /*padding: 0;*/
+        @apply shadow-none
+    }
 }
 
 @tailwind base;

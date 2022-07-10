@@ -6,16 +6,20 @@ import firebase from 'svelte-adapter-firebase';
 /** @type {import("@sveltejs/kit").Config} */
 const config = {
 	kit: {
+		browser: {
+			hydrate: true,
+			router: true
+		},
 		adapter: firebase({
 			firebaseJsonPath: '../../firebase.json',
 			target: 'stoicalapp'
 		})
 	},
 	preprocess: [
+		importAssets(),
 		preprocess({
 			postcss: true
-		}),
-		importAssets()
+		})
 	]
 };
 

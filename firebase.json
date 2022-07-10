@@ -24,9 +24,6 @@
         "source": "**",
         "function": "svelteSSR"
       }
-    ],
-    "predeploy": [
-      "cd web/web-svelte && npm run build"
     ]
   },
   "functions": {
