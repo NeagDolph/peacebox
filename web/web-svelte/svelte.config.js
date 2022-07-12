@@ -6,6 +6,11 @@ import firebase from 'svelte-adapter-firebase';
 /** @type {import("@sveltejs/kit").Config} */
 const config = {
 	kit: {
+		vite: {
+			ssr: {
+				noExternal: ['three']
+			}
+		},
 		browser: {
 			hydrate: true,
 			router: true

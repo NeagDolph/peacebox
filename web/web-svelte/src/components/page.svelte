@@ -7,6 +7,7 @@
   import faviconApple from "../assets/favicons/apple-touch-icon.png";
   import { onMount } from "svelte";
   import _ from "lodash";
+  import { logoActive } from "../stores/store.js";
 
   let innerWidth = 0;
   let innerHeight = 0;
@@ -16,6 +17,9 @@
   let set1, set2, setRing, opacityLogo, innerLogo, setAll;
 
   export let home;
+  let logoActiveVal;
+
+  logoActive.subscribe((val) => logoActiveVal = val);
 
 
   onMount(async () => {
@@ -34,7 +38,7 @@
   });
 
   let initAnim = () => {
-    setRing.forEach(el => {
+    setRing?.forEach(el => {
       el.animate({ opacity: 0 }, 1, mina.linear);
     });
   };
@@ -45,10 +49,9 @@
 
       openCircle();
 
-      const logoTop = documentEl?.querySelector(".borderAppStore")?.getBoundingClientRect()?.top;
-      const logoHeight = documentEl?.querySelector(".borderAppStore")?.getBoundingClientRect()?.height;
+      const logoTop = documentEl?.querySelector(".logoContainer")?.getBoundingClientRect()?.top;
+      const logoHeight = documentEl?.querySelector(".logoContainer")?.getBoundingClientRect()?.height;
       if (-logoTop > 0) {
-        console.log("E", logoHeight);
       }
 
     }
@@ -60,9 +63,10 @@
 
   let openCircle = () => {
     _.debounce(() => {
-      setRing.forEach(el => {
-        const logoRect = documentEl?.querySelector(".borderAppStore")?.getBoundingClientRect();
-        const pageCalc = -(logoRect.top) + logoRect.height;
+      setRing?.forEach(el => {
+
+        const logoRect = documentEl?.querySelector(".logoContainer")?.getBoundingClientRect();
+        const pageCalc = -(logoRect.top);
 
         const pageTop = pageCalc;
         const scrollFactor = Math.min(Math.max(0, pageTop / 15), 40);
@@ -73,6 +77,22 @@
         const cos = 100 + (scrollFactor * Math.cos(angleInRadians));
         const sin = 100 + (scrollFactor * Math.sin(angleInRadians));
 
+
+        if (logoRect.top < 0) {
+          if (logoActiveVal === 1) {
+            logoActive.update(() => 2);
+
+            setTimeout(() => logoActive.update(() => 3), 10);
+          }
+        }
+
+        if (logoRect.top > 20) {
+          if (logoActiveVal >= 3) {
+            logoActive.update(() => 0);
+            setTimeout(() => logoActive.update(() => 1), 200);
+
+          }
+        }
 
         if (el.node.id === "main") {
           el.animate({ opacity: opacityFactor }, 60, mina.linear);
@@ -126,11 +146,11 @@
     }
 
     #rotateDiv {
-        right: 60px;
-        top: 850px;
-        width: 200px;
+        left: calc(14vw + 20px);
+        top: 1350px;
+        width: 200px !important;
         height: 200px;
-        position: absolute;
+        position: absolute !important;
     }
 </style>
 
@@ -145,11 +165,11 @@
 <div class="h-0">
   <!-- <img src="./assets/topright.svg" class="absolute top-0 right-0 w-80 md:w-96 lg:w-124">
   <img src="./assets/bottomleft.svg" class="absolute bottom-0 left-0 w-80 md:w-96 lg:w-124"> -->
-  <div id="rotateDiv" class="relative h-100 w-full flex justify-end items-center translate-y-30 opacity-70">
-    <div class="w-48 h-48 flex absolute justify-center items-center">
-      <div bind:this={opacityLogo} class="absolute top-0 h-48 w-48 flex justify-center items-center verticalHack">
+  <div id="rotateDiv" class="relative h-32 w-32 w-full flex justify-end items-center translate-y-30 opacity-70">
+    <div class="w-32 h-32 flex absolute justify-center items-center">
+      <div bind:this={opacityLogo} class="absolute top-0 h-32 w-32 flex justify-center items-center verticalHack">
       </div>
-      <svg viewBox="0 0 200 200" class="w-48 h-48 rotating"
+      <svg viewBox="0 0 200 200" class="w-32 h-32 rotating"
 
            fill="none" xmlns="http://www.w3.org/2000/svg">
         <g id="closed" bind:this={ring}>
@@ -259,14 +279,14 @@
           <p class="font-baloo2 text-md"><i class="fa-brands fa-github fa-md"></i> &nbsp;Github</p>
         </a>
       </div>
-      <div class="h-full px-4 sm:px-8 hidden sm:flex border-l border-gray-900 items-center">
-        <a href="https://apps.apple.com/us/app/peacebox-tools-for-your-mind/id1592436336">
-          <div class="border-2 rounded-sm border-gray-900 px-2 sm:px-3 py-1">
-            <p class="font-baloo2 text-lg whitespace-nowrap"><i class="fa-solid fa-cloud-arrow-down"></i> &nbsp;Download
-            </p>
-          </div>
-        </a>
-      </div>
+      <!--      <div class="h-full px-4 sm:px-8 hidden sm:flex border-l border-gray-900 items-center">-->
+      <!--        <a href="https://apps.apple.com/us/app/peacebox-tools-for-your-mind/id1592436336">-->
+      <!--          <div class="border-2 rounded-sm border-gray-900 px-2 sm:px-3 py-1">-->
+      <!--            <p class="font-baloo2 text-lg whitespace-nowrap"><i class="fa-solid fa-cloud-arrow-down"></i> &nbsp;Download-->
+      <!--            </p>-->
+      <!--          </div>-->
+      <!--        </a>-->
+      <!--      </div>-->
       <div class="h-full pr-8 pl-4 block sm:hidden border-gray-900 flex items-center">
         <a href="https://apps.apple.com/us/app/peacebox-tools-for-your-mind/id1592436336">
           <i class="fa-solid fa-cloud-arrow-down fa-2x"></i>

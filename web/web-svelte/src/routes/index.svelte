@@ -4,11 +4,16 @@
 
   import Page from "../components/page.svelte";
   import GithubButton from "../components/github_button.svelte";
-  import ShareModal from "../components/share_modal.svelte";
   import LogoAnim from "../components/logo_anim.svelte";
   import { onMount } from "svelte";
+  import { logoActive } from "../stores/store.js";
+  import Game from "../components/game.svelte";
 
-  let logoActive = 0;
+  let logoActiveVal;
+
+  logoActive.subscribe(value => {
+    logoActiveVal = value;
+  });
 
   // import "snapsvg-cjs"
 
@@ -28,16 +33,10 @@
   };
 
   onMount(() => {
-    logoActive = 1;
+    logoActive.update(() => 1);
     setTimeout(() => {
-      logoActive = 2;
-
-      setTimeout(() => {
-        logoActive = 3;
-      }, 4000);
-    }, 4000);
-
-
+      logoActive.update(() => 2);
+    }, 1800);
   });
 </script>
 
@@ -56,8 +55,8 @@
           </p>
           <div class="flex flex-row items-center justify-start">
 
-            <ShareModal />
-            <a href="https://apps.apple.com/us/app/peacebox-tools-for-your-mind/id1592436336">
+            <!--            <ShareModal />-->
+            <a href=" https://apps.apple.com/us/app/peacebox-tools-for-your-mind/id1592436336">
               <img src="../assets/appstore.svg" class="w-44 borderAppStore min-w-32">
             </a>
             <div class="mx-4 sm:mx-16">
@@ -70,14 +69,32 @@
       </div>
       <div
         class="items-center -translate-y-3 md:-translate-y-0 md:mt-10 w-full hidden md:flex fixed opacity-30 md:opacity-100 md:relative basis-1/3 lg:basis-2/5">
-        <div class="w-40 w-40 md:w-full md:h-full lg:h-72 lg:w-72 rounded-5xl lg:rounded-6xl logoMain opacityLogo">
+        <div
+          class="w-40 w-40 md:w-full md:h-full lg:h-72 lg:w-72 rounded-5xl lg:rounded-6xl logoMain opacityLogo logoContainer">
           <!--          <img src="../assets/logo-transparent-white-blue.png" />-->
-          <LogoAnim active={logoActive} />
+
+          <!--          <LogoAnim active={logoActiveVal} />-->
+
+          <!--          <Game />-->
+          {#if logoActiveVal <= 1}
+            <LogoAnim active={logoActiveVal} />
+          {/if}
+          <div
+            style="width: 350px; height: 350px"
+            class="absolute block justify-center items-center"
+            class:opacity-0={logoActiveVal <= 1}
+            class:relative={logoActiveVal >= 2}
+          >
+            <Game />
+          </div>
+          <!--{:else}-->
+          <!--  <Game />-->
+          <!--{/if}-->
         </div>
       </div>
     </div>
   </div>
-  <div class="my-80 md:mt-32">
+  <div class="my-80 md:mt-72">
     <div
       class="sm:px-4 lg:px-4 flex flex-col md:flex-row justify-between items-center justify-center w-full">
 
@@ -107,5 +124,9 @@
         </div>
       </div>
     </div>
+
+    <!--    <div>-->
+    <!--      <Game/>-->
+    <!--    </div>-->
   </div>
 </Page>
