@@ -9,7 +9,8 @@ const config = {
 		vite: {
 			ssr: {
 				noExternal: ['three']
-			}
+			},
+			assetsInclude: ['**/*.gltf', '**/*.glb', '**/*.obj', '**/*.fbx']
 		},
 		browser: {
 			hydrate: true,

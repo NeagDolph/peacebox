@@ -1,6 +1,6 @@
 {
 	"name": "PeaceBoxWebsite",
-	"version": "0.0.1",
+	"version": "1.0.0",
 	"scripts": {
 		"dev": "source $HOME/.nvm/nvm.sh; nvm use 16; svelte-kit dev",
 		"build": "svelte-kit build",

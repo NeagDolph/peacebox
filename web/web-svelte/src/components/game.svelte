@@ -1,11 +1,13 @@
 <script>
-  import { BoxBufferGeometry, MeshPhongMaterial } from "three";
+  import { BoxBufferGeometry, Color, MeshBasicMaterial, MeshPhongMaterial, PlaneGeometry } from "three";
   import {
     AmbientLight,
     Canvas,
+    GLTF,
     Group,
     Line2,
-    Mesh,
+    Mesh as MeshT,
+    Object3DInstance,
     OrbitControls,
     PerspectiveCamera,
     SpotLight,
@@ -21,20 +23,35 @@
   import nz from "../assets/logoCube/nz.png";
 
   import o_px from "../assets/logoCube_opposite/px.png";
-  import o_px_upside from "../assets/logoCube_opposite/px_upside.png";
-  import o_py from "../assets/logoCube_opposite/py.png";
-  import o_pz from "../assets/logoCube_opposite/pz.png";
   import o_ny from "../assets/logoCube_opposite/ny.png";
-  import o_nz from "../assets/logoCube_opposite/nz.png";
   import displacementMap from "../assets/DisplacementMap.png";
   import normalMap from "../assets/px2.png";
 
-  import { cube } from "../helpers/cube.js";
+
+  // import couch_obj from "../assets/couchObj.glb";
+  import couch_texture from "../assets/couch/colormap.png";
+  import couch_ao from "../assets/couch/aomap.png";
+  import couch_normal from "../assets/couch/normalmap.png";
+
+  import rug_texture from "../assets/rug.jpg";
+  import Spark from "./spark.svelte";
+
+  import cube from "../helpers/cube.js";
 
   import { onMount } from "svelte";
   import { LineMaterial } from "three/examples/jsm/lines/LineMaterial.js";
   import { logoActive } from "../stores/store.js";
-  import { useCursor } from "threlte/extras";
+  import { useCursor, useGltf } from "threlte/extras";
+
+  import { browser } from "$app/env";
+
+
+  import couchObj from "../assets/couchObj.glb";
+  import lampObj from "../assets/lampObj.glb";
+  import rugObj from "../assets/rug2.glb";
+  import tableObj from "../assets/table.glb";
+  import phoneObj from "../assets/phone.gltf";
+  import tvObj from "../assets/tv.glb";
 
   let usingCamera = false, holding = false, hovering = false;
 
@@ -53,6 +70,12 @@
   onMount(() => {
     startPos = -pageY;
     // console.log("EEE", cameraCalcY)
+
+
+    // function canvasEl(e) {
+    //   console.log("Persp", e)
+    // }
+
 
     setTimeout(() => {
       fovScale.set(1.45);
@@ -76,8 +99,7 @@
 
 
   const texture = useTexture([pz, py, px, px_upside, ny, nz]);
-  const texture_opposite = useTexture([o_pz, o_py, o_px, o_px_upside, o_ny, o_nz]);
-
+  const texture_opposite = useTexture([o_px, o_ny, o_ny, o_ny, o_ny, o_ny]);
   let scale = spring(0.4, {
     // stiffness: 0.1,
     // damping: 2
@@ -99,49 +121,35 @@
   const normalTexture = useTexture(normalMap);
 
 
-  $: logoMaterial = texture.map(el => new MeshPhongMaterial({ shininess: 10, color: "#ffffff", map: el }));
-  // $: holdingMaterial = texture_opposite.map(el => new MeshPhongMaterial({ shininess: 0, color: "#ffffff", map: el, normalMap: normalTexture, normalScale: new Vector2(10, 40) }));
-
-
-  const heatVertex = `
-    uniform sampler2D heightMap;
-    uniform float heightRatio;
-    varying vec2 vUv;
-    varying float hValue;
-    void main() {
-      vUv = uv;
-      vec3 pos = position;
-      hValue = texture2D(heightMap, vUv).r;
-      pos.y = hValue * heightRatio;
-      gl_Position = projectionMatrix * modelViewMatrix * vec4(pos,1.0);
-    }
-  `;
-  const heatFragment = `
-    varying float hValue;
-
-    // honestly stolen from https://www.shadertoy.com/view/4dsSzr
-    vec3 heatmapGradient(float t) {
-      return clamp((pow(t, 1.5) * 0.8 + 0.2) * vec3(smoothstep(0.0, 0.35, t) + t * 0.5, smoothstep(0.5, 1.0, t), max(1.0 - t * 1.7, t * 7.0 - 6.0)), 0.0, 1.0);
-    }
-
-    void main() {
-      float v = abs(hValue - 1.);
-      gl_FragColor = vec4(heatmapGradient(hValue), 1. - v * v) ;
-    }
-  `;
-
-  $: holdingMaterial = texture_opposite.map(el => new MeshPhongMaterial({
-    // uniforms: {
-    //   heightMap: {value: normalTexture},
-    //   heightRatio: {value: 0.3}
-    // },
+  $: logoMaterial = texture.map(el => new MeshPhongMaterial({
+    shininess: 10,
+    color: "#ffffff",
     map: el,
-    // color: "red",
-    vertexShader: heatVertex,
-    fragmentShader: heatFragment,
-    transparent: true
+    flatShading: true
   }));
 
+  let faceMaterial = new MeshBasicMaterial({
+    map: texture_opposite[0],
+    transparent: true
+  });
+
+  let faceGeometry = new PlaneGeometry(1, 1);
+
+  $: holdingMaterial = texture_opposite.map(el => new MeshPhongMaterial({
+    map: el,
+    // refractionRatio: 0,
+    // reflectivity: 0,
+    // opacity: 0,
+    transparent: true,
+    alphaMap: new Color(0, 0, 0, 0),
+    // wireframe: true,
+    color: new Color("rgba(0, 0, 0, 0)"),
+    wireframeLinewidth: 20
+    // wireframe:true
+  }));
+
+
+  let canvasEl;
 
   $: boxHeight = 1.7 - ($scale / 2);
 
@@ -167,11 +175,23 @@
   }
 
   function holdBox() {
+
+    fovScale.set(1.8);
+
     holding = true;
+
+    console.log("HE", tableMats);
+    // tableMats
+    // tableMats.mat0 = couch_mat
+
+    if (tableMats.mat0 && tableMats.mat1) {
+      tableMats.mat0.color = (new Color(0.78, 0.53, 0.36));
+      tableMats.mat1.color = (new Color(0.2, 0.1, 0.05));
+      // tableMats.mat1 = couch_mat
+    }
 
     firstTouch = true;
     lastPlace = cameraCalcY;
-    fovScale.set(1.8);
   }
 
   function unholdBox() {
@@ -190,14 +210,94 @@
 
   $: cameraCalcY = firstTouch ? lastPlace : -((pageY + startPos) / 70);
 
+  let object, targetPos;
+
+
+  const couchTexture = useTexture(couch_texture);
+
+  const rugTexture = useTexture(rug_texture);
+
+  let couch_mat = new MeshPhongMaterial({
+    shininess: 90,
+    map: couchTexture,
+    color: new Color(0x000000),
+    // specular: new Color(0xffffff),
+    aoMap: couch_ao,
+    normalMap: couch_normal,
+    aoMapIntensity: 2.0,
+    lightMapIntensity: 2.0
+  });
+
+  let couchGltf, lampGltf, rugGltf, tableGltf, phoneGltf;
+
+  if (browser) {
+
+    couchGltf = useGltf(couchObj).gltf;
+    lampGltf = useGltf(lampObj).gltf;
+    rugGltf = useGltf(rugObj).gltf;
+    phoneGltf = useGltf(phoneObj).gltf;
+    console.log("<", tableObj);
+    tableGltf = useGltf(tableObj).gltf;
+    console.log(tableGltf);
+
+  }
+
+  function getCouchGltf(gltf) {
+    const returnGltf = gltf;
+    let couchNode = returnGltf.nodes["Rectangle001"];
+    couchNode.material.color.setRGB(3, 2, 2);
+    return couchNode;
+  }
+
+  function getLampGltf(gltf, shade = "plafon") {
+    const returnGltf = gltf;
+    let lampNode = returnGltf.nodes[shade];
+    if (!lampNode.material && lampNode.children) {
+      lampNode.children.forEach(el => el.material.color.setRGB(1, 1, 1));
+    } else {
+      lampNode.material.color.setRGB(...(shade === "plafon" ? [1, 0.9, 0.7] : [0.6, 0.6, 0.6]));
+    }
+    return lampNode;
+  }
+
+  function getRugGltf(gltf, shade = 0) {
+    const returnGltf = gltf;
+    let rugNode = returnGltf.nodes[shade];
+    rugNode.material.color.setRGB(0.1, 0.1, 0.3);
+    rugNode.material.emissive.setRGB(0.1, 0.2, 0.2);
+
+    return rugNode;
+  }
+
+  // function getTableGltf(gltf, shade = 0) {
+  //   const returnGltf = gltf;
+  //   let tableNode = returnGltf.nodes[shade];
+  //   console.log("HMMM", rugTexture, rug_texture, tableNode.material);
+  //   tableNode.material.color.setRGB(0.1, 0.1, 0.3);
+  //   tableNode.material.emissive.setRGB(0.1, 0.2, 0.2);
+  //
+  //   console.log(tableNode, tableNode.geometry);
+  //   return tableNode;
+  // }
+
+  let tableMats;
+
+  let tableMaterial = new MeshBasicMaterial({
+    map: texture[0],
+    shininess: 0,
+    reflectivity: 0,
+    color: 0xffffff
+  });
 
 </script>
 
 <svelte:window bind:scrollY={pageY} />
 
+
 <Canvas
   linear
   flat
+  bind:this={canvasEl}
   size={{width: 350, height: 350}}
 >
 
@@ -205,7 +305,7 @@
   <!--  <Pass pass={new RenderPass($scene, logoCamera )}>-->
 
   <!--  Camera -->
-  <!--  y - 6-->a
+  <!--  y - 6-->
   <PerspectiveCamera position={{ x: 16, y: 6 + cameraCalcY, z: 16 }} fov={$fovScale} lookAt={{y: -2, x: 0, z: 0}}
                      bind:camera={logoCamera}>
     <OrbitControls
@@ -222,22 +322,106 @@
     />
   </PerspectiveCamera>
 
-  <SpotLight power={6} intensity={0.21} penumbra={0.5} target={boxMesh} position={{x: 200, y: 200, z: 200}} />
-  <SpotLight power={6} intensity={0.21} penumbra={0.5} target={boxMesh} position={{x: -200, y: 200, z: 200}} />
-  <SpotLight power={6} intensity={0.21} penumbra={0.5} target={boxMesh} position={{x: 200, y: 200, z: -200}} />
-  <SpotLight power={6} intensity={0.21} penumbra={0.5} target={boxMesh} position={{x: -200, y: 200, z: -200}} />
-  <SpotLight power={6} intensity={0.21} penumbra={0.5} target={boxMesh} position={{x: 200, y: -200, z: 200}} />
-  <SpotLight power={6} intensity={0.21} penumbra={0.5} target={boxMesh} position={{x: -200, y: -200, z: 200}} />
-  <SpotLight power={6} intensity={0.21} penumbra={0.5} target={boxMesh} position={{x: 200, y: -200, z: -200}} />
-  <SpotLight power={6} intensity={0.21} penumbra={0.5} target={boxMesh} position={{x: -200, y: -200, z: -200}} />
+  <SpotLight power={6} intensity={holding ? 0.26 : 0.21} penumbra={0.5} target={boxMesh}
+             position={{x: 200, y: 200, z: 200}} />
+  <SpotLight power={6} intensity={holding ? 0.26 : 0.21} penumbra={0.5} target={boxMesh}
+             position={{x: -200, y: 200, z: 200}} />
+  <SpotLight power={6} intensity={holding ? 0.26 : 0.21} penumbra={0.5} target={boxMesh}
+             position={{x: 200, y: 200, z: -200}} />
+  <SpotLight power={6} intensity={holding ? 0.26 : 0.21} penumbra={0.5} target={boxMesh}
+             position={{x: -200, y: 200, z: -200}} />
+  <SpotLight power={6} intensity={holding ? 0.26 : 0.21} penumbra={0.5} target={boxMesh}
+             position={{x: 200, y: -200, z: 200}} />
+  <SpotLight power={6} intensity={holding ? 0.26 : 0.21} penumbra={0.5} target={boxMesh}
+             position={{x: -200, y: -200, z: 200}} />
+  <SpotLight power={6} intensity={holding ? 0.26 : 0.21} penumbra={0.5} target={boxMesh}
+             position={{x: 200, y: -200, z: -200}} />
+  <SpotLight power={6} intensity={holding ? 0.26 : 0.21} penumbra={0.5} target={boxMesh}
+             position={{x: -200, y: -200, z: -200}} />
 
 
   <AmbientLight intensity={0.5} />
 
 
-  <Group scale={0.3 + ($scale / 10)} rotation={{y: $logoRotate,}}>
-    <Mesh
+  <!--  <Object3D bind:object={object} />-->
+  <Group scale={0.3 + ($scale / 10)} rotation={{y: $logoRotate}}>
+
+    <!--        <GLTF materials={couch_mat} url={'src/assets/couchObj.gltf'} scale={0.0006} castShadow={true} receiveShadow position={{y: 2}} />-->
+    <!--    <Pass pass={new BloomPass(0.005, 5, 1, 350)}>-->
+
+    {#if browser}
+
+      {#if $couchGltf} <!-- Couch -->
+        <Object3DInstance object={getCouchGltf($couchGltf)} materials={$couchGltf.materials} scale={0.00023}
+                          castShadow={true} receiveShadow position={{x: -0.08, z: -0.36, y: 1.005}} />
+      {/if}
+
+      {#if $lampGltf} <!-- Lamp -->
+        <Object3DInstance object={getLampGltf($lampGltf, "Metal")} materials={$lampGltf.materials} scale={0.35}
+                          castShadow={true} receiveShadow position={{x: 0.43, z: -0.45, y: 1.44}} />
+        <Object3DInstance object={getLampGltf($lampGltf, "plafon")} materials={$lampGltf.materials} scale={0.35}
+                          castShadow={true} receiveShadow position={{x: 0.425, z: -0.365, y: 1.4}} />
+        <Object3DInstance object={getLampGltf($lampGltf, "Glass")} materials={$lampGltf.materials} scale={0.35}
+                          castShadow={true} receiveShadow position={{x: 0.43, z: -0.45, y: 1.43}} />
+      {/if}
+
+      {#if $rugGltf} <!-- Rug -->
+        <Object3DInstance object={getRugGltf($rugGltf, 'm')} scale={0.0004} rotation={{z: -1.5708, x: -1.5708}}
+                          castShadow={true} receiveShadow position={{x: 0, z: 0.05, y: 1}} />
+        <!--      <MeshT geometry={getRugGltf($rugGltf, "m")} material={couch_mat} scale={0.0004}  rotation={{z: -1.5708, x: -1.5708}} position={{x: 0, z: 0.05, y: 1}}/>-->
+      {/if}
+      {#if $couchGltf} <!-- Couch -->
+        <Object3DInstance object={getCouchGltf($couchGltf)} materials={$couchGltf.materials} scale={0.00023}
+                          castShadow={true} receiveShadow position={{x: -0.08, z: -0.36, y: 1.005}} />
+      {/if}
+
+      {#if $lampGltf} <!-- Lamp -->
+        <Object3DInstance object={getLampGltf($lampGltf, "Metal")} materials={$lampGltf.materials} scale={0.35}
+                          castShadow={true} receiveShadow position={{x: 0.43, z: -0.45, y: 1.44}} />
+        <Object3DInstance object={getLampGltf($lampGltf, "plafon")} materials={$lampGltf.materials} scale={0.35}
+                          castShadow={true} receiveShadow position={{x: 0.425, z: -0.365, y: 1.4}} />
+        <Object3DInstance object={getLampGltf($lampGltf, "Glass")} materials={$lampGltf.materials} scale={0.35}
+                          castShadow={true} receiveShadow position={{x: 0.43, z: -0.45, y: 1.43}} />
+      {/if}
+
+      {#if $rugGltf} <!-- Rug -->
+        <Object3DInstance object={getRugGltf($rugGltf, 'm')} scale={0.0004} rotation={{z: -1.5708, x: -1.5708}}
+                          castShadow={true} receiveShadow position={{x: 0, z: 0.05, y: 1}} />
+        <!--      <MeshT geometry={getRugGltf($rugGltf, "m")} material={couch_mat} scale={0.0004}  rotation={{z: -1.5708, x: -1.5708}} position={{x: 0, z: 0.05, y: 1}}/>-->
+      {/if}
+
+      <!-- Various objects -->
+      <GLTF url={phoneObj} rotation={{ y: 1.5708 * 2}} bind:materials={tableMats}
+            position={{x: 0.15, z: -0.02, y: 1.185}} scale={0.02} />
+      <GLTF url={tvObj} rotation={{ y: 1.5708 }} bind:materials={tableMats}
+            position={{x: -0, z: 0.43, y: 1.185}} scale={0.02} />
+      <GLTF url={tableObj} rotation={{x: 0, y: 1.5708}}
+            bind:materials={tableMaterial} position={{x: 0, z: 0.1, y: 1.01}} scale={{y: 0.325, x: 0.5, z: 0.5}} />
+    {/if}
+
+    {#if holding}
+      <MeshT
+        geometry={faceGeometry}
+        material={faceMaterial}
+        position={{ y: boxHeight, z: 0.51 }}
+      ></MeshT>
+      <MeshT
+        geometry={faceGeometry}
+        material={faceMaterial}
+        rotation={{y: 2 * 1.5708}}
+        position={{ y: boxHeight, z: -0.51 }}
+      ></MeshT>
+      <MeshT
+        geometry={faceGeometry}
+        material={faceMaterial}
+        scale={0.1}
+        rotation={{z: 2 * 1.5708, x:-1.5708}}
+        position={{ x: 0.145, y: 1.19, z: -0.02 }}
+      ></MeshT>
+    {/if}
+    <MeshT
       interactive
+      receiveShadow={true}
       position={{ y: boxHeight}}
       rotation={{x: 1.5708}}
       on:pointerenter={boxHover}
@@ -249,15 +433,18 @@
       material={holding ? holdingMaterial : logoMaterial}
     />
     <Line2
-      points={cube(1.005)}
+      points={cube(1.004)}
       position={{ x: 0.000, y: boxHeight, z: 0.000}}
       scale={1}
       material={new LineMaterial({
           worldUnits: true,
-          color: holding ? "#6874E8" : "#c2c7f7",
+          color: holding ? "#dddddd" : "#c2c7f7",
           linewidth: 0.017 * (($scale + 1) / 4)
         })}
     />
+    {#if holding}
+      <Spark />
+    {/if}
   </Group>
 
 </Canvas>
