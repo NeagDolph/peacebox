@@ -270,7 +270,7 @@ var init_multipart_parser = __esm({
                   flags = 0;
                 } else if (!(flags & F.LAST_BOUNDARY) && c2 === LF) {
                   index7 = 0;
-                  callback('onPartBegin');
+                  callback("onPartBegin");
                   state = S.HEADER_FIELD_START;
                 } else {
                   return;
@@ -286,7 +286,7 @@ var init_multipart_parser = __esm({
               break;
             case S.HEADER_FIELD_START:
               state = S.HEADER_FIELD;
-              mark('onHeaderField');
+              mark("onHeaderField");
               index7 = 0;
             case S.HEADER_FIELD:
               if (c2 === CR) {
@@ -319,8 +319,8 @@ var init_multipart_parser = __esm({
               state = S.HEADER_VALUE;
             case S.HEADER_VALUE:
               if (c2 === CR) {
-                dataCallback('onHeaderValue', true);
-                callback('onHeaderEnd');
+                dataCallback("onHeaderValue", true);
+                callback("onHeaderEnd");
                 state = S.HEADER_VALUE_ALMOST_DONE;
               }
               break;
@@ -373,8 +373,8 @@ var init_multipart_parser = __esm({
                   index7 = 0;
                   if (c2 === LF) {
                     flags &= ~F.PART_BOUNDARY;
-                    callback('onPartEnd');
-                    callback('onPartBegin');
+                    callback("onPartEnd");
+                    callback("onPartBegin");
                     state = S.HEADER_FIELD_START;
                     break;
                   }
@@ -396,11 +396,11 @@ var init_multipart_parser = __esm({
                 const _lookbehind = new Uint8Array(
                   lookbehind.buffer,
                   lookbehind.byteOffset,
-                  lookbehind.byteLength
+                  lookbehind.byteLength,
                 );
-                callback("onPartData", 0, previousIndex, _lookbehind);
+                callback('onPartData', 0, previousIndex, _lookbehind);
                 previousIndex = 0;
-                mark("onPartData");
+                mark('onPartData');
                 i3--;
               }
               break;
@@ -410,9 +410,9 @@ var init_multipart_parser = __esm({
               throw new Error(`Unexpected state entered: ${state}`);
           }
         }
-        dataCallback("onHeaderField");
-        dataCallback("onHeaderValue");
-        dataCallback("onPartData");
+        dataCallback('onHeaderField');
+        dataCallback('onHeaderValue');
+        dataCallback('onPartData');
         this.index = index7;
         this.state = state;
         this.flags = flags;
@@ -4843,7 +4843,8 @@ var init_polyfills = __esm({
         for (var [a2] of this)
           yield a2;
       }
-      *values() {
+
+      * values() {
         for (var [, a2] of this)
           yield a2;
       }
@@ -5516,7 +5517,7 @@ var init_shims = __esm({
   }
 });
 
-// .svelte-kit/output/server/chunks/index-ebe58a1f.js
+// .svelte-kit/output/server/chunks/index-9a38fd97.js
 function noop2() {
 }
 function assign(tar, src) {
@@ -5707,7 +5708,7 @@ function create_ssr_component(fn2) {
       return {
         html,
         css: {
-          code: Array.from(result.css).map((css9) => css9.code).join("\n"),
+          code: Array.from(result.css).map((css8) => css8.code).join("\n"),
           map: null
         },
         head: result.title + result.head
@@ -5716,20 +5717,22 @@ function create_ssr_component(fn2) {
     $$render
   };
 }
+
 function add_attribute(name, value, boolean) {
   if (value == null || boolean && !value)
     return "";
   const assignment = boolean && value === true ? "" : `="${escape_attribute_value(value.toString())}"`;
   return ` ${name}${assignment}`;
 }
+
 function add_classes(classes) {
   return classes ? ` class="${classes}"` : "";
 }
 
 var identity, is_client, now, raf, tasks, current_component, dirty_components, binding_callbacks, render_callbacks,
   flush_callbacks, resolved_promise, update_scheduled, seen_callbacks, flushidx, escaped, missing_component, on_destroy;
-var init_index_ebe58a1f = __esm({
-  ".svelte-kit/output/server/chunks/index-ebe58a1f.js"() {
+var init_index_9a38fd97 = __esm({
+  ".svelte-kit/output/server/chunks/index-9a38fd97.js"() {
     init_shims();
     identity = (x3) => x3;
     is_client = typeof window !== "undefined";
@@ -5774,7 +5777,7 @@ var Layout;
 var init_layout_svelte = __esm({
   ".svelte-kit/output/server/entries/fallbacks/layout.svelte.js"() {
     init_shims();
-    init_index_ebe58a1f();
+    init_index_9a38fd97();
     Layout = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       return `${slots.default ? slots.default({}) : ``}`;
     });
@@ -5796,8 +5799,8 @@ var init__ = __esm({
     init_shims();
     init_layout_svelte();
     index = 0;
-    entry = "layout.svelte-39c0e8db.js";
-    js = ["layout.svelte-39c0e8db.js", "chunks/index-c7ee4805.js"];
+    entry = "layout.svelte-495165a1.js";
+    js = ["layout.svelte-495165a1.js", "chunks/index-e7355bb5.js"];
     css = [];
   }
 });
@@ -5815,7 +5818,7 @@ var Error2;
 var init_error_svelte = __esm({
   ".svelte-kit/output/server/entries/fallbacks/error.svelte.js"() {
     init_shims();
-    init_index_ebe58a1f();
+    init_index_9a38fd97();
     Error2 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       let { status } = $$props;
       let { error: error2 } = $$props;
@@ -5850,8 +5853,8 @@ var init__2 = __esm({
     init_shims();
     init_error_svelte();
     index2 = 1;
-    entry2 = "error.svelte-764068f9.js";
-    js2 = ["error.svelte-764068f9.js", "chunks/index-c7ee4805.js"];
+    entry2 = "error.svelte-9c988d9d.js";
+    js2 = ["error.svelte-9c988d9d.js", "chunks/index-e7355bb5.js"];
     css2 = [];
   }
 });
@@ -11385,15 +11388,118 @@ var require_lodash = __commonJS({
   }
 });
 
-// .svelte-kit/output/server/chunks/page-3ef805ba.js
+// .svelte-kit/output/server/chunks/page-9d0e863d.js
+var import_lodash, ___ASSET___0, Footer, favicon32, favicon16, faviconApple, Page;
+var init_page_9d0e863d = __esm({
+  ".svelte-kit/output/server/chunks/page-9d0e863d.js"() {
+    init_shims();
+    init_index_9a38fd97();
+    import_lodash = __toESM(require_lodash(), 1);
+    ___ASSET___0 = "/_app/immutable/assets/bottomleft-4dc05747.svg";
+    Footer = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+      let year = new Date().getFullYear();
+      return `<div><div class="${"w-full left-0 bg-primaryBg p-6"}">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="${"flex flex-row items-center px-10 justify-around sm:justify-between max-w-3xl mx-auto w-full sm:w-auto mt-3 mb-8"}"><a href="${"/privacy"}"><p class="${"font-baloo2 text-md md:text-xl text-light whitespace-nowrap"}">\xA0 Privacy
+        </p></a>
+      <div class="${"min-w-2 w-2 sm:min-w-6 sm:w-6 h-0.5 rounded-full bg-light mx-3 sm:mx-12 hidden sm:block"}"></div>
+      <a href="${"/terms"}"><p class="${"font-baloo2 text-md md:text-xl text-light whitespace-nowrap"}">\xA0 Terms
+        </p></a>
+      <div class="${"min-w-2 w-2 sm:min-w-6 sm:w-6 h-0.5 rounded-full bg-light mx-3 sm:mx-12 hidden sm:block"}"></div>
+      <a href="${"/license"}"><p class="${"font-baloo2 text-md md:text-xl text-light whitespace-nowrap"}">\xA0 License
+        </p></a></div>
+    <div class="${"mx-auto"}"><p class="${"font-roboto text-md text-light text-center"}">\xA9 <span id="${"copyright"}">${escape2(year || 2022)}</span> Neil Agrawal
+      </p></div></div></div>`;
+    });
+    favicon32 = "data:image/png;base64,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";
+    favicon16 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAqRJREFUOE9VU01PE1EUPQ9KKWlpmziDDWmAglLiwsYFBNCCpKUm8hMkMRkWan+CILaxriS4ItFF8VdIgAAGJVE21sYu+JBOqyLKTENpMSRIGHPfm1Z8mczHnXfPPee8exnAAGbQBYPez90ZDBgiBAb+Ze5AdTHGAKOyywxTsKOjo358/OFVh73R9uRp4uPndPq3UUkTNTk4AdOqicXil4ZDoZ6LHk+PzdbQ0+hwBJwup41+lo+O/pRLpczx8fG6pmkfFhYW1+Oxx1sG2BkjhNV3b1/4Oy/fY6yW83W5XLBarYK7KIPT01MUi0WiizPDwObW5svB4MB9Xj+rqsm2tlalorN0WMLJyQmnRk+rtR51FgvcbheEZ0Aul5v1tfvGuAQ1qyZ3d38oU1PP0N3djdE7o2hpbeEE9IIGSZKEeoPBMA3P5XOzPl/7GIdT1Wxy+8u2EolEuCmUkMlkIDc1Qdc0yLJMzCvFORZnQACkgSRksztKOBTG+MQEEokEZmZmEI1GoWnEQAbfKFzhJ6Dmc7MdJIHiO6qa/JrPKzeHhnAtEEDqUxrxeAyTk4+g6zoHMFOrT8GAPAC4hO/fdpWBgSCam5vxa38fKytvELxxHbpegCRXPBAyuASVTDwn4efentLX349UKoUufxdsDbwFuAeSLFe5i14E8v8zUJNer1dZXl5GIBCAx+MRWmFA0wuQJcn8/ucDSWgXHjC8npsb9Ps77zrsjmFJkrystsasQwA65AsSyEU6iUJB2yuXjxY3NjZejdweWeUm8h4352j6+fSVcCgccbvdt5xOV/DgoFBnsdS9LxaL82tra/PR6IM0NSNPqcyCmESBIoaLfhro7e1rsDvs1qWlpUNqIorxfji3TE/N5KpSc5cJVu0gPtZmR/HhBv4C7wMsLczBVQQAAAAASUVORK5CYII=";
+    faviconApple = "/_app/immutable/assets/apple-touch-icon-ed367713.png";
+    Page = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+      let topRight1, topRight2, documentEl;
+      let { home } = $$props;
+      if ($$props.home === void 0 && $$bindings.home && home !== void 0)
+        $$bindings.home(home);
+      return `${$$result.head += `<link rel="${"apple-touch-icon"}" sizes="${"180x180"}"${add_attribute("href", faviconApple, 0)} data-svelte="svelte-1c1qfbn"><link rel="${"icon"}" type="${"image/png"}" sizes="${"32x32"}"${add_attribute("href", favicon32, 0)} data-svelte="svelte-1c1qfbn"><link rel="${"icon"}" type="${"image/png"}" sizes="${"16x16"}"${add_attribute("href", favicon16, 0)} data-svelte="svelte-1c1qfbn">`, ""}
+
+<div class="${"h-0"}">
+
+
+  
+  <img${add_attribute("src", ___ASSET___0, 0)} class="${"fixed bottomHack left-0 w-96 lg:w-124 below2"}" alt="${"Bottom-left background image"}">
+
+  
+  <svg class="${"fixed top-0 right-0 w-96 lg:w-124 below2"}" viewBox="${"0 20 550 510"}" fill="${"none"}" xmlns="${"http://www.w3.org/2000/svg"}"${add_attribute("this", topRight2, 0)}><path opacity="${"0"}" id="${"a1"}" d="${"M547.461 510C477.611 495.92 407.964 482.027 344.39 456.87C281.019 431.713 223.924 395.292 170.879 351.549C118.036 307.618 69.4449 256.177 41.7074 196.664C13.7675 137.151 6.88375 69.7527 0 2.35445H547.461V510Z"}" fill="${"#EEF4FA"}"></path><path opacity="${"0"}" id="${"a2"}" d="${"M550 410.531C493.676 399.195 437.135 387.858 385.832 367.413C334.53 347.17 288.248 317.817 245.46 282.392C202.671 246.764 163.376 205.265 140.89 157.087C118.404 109.11 112.947 54.454 107.271 0H550V410.531Z"}" fill="${"#D6E9FB"}"></path><path opacity="${"0"}" id="${"a3"}" d="${"M547.461 322.245C503.25 313.426 458.782 304.369 418.684 288.399C378.328 272.43 342.086 249.549 308.413 221.662C274.998 193.776 243.896 161.122 226.417 123.225C208.682 85.5664 204.312 42.9024 199.942 4.03627e-06H547.461V322.245Z"}" fill="${"#BEDFFD"}"></path><path opacity="${"0"}" id="${"a4"}" d="${"M548.094 198.939C520.8 193.495 493.348 187.903 468.593 178.044C443.68 168.186 421.305 154.06 400.518 136.844C379.889 119.628 360.688 99.4697 349.897 76.0739C338.948 52.8252 336.25 26.4865 333.553 0.000645665H548.094V198.939Z"}" fill="${"#A3D4FE"}"></path><path opacity="${"0"}" id="${"a5"}" d="${"M548.094 99.4697C534.447 96.674 520.8 94.0254 508.264 89.0225C495.887 84.1668 484.62 76.9568 474.306 68.4224C463.991 59.741 454.47 49.7352 448.916 38.1109C443.521 26.4865 442.252 13.2436 440.823 0.000656891L548.094 0.000645665L548.094 99.4697Z"}" fill="${"#95CFFF"}"></path></svg>
+
+  <svg class="${"fixed top-0 right-0 w-96 lg:w-124 below2"}" viewBox="${"0 20 550 510"}" fill="${"none"}" xmlns="${"http://www.w3.org/2000/svg"}"${add_attribute("this", topRight1, 0)}><path id="${"b1"}" d="${"M549.989 510C472.27 507.575 394.696 505.285 339.494 471.204C284.437 437.124 251.752 371.252 201.779 322.892C151.806 274.532 84.5467 243.685 48.0841 192.765C11.4763 141.846 5.81077 70.9905 0 0H549.989V510Z"}" fill="${"#EEF4FA"}"></path><path id="${"b2"}" d="${"M549.992 408.027C487.817 406.141 425.787 404.255 381.625 376.91C337.463 349.699 311.315 297.028 271.366 258.368C231.417 219.707 177.667 194.921 148.468 154.239C119.269 113.558 114.62 56.7116 109.972 0H549.992V408.027Z"}" fill="${"#D6E9FB"}"></path><path id="${"b3"}" d="${"M549.994 305.919C503.363 304.572 456.877 303.09 423.755 282.75C390.634 262.274 371.023 222.805 341.097 193.708C311.026 164.746 270.787 146.157 248.851 115.713C226.916 85.1347 223.429 42.5674 220.088 0H549.994V305.919Z"}" fill="${"#BEDFFD"}"></path><path id="${"b4"}" d="${"M550 203.946C518.912 203.003 487.825 202.06 465.744 188.455C443.808 174.849 430.734 148.447 410.687 129.184C390.785 109.786 363.765 97.5277 349.238 77.0523C334.566 56.7115 332.387 28.4231 330.062 0H550V203.946Z"}" fill="${"#A3D4FE"}"></path><path id="${"b5"}" d="${"M549.986 101.973C534.442 101.569 518.899 101.03 507.858 94.2947C496.818 87.4247 490.281 74.2234 480.402 64.5245C470.379 54.9604 456.869 48.7638 449.605 38.5261C442.342 28.4231 441.18 14.1442 440.018 0H549.986V101.973Z"}" fill="${"#95CFFF"}"></path></svg></div>
+<div class="${"siteWrapper"}"${add_attribute("this", documentEl, 0)}><div class="${"hidden flex flex-row h-28 items-center sm:pl-8 lg:pl-16 border-b border-gray-900 justify-between header w-full"}"><div class="${"flex flex-row"}">${home === "true" ? `<p class="${"text-black font-futura font-bold tracking-tight text-5xl hidden sm:block"}">PeaceBox</p>` : `<a href="${"/"}"><p class="${"text-black font-futura font-bold tracking-tight text-5xl hidden sm:block"}">PeaceBox</p></a>`}
+
+      <div class="${"max-w-28 min-w-24 pr-3 sm:hidden"}"><p class="${"text-black font-futura font-bold tracking-tight text-7xl pl-4"}">P</p></div></div>
+    <div class="${"flex flex-row h-full items-center"}"><div class="${"mr-4 md:mr-8 lg:mr-12 py-2"}"><a href="${"mailto:contact@peacebox.app"}" target="${"_blank"}"><p class="${"font-baloo2 text-md whitespace-nowrap"}"><i class="${"fa-solid fa-envelope fa-md"}"></i> \xA0Email</p></a></div>
+      <div class="${"mr-6 md:mr-10 lg:mr-14 py-2 hidden sm:block"}"><a href="${"https://github.com/neagdolph/peacebox"}" target="${"_blank"}"><p class="${"font-baloo2 text-md"}"><i class="${"fa-brands fa-github fa-md"}"></i> \xA0Github</p></a></div>
+      
+      
+      
+      
+      
+      
+      
+      
+      <div class="${"h-full pr-8 pl-4 block sm:hidden border-gray-900 flex items-center"}"><a href="${"https://apps.apple.com/us/app/peacebox-tools-for-your-mind/id1592436336"}" aria-label="${"Visit PeaceBox on the Appstore"}"><i class="${"fa-solid fa-cloud-arrow-down fa-2x"}"></i></a></div></div></div>
+  ${slots.default ? slots.default({}) : ``}
+  ${validate_component(Footer, "Footer").$$render($$result, {}, {}, {})}</div>`;
+    });
+  }
+});
+
+// .svelte-kit/output/server/chunks/github_button-5c991175.js
+var Github_button;
+var init_github_button_5c991175 = __esm({
+  ".svelte-kit/output/server/chunks/github_button-5c991175.js"() {
+    init_shims();
+    init_index_9a38fd97();
+    Github_button = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+      return `<a href="${"https://github.com/neagdolph/peacebox"}" target="${"_blank"}" aria-label="${"Visit the PeaceBox GitHub Repository"}"><p class="${"font-baloo2 text-lg sm:text-xl whitespace-nowrap text-primary"}"><i class="${"fa-brands fa-github fa-md sm:fa-lg"}"></i> \xA0
+    Github
+  </p></a>`;
+    });
+  }
+});
+
+// .svelte-kit/output/server/entries/pages/index.svelte.js
+var index_svelte_exports = {};
+__export(index_svelte_exports, {
+  default: () => Routes
+});
+
+function cubicIn(t22) {
+  return t22 * t22 * t22;
+}
+
 function readable2(value, start) {
   return {
     subscribe: writable2(value, start).subscribe
   };
 }
+
 function writable2(value, start = noop2) {
   let stop;
   const subscribers = /* @__PURE__ */ new Set();
+
   function set(new_value) {
     if (safe_not_equal(value, new_value)) {
       value = new_value;
@@ -11404,8 +11510,8 @@ function writable2(value, start = noop2) {
           subscriber_queue2.push(subscriber, value);
         }
         if (run_queue) {
-          for (let i3 = 0; i3 < subscriber_queue2.length; i3 += 2) {
-            subscriber_queue2[i3][0](subscriber_queue2[i3 + 1]);
+          for (let i22 = 0; i22 < subscriber_queue2.length; i22 += 2) {
+            subscriber_queue2[i22][0](subscriber_queue2[i22 + 1]);
           }
           subscriber_queue2.length = 0;
         }
@@ -11453,14 +11559,14 @@ function derived(stores, fn2, initial_value) {
         cleanup = is_function(result) ? result : noop2;
       }
     };
-    const unsubscribers = stores_array.map((store, i3) => subscribe(store, (value) => {
-      values[i3] = value;
-      pending &= ~(1 << i3);
+    const unsubscribers = stores_array.map((store, i22) => subscribe(store, (value) => {
+      values[i22] = value;
+      pending &= ~(1 << i22);
       if (inited) {
         sync();
       }
     }, () => {
-      pending |= 1 << i3;
+      pending |= 1 << i22;
     }));
     inited = true;
     sync();
@@ -11470,107 +11576,6 @@ function derived(stores, fn2, initial_value) {
     };
   });
 }
-
-var import_lodash, ___ASSET___0$1, ___ASSET___0, Footer, favicon32, favicon16, faviconApple, subscriber_queue2,
-  logoActive, css3, Page;
-var init_page_3ef805ba = __esm({
-  ".svelte-kit/output/server/chunks/page-3ef805ba.js"() {
-    init_shims();
-    init_index_ebe58a1f();
-    import_lodash = __toESM(require_lodash(), 1);
-    ___ASSET___0$1 = "/_app/immutable/assets/bottomleft-4dc05747.svg";
-    ___ASSET___0 = "/_app/immutable/assets/appstore_black-01825d9c.svg";
-    Footer = create_ssr_component(($$result, $$props, $$bindings, slots) => {
-      let year = new Date().getFullYear();
-      return `<div><div class="${"w-full left-0 bg-primaryBg p-6 mt-10"}"><div class="${"flex flex-row items-center justify-around sm:justify-center w-full sm:w-auto"}"><a href="${"https://github.com/neagdolph/peacebox"}" target="${"_blank"}"><p class="${"font-baloo2 text-xl text-light whitespace-nowrap"}"><i class="${"fa-brands fa-github fa-md sm:fa-lg"}"></i> \xA0Github
-        </p></a>
-      <div class="${"min-w-2 w-2 sm:min-w-6 sm:w-6 h-0.5 rounded-full bg-light mx-3 sm:mx-12"}"></div>
-      <a href="${"https://apps.apple.com/us/app/peacebox-tools-for-your-mind/id1592436336"}" class="${"hidden sm:block"}"><img${add_attribute("src", ___ASSET___0, 0)} class="${"w-44 borderAppStore min-w-32"}"></a>
-      <div class="${"min-w-2 w-2 sm:min-w-6 sm:w-6 h-0.5 rounded-full bg-light mx-3 sm:mx-12 hidden sm:block"}"></div>
-      <a href="${"mailto:contact@peacebox.app"}" target="${"_blank"}"><p class="${"font-baloo2 text-xl text-light whitespace-nowrap"}"><i class="${"fa-solid fa-envelope fa-md sm:fa-lg"}"></i> \xA0Email
-        </p></a></div>
-    <div class="${"flex flex-row items-center justify-around sm:justify-center w-full sm:w-auto my-4"}"><a href="${"/privacy"}"><p class="${"font-baloo2 text-md text-light whitespace-nowrap"}">\xA0 Privacy
-        </p></a>
-      <div class="${"min-w-2 w-2 sm:min-w-6 sm:w-6 h-0.5 rounded-full bg-light mx-3 sm:mx-12 hidden sm:block"}"></div>
-      <a href="${"/terms"}"><p class="${"font-baloo2 text-md text-light whitespace-nowrap"}">\xA0 Terms
-        </p></a>
-      <div class="${"min-w-2 w-2 sm:min-w-6 sm:w-6 h-0.5 rounded-full bg-light mx-3 sm:mx-12 hidden sm:block"}"></div>
-      <a href="${"/license"}"><p class="${"font-baloo2 text-md text-light whitespace-nowrap"}">\xA0 License
-        </p></a></div>
-    <div class="${"mx-auto"}"><p class="${"font-roboto text-md text-light text-center"}">\xA9 <span id="${"copyright"}">${escape2(year || 2022)}</span> Neil Agrawal
-      </p></div></div></div>`;
-    });
-    favicon32 = "data:image/png;base64,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";
-    favicon16 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAqRJREFUOE9VU01PE1EUPQ9KKWlpmziDDWmAglLiwsYFBNCCpKUm8hMkMRkWan+CILaxriS4ItFF8VdIgAAGJVE21sYu+JBOqyLKTENpMSRIGHPfm1Z8mczHnXfPPee8exnAAGbQBYPez90ZDBgiBAb+Ze5AdTHGAKOyywxTsKOjo358/OFVh73R9uRp4uPndPq3UUkTNTk4AdOqicXil4ZDoZ6LHk+PzdbQ0+hwBJwup41+lo+O/pRLpczx8fG6pmkfFhYW1+Oxx1sG2BkjhNV3b1/4Oy/fY6yW83W5XLBarYK7KIPT01MUi0WiizPDwObW5svB4MB9Xj+rqsm2tlalorN0WMLJyQmnRk+rtR51FgvcbheEZ0Aul5v1tfvGuAQ1qyZ3d38oU1PP0N3djdE7o2hpbeEE9IIGSZKEeoPBMA3P5XOzPl/7GIdT1Wxy+8u2EolEuCmUkMlkIDc1Qdc0yLJMzCvFORZnQACkgSRksztKOBTG+MQEEokEZmZmEI1GoWnEQAbfKFzhJ6Dmc7MdJIHiO6qa/JrPKzeHhnAtEEDqUxrxeAyTk4+g6zoHMFOrT8GAPAC4hO/fdpWBgSCam5vxa38fKytvELxxHbpegCRXPBAyuASVTDwn4efentLX349UKoUufxdsDbwFuAeSLFe5i14E8v8zUJNer1dZXl5GIBCAx+MRWmFA0wuQJcn8/ucDSWgXHjC8npsb9Ps77zrsjmFJkrystsasQwA65AsSyEU6iUJB2yuXjxY3NjZejdweWeUm8h4352j6+fSVcCgccbvdt5xOV/DgoFBnsdS9LxaL82tra/PR6IM0NSNPqcyCmESBIoaLfhro7e1rsDvs1qWlpUNqIorxfji3TE/N5KpSc5cJVu0gPtZmR/HhBv4C7wMsLczBVQQAAAAASUVORK5CYII=";
-    faviconApple = "/_app/immutable/assets/apple-touch-icon-ed367713.png";
-    subscriber_queue2 = [];
-    logoActive = writable2(0);
-    css3 = {
-      code: "@-webkit-keyframes svelte-1m3t1m0-rotating{from{-webkit-transform:rotate(0deg);-o-transform:rotate(0deg);transform:rotate(0deg)}to{-webkit-transform:rotate(360deg);-o-transform:rotate(360deg);transform:rotate(360deg)}}@keyframes svelte-1m3t1m0-rotating{from{-ms-transform:rotate(0deg);-moz-transform:rotate(0deg);-webkit-transform:rotate(0deg);-o-transform:rotate(0deg);transform:rotate(0deg)}to{-ms-transform:rotate(360deg);-moz-transform:rotate(360deg);-webkit-transform:rotate(360deg);-o-transform:rotate(360deg);transform:rotate(360deg)}}.rotating.svelte-1m3t1m0{-webkit-animation:svelte-1m3t1m0-rotating 5s linear infinite;-moz-animation:svelte-1m3t1m0-rotating 2s linear infinite;-ms-animation:svelte-1m3t1m0-rotating 2s linear infinite;-o-animation:svelte-1m3t1m0-rotating 2s linear infinite;animation:svelte-1m3t1m0-rotating 20s linear infinite}#rotateDiv.svelte-1m3t1m0{left:calc(14vw + 20px);top:1350px;width:200px !important;height:200px;position:absolute !important}",
-      map: null
-    };
-    Page = create_ssr_component(($$result, $$props, $$bindings, slots) => {
-      let topRight1, topRight2, ring, documentEl;
-      let opacityLogo;
-      let { home } = $$props;
-      logoActive.subscribe((val) => val);
-      if ($$props.home === void 0 && $$bindings.home && home !== void 0)
-        $$bindings.home(home);
-      $$result.css.add(css3);
-      return `
-
-${$$result.head += `<link rel="${"apple-touch-icon"}" sizes="${"180x180"}"${add_attribute("href", faviconApple, 0)} data-svelte="svelte-1c1qfbn"><link rel="${"icon"}" type="${"image/png"}" sizes="${"32x32"}"${add_attribute("href", favicon32, 0)} data-svelte="svelte-1c1qfbn"><link rel="${"icon"}" type="${"image/png"}" sizes="${"16x16"}"${add_attribute("href", favicon16, 0)} data-svelte="svelte-1c1qfbn">`, ""}
-
-<div class="${"h-0"}">
-  <div id="${"rotateDiv"}" class="${"relative h-32 w-32 w-full flex justify-end items-center translate-y-30 opacity-70 svelte-1m3t1m0"}"><div class="${"w-32 h-32 flex absolute justify-center items-center"}"><div class="${"absolute top-0 h-32 w-32 flex justify-center items-center verticalHack"}"${add_attribute("this", opacityLogo, 0)}></div>
-      <svg viewBox="${"0 0 200 200"}" class="${"w-32 h-32 rotating svelte-1m3t1m0"}" fill="${"none"}" xmlns="${"http://www.w3.org/2000/svg"}"><g id="${"closed"}"${add_attribute("this", ring, 0)}><circle id="${"10"}" cx="${"100"}" cy="${"100"}" r="${"50"}" fill="${"#6062FF"}" style="${"opacity: 0"}" fill-opacity="${"0.37"}"></circle><circle id="${"9"}" cx="${"100"}" cy="${"100"}" r="${"50"}" fill="${"#6062FF"}" style="${"opacity: 0"}" fill-opacity="${"0.37"}"></circle><circle id="${"8"}" cx="${"100"}" cy="${"100"}" r="${"50"}" fill="${"#6062FF"}" style="${"opacity: 0"}" fill-opacity="${"0.37"}"></circle><circle id="${"7"}" cx="${"100"}" cy="${"100"}" r="${"50"}" fill="${"#6062FF"}" style="${"opacity: 0"}" fill-opacity="${"0.37"}"></circle><circle id="${"6"}" cx="${"100"}" cy="${"100"}" r="${"50"}" fill="${"#6062FF"}" style="${"opacity: 0"}" fill-opacity="${"0.37"}"></circle><circle id="${"5"}" cx="${"100"}" cy="${"100"}" r="${"50"}" fill="${"#6062FF"}" style="${"opacity: 0"}" fill-opacity="${"0.37"}"></circle><circle id="${"4"}" cx="${"100"}" cy="${"100"}" r="${"50"}" fill="${"#6062FF"}" style="${"opacity: 0"}" fill-opacity="${"0.37"}"></circle><circle id="${"3"}" cx="${"100"}" cy="${"100"}" r="${"50"}" fill="${"#6062FF"}" style="${"opacity: 0"}" fill-opacity="${"0.37"}"></circle><circle id="${"2"}" cx="${"100"}" cy="${"100"}" r="${"50"}" fill="${"#6062FF"}" style="${"opacity: 0"}" fill-opacity="${"0.37"}"></circle><circle style="${"opacity: 0"}" id="${"1"}" cx="${"100"}" cy="${"100"}" r="${"50"}" fill="${"#6062FF"}" fill-opacity="${"0.37"}"></circle><circle style="${"opacity: 0"}" id="${"main"}" cx="${"100"}" cy="${"100"}" r="${"50"}" fill="${"#6062FF"}" fill-opacity="${"0.8"}"></circle></g></svg></div></div>
-
-  
-  <img${add_attribute("src", ___ASSET___0$1, 0)} class="${"fixed bottomHack left-0 w-96 lg:w-124 below2"}" alt="${"Bottom-left background image"}">
-
-  
-  <svg class="${"fixed top-0 right-0 w-96 lg:w-124 below2"}" viewBox="${"0 20 550 510"}" fill="${"none"}" xmlns="${"http://www.w3.org/2000/svg"}"${add_attribute("this", topRight2, 0)}><path opacity="${"0"}" id="${"a1"}" d="${"M547.461 510C477.611 495.92 407.964 482.027 344.39 456.87C281.019 431.713 223.924 395.292 170.879 351.549C118.036 307.618 69.4449 256.177 41.7074 196.664C13.7675 137.151 6.88375 69.7527 0 2.35445H547.461V510Z"}" fill="${"#EEF4FA"}"></path><path opacity="${"0"}" id="${"a2"}" d="${"M550 410.531C493.676 399.195 437.135 387.858 385.832 367.413C334.53 347.17 288.248 317.817 245.46 282.392C202.671 246.764 163.376 205.265 140.89 157.087C118.404 109.11 112.947 54.454 107.271 0H550V410.531Z"}" fill="${"#D6E9FB"}"></path><path opacity="${"0"}" id="${"a3"}" d="${"M547.461 322.245C503.25 313.426 458.782 304.369 418.684 288.399C378.328 272.43 342.086 249.549 308.413 221.662C274.998 193.776 243.896 161.122 226.417 123.225C208.682 85.5664 204.312 42.9024 199.942 4.03627e-06H547.461V322.245Z"}" fill="${"#BEDFFD"}"></path><path opacity="${"0"}" id="${"a4"}" d="${"M548.094 198.939C520.8 193.495 493.348 187.903 468.593 178.044C443.68 168.186 421.305 154.06 400.518 136.844C379.889 119.628 360.688 99.4697 349.897 76.0739C338.948 52.8252 336.25 26.4865 333.553 0.000645665H548.094V198.939Z"}" fill="${"#A3D4FE"}"></path><path opacity="${"0"}" id="${"a5"}" d="${"M548.094 99.4697C534.447 96.674 520.8 94.0254 508.264 89.0225C495.887 84.1668 484.62 76.9568 474.306 68.4224C463.991 59.741 454.47 49.7352 448.916 38.1109C443.521 26.4865 442.252 13.2436 440.823 0.000656891L548.094 0.000645665L548.094 99.4697Z"}" fill="${"#95CFFF"}"></path></svg>
-
-  <svg class="${"fixed top-0 right-0 w-96 lg:w-124 below2"}" viewBox="${"0 20 550 510"}" fill="${"none"}" xmlns="${"http://www.w3.org/2000/svg"}"${add_attribute("this", topRight1, 0)}><path id="${"b1"}" d="${"M549.989 510C472.27 507.575 394.696 505.285 339.494 471.204C284.437 437.124 251.752 371.252 201.779 322.892C151.806 274.532 84.5467 243.685 48.0841 192.765C11.4763 141.846 5.81077 70.9905 0 0H549.989V510Z"}" fill="${"#EEF4FA"}"></path><path id="${"b2"}" d="${"M549.992 408.027C487.817 406.141 425.787 404.255 381.625 376.91C337.463 349.699 311.315 297.028 271.366 258.368C231.417 219.707 177.667 194.921 148.468 154.239C119.269 113.558 114.62 56.7116 109.972 0H549.992V408.027Z"}" fill="${"#D6E9FB"}"></path><path id="${"b3"}" d="${"M549.994 305.919C503.363 304.572 456.877 303.09 423.755 282.75C390.634 262.274 371.023 222.805 341.097 193.708C311.026 164.746 270.787 146.157 248.851 115.713C226.916 85.1347 223.429 42.5674 220.088 0H549.994V305.919Z"}" fill="${"#BEDFFD"}"></path><path id="${"b4"}" d="${"M550 203.946C518.912 203.003 487.825 202.06 465.744 188.455C443.808 174.849 430.734 148.447 410.687 129.184C390.785 109.786 363.765 97.5277 349.238 77.0523C334.566 56.7115 332.387 28.4231 330.062 0H550V203.946Z"}" fill="${"#A3D4FE"}"></path><path id="${"b5"}" d="${"M549.986 101.973C534.442 101.569 518.899 101.03 507.858 94.2947C496.818 87.4247 490.281 74.2234 480.402 64.5245C470.379 54.9604 456.869 48.7638 449.605 38.5261C442.342 28.4231 441.18 14.1442 440.018 0H549.986V101.973Z"}" fill="${"#95CFFF"}"></path></svg></div>
-<div class="${"siteWrapper"}"${add_attribute("this", documentEl, 0)}><div class="${"flex flex-row h-28 items-center sm:pl-8 lg:pl-16 border-b border-gray-900 justify-between header w-full"}"><div class="${"flex flex-row"}">${home === "true" ? `<p class="${"text-black font-futura font-bold tracking-tight text-5xl hidden sm:block"}">PeaceBox</p>` : `<a href="${"/"}"><p class="${"text-black font-futura font-bold tracking-tight text-5xl hidden sm:block"}">PeaceBox</p></a>`}
-
-      <div class="${"max-w-28 min-w-24 pr-3 sm:hidden"}"><p class="${"text-black font-futura font-bold tracking-tight text-7xl pl-4"}">P</p></div></div>
-    <div class="${"flex flex-row h-full items-center"}"><div class="${"mr-4 md:mr-8 lg:mr-12 py-2"}"><a href="${"mailto:contact@peacebox.app"}" target="${"_blank"}"><p class="${"font-baloo2 text-md whitespace-nowrap"}"><i class="${"fa-solid fa-envelope fa-md"}"></i> \xA0Email</p></a></div>
-      <div class="${"mr-6 md:mr-10 lg:mr-14 py-2 hidden sm:block"}"><a href="${"https://github.com/neagdolph/peacebox"}" target="${"_blank"}"><p class="${"font-baloo2 text-md"}"><i class="${"fa-brands fa-github fa-md"}"></i> \xA0Github</p></a></div>
-      
-      
-      
-      
-      
-      
-      
-      
-      <div class="${"h-full pr-8 pl-4 block sm:hidden border-gray-900 flex items-center"}"><a href="${"https://apps.apple.com/us/app/peacebox-tools-for-your-mind/id1592436336"}"><i class="${"fa-solid fa-cloud-arrow-down fa-2x"}"></i></a></div></div></div>
-  ${slots.default ? slots.default({}) : ``}
-  ${validate_component(Footer, "Footer").$$render($$result, {}, {}, {})}</div>`;
-    });
-  }
-});
-
-// .svelte-kit/output/server/chunks/github_button-96dd67c4.js
-var Github_button;
-var init_github_button_96dd67c4 = __esm({
-  ".svelte-kit/output/server/chunks/github_button-96dd67c4.js"() {
-    init_shims();
-    init_index_ebe58a1f();
-    Github_button = create_ssr_component(($$result, $$props, $$bindings, slots) => {
-      return `<a href="${"https://github.com/neagdolph/peacebox"}" target="${"_blank"}"><p class="${"font-baloo2 text-lg sm:text-xl whitespace-nowrap text-primary"}"><i class="${"fa-brands fa-github fa-md sm:fa-lg"}"></i> \xA0
-    Github
-  </p></a>`;
-    });
-  }
-});
-
-// .svelte-kit/output/server/entries/pages/index.svelte.js
-var index_svelte_exports = {};
-__export(index_svelte_exports, {
-  default: () => Routes
-});
 function generateUUID() {
   const d0 = Math.random() * 4294967295 | 0;
   const d1 = Math.random() * 4294967295 | 0;
@@ -12416,20 +12421,20 @@ function cube(size) {
   return newPos;
 }
 
-var import_lodash2, ___ASSET___02, ___ASSET___1, Logo_anim, REVISION, MOUSE, TOUCH, PCFSoftShadowMap, FrontSide,
-  BackSide, DoubleSide, FlatShading, NormalBlending, AddEquation, SrcAlphaFactor, OneMinusSrcAlphaFactor,
-  LessEqualDepth, MultiplyOperation, NoToneMapping, ACESFilmicToneMapping, UVMapping, RepeatWrapping,
-  ClampToEdgeWrapping, MirroredRepeatWrapping, NearestFilter, LinearFilter, LinearMipmapLinearFilter, UnsignedByteType,
-  FloatType, HalfFloatType, RGBAFormat, RedFormat, RGFormat, RGB_S3TC_DXT1_Format, RGBA_S3TC_DXT5_Format,
-  RGB_PVRTC_4BPPV1_Format, RGBA_PVRTC_4BPPV1_Format, RGB_ETC1_Format, RGB_ETC2_Format, RGBA_ETC2_EAC_Format,
-  RGBA_ASTC_4x4_Format, RGBA_BPTC_Format, InterpolateDiscrete, InterpolateLinear, InterpolateSmooth,
-  ZeroCurvatureEnding, ZeroSlopeEnding, WrapAroundEnding, AdditiveAnimationBlendMode, LinearEncoding, sRGBEncoding,
-  TangentSpaceNormalMap, SRGBColorSpace, LinearSRGBColorSpace, KeepStencilOp, AlwaysStencilFunc, StaticDrawUsage,
-  EventDispatcher, _lut, _seed, DEG2RAD, RAD2DEG, MathUtils, Vector2, Matrix3, FN, ColorManagement, _colorKeywords,
-  _rgb, _hslA, _hslB, Color, _canvas, ImageUtils, Source, textureId, Texture, Vector4, Data3DTexture, Quaternion,
-  Vector3, _vector$c, _quaternion$4, Box3, _points, _vector$b, _box$3, _v0$2, _v1$7, _v2$3, _f0, _f1, _f2, _center,
-  _extents, _triangleNormal, _testAxis, _box$2, _v1$6, _toFarthestPoint, _toPoint, Sphere, _vector$a, _segCenter,
-  _segDir, _diff, _edge1, _edge2, _normal$1, Ray, Matrix4, _v1$5, _m1$2, _zero, _one, _x, _y, _z, _matrix$1,
+var import_lodash2, ___ASSET___02, ___ASSET___1, subscriber_queue2, logoActive, Logo_anim, REVISION, MOUSE, TOUCH,
+  PCFSoftShadowMap, FrontSide, BackSide, DoubleSide, FlatShading, NormalBlending, AddEquation, SrcAlphaFactor,
+  OneMinusSrcAlphaFactor, LessEqualDepth, MultiplyOperation, NoToneMapping, ACESFilmicToneMapping, UVMapping,
+  RepeatWrapping, ClampToEdgeWrapping, MirroredRepeatWrapping, NearestFilter, LinearFilter, LinearMipmapLinearFilter,
+  UnsignedByteType, FloatType, HalfFloatType, RGBAFormat, RedFormat, RGFormat, RGB_S3TC_DXT1_Format,
+  RGBA_S3TC_DXT5_Format, RGB_PVRTC_4BPPV1_Format, RGBA_PVRTC_4BPPV1_Format, RGB_ETC1_Format, RGB_ETC2_Format,
+  RGBA_ETC2_EAC_Format, RGBA_ASTC_4x4_Format, RGBA_BPTC_Format, InterpolateDiscrete, InterpolateLinear,
+  InterpolateSmooth, ZeroCurvatureEnding, ZeroSlopeEnding, WrapAroundEnding, AdditiveAnimationBlendMode, LinearEncoding,
+  sRGBEncoding, TangentSpaceNormalMap, SRGBColorSpace, LinearSRGBColorSpace, KeepStencilOp, AlwaysStencilFunc,
+  StaticDrawUsage, EventDispatcher, _lut, _seed, DEG2RAD, RAD2DEG, MathUtils, Vector2, Matrix3, FN, ColorManagement,
+  _colorKeywords, _rgb, _hslA, _hslB, Color, _canvas, ImageUtils, Source, textureId, Texture, Vector4, Data3DTexture,
+  Quaternion, Vector3, _vector$c, _quaternion$4, Box3, _points, _vector$b, _box$3, _v0$2, _v1$7, _v2$3, _f0, _f1, _f2,
+  _center, _extents, _triangleNormal, _testAxis, _box$2, _v1$6, _toFarthestPoint, _toPoint, Sphere, _vector$a,
+  _segCenter, _segDir, _diff, _edge1, _edge2, _normal$1, Ray, Matrix4, _v1$5, _m1$2, _zero, _one, _x, _y, _z, _matrix$1,
   _quaternion$3, Euler, Layers, _object3DId, _v1$4, _q1, _m1$1, _target, _position$3, _scale$2, _quaternion$2, _xAxis,
   _yAxis, _zAxis, _addedEvent, _removedEvent, Object3D, _v0$1, _v1$3, _v2$2, _v3$1, _vab, _vac, _vbc, _vap, _vbp, _vcp,
   Triangle, materialId, Material, MeshBasicMaterial, _vector$9, _vector2$1, BufferAttribute, Uint16BufferAttribute,
@@ -12473,7 +12478,7 @@ var import_lodash2, ___ASSET___02, ___ASSET___1, Logo_anim, REVISION, MOUSE, TOU
   Raycaster, Spherical, _startP, _startEnd, Line3, Pass, _geometry$1, _geometry, RenderPass, setRendererColorOutput,
   setRendererAndComposerSize, setRendererShadows, getThrelteUserData, setPointerFromEvent, runRaycaster, targetChanged,
   useEventRaycast, useFrameloopRaycast, browser, useRaf, runFrameloopCallbacks, debugFrame, useFrameloop,
-  getDefaultCamera, setDefaultCameraAspectOnSizeChange, createContexts, useParentSize, css4, invalidationHandlers,
+  getDefaultCamera, setDefaultCameraAspectOnSizeChange, createContexts, useParentSize, css3, invalidationHandlers,
   invalidateGlobally, Canvas, useThrelte, useThrelteRoot, createObjectStore, setParent, getParent, HierarchicalObject,
   LayerableObject, useFrame, useTicked, TransformableObject, ViewportAwareObject, Object3DInstance, CameraInstance,
   PerspectiveCamera, loaders, useLoader, _changeEvent$1, _startEvent, _endEvent, OrbitControls$1, OrbitControls,
@@ -12496,17 +12501,18 @@ var import_lodash2, ___ASSET___02, ___ASSET___1, Logo_anim, REVISION, MOUSE, TOU
   LineSegmentsGeometry, LineGeometry, LineMaterial, _start, _end, _start4, _end4, _ssOrigin, _ssOrigin3, _mvMatrix,
   _line, _closestPoint, _box, _sphere, _clipToWorldVector, _ray, _instanceStart, _instanceEnd, _lineWidth,
   LineSegments2, Line2$1, Line2, loader, loadTexture, pathsIsString, pathsIsArray, convertTextureColor, px, px_upside,
-  py, pz, ny, nz, o_px, o_ny, displacementMap, normalMap, couch_texture, couch_ao, couch_normal, rug_texture, useCursor,
-  Game, Routes;
+  py, pz, ny, nz, o_px, o_px_upside, o_ny, useCursor, Game, Routes;
 var init_index_svelte = __esm({
   ".svelte-kit/output/server/entries/pages/index.svelte.js"() {
     init_shims();
-    init_index_ebe58a1f();
-    init_page_3ef805ba();
-    init_github_button_96dd67c4();
+    init_index_9a38fd97();
+    init_page_9d0e863d();
     import_lodash2 = __toESM(require_lodash(), 1);
+    init_github_button_5c991175();
     ___ASSET___02 = "/_app/immutable/assets/appstore-3c23a8b2.svg";
-    ___ASSET___1 = "/_app/immutable/assets/homepage_image2-a202bca2.png";
+    ___ASSET___1 = "/_app/immutable/assets/homepage_image2-3c55d2db.webp";
+    subscriber_queue2 = [];
+    logoActive = writable2(0);
     Logo_anim = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       let { active } = $$props;
       if ($$props.active === void 0 && $$bindings.active && active !== void 0)
@@ -19222,7 +19228,6 @@ var init_index_svelte = __esm({
         }
         return true;
       }
-
       clone() {
         return new this.constructor().copy(this);
       }
@@ -19274,7 +19279,6 @@ var init_index_svelte = __esm({
         this.setAttribute("normal", new Float32BufferAttribute(normals, 3));
         this.setAttribute("uv", new Float32BufferAttribute(uvs, 2));
       }
-
       static fromJSON(data) {
         return new PlaneGeometry(data.width, data.height, data.widthSegments, data.heightSegments);
       }
@@ -22216,10 +22220,8 @@ var init_index_svelte = __esm({
         this.clear = false;
         this.renderToScreen = false;
       }
-
       setSize() {
       }
-
       render() {
         console.error("THREE.Pass: .render() must be implemented in derived pass.");
       }
@@ -22646,7 +22648,7 @@ var init_index_svelte = __esm({
         parentSize: parentSizeStore
       };
     };
-    css4 = {
+    css3 = {
       code: "canvas.svelte-15bl8wt{display:block}",
       map: null
     };
@@ -22712,7 +22714,7 @@ var init_index_svelte = __esm({
         $$bindings.rootCtx(rootCtx);
       if ($$props.audioCtx === void 0 && $$bindings.audioCtx && audioCtx !== void 0)
         $$bindings.audioCtx(audioCtx);
-      $$result.css.add(css4);
+      $$result.css.add(css3);
       {
         userSize.set(size);
       }
@@ -26798,14 +26800,9 @@ ${validate_component(InteractiveObject, "InteractiveObject").$$render($$result, 
     pz = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAYAAAD0eNT6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAgcSURBVHgB7dYBAQAQAMAwpBVAaC0I8i3F5j73DQAgZQ0AIEcAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIOgD+H8Gw7HU/A8AAAAASUVORK5CYII=";
     ny = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAYAAAD0eNT6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAgcSURBVHgB7dYBAQAQAMAwpBVAaC0I8i3F5j73DQAgZQ0AIEcAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIOgD+H8Gw7HU/A8AAAAASUVORK5CYII=";
     nz = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAYAAAD0eNT6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAgcSURBVHgB7dYBAQAQAMAwpBVAaC0I8i3F5j73DQAgZQ0AIEcAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIOgD+H8Gw7HU/A8AAAAASUVORK5CYII=";
-    o_px = "/_app/immutable/assets/px-27500c70.png";
+    o_px = "/_app/immutable/assets/px_white-ad697628.png";
+    o_px_upside = "/_app/immutable/assets/px_upside_white-09c7c397.png";
     o_ny = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAYAAAD0eNT6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAgYSURBVHgB7dYBAQAgDMCga//O+h6DFJy3BgBIuQMA5AgAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABH2OOQf84N9lUwAAAABJRU5ErkJggg==";
-    displacementMap = "/_app/immutable/assets/DisplacementMap-29e3da77.png";
-    normalMap = "/_app/immutable/assets/px2-69b3302f.png";
-    couch_texture = "/_app/immutable/assets/colormap-1dc348ec.png";
-    couch_ao = "/_app/immutable/assets/aomap-46434f8d.png";
-    couch_normal = "/_app/immutable/assets/normalmap-c237582c.png";
-    rug_texture = "/_app/immutable/assets/rug-2cea22ae.jpg";
     ShaderChunk["meshline_vert"] = [
       "",
       "#include <common>",
@@ -26989,23 +26986,25 @@ ${validate_component(InteractiveObject, "InteractiveObject").$$render($$result, 
     new Vector3();
     Game = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       let logoMaterial;
+      let holdingMaterial;
       let boxHeight;
       let $scale, $$unsubscribe_scale;
+      let $logoFade, $$unsubscribe_logoFade;
       let $fovScale, $$unsubscribe_fovScale;
       let $logoRotate, $$unsubscribe_logoRotate;
       let boxMesh, logoCamera;
       logoActive.subscribe((value) => {
       });
       const texture = useTexture([pz, py, px, px_upside, ny, nz]);
-      const texture_opposite = useTexture([o_px, o_ny, o_ny, o_ny, o_ny, o_ny]);
+      const texture_opposite = useTexture([o_ny, o_ny, o_px, o_px_upside, o_ny, o_ny]);
       let scale = spring(0.4, {});
       $$unsubscribe_scale = subscribe(scale, (value) => $scale = value);
       let fovScale = spring(1.6, {});
       $$unsubscribe_fovScale = subscribe(fovScale, (value) => $fovScale = value);
       const logoRotate = tweened(0, { duration: 60, easing: identity });
       $$unsubscribe_logoRotate = subscribe(logoRotate, (value) => $logoRotate = value);
-      useTexture(displacementMap);
-      useTexture(normalMap);
+      const logoFade = spring(1, { duration: 1e3, easing: cubicIn });
+      $$unsubscribe_logoFade = subscribe(logoFade, (value) => $logoFade = value);
       new MeshBasicMaterial({
         map: texture_opposite[0],
         transparent: true
@@ -27013,44 +27012,26 @@ ${validate_component(InteractiveObject, "InteractiveObject").$$render($$result, 
       new PlaneGeometry(1, 1);
       let canvasEl;
       useCursor();
-      let controls, pageY, startPos = 0;
-      let cameraCalcY;
-      const couchTexture = useTexture(couch_texture);
-      useTexture(rug_texture);
-      new MeshPhongMaterial({
-        shininess: 90,
-        map: couchTexture,
-        color: new Color(0),
-        aoMap: couch_ao,
-        normalMap: couch_normal,
-        aoMapIntensity: 2,
-        lightMapIntensity: 2
-      });
-      new MeshBasicMaterial({
-        map: texture[0],
-        shininess: 0,
-        reflectivity: 0,
-        color: 16777215
-      });
+      let controls;
       let $$settled;
       let $$rendered;
       do {
         $$settled = true;
+        {
+          {
+            logoFade.set(1);
+          }
+        }
         logoMaterial = texture.map((el) => new MeshPhongMaterial({
           shininess: 10,
+          transparent: true,
+          opacity: $logoFade,
           color: "#ffffff",
           map: el,
           flatShading: true
         }));
-        texture_opposite.map((el) => new MeshPhongMaterial({
-          map: el,
-          transparent: true,
-          alphaMap: new Color(0, 0, 0, 0),
-          color: new Color("rgba(0, 0, 0, 0)"),
-          wireframeLinewidth: 20
-        }));
+        holdingMaterial = texture_opposite.map((el) => new MeshPhongMaterial({ map: el }));
         boxHeight = 1.7 - $scale / 2;
-        cameraCalcY = -((pageY + startPos) / 70);
         $$rendered = `
 
 
@@ -27072,7 +27053,7 @@ ${validate_component(Canvas, "Canvas").$$render($$result, {
   
   
   ${validate_component(PerspectiveCamera, "PerspectiveCamera").$$render($$result, {
-              position: { x: 16, y: 6 + cameraCalcY, z: 16 },
+              position: { x: 16, y: 6, z: 16 },
               fov: $fovScale,
               lookAt: { y: -2, x: 0, z: 0 },
               camera: logoCamera
@@ -27168,13 +27149,19 @@ ${validate_component(Canvas, "Canvas").$$render($$result, {
               rotation: { y: $logoRotate }
             }, {}, {
               default: () => {
-                return `
-    
+                return `${``}
 
-    ${``}
+    ${$logoFade < 1 ? `${validate_component(Mesh, "MeshT").$$render($$result, {
+                  interactive: true,
+                  receiveShadow: true,
+                  position: { y: boxHeight },
+                  rotation: { x: 1.5708 },
+                  castShadow: true,
+                  geometry: new BoxGeometry(1, 1, 1),
+                  material: holdingMaterial
+                }, {}, {})}` : ``}
 
-    ${``}
-    ${validate_component(Mesh, "MeshT").$$render($$result, {
+    ${$logoFade > 0 ? `${validate_component(Mesh, "MeshT").$$render($$result, {
                   interactive: true,
                   receiveShadow: true,
                   position: { y: boxHeight },
@@ -27182,7 +27169,8 @@ ${validate_component(Canvas, "Canvas").$$render($$result, {
                   castShadow: true,
                   geometry: new BoxGeometry(1, 1, 1),
                   material: logoMaterial
-                }, {}, {})}
+                }, {}, {})}` : ``}
+
     ${validate_component(Line2, "Line2").$$render($$result, {
                   points: cube(1.004),
                   position: { x: 0, y: boxHeight, z: 0 },
@@ -27200,6 +27188,7 @@ ${validate_component(Canvas, "Canvas").$$render($$result, {
         })}`;
       } while (!$$settled);
       $$unsubscribe_scale();
+      $$unsubscribe_logoFade();
       $$unsubscribe_fovScale();
       $$unsubscribe_logoRotate();
       return $$rendered;
@@ -27212,62 +27201,74 @@ ${validate_component(Canvas, "Canvas").$$render($$result, {
       return `${validate_component(Page, "Page").$$render($$result, { home: "true" }, {}, {
         default: () => {
           return `
-  <div class="${"mainContainer"}"><div class="${"sm:px-8 lg:px-16 flex flex-row justify-between items-center justify-center w-full h-full innerContainer"}"><div class="${"justify-center flex w-full basis-full md:basis-2/3 lg:basis-3/5 sm:mr-10 px-4 lg:px-0"}"><div class="${"container w-fit max-w-xl z-10"}"><p class="${"text-5xl sm:text-6xl lg:text-7xl font-vollkorn font-light text-primary"}">Hi, I&#39;m PeaceBox</p>
-          <p class="${"text-lg font-baloo2 font-extralight sm:max-w-prose mt-8 mb-3 text-primary sm:pl-1.5"}">We all deal with stress and anxiety in our lives but most of us don&#39;t know how to effectively let go of it.
-          </p>
-          <p class="${"text-lg font-baloo2 font-extralight sm:max-w-prose mb-10 text-primary mt-6 sm:mt-0 sm:pl-1.5"}">PeaceBox is like a toolbox for your mind with the tools and techniques you need to relax and de-stress.
-          </p>
-          <div class="${"flex flex-row items-center justify-start"}">
-            <a href="${" https://apps.apple.com/us/app/peacebox-tools-for-your-mind/id1592436336"}"><img${add_attribute("src", ___ASSET___02, 0)} class="${"w-44 borderAppStore min-w-32"}"></a>
+  <div class="${"relative block [height:80vh]"}"><div class="${"mt-20 sm:mt-32 md:mt-60 px-6 lg:px-16 block md:flex flex-row justify-between w-full h-full"}"><div class="${"justify-center flex w-full basis-full md:basis-2/3 lg:basis-3/5 sm:mr-10 px-4 lg:px-0"}"><div class="${"container w-fit max-w-xl z-10"}"><p class="${"text-4xl sm:text-6xl lg:text-7xl font-vollkorn font-light text-primary"}">Hi, I&#39;m PeaceBox</p>
+            <p class="${"text-lg text-black font-baloo2 font-extralight sm:max-w-prose mb-3 text-primary sm:pl-1.5 mt-8"}">We all deal with stress and anxiety in our lives but most of us don&#39;t know how to effectively let go of
+              it.
+            </p>
+            <p class="${"mb-10 text-lg text-black font-baloo2 font-extralight sm:max-w-prose text-primary mt-6 sm:mt-0 sm:pl-1.5"}">PeaceBox is like a toolbox for your mind with the tools and techniques you need to relax and de-stress.
+            </p>
+          <div class="${"flex flex-row items-center justify-start"}"><a href="${" https://apps.apple.com/us/app/peacebox-tools-for-your-mind/id1592436336"}" aria-label="${"Visit PeaceBox on the Appstore"}"><img${add_attribute("src", ___ASSET___02, 0)} class="${"w-44 borderAppStore min-w-32"}"></a>
             <div class="${"mx-4 sm:mx-16"}">${validate_component(Github_button, "GithubButton").$$render($$result, {}, {}, {})}</div></div></div></div>
-      <div class="${"items-center -translate-y-3 md:-translate-y-0 md:mt-10 w-full flex fixed opacity-30 md:opacity-100 md:relative basis-1/3 lg:basis-2/5"}"><div class="${"w-40 w-40 md:w-full md:h-full lg:h-72 lg:w-72 rounded-5xl lg:rounded-6xl logoMain opacityLogo logoContainer"}">
-
-          
-
-          
-          ${logoActiveVal <= 1 ? `${validate_component(Logo_anim, "LogoAnim").$$render($$result, { active: logoActiveVal }, {}, {})}` : ``}
-          <div style="${"width: 350px; height: 350px"}" class="${[
+      <div class="${"disableSelect scale-75 opacity-90 md:opacity-100 md:scale-100 justify-center w-full flex relative md:basis-1/3 lg:basis-2/5"}"><div class="${"relative md:w-full md:h-full lg:h-72 lg:w-72 rounded-5xl lg:rounded-6xl logoMain opacityLogo logoContainer"}">${logoActiveVal <= 1 ? `${validate_component(Logo_anim, "LogoAnim").$$render($$result, { active: logoActiveVal }, {}, {})}` : ``}
+          <div class="${[
             "absolute block justify-center items-center",
             (logoActiveVal <= 1 ? "opacity-0" : "") + " " + (logoActiveVal >= 2 ? "relative" : "")
-          ].join(" ").trim()}">${validate_component(Game, "Game").$$render($$result, {}, {}, {})}</div>
-          
-          
-          </div></div></div></div>
+          ].join(" ").trim()}">${validate_component(Game, "Game").$$render($$result, {}, {}, {})}</div></div></div></div></div>
 
   
-  <div class="${"my-80 md:mt-72"}"><div class="${"sm:px-4 lg:px-4 flex flex-col md:flex-row justify-between items-center justify-center w-full"}"><div class="${"z-0 items-center sm:-translate-y-3 md:-translate-y-0 md:mt-10 w-3/2 sm:w-full flex md:fixed md:relative basis-full md:basis-1/2"}"><div class="${"rounded-5xl lg:rounded-6xl mx-auto absolute smallTapes md:tapesImage"}"><img${add_attribute("src", ___ASSET___1, 0)}></div></div>
+  <div class="${"my-80 mt-96 md:mt-72"}"><div class="${"sm:px-4 lg:px-4 flex flex-col md:flex-row justify-between items-center justify-center w-full"}"><div class="${"disableSelect z-0 items-center sm:-translate-y-3 md:-translate-y-0 md:mt-10 w-3/2 sm:w-full flex md:fixed md:relative basis-full md:basis-1/2"}"><div class="${"rounded-5xl lg:rounded-6xl mx-auto absolute smallTapes md:tapesImage"}">
 
-      <div class="${"justify-center flex basis-1/2 px-4 lg:px-0 mx-4 z-10 sm:mr-5 mobileCard lg:antiMobileCard"}"><div class="${"container w-full md:w-fit md:max-w-xl"}"><p class="${"text-5xl sm:text-6xl lg:text-6xl font-vollkorn font-light text-primary sm:whitespace-nowrap"}">Don&#39;t
-            Pay for Peace \xA0<i class="${"fa-solid fa-hand-peace fa-sm"}"></i></p>
+
+          <img${add_attribute("src", ___ASSET___1, 0)}></div></div>
+
+      <div class="${"justify-center relative flex basis-1/2 px-4 lg:px,-0 mx-4 z-10 sm:mr-5 mobileCard lg:antiMobileCard"}"><div class="${"container w-full md:w-fit md:max-w-xl"}"><p class="${"text-5xl sm:text-6xl lg:text-6xl font-vollkorn font-light text-primary sm:whitespace-nowrap"}">Don&#39;t
+            Pay for Peace \xA0
+            <i class="${"fa-solid fa-hand-peace fa-sm"}"></i></p>
           <p class="${"text-lg font-baloo2 font-extralight sm:max-w-prose mt-8 mb-3 text-primary sm:pl-1.5"}">With journaling tools, breathing exercises, and audio meditation tapes, you&#39;ll always have your mental
             toolbox in your back pocket
           </p>
           <p class="${"text-lg font-vollkorn font-extralight sm:max-w-prose mt-8 mb-3 text-primary sm:pl-1.5"}">PeaceBox is completely <strong class="${"font-bold"}">free</strong> and will never have ads. Content and tools
             are available to all users free of cost.
           </p>
-          <a href="${"https://apps.apple.com/us/app/peacebox-tools-for-your-mind/id1592436336"}"><img${add_attribute("src", ___ASSET___02, 0)} class="${"w-32 mt-10 borderAppStore min-w-20"}"></a></div></div></div>
-
-    
-    
-    </div>
+          <a href="${"https://apps.apple.com/us/app/peacebox-tools-for-your-mind/id1592436336"}" aria-label="${"Visit PeaceBox on the Appstore"}"><img${add_attribute("src", ___ASSET___02, 0)} class="${"w-32 mt-10 borderAppStore min-w-20"}"></a></div></div></div></div>
 
   
-  <div class="${"my-80 md:mt-72"}"><div class="${"sm:px-4 lg:px-4 flex flex-col md:flex-row justify-between items-center justify-center w-full"}"><div class="${"z-0 items-center sm:-translate-y-3 md:-translate-y-0 md:mt-10 w-3/2 sm:w-full flex md:fixed md:relative basis-full md:basis-1/2"}"><div class="${"rounded-5xl lg:rounded-6xl mx-auto absolute"}">
-          <textarea class="${"outline-0 border-black rounded-lg w-40 h-72"}" placeholder="${"Put down your thoughts"}" cols="${"40"}" rows="${"5"}"></textarea></div></div>
+  
+  
+  
 
-      <div class="${"justify-center flex basis-1/2 px-4 lg:px-0 mx-4 z-10 sm:mr-5 mobileCard lg:antiMobileCard"}"><div class="${"container w-full md:w-fit md:max-w-xl"}"><p class="${"text-5xl sm:text-6xl lg:text-6xl font-vollkorn font-light text-primary sm:whitespace-nowrap"}">Don&#39;t
-            Pay for Peace \xA0<i class="${"fa-solid fa-hand-peace fa-sm"}"></i></p>
-          <p class="${"text-lg font-baloo2 font-extralight sm:max-w-prose mt-8 mb-3 text-primary sm:pl-1.5"}">With journaling tools, breathing exercises, and audio meditation tapes, you&#39;ll always have your mental
-            toolbox in your back pocket
-          </p>
-          <p class="${"text-lg font-vollkorn font-extralight sm:max-w-prose mt-8 mb-3 text-primary sm:pl-1.5"}">PeaceBox is completely <strong class="${"font-bold"}">free</strong> and will never have ads. Content and tools
-            are available to all users free of cost.
-          </p>
-          <a href="${"https://apps.apple.com/us/app/peacebox-tools-for-your-mind/id1592436336"}"><img${add_attribute("src", ___ASSET___02, 0)} class="${"w-32 mt-10 borderAppStore min-w-20"}"></a></div></div></div>
+  
+  
+  
+  
+  
+  
+  
+  
 
-    
-    
-    </div>`;
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+  
+  
+  
+  `;
         }
       })}`;
     });
@@ -27277,21 +27278,21 @@ ${validate_component(Canvas, "Canvas").$$render($$result, {
 // .svelte-kit/output/server/nodes/2.js
 var __exports3 = {};
 __export(__exports3, {
-  css: () => css5,
+  css: () => css4,
   entry: () => entry3,
   index: () => index3,
   js: () => js3,
   module: () => index_svelte_exports
 });
-var index3, entry3, js3, css5;
+var index3, entry3, js3, css4;
 var init__3 = __esm({
   ".svelte-kit/output/server/nodes/2.js"() {
     init_shims();
     init_index_svelte();
     index3 = 2;
-    entry3 = "pages/index.svelte-b9d0d346.js";
-    js3 = ["pages/index.svelte-b9d0d346.js", "chunks/index-c7ee4805.js", "chunks/page-3440fa0a.js", "chunks/preload-helper-9d7dac97.js", "chunks/github_button-76cd2b51.js"];
-    css5 = ["assets/pages/index.svelte-2d72d54b.css", "assets/page-6b3a2eee.css"];
+    entry3 = "pages/index.svelte-f8238e74.js";
+    js3 = ["pages/index.svelte-f8238e74.js", "chunks/index-e7355bb5.js", "chunks/page-bb726ec1.js", "chunks/index-68224a48.js", "chunks/github_button-ca9dcb6a.js"];
+    css4 = ["assets/pages/index.svelte-2d72d54b.css", "assets/page-0d01eae2.css"];
   }
 });
 
@@ -27304,9 +27305,9 @@ var import_lodash3, License;
 var init_license_svelte = __esm({
   ".svelte-kit/output/server/entries/pages/license.svelte.js"() {
     init_shims();
-    init_index_ebe58a1f();
-    init_page_3ef805ba();
-    init_github_button_96dd67c4();
+    init_index_9a38fd97();
+    init_page_9d0e863d();
+    init_github_button_5c991175();
     import_lodash3 = __toESM(require_lodash(), 1);
     License = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       return `${validate_component(Page, "Page").$$render($$result, { home: "false" }, {}, {
@@ -27610,21 +27611,21 @@ var init_license_svelte = __esm({
 // .svelte-kit/output/server/nodes/3.js
 var __exports4 = {};
 __export(__exports4, {
-  css: () => css6,
+  css: () => css5,
   entry: () => entry4,
   index: () => index4,
   js: () => js4,
   module: () => license_svelte_exports
 });
-var index4, entry4, js4, css6;
+var index4, entry4, js4, css5;
 var init__4 = __esm({
   ".svelte-kit/output/server/nodes/3.js"() {
     init_shims();
     init_license_svelte();
     index4 = 3;
-    entry4 = "pages/license.svelte-b760cd29.js";
-    js4 = ["pages/license.svelte-b760cd29.js", "chunks/index-c7ee4805.js", "chunks/page-3440fa0a.js", "chunks/preload-helper-9d7dac97.js", "chunks/github_button-76cd2b51.js"];
-    css6 = ["assets/page-6b3a2eee.css"];
+    entry4 = "pages/license.svelte-7129fedd.js";
+    js4 = ["pages/license.svelte-7129fedd.js", "chunks/index-e7355bb5.js", "chunks/page-bb726ec1.js", "chunks/github_button-ca9dcb6a.js"];
+    css5 = ["assets/page-0d01eae2.css"];
   }
 });
 
@@ -27637,8 +27638,8 @@ var import_lodash4, Privacy;
 var init_privacy_svelte = __esm({
   ".svelte-kit/output/server/entries/pages/privacy.svelte.js"() {
     init_shims();
-    init_index_ebe58a1f();
-    init_page_3ef805ba();
+    init_index_9a38fd97();
+    init_page_9d0e863d();
     import_lodash4 = __toESM(require_lodash(), 1);
     Privacy = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       return `${validate_component(Page, "Page").$$render($$result, { home: "false" }, {}, {
@@ -27801,21 +27802,21 @@ var init_privacy_svelte = __esm({
 // .svelte-kit/output/server/nodes/4.js
 var __exports5 = {};
 __export(__exports5, {
-  css: () => css7,
+  css: () => css6,
   entry: () => entry5,
   index: () => index5,
   js: () => js5,
   module: () => privacy_svelte_exports
 });
-var index5, entry5, js5, css7;
+var index5, entry5, js5, css6;
 var init__5 = __esm({
   ".svelte-kit/output/server/nodes/4.js"() {
     init_shims();
     init_privacy_svelte();
     index5 = 4;
-    entry5 = "pages/privacy.svelte-9eda9c54.js";
-    js5 = ["pages/privacy.svelte-9eda9c54.js", "chunks/index-c7ee4805.js", "chunks/page-3440fa0a.js", "chunks/preload-helper-9d7dac97.js"];
-    css7 = ["assets/page-6b3a2eee.css"];
+    entry5 = "pages/privacy.svelte-c214e77d.js";
+    js5 = ["pages/privacy.svelte-c214e77d.js", "chunks/index-e7355bb5.js", "chunks/page-bb726ec1.js"];
+    css6 = ["assets/page-0d01eae2.css"];
   }
 });
 
@@ -27828,8 +27829,8 @@ var import_lodash5, Terms;
 var init_terms_svelte = __esm({
   ".svelte-kit/output/server/entries/pages/terms.svelte.js"() {
     init_shims();
-    init_index_ebe58a1f();
-    init_page_3ef805ba();
+    init_index_9a38fd97();
+    init_page_9d0e863d();
     import_lodash5 = __toESM(require_lodash(), 1);
     Terms = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       return `${validate_component(Page, "Page").$$render($$result, { home: "false" }, {}, {
@@ -27972,21 +27973,21 @@ var init_terms_svelte = __esm({
 // .svelte-kit/output/server/nodes/5.js
 var __exports6 = {};
 __export(__exports6, {
-  css: () => css8,
+  css: () => css7,
   entry: () => entry6,
   index: () => index6,
   js: () => js6,
   module: () => terms_svelte_exports
 });
-var index6, entry6, js6, css8;
+var index6, entry6, js6, css7;
 var init__6 = __esm({
   ".svelte-kit/output/server/nodes/5.js"() {
     init_shims();
     init_terms_svelte();
     index6 = 5;
-    entry6 = "pages/terms.svelte-ba7f1928.js";
-    js6 = ["pages/terms.svelte-ba7f1928.js", "chunks/index-c7ee4805.js", "chunks/page-3440fa0a.js", "chunks/preload-helper-9d7dac97.js"];
-    css8 = ["assets/page-6b3a2eee.css"];
+    entry6 = "pages/terms.svelte-ae105717.js";
+    js6 = ["pages/terms.svelte-ae105717.js", "chunks/index-e7355bb5.js", "chunks/page-bb726ec1.js"];
+    css7 = ["assets/page-0d01eae2.css"];
   }
 });
 
@@ -28000,7 +28001,7 @@ init_shims();
 
 // .svelte-kit/output/server/index.js
 init_shims();
-init_index_ebe58a1f();
+init_index_9a38fd97();
 function afterUpdate() {
 }
 var Root = create_ssr_component(($$result, $$props, $$bindings, slots) => {
@@ -30227,7 +30228,7 @@ var template = ({
                   body,
                   assets: assets2,
                   nonce
-                }) => "<html>\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width\">\n\n  <title>PeaceBox : Tools for your Mind</title>\n\n  " + head + "\n\n  <script src=\"https://kit.fontawesome.com/af75aac62e.js\" crossorigin=\"anonymous\"><\/script>\n</head>\n<body>\n<!-- SVG Background -->\n" + body + "\n</body>\n</html>\n\n";
+                }) => "<!DOCTYPE html>\n<html>\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width\">\n\n  <title>PeaceBox : Tools for your Mind</title>\n\n  " + head + "\n\n  <script src=\"https://kit.fontawesome.com/af75aac62e.js\" crossorigin=\"anonymous\"><\/script>\n</head>\n<body>\n<!-- SVG Background -->\n" + body + "\n</body>\n</html>\n\n";
 var read = null;
 set_paths({ "base": "", "assets": "" });
 var Server = class {
@@ -30291,8 +30292,8 @@ var manifest = {
   mimeTypes: { ".png": "image/png" },
   _: {
     entry: {
-      "file": "start-d52c2945.js",
-      "js": ["start-d52c2945.js", "chunks/index-c7ee4805.js", "chunks/preload-helper-9d7dac97.js"],
+      "file": "start-f707c639.js",
+      "js": ["start-f707c639.js", "chunks/index-e7355bb5.js", "chunks/index-68224a48.js"],
       "css": []
     },
     nodes: [

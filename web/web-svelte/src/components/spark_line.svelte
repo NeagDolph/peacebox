@@ -5,7 +5,7 @@
   import { onMount } from "svelte";
   import { MeshLineRaycast } from "../helpers/MeshLine/index.js";
 
-  export let curve, width, color, speed, pointLength, offset = false;
+  export let curve, width, color, sp, offset = false;
 
 
   $: {
@@ -15,8 +15,6 @@
   let material, line, mainMesh;
 
   onMount(() => {
-
-    console.log(mainMesh.raycast);
     mainMesh.raycast = MeshLineRaycast;
 
     material = new MeshLineMaterial({

@@ -5,156 +5,17 @@
   import favicon32 from "../assets/favicons/favicon-32x32.png";
   import favicon16 from "../assets/favicons/favicon-16x16.png";
   import faviconApple from "../assets/favicons/apple-touch-icon.png";
-  import { onMount } from "svelte";
-  import _ from "lodash";
-  import { logoActive } from "../stores/store.js";
 
   let innerWidth = 0;
   let innerHeight = 0;
 
-  let topRight1, topRight2, Snap, pageY, ring, documentEl, windowEl;
+  let topRight1, topRight2, Snap, pageY, ring, documentEl;
 
   let set1, set2, setRing, opacityLogo, innerLogo, setAll;
 
   export let home;
-  let logoActiveVal;
-
-  logoActive.subscribe((val) => logoActiveVal = val);
-
-
-  onMount(async () => {
-    Snap = (await import("snapsvg-cjs")).default;
-
-    set1 = Snap(topRight1).selectAll("path");
-    set2 = Snap(topRight2).selectAll("path");
-
-    setRing = Array.from(Snap(ring).selectAll("circle"));
-    setAll = setRing.concat(Array.from(Snap(ring).selectAll("ellipse")));
-
-    // console.log(setRing);
-
-    initAnim();
-
-  });
-
-  let initAnim = () => {
-    setRing?.forEach(el => {
-      el.animate({ opacity: 0 }, 1, mina.linear);
-    });
-  };
-
-  let scrollLoop = () => {
-    if (innerWidth >= 768) {
-      logoToCircle();
-
-      openCircle();
-
-      const logoTop = documentEl?.querySelector(".logoContainer")?.getBoundingClientRect()?.top;
-      const logoHeight = documentEl?.querySelector(".logoContainer")?.getBoundingClientRect()?.height;
-      if (-logoTop > 0) {
-      }
-
-    }
-  };
-
-  let logoToCircle = () => {
-
-  };
-
-  let openCircle = () => {
-    _.debounce(() => {
-      setRing?.forEach(el => {
-
-        const logoRect = documentEl?.querySelector(".logoContainer")?.getBoundingClientRect();
-        const pageCalc = -(logoRect.top);
-
-        const pageTop = pageCalc;
-        const scrollFactor = Math.min(Math.max(0, pageTop / 15), 40);
-        const opacityFactor = Math.min(Math.max((scrollFactor - 10) / 10, 0), 0.8);
-
-        const angleInDegrees = (Number(el.node.id) - 1) * 36;
-        const angleInRadians = ((angleInDegrees * Math.PI) / 180);
-        const cos = 100 + (scrollFactor * Math.cos(angleInRadians));
-        const sin = 100 + (scrollFactor * Math.sin(angleInRadians));
-
-
-        if (logoRect.top < 0) {
-          if (logoActiveVal === 1) {
-            logoActive.update(() => 2);
-
-            setTimeout(() => logoActive.update(() => 3), 10);
-          }
-        }
-
-        if (logoRect.top > 20) {
-          if (logoActiveVal >= 3) {
-            logoActive.update(() => 0);
-            setTimeout(() => logoActive.update(() => 1), 200);
-
-          }
-        }
-
-        if (el.node.id === "main") {
-          el.animate({ opacity: opacityFactor }, 60, mina.linear);
-
-        } else el.animate({ cx: cos, cy: sin, opacity: opacityFactor }, 60, mina.linear);
-      });
-    }, 50)();
-
-  };
 
 </script>
-
-<style>
-    @-webkit-keyframes rotating /* Safari and Chrome */
-    {
-        from {
-            -webkit-transform: rotate(0deg);
-            -o-transform: rotate(0deg);
-            transform: rotate(0deg);
-        }
-        to {
-            -webkit-transform: rotate(360deg);
-            -o-transform: rotate(360deg);
-            transform: rotate(360deg);
-        }
-    }
-
-    @keyframes rotating {
-        from {
-            -ms-transform: rotate(0deg);
-            -moz-transform: rotate(0deg);
-            -webkit-transform: rotate(0deg);
-            -o-transform: rotate(0deg);
-            transform: rotate(0deg);
-        }
-        to {
-            -ms-transform: rotate(360deg);
-            -moz-transform: rotate(360deg);
-            -webkit-transform: rotate(360deg);
-            -o-transform: rotate(360deg);
-            transform: rotate(360deg);
-        }
-    }
-
-    .rotating {
-        -webkit-animation: rotating 5s linear infinite;
-        -moz-animation: rotating 2s linear infinite;
-        -ms-animation: rotating 2s linear infinite;
-        -o-animation: rotating 2s linear infinite;
-        animation: rotating 20s linear infinite;
-    }
-
-    #rotateDiv {
-        left: calc(14vw + 20px);
-        top: 1350px;
-        width: 200px !important;
-        height: 200px;
-        position: absolute !important;
-    }
-</style>
-
-<svelte:window bind:scrollY={pageY} on:scroll={scrollLoop} bind:innerWidth bind:innerHeight />
 
 <svelte:head>
   <link rel="apple-touch-icon" sizes="180x180" href="{faviconApple}">
@@ -165,38 +26,7 @@
 <div class="h-0">
   <!-- <img src="./assets/topright.svg" class="absolute top-0 right-0 w-80 md:w-96 lg:w-124">
   <img src="./assets/bottomleft.svg" class="absolute bottom-0 left-0 w-80 md:w-96 lg:w-124"> -->
-  <div id="rotateDiv" class="relative h-32 w-32 w-full flex justify-end items-center translate-y-30 opacity-70">
-    <div class="w-32 h-32 flex absolute justify-center items-center">
-      <div bind:this={opacityLogo} class="absolute top-0 h-32 w-32 flex justify-center items-center verticalHack">
-      </div>
-      <svg viewBox="0 0 200 200" class="w-32 h-32 rotating"
-
-           fill="none" xmlns="http://www.w3.org/2000/svg">
-        <g id="closed" bind:this={ring}>
-          <circle id="10" cx="100" cy="100" r="50" fill="#6062FF"
-                  style="opacity: 0" fill-opacity="0.37" />
-          <circle id="9" cx="100" cy="100" r="50" fill="#6062FF"
-                  style="opacity: 0" fill-opacity="0.37" />
-          <circle id="8" cx="100" cy="100" r="50" fill="#6062FF"
-                  style="opacity: 0" fill-opacity="0.37" />
-          <circle id="7" cx="100" cy="100" r="50" fill="#6062FF"
-                  style="opacity: 0" fill-opacity="0.37" />
-          <circle id="6" cx="100" cy="100" r="50" fill="#6062FF"
-                  style="opacity: 0" fill-opacity="0.37" />
-          <circle id="5" cx="100" cy="100" r="50" fill="#6062FF"
-                  style="opacity: 0" fill-opacity="0.37" />
-          <circle id="4" cx="100" cy="100" r="50" fill="#6062FF"
-                  style="opacity: 0" fill-opacity="0.37" />
-          <circle id="3" cx="100" cy="100" r="50" fill="#6062FF"
-                  style="opacity: 0" fill-opacity="0.37" />
-          <circle id="2" cx="100" cy="100" r="50" fill="#6062FF"
-                  style="opacity: 0" fill-opacity="0.37" />
-          <circle style="opacity: 0" id="1" cx="100" cy="100" r="50" fill="#6062FF" fill-opacity="0.37" />
-          <circle style="opacity: 0" id="main" cx="100" cy="100" r="50" fill="#6062FF" fill-opacity="0.8" />
-        </g>
-      </svg>
-    </div>
-  </div>
+  <!--  <BreathingAnim/>-->
 
   <!--  <img src="../assets/topright.svg" class="fixed top-0 right-0 w-96 lg:w-124 below2" alt="Top-right background image" />-->
   <img src="../assets/bottomleft.svg" class="fixed bottomHack left-0 w-96 lg:w-124 below2"
@@ -255,7 +85,7 @@
 </div>
 <div class="siteWrapper" bind:this={documentEl}>
   <div
-    class="flex flex-row h-28 items-center sm:pl-8 lg:pl-16 border-b border-gray-900 justify-between header w-full">
+    class="hidden flex flex-row h-28 items-center sm:pl-8 lg:pl-16 border-b border-gray-900 justify-between header w-full">
     <div class="flex flex-row">
 
       {#if home === "true"}
@@ -288,7 +118,8 @@
       <!--        </a>-->
       <!--      </div>-->
       <div class="h-full pr-8 pl-4 block sm:hidden border-gray-900 flex items-center">
-        <a href="https://apps.apple.com/us/app/peacebox-tools-for-your-mind/id1592436336">
+        <a href="https://apps.apple.com/us/app/peacebox-tools-for-your-mind/id1592436336"
+           aria-label="Visit PeaceBox on the Appstore">
           <i class="fa-solid fa-cloud-arrow-down fa-2x"></i>
         </a>
       </div>
