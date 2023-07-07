@@ -1,36 +1,16 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {
-  Alert,
-  Dimensions,
-  Linking,
-  Pressable,
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import React, { useEffect, useRef, useState } from "react";
+import { Alert, Dimensions, Linking, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-import crashlytics from "@react-native-firebase/crashlytics";
 
-import Header from "./components/header"
+import Header from "./components/header";
 import ToolItem from "./components/tool-item";
-import FadeGradient from "../components/fade-gradient";
 import StartScreen from "./start/start-screen";
 import LogoBox from "./components/logo-box";
-import Animated, {
-  runOnJS,
-  useAnimatedScrollHandler,
-  useSharedValue
-} from "react-native-reanimated";
-import {useDispatch, useSelector} from "react-redux";
-import {setUsed, setSetting} from "../store/features/settingsSlice";
-import {colors} from "../config/colors";
-import Rate from 'react-native-rate'
-import {store} from "../store/store";
-import {withTheme} from "react-native-paper";
+import Animated, { runOnJS, useAnimatedScrollHandler, useSharedValue } from "react-native-reanimated";
+import { useDispatch, useSelector } from "react-redux";
+import { setSetting, setUsed } from "../store/features/settingsSlice";
+import { colors } from "../config/colors";
+import Rate from "react-native-rate";
 
 interface ToolData {
   title: string;
@@ -49,7 +29,7 @@ const HomePage = ({navigation}: any) => {
   const lockConstant = 680
 
   const askReview = () => {
-    crashlytics().log("User clicked open review button.");
+    // crashlytics().log("User clicked open review button.");
 
     if (settings.openedReview) {
       Alert.alert(
@@ -59,7 +39,7 @@ const HomePage = ({navigation}: any) => {
 
           {
             text: "Yes!", onPress: () => {
-              crashlytics().log("Opened app store to give review");
+              // crashlytics().log("Opened app store to give review");
               // https://apps.apple.com/us/app/peacebox-tools-for-your-mind/id1592436336
 
               Linking.openURL("https://apps.apple.com/us/app/peacebox-tools-for-your-mind/id1592436336")
@@ -82,7 +62,7 @@ const HomePage = ({navigation}: any) => {
       Rate.rate(options, (success, errorMessage) => {
         if (success) {
           // this technically only tells us if the user successfully went to the Review Page. Whether they actually did anything, we do not know.
-          crashlytics().log("User completed rating lifecycle.");
+          // crashlytics().log("User completed rating lifecycle.");
           dispatch(setSetting({
             page: "general",
             setting: "openedReview",
@@ -91,8 +71,8 @@ const HomePage = ({navigation}: any) => {
         }
         if (errorMessage) {
           // errorMessage comes from the native code. Useful for debugging, but probably not for users to view
-          crashlytics().log("Error with reviewing.");
-          crashlytics().recordError(Error(errorMessage));
+          // crashlytics().log("Error with reviewing.");
+          // crashlytics().recordError(Error(errorMessage));
         }
       })
     }
@@ -147,9 +127,9 @@ const HomePage = ({navigation}: any) => {
   }, [endOfScroll])
 
   useEffect(() => {
-    crashlytics().log("Page loaded: Home Page")
+    // crashlytics().log("Page loaded: Home Page")
     if (!settings.used) {
-      crashlytics().log("Home page loaded for the first time")
+      // crashlytics().log("Home page loaded for the first time")
       scrollRef.current.flashScrollIndicators()
     }
   }, [])

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Reanimated, {EasingNode} from 'react-native-reanimated';
+import Reanimated, {Easing} from 'react-native-reanimated';
 import ReanimatedArcBase, {
   Props as ReanimatedArcBaseProps,
   defaultProps,
@@ -18,7 +18,7 @@ class ReanimatedArc extends React.Component<Props> {
     ...defaultProps,
     initialAnimation: true,
     animationDuration: 800,
-    easing: EasingNode.linear,
+    easing: Easing.linear,
   };
 
   arcSweepAngle = new Reanimated.Value<number>(0);

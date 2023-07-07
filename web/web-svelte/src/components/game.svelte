@@ -293,9 +293,13 @@
   <!--  y - 6-->
   <PerspectiveCamera position={{ x: 16, y: 6, z: 16 }} fov={$fovScale} lookAt={{y: -2, x: 0, z: 0}}
                      bind:camera={logoCamera}>
+
     <OrbitControls
       autoRotate={false}
       enableRotate={true}
+      maxAzimuthAngle={360}
+      minAzimuthAngle={-360}
+      maxPolarAngle={720}
       enablePan={false}
       enableDamping
       enableZoom={false}

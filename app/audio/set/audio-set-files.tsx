@@ -1,13 +1,13 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, { useEffect, useMemo, useState } from "react";
 
-import {StyleSheet, View} from 'react-native';
-import {colors} from '../../config/colors';
-import AudioSetFilesTape from './audio-set-files-tape';
-import PropTypes from 'prop-types';
-import IconMaterial from 'react-native-vector-icons/MaterialCommunityIcons';
-import {useSelector} from 'react-redux';
-import {useForceUpdate} from '../../helpers/update';
-import {useNavigation} from '@react-navigation/native';
+import { StyleSheet, View } from "react-native";
+import { colors } from "../../config/colors";
+import AudioSetFilesTape from "./audio-set-files-tape";
+import PropTypes from "prop-types";
+import IconMaterial from "react-native-vector-icons/MaterialCommunityIcons";
+import { useSelector } from "react-redux";
+import { useForceUpdate } from "../../helpers/update";
+import { useNavigation } from "@react-navigation/native";
 
 const AudioSetFiles = props => {
   const [updateVal, forceUpdate] = useForceUpdate();
@@ -155,20 +155,20 @@ const styles = StyleSheet.create({
   },
   checkmarkContainer: {
     // height: "100%",
-    justifyContent:"center"',
+    justifyContent: 'center',
     // width: 20,
     paddingRight: 1,
   },
   tapeContainer: {
-    width: "100%",
+    width: '100%',
     // flex: 1,
-    flexDirection: "row",
-    marginVertical: 15
+    flexDirection: 'row',
+    marginVertical: 15,
     // height: 100
   },
   container: {
     // flexDirection: "row",
-    width: "100%"
+    width: '100%',
     // height: 200
     // flex: 1,
   },
@@ -178,9 +178,9 @@ const styles = StyleSheet.create({
     left: 9,
     borderRadius: 50,
     // flex: 1,z
-    position: "absolute",
-    backgroundColor: colors.accent
-  }
+    position: 'absolute',
+    backgroundColor: colors.accent,
+  },
 });
 
 export default AudioSetFiles;

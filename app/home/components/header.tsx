@@ -1,9 +1,7 @@
-import React, {Component} from 'react';
-import {Text, View, Button, StyleSheet} from 'react-native';
+import React from "react";
+import { StyleSheet, Text, View } from "react-native";
 // import {connect} from 'react-redux';
-import {withTheme} from 'react-native-paper';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome'
-import {colors} from "../../config/colors";
+import { colors } from "../../config/colors";
 
 const generateMotd = () => {
   let motdList = [

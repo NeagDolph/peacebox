@@ -13,7 +13,6 @@ import {colors} from "../../config/colors";
 import IconMaterial from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconEntypo from 'react-native-vector-icons/Entypo';
 import PropTypes from 'prop-types'
-import crashlytics from "@react-native-firebase/crashlytics"
 import {PanGestureHandler, TapGestureHandler, State} from "react-native-gesture-handler";
 import {setTSpan} from "react-native-svg/lib/typescript/lib/extract/extractText";
 import Animated, {
@@ -146,7 +145,6 @@ const PatternItem = props => {
         {text: "Nevermind"},
         {
           text: "Confirm", onPress: () => {
-            crashlytics().log("Pattern deleted: " + JSON.stringify(props.patternData));
             props.deletePattern(props.patternData.id)
           }
         },

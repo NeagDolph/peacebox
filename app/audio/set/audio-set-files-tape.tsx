@@ -1,27 +1,27 @@
-import React, {useMemo} from 'react';
+import React, { useMemo } from "react";
 
-import {Pressable, StyleSheet, Text, View} from 'react-native';
-import PropTypes from 'prop-types';
-import {colors} from '../../config/colors';
-import IconMaterial from 'react-native-vector-icons/MaterialCommunityIcons';
-import {useDispatch} from 'react-redux';
-import {deleteTape} from '../../store/features/tapesSlice';
+import { Platform, Pressable, StyleSheet, Text, View } from "react-native";
+import PropTypes from "prop-types";
+import { colors } from "../../config/colors";
+import IconMaterial from "react-native-vector-icons/MaterialCommunityIcons";
+import { useDispatch } from "react-redux";
+import { deleteTape } from "../../store/features/tapesSlice";
 
-import {useNavigation} from '@react-navigation/native';
-import IconIonicons from 'react-native-vector-icons/Ionicons';
-import ReanimatedArc from '../../breathing/use/components/ReanimatedArc';
-import {
-  cancelDownload,
-  deleteAudio,
-  downloadSingleTape,
-  processDownloadQ,
-} from '../../helpers/downloadAudio';
-import {confirm} from '../../helpers/confirm';
-import {playAudio} from '../../helpers/playAudio';
-import RNFS from 'react-native-fs';
-import haptic from '../../helpers/haptic';
-import RNBackgroundDownloader from 'react-native-background-downloader';
-import {ContextMenuView} from 'react-native-ios-context-menu';
+import { useNavigation } from "@react-navigation/native";
+import IconIonicons from "react-native-vector-icons/Ionicons";
+import ReanimatedArc from "../../breathing/use/components/ReanimatedArc";
+import { cancelDownload, deleteAudio, downloadSingleTape, processDownloadQ } from "../../helpers/downloadAudio";
+import { confirm } from "../../helpers/confirm";
+import { playAudio } from "../../helpers/playAudio";
+import RNFS from "react-native-fs";
+import haptic from "../../helpers/haptic";
+import RNBackgroundDownloader from "react-native-background-downloader";
+
+let ContextMenuView;
+
+if (Platform.OS === 'ios') {
+  ContextMenuView = require('react-native-ios-context-menu').ContextMenuView;
+}
 
 const AudioSetFilesTape = props => {
   const calcDownloadData = useMemo(() => {
@@ -63,7 +63,8 @@ const AudioSetFilesTape = props => {
       ?.slice(0, props.file.parts.length)
       .every(part => part.downloadState === 3);
     // return fullyDownloaded ? undefined : {color: colors.dark ? "#444444" : "#B4B4B4"}
-    return fullyDownloaded ? undefined : {color: 'rgba(100, 100, 100"rgba(100, 100, 100, 0.6)"loadData]);
+    return fullyDownloaded ? undefined : {color: 'rgba(100, 100, 100, 0.6)'};
+  }, [props.downloadData]);
 
   const typeIcons = {
     listen: (
@@ -194,20 +195,20 @@ const AudioSetFilesTape = props => {
       <Pressable
         style={[
           styles.download,
-          inner ? styles.downloadInner : styles.downloadOuter
+          inner ? styles.downloadInner : styles.downloadOuter,
         ]}
         hitSlop={12}
         onPress={() => handleCancel(status)}>
         {(status === 1 || status === 2) && (
           <View style={[styles.loadingContainer, inner && {top: 8}]}>
             <IconIonicons
-              name={"ios-square"}
+              name={'ios-square'}
               size={10}
               color={colors.primary}
             />
             <ReanimatedArc
               color={colors.text2}
-              style={{position: "absolute"}}
+              style={{position: 'absolute'}}
               diameter={22}
               width={2}
               arcSweepAngle={359}
@@ -217,7 +218,7 @@ const AudioSetFilesTape = props => {
             />
             <ReanimatedArc
               color={colors.text}
-              style={{position: "absolute"}}
+              style={{position: 'absolute'}}
               diameter={22}
               width={2}
               arcSweepAngle={average * 3.5 ?? 0}
@@ -231,7 +232,7 @@ const AudioSetFilesTape = props => {
         {status === 3 && (
           <IconIonicons
             style={{top: 5, height: 30}}
-            name={"trash-bin-outline"}
+            name={'trash-bin-outline'}
             size={20}
             color={colors.primary}
           />
@@ -240,7 +241,7 @@ const AudioSetFilesTape = props => {
         {status === 0 && (
           <IconIonicons
             style={{top: 5, height: 30}}
-            name={"md-cloud-download-outline"}
+            name={'md-cloud-download-outline'}
             size={20}
             color={colors.primary}
           />
@@ -254,9 +255,9 @@ const AudioSetFilesTape = props => {
     tapeName,
     partData,
     part = 0,
-    inner = false
+    inner = false,
   }) => {
-    const partNames = ["Part A", "Part B", "Part C", "Part D"];
+    const partNames = ['Part A', 'Part B', 'Part C', 'Part D'];
 
     return (
       <Pressable
@@ -267,7 +268,7 @@ const AudioSetFilesTape = props => {
             tapeName,
             tapeNum: props.file.episode,
             totalParts,
-            file: props.file
+            file: props.file,
           })
         }>
         <View style={inner ? styles.singleTapeInner : styles.singleTape}>
@@ -284,7 +285,7 @@ const AudioSetFilesTape = props => {
             <View style={styles.subtitle}>
               {typeIcons[partData[part].type]}
               <Text style={[styles.tapeTime, disabledColor]}>
-                {partData[part].time || "22:00"}
+                {partData[part].time || '22:00'}
               </Text>
             </View>
             {!inner && renderDownload({part, inner: false})}
@@ -304,7 +305,7 @@ const AudioSetFilesTape = props => {
           {file.name}
         </Text>
         {renderDownload({inner: true})}
-        <View style={{flexDirection: "row"}}>
+        <View style={{flexDirection: 'row'}}>
           {file.parts.map((part, i) => {
             return (
               <View style={styles.multiInner} key={i}>
@@ -313,7 +314,7 @@ const AudioSetFilesTape = props => {
                   partData: file.parts,
                   totalParts: file.parts.length,
                   part: i,
-                  inner: true
+                  inner: true,
                 })}
               </View>
             );
@@ -323,6 +324,14 @@ const AudioSetFilesTape = props => {
     );
   };
 
+  if (Platform.OS === 'android') {
+    {
+      props.file.parts.length === 1
+        ? renderSingle({tapeName: props.file.name, partData: props.file.parts})
+        : renderMulti(props.file);
+    }
+  }
+
   return (
     // <View style={styles.container}>
     <ContextMenuView
@@ -331,24 +340,24 @@ const AudioSetFilesTape = props => {
         menuTitle: `${props.set.name}`,
         menuItems: [
           {
-            actionKey: "toggleFavorite",
-            actionTitle: "Add to Favorites",
+            actionKey: 'toggleFavorite',
+            actionTitle: 'Add to Favorites',
             icon: {
-              type: "IMAGE_SYSTEM",
+              type: 'IMAGE_SYSTEM',
               imageValue: {
-                systemName: "heart"
-              }
-            }
-          }
-        ]
+                systemName: 'heart',
+              },
+            },
+          },
+        ],
       }}
       onPressMenuItem={({nativeEvent}) => {
-        if (nativeEvent.actionKey === "toggleFavorite") return;
+        if (nativeEvent.actionKey === 'toggleFavorite') return;
       }}>
       {props.file.parts.length === 1
         ? renderSingle({tapeName: props.file.name, partData: props.file.parts})
         : renderMulti(props.file)}
-    </ContextMenuView>;
+    </ContextMenuView>
     // </View>
   );
 };
@@ -356,7 +365,7 @@ const AudioSetFilesTape = props => {
 AudioSetFilesTape.propTypes = {
   file: PropTypes.object,
   set: PropTypes.object,
-  downloadData: PropTypes.array
+  downloadData: PropTypes.array,
 };
 
 const styles = StyleSheet.create({
@@ -364,17 +373,17 @@ const styles = StyleSheet.create({
     right: 5,
     paddingLeft: 1,
     top: -8,
-    justifyContent: "center",
-    alignItems: "center"
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   downloadPress: {
-    backgroundColor: "black",
-    width: 20
+    backgroundColor: 'black',
+    width: 20,
   },
   download: {
-    position: "absolute",
-    justifyContent: "center",
-    alignItems: "center"
+    position: 'absolute',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   downloadInner: {
     top: 4,
@@ -382,17 +391,17 @@ const styles = StyleSheet.create({
   },
   downloadOuter: {
     bottom: 1,
-    right: -6
+    right: -6,
   },
   multiTapeTitle: {
     marginLeft: 6,
     marginTop: 8,
     // marginRight: 20,
-    fontFamily: "Baloo 2",
+    fontFamily: 'Baloo 2',
     maxWidth: 205,
     lineHeight: 23,
     color: colors.primary,
-    fontSize: 19
+    fontSize: 19,
   },
   multiInner: {
     margin: 5,
@@ -407,57 +416,57 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     paddingTop: 6,
     // marginRight: 10,
-    justifyContent: "center"
+    justifyContent: 'center',
   },
   title: {
-    fontFamily: "Baloo 2",
+    fontFamily: 'Baloo 2',
     maxWidth: 220,
     lineHeight: 21,
     // marginRight: 30,
     fontSize: 18,
     // textAlign: "center",
-    textAlignVertical: "bottom",
+    textAlignVertical: 'bottom',
     color: colors.primary,
-    transform: [{ translateY: 3 }]
+    transform: [{translateY: 3}],
   },
   subtitle: {
-    flexDirection: "row",
-    alignItems: "center",
-    transform: [{ translateY: -3 }]
+    flexDirection: 'row',
+    alignItems: 'center',
+    transform: [{translateY: -3}],
   },
   tapeTime: {
     marginLeft: 4,
-    fontFamily: "Baloo 2",
+    fontFamily: 'Baloo 2',
     fontSize: 18,
-    color: colors.text
+    color: colors.text,
   },
   singleTape: {
-    alignItems: "center",
-    flexDirection: "row",
+    alignItems: 'center',
+    flexDirection: 'row',
     borderRadius: 7,
     backgroundColor: colors.background3,
     paddingLeft: 8,
     maxWidth: 270,
     paddingTop: 2,
     paddingBottom: 2,
-    paddingRight: 16
+    paddingRight: 16,
   },
   singleTapeInner: {
-    alignItems: "center",
-    flexDirection: "row",
+    alignItems: 'center',
+    flexDirection: 'row',
     borderRadius: 7,
     backgroundColor: colors.dark ? colors.background4 : colors.background3,
     paddingLeft: 4,
     paddingTop: 1,
     paddingBottom: 0,
-    paddingRight: 12
+    paddingRight: 12,
   },
   container: {
     // flexDirection: "row",
     // width: "100%",
     // height: 200
     // flex: 1,
-  }
+  },
 });
 
 export default AudioSetFilesTape;

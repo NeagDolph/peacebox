@@ -10,7 +10,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {colors} from "../../config/colors";
 import FadeGradient from "../../components/fade-gradient";
 import haptic from "../../helpers/haptic";
-import crashlytics from "@react-native-firebase/crashlytics";
 import {setEditScroll, setEditVisible} from '../../store/features/breathingSlice'
 import PatternNew from "./components/pattern-new";
 import useTooltip from "../../components/tooltip-hook";
@@ -33,8 +32,6 @@ const PatternModal = ({route, navigation}) => {
 
 
   useEffect(() => {
-    crashlytics().log("Page Loaded: Pattern Modal")
-
     const unsubscribe = navigation.addListener('beforeRemove', () => {
       dispatch(setEditVisible(false))
     });
@@ -43,7 +40,6 @@ const PatternModal = ({route, navigation}) => {
   }, [navigation])
 
   const closeModal = () => {
-    crashlytics().log("Done button pressed in pattern edit modal");
     haptic(1);
     navigation.goBack();
 

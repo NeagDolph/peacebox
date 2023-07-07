@@ -1,7 +1,7 @@
-import * as React from 'react';
-import { Modal, Portal, Text, Button, Provider } from 'react-native-paper';
-import {Pressable, StyleSheet, View} from "react-native";
-import {colors} from "../../config/colors";
+import * as React from "react";
+import { Modal, Portal, Provider, Text } from "react-native-paper";
+import { Pressable, StyleSheet } from "react-native";
+import { colors } from "../../config/colors";
 import PropTypes from "prop-types";
 import IconIonicons from "react-native-vector-icons/Ionicons";
 

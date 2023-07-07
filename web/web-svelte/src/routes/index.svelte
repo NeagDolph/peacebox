@@ -43,13 +43,13 @@
 <Page home="true">
 
   <!-- Hi, I'm PeaceBox - Section 1 -->
-  <div class="relative block [height:80vh]">
+  <div class="relative block [height:80vh] mx-auto max-w-[86rem]">
     <div
       class="mt-20 sm:mt-32 md:mt-60 px-6 lg:px-16 block md:flex flex-row justify-between w-full h-full">
       <div
         class="justify-center flex w-full basis-full md:basis-2/3 lg:basis-3/5 sm:mr-10 px-4 lg:px-0">
         <div class="container w-fit max-w-xl z-10">
-          <p class="text-4xl sm:text-6xl lg:text-7xl font-vollkorn font-light text-primary">Hi, I'm PeaceBox</p>
+          <p class="text-4xl sm:text-5xl lg:text-6xl font-vollkorn font-light text-primary">Your Mental Toolbox</p>
           <p class="text-lg text-black font-baloo2 font-extralight sm:max-w-prose mb-3 text-primary sm:pl-1.5 mt-8">
             We all deal with stress and anxiety in our lives but most of us don't know how to effectively let go of
             it.

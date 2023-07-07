@@ -1,38 +1,21 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from "react";
 
-import {
-  StyleSheet,
-  View,
-  Button,
-  ScrollView,
-  TouchableOpacity,
-  Animated,
-  Easing,
-  Text,
-  Dimensions,
-  LayoutAnimation, Alert
-} from 'react-native';
+import { Alert, Animated, LayoutAnimation, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import PageHeader from "../components/header";
-import Icon from "react-native-vector-icons/Entypo"
-import {colors} from "../config/colors";
-import {useDispatch, useSelector} from "react-redux";
-import {addPattern, removePattern, editPattern, setEditVisible, setEditScroll} from "../store/features/breathingSlice";
+import Icon from "react-native-vector-icons/Entypo";
+import { colors } from "../config/colors";
+import { useDispatch, useSelector } from "react-redux";
+import { addPattern, removePattern, setEditScroll, setEditVisible } from "../store/features/breathingSlice";
 import PatternItem from "./components/pattern-item";
 
-import 'react-native-get-random-values';
-import {v4 as uuidv4} from 'uuid';
-import NumberPicker from "./components/numberpicker";
-import {Provider} from "react-native-paper";
-import {setUsed} from "../store/features/settingsSlice";
+import "react-native-get-random-values";
+import { v4 as uuidv4 } from "uuid";
+import { setUsed } from "../store/features/settingsSlice";
 import FadeGradient from "../components/fade-gradient";
-import haptic, {success} from "../helpers/haptic";
-import GestureHandlerRootView, {NativeViewGestureHandler} from "react-native-gesture-handler";
-
-import breathingGuide from '../guides/breathing-guide';
-import {openedTutorial, guideNext, startTutorial, pushRestart, closedTutorial} from '../store/features/tutorialSlice';
-import Tooltip from 'react-native-walkthrough-tooltip';
+import { success } from "../helpers/haptic";
+import { NativeViewGestureHandler } from "react-native-gesture-handler";
+import { closedTutorial, guideNext, startTutorial } from "../store/features/tutorialSlice";
 import useTooltip from "../components/tooltip-hook";
-import crashlytics from "@react-native-firebase/crashlytics";
 import PromptOptional from "../components/prompt-optional";
 
 const modalContent = require("./info.json");
@@ -95,7 +78,6 @@ const BreathingPage = (props) => {
 
 
   const startGuide = () => {
-    crashlytics().log("Breathing walkthrough started");
     dispatch(setEditScroll(0))
     dispatch(startTutorial("breathing"))
   }
@@ -109,7 +91,6 @@ const BreathingPage = (props) => {
         {text: "Nevermind"},
         {
           text: "Confirm", onPress: () => {
-            crashlytics().log("Pattern Tutorial restarted: ");
             props.navigation.goBack();
             setTimeout(startGuide, 500)
           }

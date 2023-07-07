@@ -1,13 +1,14 @@
-import React, {useEffect} from 'react';
-import {Dimensions, Pressable, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {useSelector} from "react-redux";
-import PropTypes from 'prop-types'
-import { VibrancyView } from "@react-native-community/blur";
-import { useNavigation } from '@react-navigation/native';
-import crashlytics from "@react-native-firebase/crashlytics";
-import { hasNotch } from 'react-native-device-info';
-import {colors} from "../config/colors";
+import React, { useEffect } from "react";
+import { Dimensions, Platform, Pressable, StyleSheet, Text, View } from "react-native";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import PropTypes from "prop-types";
+import { BlurView, VibrancyView } from "@react-native-community/blur";
+import { useNavigation } from "@react-navigation/native";
+// import crashlytics from "@react-native-firebase/crashlytics";
+import { hasNotch } from "react-native-device-info";
+import { colors } from "../config/colors";
+
+let PlatformBlurView = Platform.OS === 'ios' ? VibrancyView : BlurView;
 
 interface HeaderProps {
   inlineTitle: boolean | void;
@@ -25,17 +26,17 @@ const PageHeader = ({title, settingsIcon, settingsCallback, titleWhite, settings
   const notch = hasNotch();
 
   useEffect(() => {
-    crashlytics().log("Header Loaded | Page Title: " + title)
+    // crashlytics().log("Header Loaded | Page Title: " + title)
   }, [])
 
   const goBack = () => {
-    crashlytics().log("Header Component: User pressed back button")
+    // crashlytics().log("Header Component: User pressed back button")
     navigation.goBack();
   }
 
   return (
     <View style={[styles.headerContainer, shadow && styles.headerShadow]}>
-      <VibrancyView
+      <PlatformBlurView
         style={styles.absolute}
         blurType={colors.dark ? "dark" : "light"}
         blurAmount={8}

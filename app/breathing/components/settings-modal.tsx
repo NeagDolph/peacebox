@@ -6,7 +6,6 @@ import {Button, Modal, Portal} from "react-native-paper";
 import {colors} from "../../config/colors";
 import {PauseSettings} from "./pause-modal";
 import PropTypes from 'prop-types';
-import crashlytics from "@react-native-firebase/crashlytics";
 
 const ModalContent = props => {
   const [pauseSettingsVisible, setPauseSettingsVisible] = useState(false);
@@ -17,7 +16,6 @@ const ModalContent = props => {
   const easing = Easing.inOut(Easing.ease)
 
   const showPauseModal = () => {
-    crashlytics().log("Pause Settings Modal Opened")
     setPauseSettingsVisible(true)
     Animated.timing(settingsLeft, {
         toValue: -Dimensions.get('window').width,
@@ -31,7 +29,6 @@ const ModalContent = props => {
 
 
   const hidePauseModal = () => {
-    crashlytics().log("Pause Settings Modal Closed")
     setSettingsVisible(true)
     Animated.timing(settingsLeft, {
         toValue: 0,
