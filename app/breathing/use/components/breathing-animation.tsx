@@ -1,9 +1,9 @@
-import * as React from "react"
-import Svg, {SvgProps, Path, G, Circle, Defs, RadialGradient, Stop, LinearGradient} from "react-native-svg"
-import {createRef, useState} from "react";
-import {Animated, Easing, TouchableWithoutFeedback, Text, StyleSheet, View} from "react-native";
-import {colors} from "../../../config/colors";
-import PropTypes from 'prop-types'
+import * as React from "react";
+import { createRef } from "react";
+import Svg, { Circle, Defs, G, RadialGradient, Stop } from "react-native-svg";
+import { Animated, Easing, StyleSheet, Text, View } from "react-native";
+import { colors } from "../../../config/colors";
+import PropTypes from "prop-types";
 
 
 const AnimatedSvg = Animated.createAnimatedComponent(Svg);

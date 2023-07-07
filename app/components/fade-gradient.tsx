@@ -1,6 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
-
-import {Dimensions, Text, View} from 'react-native';
+import React from "react";
 import MaskedView from "@react-native-masked-view/masked-view";
 import LinearGradient from "react-native-linear-gradient";
 

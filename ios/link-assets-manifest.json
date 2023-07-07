@@ -2,72 +2,28 @@
   "migIndex": 1,
   "data": [
     {
-      "path": "assets/fonts/AntDesign.ttf",
-      "sha1": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
+      "path": "app/assets/fonts/Baloo2.ttf",
+      "sha1": "96842a3a3e1094bdc42a843a1872070b0330ee2a"
     },
     {
-      "path": "assets/fonts/Entypo.ttf",
-      "sha1": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
+      "path": "app/assets/fonts/Entypo.ttf",
+      "sha1": "47870a67dd50871765f799caa97da87219ee47c5"
     },
     {
-      "path": "assets/fonts/EvilIcons.ttf",
-      "sha1": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
+      "path": "app/assets/fonts/Futura.ttf",
+      "sha1": "c410d6b004896b7aa8f2b745e58dc91083c36850"
     },
     {
-      "path": "assets/fonts/Feather.ttf",
-      "sha1": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
+      "path": "app/assets/fonts/Ionicons.ttf",
+      "sha1": "b5281fbfa43129abc3e412dd938cfcf0b77de999"
     },
     {
-      "path": "assets/fonts/FontAwesome.ttf",
-      "sha1": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
+      "path": "app/assets/fonts/MaterialCommunityIcons.ttf",
+      "sha1": "80a431d6d49861d655009e9491409282d2559591"
     },
     {
-      "path": "assets/fonts/FontAwesome5_Brands.ttf",
-      "sha1": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
-    },
-    {
-      "path": "assets/fonts/FontAwesome5_Regular.ttf",
-      "sha1": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
-    },
-    {
-      "path": "assets/fonts/FontAwesome5_Solid.ttf",
-      "sha1": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
-    },
-    {
-      "path": "assets/fonts/Fontisto.ttf",
-      "sha1": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
-    },
-    {
-      "path": "assets/fonts/Foundation.ttf",
-      "sha1": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
-    },
-    {
-      "path": "assets/fonts/Ionicons.ttf",
-      "sha1": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
-    },
-    {
-      "path": "assets/fonts/LogoRegular.ttf",
-      "sha1": "f0e2498dd1b798ff6f242a59347f5645760c1a04"
-    },
-    {
-      "path": "assets/fonts/MaterialCommunityIcons.ttf",
-      "sha1": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
-    },
-    {
-      "path": "assets/fonts/MaterialIcons.ttf",
-      "sha1": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
-    },
-    {
-      "path": "assets/fonts/Octicons.ttf",
-      "sha1": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
-    },
-    {
-      "path": "assets/fonts/SimpleLineIcons.ttf",
-      "sha1": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
-    },
-    {
-      "path": "assets/fonts/Zocial.ttf",
-      "sha1": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
+      "path": "app/assets/fonts/Roboto.ttf",
+      "sha1": "84d102488738b0ebbc7a5087973effbd54c95bd5"
     }
   ]
 }

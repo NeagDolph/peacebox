@@ -4,7 +4,6 @@ import {StyleSheet, Text, View, ImageBackground, Image, TouchableHighlight, Touc
 import {Chip, overlay, Surface, useTheme} from "react-native-paper";
 import {colors} from "../../config/colors";
 import {useNavigation} from '@react-navigation/native';
-import crashlytics from "@react-native-firebase/crashlytics";
 
 interface ToolData {
   title: string;
@@ -20,7 +19,6 @@ const ToolItem = (props: ToolData) => {
   const imageSource = Image.resolveAssetSource(colors.dark ? props.iconDark : props.icon)
 
   const openMenu = () => {
-    crashlytics().log("Tool Opened: " + props.title)
     if (props.nav) props.nav();
   }
 

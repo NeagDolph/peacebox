@@ -1,20 +1,15 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from "react";
 
-import {Pressable, StyleSheet, Text, View} from 'react-native';
-import PageHeader from '../../components/header';
-import {setViewed} from '../../store/features/tapesSlice';
-import {useDispatch, useSelector} from 'react-redux';
-import TrackPlayer, {
-  Event,
-  State,
-  useProgress,
-  useTrackPlayerEvents,
-} from 'react-native-track-player';
-import {colors} from '../../config/colors';
-import IconMaterial from 'react-native-vector-icons/MaterialCommunityIcons';
-import PauseButton from './components/pause-button';
-import SeekTime from './components/seek-time';
-import VolumeSlider from '../../components/volume-slider';
+import { Pressable, StyleSheet, Text, View } from "react-native";
+import PageHeader from "../../components/header";
+import { setViewed } from "../../store/features/tapesSlice";
+import { useDispatch, useSelector } from "react-redux";
+import TrackPlayer, { Event, State, useProgress, useTrackPlayerEvents } from "react-native-track-player";
+import { colors } from "../../config/colors";
+import IconMaterial from "react-native-vector-icons/MaterialCommunityIcons";
+import PauseButton from "./components/pause-button";
+import SeekTime from "./components/seek-time";
+import VolumeSlider from "../../components/volume-slider";
 
 const AudioPlayer = props => {
   const currentAudio = useSelector(state => state.tapes.currentlyPlaying);
@@ -67,7 +62,7 @@ const AudioPlayer = props => {
     ),
   };
 
-  onst typeDesc = {
+  const typeDesc = {
     listen: 'Listen While Awake',
     relax: 'Listen with Eyes Closed',
     sleep: 'Play Audio before Sleeping',
@@ -144,7 +139,7 @@ const AudioPlayer = props => {
           {tapeName}
         </Text>
         {totalParts >= 2 && (
-          <Text style={styles.subtitle}>Part {"ABCDEFG"[part]}</Text>
+          <Text style={styles.subtitle}>Part {'ABCDEFG'[part]}</Text>
         )}
         <View style={styles.listenTypeContainer}>
           {typeIcons[partData?.[part]?.type ?? 0]}
@@ -154,7 +149,7 @@ const AudioPlayer = props => {
         </View>
         <View style={styles.controlsContainer}>
           <Pressable style={styles.skipContainer} onPress={skipBackwards}>
-            <IconMaterial name={"rewind-10"} color={colors.primary} size={40} />
+            <IconMaterial name={'rewind-10'} color={colors.primary} size={40} />
           </Pressable>
           <PauseButton
             paused={paused}
@@ -163,7 +158,7 @@ const AudioPlayer = props => {
           />
           <Pressable style={styles.skipContainer} onPress={skipForward}>
             <IconMaterial
-              name={"fast-forward-10"}
+              name={'fast-forward-10'}
               color={colors.primary}
               size={40}
             />
@@ -188,61 +183,61 @@ const AudioPlayer = props => {
 const styles = StyleSheet.create({
   volumeContainer: {
     paddingHorizontal: 60,
-    marginTop: 20
+    marginTop: 20,
   },
   skipContainer: {
-    alignItems: "center",
-    justifyContent: "center",
-    paddingHorizontal: 25
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 25,
   },
   controlsContainer: {
     marginTop: 40,
-    width: "100%",
-    flexDirection: "row",
+    width: '100%',
+    flexDirection: 'row',
     // flex: 1,
-    justifyContent: "center",
-    alignContent: "center"
+    justifyContent: 'center',
+    alignContent: 'center',
   },
   listenType: {
     fontSize: 20,
     color: colors.text,
-    fontFamily: "Baloo 2",
-    fontWeight: "500",
+    fontFamily: 'Baloo 2',
+    fontWeight: '500',
     lineHeight: 32,
-    marginLeft: 10
+    marginLeft: 10,
   },
   listenTypeContainer: {
-    flexDirection: "row",
+    flexDirection: 'row',
 
-    marginVertical: 40
+    marginVertical: 40,
   },
   setTitle: {
     fontSize: 15,
     color: colors.text,
-    fontFamily: "Avenir",
-    textAlign: "center"
+    fontFamily: 'Avenir',
+    textAlign: 'center',
   },
   title: {
     fontSize: 26,
     color: colors.primary,
-    textAlign: "center",
+    textAlign: 'center',
 
-    fontFamily: "Avenir"
+    fontFamily: 'Avenir',
   },
   subtitle: {
     fontSize: 19,
-    textAlign: "center",
+    textAlign: 'center',
 
     color: colors.text,
-    fontFamily: "Avenir"
+    fontFamily: 'Avenir',
   },
   container: {
-    width: "100%",
-    alignItems: "center",
-    height: "100%",
+    width: '100%',
+    alignItems: 'center',
+    height: '100%',
     padding: 15,
-    paddingTop: 50
-  }
+    paddingTop: 50,
+  },
 });
 
 export default AudioPlayer;

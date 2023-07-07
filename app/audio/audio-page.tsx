@@ -1,15 +1,15 @@
-import React, {useMemo, useRef, useState} from 'react';
+import React, { useMemo, useRef, useState } from "react";
 
-import {Pressable, SectionList, StyleSheet, Text, View} from 'react-native';
-import PageHeader from '../components/header';
-import {colors} from '../config/colors';
-import AudioSet from './set/audio-set';
-import {useDispatch, useSelector} from 'react-redux';
-import DisclaimerModal from './components/disclaimer-modal';
-import IconMaterial from 'react-native-vector-icons/MaterialCommunityIcons';
-import IconIonicons from 'react-native-vector-icons/Ionicons';
-import AudioSetFilesTape from './set/audio-set-files-tape';
-import {useNavigation} from '@react-navigation/native';
+import { Pressable, SectionList, StyleSheet, Text, View } from "react-native";
+import PageHeader from "../components/header";
+import { colors } from "../config/colors";
+import AudioSet from "./set/audio-set";
+import { useDispatch, useSelector } from "react-redux";
+import DisclaimerModal from "./components/disclaimer-modal";
+import IconMaterial from "react-native-vector-icons/MaterialCommunityIcons";
+import IconIonicons from "react-native-vector-icons/Ionicons";
+import AudioSetFilesTape from "./set/audio-set-files-tape";
+import { useNavigation } from "@react-navigation/native";
 
 const AudioPage = () => {
   const audioData = useSelector(state => state.tapes.audioData);
@@ -66,7 +66,8 @@ const AudioPage = () => {
         <Text style={styles.sectionTitle}>Keep Listening</Text>
         <View style={styles.nextTitleContainer}>
           <IconIonicons
-            name={'caret-forw"caret-forward-circle"   color={audioSet.icon}
+            name={'caret-forward-circle'}
+            color={audioSet.icon}
             size={25}
           />
           <Text style={styles.nextTitle}>{set}</Text>
@@ -136,7 +137,7 @@ const AudioPage = () => {
 
   return (
     <>
-      <PageHeader title={"Audio"} settingsButton={false} />
+      <PageHeader title={'Audio'} settingsButton={false} />
       <SectionList
         style={styles.container}
         ref={scrollRef}
@@ -144,13 +145,13 @@ const AudioPage = () => {
         renderItem={renderItem}
         sections={[
           {
-            title: "Favorites",
-            data: favoriteSets ?? []
+            title: 'Favorites',
+            data: favoriteSets ?? [],
           },
           {
-            title: "All Audio-sets",
-            data: audioData ?? []
-          }
+            title: 'All Audio-sets',
+            data: audioData ?? [],
+          },
         ]}
         ListHeaderComponent={renderHeader()}
         renderSectionHeader={renderTitle}
@@ -172,8 +173,8 @@ const styles = StyleSheet.create({
     maxWidth: 290,
   },
   nextTitleContainer: {
-    flexDirection: "row",
-    alignContent: "center",
+    flexDirection: 'row',
+    alignContent: 'center',
 
     marginTop: 12,
     marginBottom: 5,
@@ -184,10 +185,10 @@ const styles = StyleSheet.create({
     lineHeight: 30,
     marginLeft: 5,
 
-    fontFamily: "baloo 2",
+    fontFamily: 'baloo 2',
   },
   titleContainer: {
-    width: "100%",
+    width: '100%',
     backgroundColor: colors.background,
     paddingBottom: 6,
     paddingTop: 10,
@@ -197,20 +198,20 @@ const styles = StyleSheet.create({
     marginLeft: 0,
     lineHeight: 40,
     color: colors.primary,
-    fontFamily: "avenir",
+    fontFamily: 'avenir',
   },
   disclaimerButtonContainer: {
-    width: "100%",
-    justifyContent: "flex-start",
-    alignItems: "flex-start",
+    width: '100%',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
     paddingBottom: 30,
     paddingTop: 10,
   },
   disclaimerButton: {
-    flexDirection: "row",
+    flexDirection: 'row',
     borderRadius: 5,
     paddingVertical: 4,
-    width: "auto",
+    width: 'auto',
     marginTop: 20,
     paddingHorizontal: 10,
     right: 0,
@@ -220,19 +221,19 @@ const styles = StyleSheet.create({
     fontSize: 19,
     lineHeight: 28,
     marginLeft: 4,
-    fontFamily: "baloo 2",
+    fontFamily: 'baloo 2',
     color: colors.primary,
   },
   loadingText: {
     fontSize: 20,
     color: colors.primary,
-    textAlign: "center",
-    width: "100%",
+    textAlign: 'center',
+    width: '100%',
   },
   container: {
     zIndex: -1,
-    width: "100%",
-    height: "100%",
+    width: '100%',
+    height: '100%',
     paddingHorizontal: 24,
     paddingTop: 0,
   },

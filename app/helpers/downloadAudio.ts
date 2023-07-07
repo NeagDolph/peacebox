@@ -1,9 +1,6 @@
-import RNBackgroundDownloader, {
-  completeHandler,
-  download,
-} from 'react-native-background-downloader';
-import RNFS from 'react-native-fs';
-import {store} from '../store/store';
+import RNBackgroundDownloader, { completeHandler, download } from "react-native-background-downloader";
+import RNFS from "react-native-fs";
+import { store } from "../store/store";
 import {
   deleteTape,
   queueDownload,
@@ -12,10 +9,10 @@ import {
   setDownloaded,
   setProgress,
   setTapeData,
-  shiftDownload,
-} from '../store/features/tapesSlice';
-import _ from 'lodash';
-import {CDNENDPOINT} from './constants';
+  shiftDownload
+} from "../store/features/tapesSlice";
+import _ from "lodash";
+import { CDNENDPOINT } from "./constants";
 
 export const hydrateDownloadData = sets => {
   const currentState = store.getState();
@@ -44,10 +41,10 @@ const constructDownloadFrame = sets => {
   return globalObj;
 };
 
-const isDownloaded = async ({ set, tape, part, localPath }) => {
+const isDownloaded = async ({set, tape, part, localPath}) => {
   const currentState = store.getState();
   const fileExists = await RNFS.exists(
-    `${RNBackgroundDownloader.directories.documents}/${localPath`,
+    `${RNBackgroundDownloader.directories.documents}/${localPath}`,
   );
 
   const downloading =
@@ -56,7 +53,7 @@ const isDownloaded = async ({ set, tape, part, localPath }) => {
   return fileExists || downloading >= 2;
 };
 
-const isDownloading = async ({ set, tape, part }) => {
+const isDownloading = async ({set, tape, part}) => {
   const currentState = store.getState();
 
   const downloading =
@@ -65,8 +62,8 @@ const isDownloading = async ({ set, tape, part }) => {
   return downloading === 2;
 };
 
-export const cancelDownload = async ({ set, tape }) => {
-  store.dispatch(removeFromQueue({ set, tape }));
+export const cancelDownload = async ({set, tape}) => {
+  store.dispatch(removeFromQueue({set, tape}));
   let lostTasks = await RNBackgroundDownloader.checkForExistingDownloads();
   const searchString = `${set}/${tape}/`;
 
@@ -77,7 +74,7 @@ export const cancelDownload = async ({ set, tape }) => {
   }
 };
 
-export const deleteAudio = async ({ set, tape }) => {
+export const deleteAudio = async ({set, tape}) => {
   const currentState = store.getState();
 
   const downloads = currentState.tapes.downloadData[set][tape].downloads;
@@ -117,7 +114,7 @@ export const downloadSingleTape = async (set, file) => {
     );
   }
 
-  await store.dispatch(queueDownload({ set, tape: file.episode }));
+  await store.dispatch(queueDownload({set, tape: file.episode}));
 };
 
 export const downloadAudioSet = async set => {
@@ -149,7 +146,7 @@ export const downloadAudioSet = async set => {
         );
       }
 
-      await store.dispatch(queueDownload({ set, tape: file.episode }));
+      await store.dispatch(queueDownload({set, tape: file.episode}));
     }
   }
 
@@ -169,7 +166,7 @@ export const processDownloadQ = () => {
     store.dispatch(shiftDownload(2)); // remove first two queue items from queue
 
     currentQTasks.forEach(qTask => {
-      const { set, tape, part } = qTask;
+      const {set, tape, part} = qTask;
 
       downloadAudioTape(set, tape, part)
         .then(tasks => {
@@ -178,11 +175,11 @@ export const processDownloadQ = () => {
           let taskList = Array(tasks.length).fill(false);
 
           for (let idx in tasks) {
-            const { task, partIdx } = tasks[idx];
+            const {task, partIdx} = tasks[idx];
 
             task.done(() => {
               store.dispatch(
-                setDownloaded({ set: set.name, tape, part: partIdx }),
+                setDownloaded({set: set.name, tape, part: partIdx}),
               );
               completeHandler(task.id);
               taskList[idx] = true;
@@ -245,7 +242,7 @@ export const downloadAudioTape = async (set, tape, part = undefined) => {
         url: downloadPath,
         destination: `${RNBackgroundDownloader.directories.documents}/${localPath}`,
       })
-        .begin(({ expectedBytes }) => {
+        .begin(({expectedBytes}) => {
           console.log(fileName, `Going to download ${expectedBytes} bytes!`);
           store.dispatch(
             setDownload({
@@ -271,13 +268,13 @@ export const downloadAudioTape = async (set, tape, part = undefined) => {
         })
         .error(error => {
           console.log('Download canceled due to error: ', error);
-          store.dispatch(deleteTape({ set: set.name, tape }));
+          store.dispatch(deleteTape({set: set.name, tape}));
           completeHandler(task.id);
         });
 
       task.resume();
 
-      tasks.push({ task, partIdx });
+      tasks.push({task, partIdx});
     } else if (!currentlyDownloading) {
       store.dispatch(
         setDownload({
@@ -286,8 +283,8 @@ export const downloadAudioTape = async (set, tape, part = undefined) => {
           part: partIdx,
           progress: 100,
           location: localPath,
-          downloadState: 3
-        })
+          downloadState: 3,
+        }),
       );
 
       continue;

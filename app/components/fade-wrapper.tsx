@@ -1,7 +1,7 @@
-import React, {useEffect, useRef, useState} from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect, useRef, useState } from "react";
+import PropTypes from "prop-types";
 
-import {Animated, Text, View} from 'react-native';
+import { Animated } from "react-native";
 
 const Fade = (props) => {
   let visibility = useRef(new Animated.Value(props.visible ? 1 : 0)).current

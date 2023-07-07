@@ -1,17 +1,8 @@
-import {Dimensions, StyleSheet, View} from "react-native";
-import {Text} from "react-native-paper";
+import { Dimensions, StyleSheet } from "react-native";
 import IconEntypo from "react-native-vector-icons/Entypo";
-import React, {useEffect} from "react";
-import {colors} from "../../config/colors";
-import Animated, {
-  Easing,
-  interpolate,
-  runOnJS,
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming
-} from "react-native-reanimated";
-import AnimatedArc from "../use/components/ReanimatedArcBase";
+import React, { useEffect } from "react";
+import { colors } from "../../config/colors";
+import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 
 function Backplate(props: { height: number, dragX: any, dragMode: number, setDragMode: (number) => void }) {
   const bgColor = useSharedValue(colors.white);

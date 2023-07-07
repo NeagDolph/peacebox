@@ -1,7 +1,7 @@
 import {useState, useEffect, useRef} from 'react';
 import {useSelector} from "react-redux";
 import {pattern} from "../../../helpers/haptic";
-import crashlytics from "@react-native-firebase/crashlytics";
+// import crashlytics from "@react-native-firebase/crashlytics";
 import {AppState, Vibration} from "react-native";
 import Sound from "react-native-sound";
 
@@ -32,7 +32,7 @@ function useTimer({id, paused, completed}) {
   useEffect(() => {
     calcCompletion();
 
-    crashlytics().log("Timer hook loaded")
+    // crashlytics().log("Timer hook loaded")
 
     if (cycleCount === 1 && currentIndex === 0 && currentTime <= 1) {
       preloadAllAudio().then(() => playAudio("breathein.mp3"));
@@ -173,8 +173,8 @@ function useTimer({id, paused, completed}) {
 
           if (fileName === audioFileNames[audioFileNames.length - 1]) res();
         }).catch(err => {
-          crashlytics().log("Error: failed to load timer audio")
-          crashlytics().recordError(err)
+          // crashlytics().log("Error: failed to load timer audio")
+          // crashlytics().recordError(err)
           rej(err)
         })
       })
@@ -189,8 +189,8 @@ function useTimer({id, paused, completed}) {
     return new Promise((res, rej) => {
       let audio = new Sound(name, Sound.MAIN_BUNDLE, (error) => {
         if (error) {
-          crashlytics().log("Failed to load sound: " + name)
-          crashlytics().recordError(error);
+          // crashlytics().log("Failed to load sound: " + name)
+          // crashlytics().recordError(error);
           rej(error);
         }
         res(audio);

@@ -1,28 +1,15 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from "react";
 
-import {
-  Alert, Dimensions,
-  Keyboard,
-  LayoutAnimation,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableWithoutFeedback,
-  View
-} from 'react-native';
-import {useDispatch, useSelector} from "react-redux";
-import PageHeader from "../../../components/header";
-import {Button, Divider, Provider, Surface} from "react-native-paper";
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {colors} from "../../../config/colors";
-import {setName, setSequence, removePattern} from "../../../store/features/breathingSlice";
+import { Alert, Dimensions, LayoutAnimation, StyleSheet, Text, TextInput, View } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import { Button, Divider, Surface } from "react-native-paper";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { colors } from "../../../config/colors";
+import { removePattern, setName, setSequence } from "../../../store/features/breathingSlice";
 import NumberPicker from "../../components/numberpicker";
 import EditSettings from "../../components/edit-settings";
-import PauseModal from "../../components/pause-modal";
-import {useNavigation} from '@react-navigation/native';
-import PropTypes from 'prop-types'
-import {dispatchWalkthroughEvent, WalkthroughElement} from "react-native-walkthrough";
+import { useNavigation } from "@react-navigation/native";
+import PropTypes from "prop-types";
 
 
 const EditCard = (props) => {

@@ -1,13 +1,13 @@
-import React, {useState, useEffect, useRef, useLayoutEffect} from 'react';
-import {setBackgroundData} from "../store/features/backgroundSlice"
-import {useDispatch, useSelector} from "react-redux";
-import {ImageBackground, StyleSheet, View, Text, Dimensions, Pressable, Alert} from "react-native";
-import FastImage from 'react-native-fast-image'
-import PropTypes from 'prop-types'
-import {colors} from "../config/colors";
-import {Blurhash} from "react-native-blurhash";
-import Animated, {interpolate, useAnimatedStyle} from "react-native-reanimated";
-import { setSetting } from '../store/features/settingsSlice';
+import React, { useEffect, useRef } from "react";
+import { setBackgroundData } from "../store/features/backgroundSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { Alert, Dimensions, Pressable, StyleSheet, View } from "react-native";
+import FastImage from "react-native-fast-image";
+import PropTypes from "prop-types";
+import { colors } from "../config/colors";
+import { Blurhash } from "react-native-blurhash";
+import Animated, { interpolate, useAnimatedStyle } from "react-native-reanimated";
+import { setSetting } from "../store/features/settingsSlice";
 
 
 const Background = (props) => {

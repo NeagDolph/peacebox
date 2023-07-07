@@ -1,9 +1,10 @@
-import React from 'react';
+import React from "react";
 
-import {Linking, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import { Linking, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import PageHeader from "../../components/header";
+import { colors } from "../../config/colors";
+
 const packageJson = require('../../../package.json');
-import {colors} from "../../config/colors";
 
 const credits = [
   "Design and Development: Neil Agrawal",

@@ -1,140 +1,213 @@
-import React, {Props, useCallback, useEffect, useLayoutEffect, useRef, useState} from 'react';
+import React, {
+  Props,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState
+} from "react";
 
-import {withTheme, Surface, Title, Paragraph, Button, Chip} from "react-native-paper";
+import {
+  withTheme,
+  Surface,
+  Title,
+  Paragraph,
+  Button,
+  Chip
+} from "react-native-paper";
 import {
   Dimensions,
   Image,
-  ImageBackground, Keyboard, KeyboardAvoidingView,
-  NativeSyntheticEvent, Platform, Pressable,
+  ImageBackground,
+  Keyboard,
+  KeyboardAvoidingView,
+  NativeSyntheticEvent,
+  Platform,
+  Pressable,
   StyleSheet,
   Text,
   TextInput,
   View
-} from 'react-native';
-import {useSelector, useDispatch} from 'react-redux'
+} from "react-native";
+import { useSelector, useDispatch } from "react-redux";
 import FastImage from "react-native-fast-image";
-import {NativeViewGestureHandler, State, TapGestureHandler} from "react-native-gesture-handler";
+import {
+  NativeViewGestureHandler,
+  State,
+  TapGestureHandler
+} from "react-native-gesture-handler";
 import FadeGradient from "../../components/fade-gradient";
-import Animated, {useAnimatedStyle, useSharedValue} from 'react-native-reanimated';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue
+} from "react-native-reanimated";
 import haptic from "../../helpers/haptic";
-import {BlurView, VibrancyView} from "@react-native-community/blur";
+import { BlurView, VibrancyView } from "@react-native-community/blur";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import {colors} from "../../config/colors";
+import { colors } from "../../config/colors";
 import useKeyboardHeight from "../../components/keyboard-hook";
 
+let PlatormBlurView = Platform.OS === "ios" ? VibrancyView : BlurView;
+
 const WritingCard = ({
-                       clearFull, inputRef, content, setContent, handleLayout,
-                       editable, placeholder, activityBg, fullscreen,
-                       children, pages, settings, lineHeight, setLineHeight, moveHeight
+                       clearContent,
+                       setInputRef,
+                       handleLayout,
+                       editable,
+                       placeholder,
+                       activityBg,
+                       fullscreen,
+                       children,
+                       pages,
+                       settings,
+                       lineHeight,
+                       setLineHeight,
+                       setCurrentText
+
                      }) => {
-  const [pageHeight, setPageHeight] = useState(0)
+  const [pageHeight, setPageHeight] = useState(0);
 
-  const keyboardHeight = useKeyboardHeight()
+  const keyboardHeight = useKeyboardHeight();
 
-  const tapRef = useRef(null)
+  const tapRef = useRef(null);
 
-  const cardLayout = ({nativeEvent: {layout}}) => {
-    const lineConstant = fullscreen ? 37.9059228 : 18.9209614 // Constant for number of lines in the paper image
-    const aspectRatio = fullscreen ? 2.88284518 : 1.44142259 // Constant for paper image height/width
+  const inputRef = useRef<TextInput>(null);
 
-    if (setLineHeight) setLineHeight(layout.height / lineConstant) //For some reason setLineHeight is undefined when layout event runs on page deletion
-    setPageHeight(layout.width * aspectRatio)
-  }
+  useEffect(() => {
+    if (inputRef.current && setInputRef) {
+      setInputRef(inputRef.current);
+    }
+  }, [inputRef]);
 
-  const handleTap = (event) => {
+  const cardLayout = ({ nativeEvent: { layout } }) => {
+    const lineConstant = fullscreen ? 37.9059228 : 18.9209614; // Constant for number of lines in the paper image
+    const aspectRatio = fullscreen ? 2.88284518 : 1.44142259; // Constant for paper image height/width
+
+    if (setLineHeight) setLineHeight(layout.height / lineConstant); //For some reason setLineHeight is undefined when layout event runs on page deletion
+    setPageHeight(layout.width * aspectRatio);
+  };
+
+  const handleTap = event => {
     if (event.nativeEvent.state === State.ACTIVE) {
       // inputRef.current.blur() // Causing issues
-      clearFull();
-      haptic(2)
-      setTimeout(() => inputRef.current.blur(), 100)
-    } else if (event.nativeEvent.state = State.BEGAN && !inputRef.current.isFocused()) {
+      clearContent();
+      haptic(2);
+      if (inputRef.current) {
+        setTimeout(() => inputRef.current.blur(), 100);
+      }
+    } else if (event.nativeEvent.state == State.BEGAN && inputRef.current && !inputRef.current.isFocused()) {
       inputRef.current.focus();
     }
-  }
+  };
 
   const inputContainerHeight = useCallback(() => {
-    return (pageHeight ?? 0) - (lineHeight ?? 0) + 1
-  }, [pageHeight, lineHeight])
-
-  const gibberish = text => {
-    const letterMap = "abcdefghijklmnopqrstuvwxyzƲƴƷǦǾϔϤϦϪϩϬϿЂЉЏПЬЯҨӘӾԂԎԳԻՂՋՑձփ೧ႬႶಠß￦ΨΔ߷ႾႰႹႧᏆᗟඞ";
-
-    const chooseRandomLetter = () => {
-      return letterMap[Math.floor(letterMap.length * Math.random())]
-    }
-
-    return text.split("").map(char => char.match(/[\.\ \,\_]{1}/) ? char : chooseRandomLetter()).join("")
-  }
+    return (pageHeight ?? 0) - (lineHeight ?? 0) + 1;
+  }, [pageHeight, lineHeight]);
 
   const calcImageSource = () => {
     if (colors.dark) {
-      return fullscreen ? require("../../assets/dark/long_paper.png") : require("../../assets/dark/paper.png")
+      return fullscreen
+        ? require("../../assets/dark/long_paper.png")
+        : require("../../assets/dark/paper.png");
     } else {
-      return fullscreen ? require("../../assets/long_paper.png") : require("../../assets/paper.jpg")
+      return fullscreen
+        ? require("../../assets/long_paper.png")
+        : require("../../assets/long_paper.png");
     }
-  }
+  };
 
   const pagesStyle = useAnimatedStyle(() => {
     return {
-      transform: [
-        {translateY: fullscreen ? -keyboardHeight.value * 1.01 : 0},
-      ]
-    }
-  }, [fullscreen])
+      transform: [{ translateY: fullscreen ? -keyboardHeight.value * 1.01 : 0 }]
+    };
+  }, [fullscreen]);
 
   const renderPageCount = () => {
-    return settings?.showCompletedPages && <Animated.View style={[styles.countContainer, fullscreen ? {
-      top: Dimensions.get("window").height - 148,
-      right: 15
-    } : {bottom: 0}, pagesStyle]}>
-        <Text style={[styles.count, {fontSize: fullscreen ? 28 : 24}]}>{pages}</Text>
-    </Animated.View>
-  }
-
+    return (
+      settings?.showCompletedPages && (
+        <Animated.View
+          style={[
+            styles.countContainer,
+            fullscreen
+              ? {
+                top: Dimensions.get("window").height - 148,
+                right: 15
+              }
+              : { bottom: 0 },
+            pagesStyle
+          ]}>
+          <Text style={[styles.count, { fontSize: fullscreen ? 28 : 24 }]}>
+            {pages}
+          </Text>
+        </Animated.View>
+      )
+    );
+  };
 
   return (
     <>
-      <View style={[styles.card, {height: pageHeight, shadowRadius: fullscreen ? 0 : 4.4}]}>
-        { activityBg && <VibrancyView
+      <View
+        style={[
+          styles.card,
+          { height: pageHeight, shadowRadius: fullscreen ? 0 : 4.4 }
+        ]}>
+        {activityBg && (
+          <PlatormBlurView
             style={styles.absolute}
             blurType={colors.dark ? "dark" : "light"}
             blurAmount={8}
-          />}
-          <FastImage
-            onLayout={cardLayout}
-            style={[styles.imageStyle, {height: "100%", width: "100%", borderRadius: fullscreen ? 0 : 8}]}
-            source={calcImageSource()}
-            resizeMode={FastImage.resizeMode.cover}
           />
-          <View style={[styles.inputContainer, {width: "100%", height: inputContainerHeight()}]}>
-            <TextInput
-              style={[styles.input, {lineHeight: lineHeight || 10, fontSize: fullscreen ? 16 : 14}]}
-              placeholder={placeholder}
-              placeholderTextColor="#8A897C"
-              multiline={true}
-              autoCapitalize="none"
-              importantForAutofill="no"
-              onChange={setContent}
-              onContentSizeChange={handleLayout}
-              autoFocus={false}
-              autoCorrect={false}
-              keyboardType="default"
-              editable={editable}
-              selectionColor={colors.accent}
-              ref={inputRef}
-              contextMenuHidden={true}
-              value={content}
+        )}
+        <FastImage
+          onLayout={cardLayout}
+          style={[
+            styles.imageStyle,
+            { height: fullscreen ? "100%" : "141%", width: "100%", borderRadius: fullscreen ? 0 : 8 }
+          ]}
+          source={calcImageSource()}
+          resizeMode={Platform.OS == "ios" ? FastImage.resizeMode.cover : FastImage.resizeMode.stretch}
+        />
+        <View
+          style={[
+            styles.inputContainer,
+            { width: "100%", height: inputContainerHeight() }
+          ]}>
+          <TextInput
+            style={styles.input}
+            // style={{lineHeight: 350, includeFontPadding: false, paddingTop: 0, textAlignVertical: "top", fontSize: 15, margin: 0, }}
+            placeholder={placeholder}
+            allowFontScaling={true}
+            placeholderTextColor="#8A897C"
+            textAlignVertical={"top"}
+            multiline={true}
+            autoCapitalize="none"
+            disableFullscreenUI={true}
+            importantForAutofill="no"
+            onChangeText={setCurrentText}
+            onContentSizeChange={handleLayout}
+            autoFocus={false}
+            autoCorrect={false}
+            keyboardType="default"
+            editable={editable}
+            selectionColor={colors.accent}
+            ref={inputRef}
+            contextMenuHidden={true}
+          />
+          <TapGestureHandler
+            onHandlerStateChange={handleTap}
+            ref={tapRef}
+            hitSlop={10}
+            numberOfTaps={2}>
+            <View
+              style={{
+                zIndex: 1,
+                position: "absolute",
+                ...StyleSheet.absoluteFillObject
+              }}
             />
-          </View>
-        <TapGestureHandler onHandlerStateChange={handleTap} ref={tapRef} hitSlop={30} numberOfTaps={2}>
-          <View
-            style={{
-              zIndex: 1,
-              position: 'absolute',
-              ...StyleSheet.absoluteFillObject,
-            }}
-          />
-        </TapGestureHandler>
+          </TapGestureHandler>
+        </View>
+
         {renderPageCount()}
       </View>
       {children}
@@ -145,12 +218,13 @@ const WritingCard = ({
 const styles = StyleSheet.create({
   inputContainer: {
     overflow: "hidden",
+    lineHeight: 40
   },
   countContainer: {
     position: "absolute",
 
     right: 0,
-    padding: 10,
+    padding: 10
   },
   count: {
     color: colors.primary,
@@ -172,19 +246,19 @@ const styles = StyleSheet.create({
     // flexDirection: "column",
     position: "absolute",
     top: 10,
-    right: 0,
+    right: 0
   },
   background: {
     color: "#fff0",
     textShadowColor: "rgba(255,255,255,0.8)",
     textShadowOffset: {
       width: 0,
-      height: 0,
+      height: 0
     },
     textShadowRadius: 10,
     fontSize: 14,
     fontWeight: "600",
-    textTransform: "capitalize",
+    textTransform: "capitalize"
   },
   imageStyle: {
     // height: Dimensions.get("window").height * 0.547740584,
@@ -200,36 +274,37 @@ const styles = StyleSheet.create({
     height: "100%",
     zIndex: 99,
     position: "absolute",
-    borderRadius: 8,
+    borderRadius: 8
   },
   card: {
     // height: Dimensions.get("window").height * 0.547740584,
     // width: Dimensions.get("window").height * 0.38,
     width: "100%",
 
-    // overflow: "hidden",
+    overflow: "hidden",
     backgroundColor: colors.dark ? colors.background2 : "#f5f7ea",
     paddingTop: 0,
     // paddingLeft: "7%",
     borderRadius: 8,
     // paddingRight: 10,
     fontSize: 12,
+    lineHeight: 40,
     // overflow: "hidden",
     shadowColor: "rgba(0, 0, 0, 0.7)",
     shadowOffset: {
       width: 0,
-      height: 1,
+      height: 1
     },
     shadowOpacity: 0.35,
     shadowRadius: 4.4,
-    elevation: 2,
+    elevation: 2
   },
   input: {
     width: "100%",
-    height: 99999,
-    fontSize: 14,
-    lineHeight: 20,
+    lineHeight: 10,
+    fontFamily: "Roboto",
     paddingLeft: "7%",
+    paddingTop: 5,
     color: colors.primary,
     paddingRight: 10,
     top: -5,
@@ -240,6 +315,5 @@ const styles = StyleSheet.create({
     top: -3
   }
 });
-
 
 export default WritingCard;

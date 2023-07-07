@@ -11,10 +11,7 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2801DA4A2827895B005F3883 /* Baloo2.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2839692127A29CDD000D896F /* Baloo2.ttf */; };
-		2801DA4B2827895E005F3883 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 28D219DA272FEA540073687F /* Entypo.ttf */; };
 		28025713272A7A8C00C0E47A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
-		2804C5192825D15900ACDFDC /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 28D219C4272C76A20073687F /* MaterialCommunityIcons.ttf */; };
-		2804C51B2825D15900ACDFDC /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 28D219C6272C76A30073687F /* Ionicons.ttf */; };
 		284327B2281F2AEE0041BBBF /* audio-files.json in Resources */ = {isa = PBXBuildFile; fileRef = 284327B1281F2AEE0041BBBF /* audio-files.json */; };
 		28963164279363120043FAA9 /* Futura.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 28D219C5272C76A20073687F /* Futura.ttf */; };
 		28AF4498281B2B9000647426 /* Roboto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 28AF4497281B2B9000647426 /* Roboto.ttf */; };
@@ -38,6 +35,12 @@
 		6642BBCFC27048947CC1392B /* libPods-neiltools-neiltoolsTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4578190CE447FE59BA320593 /* libPods-neiltools-neiltoolsTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		ED799E89425DFEE9FC75E6A9 /* libPods-neiltools.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CBFC30287C62351E9203E08 /* libPods-neiltools.a */; };
+		D97C0C8AE89F470694F5766F /* Baloo2.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2ABF9ACDEDDF4F82BA9BCDB2 /* Baloo2.ttf */; };
+		E46B3F33ABD74D9AB05C1AF9 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 54DCC4B260DB463096E03EED /* Entypo.ttf */; };
+		3593084E912749E58C3F9907 /* Futura.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 899B2E909A4C43659922B447 /* Futura.ttf */; };
+		38C8BEE4BC054D3FBB149A0E /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AA575898802A4F7D99795B66 /* Ionicons.ttf */; };
+		DB59B51DA8344A239E8B09B9 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 460830E8F6364DD186155FA6 /* MaterialCommunityIcons.ttf */; };
+		B4134AAB60DB4D2A96ED3F2A /* Roboto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CC1942C139EE4A0FA575FE3D /* Roboto.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,11 +84,8 @@
 		28BD8183271CA8FB00C37F28 /* 10.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = 10.mp3; path = ../app/assets/audio/10.mp3; sourceTree = "<group>"; };
 		28BD8184271CA8FB00C37F28 /* 4.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = 4.mp3; path = ../app/assets/audio/4.mp3; sourceTree = "<group>"; };
 		28BD8197271CAF2800C37F28 /* breatheout.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = breatheout.mp3; path = ../app/assets/audio/breatheout.mp3; sourceTree = "<group>"; };
-		28D219C4272C76A20073687F /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = MaterialCommunityIcons.ttf; path = ../../../app/assets/fonts/MaterialCommunityIcons.ttf; sourceTree = "<group>"; };
 		28D219C5272C76A20073687F /* Futura.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Futura.ttf; path = ../../../app/assets/fonts/Futura.ttf; sourceTree = "<group>"; };
-		28D219C6272C76A30073687F /* Ionicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Ionicons.ttf; path = ../../../app/assets/fonts/Ionicons.ttf; sourceTree = "<group>"; };
 		28D219D0272CF15D0073687F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		28D219DA272FEA540073687F /* Entypo.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Entypo.ttf; path = ../../../app/assets/fonts/Entypo.ttf; sourceTree = "<group>"; };
 		4578190CE447FE59BA320593 /* libPods-neiltools-neiltoolsTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-neiltools-neiltoolsTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CBFC30287C62351E9203E08 /* libPods-neiltools.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-neiltools.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		70870408CFB0296D5F4F7C0E /* Pods-neiltools-neiltoolsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-neiltools-neiltoolsTests.release.xcconfig"; path = "Target Support Files/Pods-neiltools-neiltoolsTests/Pods-neiltools-neiltoolsTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -94,6 +94,12 @@
 		95DE03CC884F29ED83D5291F /* Pods-neiltools.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-neiltools.release.xcconfig"; path = "Target Support Files/Pods-neiltools/Pods-neiltools.release.xcconfig"; sourceTree = "<group>"; };
 		97BF13ED96C7EB4296EA987E /* Pods-neiltools.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-neiltools.debug.xcconfig"; path = "Target Support Files/Pods-neiltools/Pods-neiltools.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		2ABF9ACDEDDF4F82BA9BCDB2 /* Baloo2.ttf */ = {isa = PBXFileReference; name = "Baloo2.ttf"; path = "../app/assets/fonts/Baloo2.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		54DCC4B260DB463096E03EED /* Entypo.ttf */ = {isa = PBXFileReference; name = "Entypo.ttf"; path = "../app/assets/fonts/Entypo.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		899B2E909A4C43659922B447 /* Futura.ttf */ = {isa = PBXFileReference; name = "Futura.ttf"; path = "../app/assets/fonts/Futura.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		AA575898802A4F7D99795B66 /* Ionicons.ttf */ = {isa = PBXFileReference; name = "Ionicons.ttf"; path = "../app/assets/fonts/Ionicons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		460830E8F6364DD186155FA6 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; name = "MaterialCommunityIcons.ttf"; path = "../app/assets/fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		CC1942C139EE4A0FA575FE3D /* Roboto.ttf */ = {isa = PBXFileReference; name = "Roboto.ttf"; path = "../app/assets/fonts/Roboto.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -207,6 +213,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				F4408A7EB8664B3349508C0B /* Pods */,
+				170C4B5095DE463299A5A1F2 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -233,6 +240,20 @@
 			);
 			path = Pods;
 			sourceTree = "<group>";
+		};
+		170C4B5095DE463299A5A1F2 /* Resources */ = {
+			isa = "PBXGroup";
+			children = (
+				2ABF9ACDEDDF4F82BA9BCDB2 /* Baloo2.ttf */,
+				54DCC4B260DB463096E03EED /* Entypo.ttf */,
+				899B2E909A4C43659922B447 /* Futura.ttf */,
+				AA575898802A4F7D99795B66 /* Ionicons.ttf */,
+				460830E8F6364DD186155FA6 /* MaterialCommunityIcons.ttf */,
+				CC1942C139EE4A0FA575FE3D /* Roboto.ttf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+			path = "";
 		};
 /* End PBXGroup section */
 
@@ -328,14 +349,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2804C51B2825D15900ACDFDC /* Ionicons.ttf in Resources */,
 				28BD8191271CA8FB00C37F28 /* 1.mp3 in Resources */,
 				28BD818F271CA8FB00C37F28 /* relax.mp3 in Resources */,
 				28BD8188271CA8FB00C37F28 /* 5.mp3 in Resources */,
 				28BD8193271CA8FB00C37F28 /* 10.mp3 in Resources */,
 				28BD818A271CA8FB00C37F28 /* 7.mp3 in Resources */,
 				28BD8192271CA8FB00C37F28 /* breathein.mp3 in Resources */,
-				2801DA4B2827895E005F3883 /* Entypo.ttf in Resources */,
 				2801DA4A2827895B005F3883 /* Baloo2.ttf in Resources */,
 				28BD8185271CA8FB00C37F28 /* 6.mp3 in Resources */,
 				28963164279363120043FAA9 /* Futura.ttf in Resources */,
@@ -352,8 +371,13 @@
 				28BD8190271CA8FB00C37F28 /* 9.mp3 in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				28BD818C271CA8FB00C37F28 /* 12.mp3 in Resources */,
-				2804C5192825D15900ACDFDC /* MaterialCommunityIcons.ttf in Resources */,
 				28D219D1272CF15D0073687F /* GoogleService-Info.plist in Resources */,
+				D97C0C8AE89F470694F5766F /* Baloo2.ttf in Resources */,
+				E46B3F33ABD74D9AB05C1AF9 /* Entypo.ttf in Resources */,
+				3593084E912749E58C3F9907 /* Futura.ttf in Resources */,
+				38C8BEE4BC054D3FBB149A0E /* Ionicons.ttf in Resources */,
+				DB59B51DA8344A239E8B09B9 /* MaterialCommunityIcons.ttf in Resources */,
+				B4134AAB60DB4D2A96ED3F2A /* Roboto.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

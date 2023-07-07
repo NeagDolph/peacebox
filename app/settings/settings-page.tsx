@@ -5,7 +5,7 @@ import PageHeader from "../components/header";
 import {Switch, Text, Divider} from "react-native-paper";
 import { setSetting } from '../store/features/settingsSlice';
 import {colors} from "../config/colors";
-import crashlytics from "@react-native-firebase/crashlytics";
+// import crashlytics from "@react-native-firebase/crashlytics";
 
 const settingNames = require("./settings.json");
 
@@ -31,7 +31,7 @@ const SettingsPage = ({route, navigation}) => {
 
   const toggleSetting = (item, value) => {
     const payload = {page: page, setting: item.setting, value: value}
-    crashlytics().log("Setting toggled: " + JSON.stringify(payload));
+    // crashlytics().log("Setting toggled: " + JSON.stringify(payload));
     dispatch(setSetting(payload))
   }
 

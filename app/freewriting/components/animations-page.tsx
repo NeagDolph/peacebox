@@ -1,13 +1,7 @@
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withTiming,
-  Easing, runOnJS
-} from 'react-native-reanimated';
+import Animated, { Easing, runOnJS, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 import WritingCard from "./writing-card";
 import * as React from "react";
-import {useEffect, useLayoutEffect, useState} from "react";
-import {Text} from "react-native";
+import { useEffect } from "react";
 
 
 const GenieCard = (props: any) => {

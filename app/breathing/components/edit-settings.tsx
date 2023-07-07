@@ -1,16 +1,14 @@
-import React from 'react';
+import React from "react";
 
-import {Pressable, StyleSheet, Text, View} from 'react-native';
-import {useDispatch, useSelector} from "react-redux";
-import {setSetting} from "../../store/features/breathingSlice";
-import {Divider, Switch, Button, Provider} from "react-native-paper";
-import {colors} from "../../config/colors";
-import PropTypes from 'prop-types'
-import SegmentedControl from '@react-native-segmented-control/segmented-control';
+import { Pressable, StyleSheet, Text, View } from "react-native";
+import { useDispatch } from "react-redux";
+import { setSetting } from "../../store/features/breathingSlice";
+import { Button, Divider, Switch } from "react-native-paper";
+import { colors } from "../../config/colors";
+import PropTypes from "prop-types";
+import SegmentedControl from "@react-native-segmented-control/segmented-control";
 import Fade from "../../components/fade-wrapper";
-import PauseModal from "./pause-modal";
 import haptic from "../../helpers/haptic";
-import crashlytics from "@react-native-firebase/crashlytics";
 
 
 const EditSettings = props => {
@@ -19,7 +17,6 @@ const EditSettings = props => {
   const handleFeedbackChange = (feedback) => {
     const payload = ['None', 'Vibrate', "Haptic"].indexOf(feedback) || 0;
 
-    crashlytics().log("Pattern Setting Changed: feedbackType | New value: " + payload)
 
     haptic(0)
     dispatch(setSetting({
@@ -30,7 +27,6 @@ const EditSettings = props => {
   }
 
   const toggleAlertFinish = () => {
-    crashlytics().log("Pattern Setting Toggled: alertFinish | New value: " + !props.patternSettings.alertFinish)
     dispatch(setSetting({
       id: props.id,
       setting: "alertFinish",
@@ -39,7 +35,6 @@ const EditSettings = props => {
   }
 
   const togglePause = () => {
-    crashlytics().log("Pattern Setting Toggled: breakBetweenCycles | New value: " + !props.patternSettings.breakBetweenCycles)
     dispatch(setSetting({
       id: props.id,
       setting: "breakBetweenCycles",

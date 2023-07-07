@@ -1,13 +1,9 @@
-import React, {useEffect} from 'react';
-import {View, Text, StyleSheet, Alert, Pressable} from 'react-native';
-import {colors} from "../config/colors";
-import IconEntypo from "react-native-vector-icons/Entypo"
-import {store} from '../store/store';
-import {closedTutorial, openedTutorial, guideNext, pushRestart, exitTutorial} from "../store/features/tutorialSlice"
-import {useDispatch, useSelector} from "react-redux";
-import {dispatchWalkthroughEvent, goToWalkthroughElementWithId, startWalkthrough} from "react-native-walkthrough";
-import {setEditScroll} from '../store/features/breathingSlice';
-import haptic from "../helpers/haptic";
+import React from "react";
+import { Alert, Pressable, StyleSheet, Text, View } from "react-native";
+import { colors } from "../config/colors";
+import { store } from "../store/store";
+import { closedTutorial, exitTutorial, guideNext, pushRestart } from "../store/features/tutorialSlice";
+import { setEditScroll } from "../store/features/breathingSlice";
 
 const styles = StyleSheet.create({
   tooltipView: {

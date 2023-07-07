@@ -1,5 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
-import {contrastColor} from 'contrast-color';
+import { createSlice } from "@reduxjs/toolkit";
 
 export const breathingSlice = createSlice({
   name: 'breathing',

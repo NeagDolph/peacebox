@@ -1,7 +1,7 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, { useCallback, useEffect, useRef, useState } from "react";
 
-import {Dimensions, StyleSheet, Text, View} from 'react-native';
-import {colors} from "../../config/colors";
+import { Dimensions, Image, Platform, StyleSheet, Text, View } from "react-native";
+import { colors } from "../../config/colors";
 import MaskedView from "@react-native-masked-view/masked-view";
 import FastImage from "react-native-fast-image";
 import Animated, {
@@ -12,8 +12,8 @@ import Animated, {
   useSharedValue, withTiming
 } from "react-native-reanimated";
 import Fade from "../../components/fade-wrapper";
-import PropTypes from 'prop-types'
-import crashlytics from "@react-native-firebase/crashlytics";
+import PropTypes from "prop-types";
+// import crashlytics from "@react-native-firebase/crashlytics";
 
 
 const LogoBox = (props) => {
@@ -21,22 +21,22 @@ const LogoBox = (props) => {
   const windowWidth = useSharedValue(Dimensions.get("window").width ?? 0);
   const [layoutData, setLayoutData] = useState({
     x: 23.66666603088379,
-    width: 48
+    width: 60
   });
 
-  const handleLayout = ({nativeEvent: event}) => {
-    setLayoutData(event.layout)
-  }
+  const handleLayout = ({ nativeEvent: event }) => {
+    setLayoutData(event.layout);
+  };
 
   const leftOffset = useSharedValue(0);
 
   const calcOffset = useCallback(() => {
-    const calcMove = (Dimensions.get("window").width - layoutData.width) / 2 - layoutData.x
+    const calcMove = (Dimensions.get("window").width - layoutData.width) / 2 - layoutData.x;
     return props.endOfScroll ? calcMove : 0;
-  }, [layoutData, props.endOfScroll])
+  }, [layoutData, props.endOfScroll]);
 
   useEffect(() => {
-    crashlytics().log("Finished scrolling on home page")
+    // crashlytics().log("Finished scrolling on home page")
     leftOffset.value = withTiming(calcOffset(), {
       duration: 900,
       easing: Easing.out(Easing.circle)
@@ -46,7 +46,7 @@ const LogoBox = (props) => {
       }
     });
 
-  }, [props.endOfScroll])
+  }, [props.endOfScroll]);
 
 
   const visibleStyles = useAnimatedStyle(() => {
@@ -54,23 +54,22 @@ const LogoBox = (props) => {
     const logoTop = Math.min(Math.max(props.safeViewHeight / 2, 0), 30) - 30;
     const opacity = interpolate(props.scrollOffset.value, [0, 100], [0.4, 1]);
 
-    const calcTop = (val) => interpolate(val, [0, windowHeight.value], [(windowHeight.value / 6), logoTop])
+    const calcTop = (val) => interpolate(val, [0, windowHeight.value], [(windowHeight.value / 6), logoTop]);
 
     const scrollTop = calcTop(props.scrollOffset.value);
 
-    const smallCalc = Math.min(scrollTop, 610) - Math.max( props.scrollOffset.value- 610, 0);
-    const yTop = windowHeight.value > 800 ? scrollTop : smallCalc
+    const smallCalc = Math.min(scrollTop, 610) - Math.max(props.scrollOffset.value - 610, 0);
+    const yTop = windowHeight.value > 800 ? scrollTop : smallCalc;
 
-
-    const lockTop = props.scrollOffset.value <= props.lockConstant ? scrollTop : calcTop(props.lockConstant) - (props.scrollOffset.value - props.lockConstant)
+    const lockTop = props.scrollOffset.value <= props.lockConstant ? scrollTop : calcTop(props.lockConstant) - (props.scrollOffset.value - props.lockConstant);
 
     return {
-      opacity: opacity,
+      opacity: Platform.OS === 'ios' ? opacity : 1,
       transform: [
 
-        {translateY: lockTop},
-        {translateX: leftOffset.value}
-      ],
+        { translateY: lockTop },
+        { translateX: leftOffset.value }
+      ]
     };
 
   }, [props.safeViewHeight]);
@@ -79,7 +78,7 @@ const LogoBox = (props) => {
     const opacity = interpolate(leftOffset.value, [0, windowWidth.value * 0.3], [0, 1]);
 
     return {
-      opacity,
+      opacity
     };
   });
 
@@ -87,27 +86,36 @@ const LogoBox = (props) => {
     return (
       <Animated.View style={[styles.maskElement, visibleStyles]}>
         <Text style={styles.logoText} onLayout={handleLayout}>P</Text>
-        <Fade duration={500} disableMount={true} visible={!props.endOfScroll} style={{flexDirection: "row"}}>
+        <Fade duration={500} disableMount={true} visible={!props.endOfScroll} style={{ flexDirection: "row" }}>
           <>
             <Text style={styles.logoText}>eaceBox</Text>
           </>
         </Fade>
       </Animated.View>
-    )
-  }
+    );
+  };
 
   return (
     <Animated.View style={[styles.titleContainer]}>
-      <MaskedView
-        style={{width: "100%"}}
-        maskElement={renderLogoText()}>
-        <FastImage
-          style={styles.image}
-          source={require("../../assets/background3.jpg")}
-          resizeMode={FastImage.resizeMode.cover}
-        />
-        <Animated.View style={[styles.blackView, logoColorStyles]}/>
-      </MaskedView>
+      {Platform.OS === "ios" ?
+        <MaskedView
+          style={{ width: 200 }}
+          androidRenderingMode={"software"}
+          maskElement={renderLogoText()}>
+          <FastImage
+            style={styles.image}
+            source={require("../../assets/background3.jpg")}
+            resizeMode={FastImage.resizeMode.cover}
+            fallback={true}
+          />
+          <Image
+            source={require("../../assets/background3.jpg")}
+            style={styles.image}
+          ></Image>
+          <Animated.View style={[styles.blackView, logoColorStyles]} />
+        </MaskedView> :
+        renderLogoText()
+      }
     </Animated.View>
   );
 };
@@ -120,7 +128,7 @@ LogoBox.propTypes = {
   lockConstant: PropTypes.number,
   safeViewHeight: PropTypes.number,
   used: PropTypes.bool // Bool for if app has been opened before
-}
+};
 
 
 const styles = StyleSheet.create({
@@ -137,11 +145,11 @@ const styles = StyleSheet.create({
     top: 0,
     width: "100%",
     height: Dimensions.get("window").height * 0.28125,
-    position: "absolute",
+    position: "absolute"
   },
   maskElement: {
     backgroundColor: "transparent",
-    justifyContent: 'center',
+    justifyContent: "center",
     flexDirection: "row",
     position: "absolute",
     width: "100%",
@@ -153,19 +161,20 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: "100%",
     top: 20,
-    left: 0,
+    left: 0
   },
   logoText: {
     fontSize: 67,
-    fontFamily: "Futura",
+    fontFamily: "Noto",
     fontWeight: "900",
+    color: "black"
   },
   peace: {
     color: colors.black
   },
   box: {
     color: colors.black
-  },
+  }
 });
 
 export default LogoBox;

@@ -1,0 +1,5 @@
+console.log("EEEEEEEE")
+import {AppRegistry} from 'react-native';
+import {name as neiltools} from './app.json';
+import HomePage from './app/home/home-page';
+AppRegistry.registerComponent(neiltools, () => HomePage);

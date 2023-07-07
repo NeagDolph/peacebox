@@ -20,7 +20,6 @@ import TimeControls from "./components/time-controls";
 import PrefersHomeIndicatorAutoHidden from "react-native-home-indicator";
 import {useKeepAwake} from '@sayem314/react-native-keep-awake';
 import {pattern} from "../../helpers/haptic"
-import crashlytics from '@react-native-firebase/crashlytics';
 import Sound from "react-native-sound"
 import useTooltip from "../../components/tooltip-hook";
 import {colors} from "../../config/colors";
@@ -42,7 +41,6 @@ const PatternTime = ({route, navigation}) => {
   const dispatch = useDispatch();
 
   const completed = () => {
-    crashlytics().log("Pattern timer completed | ID: " + id)
     navigation.goBack();
     navigation.navigate("Completed", {id})
   }
@@ -65,8 +63,6 @@ const PatternTime = ({route, navigation}) => {
 
   //On component loaded
   useEffect(() => {
-    crashlytics().log("Page Opened: Pattern timer")
-
     const subscription = AppState.addEventListener("change", nextAppState => {
       if (nextAppState.match(/inactive|background/)) {
         setPaused(true)
@@ -90,7 +86,6 @@ const PatternTime = ({route, navigation}) => {
    Pause Functions
   */
   const togglePause = () => {
-    crashlytics().log("Timer toggled pause state: " + !paused)
     if (paused) setPaused(false);
     else setPaused(true);
   }
@@ -102,8 +97,6 @@ const PatternTime = ({route, navigation}) => {
       handleTutorialExit()
       return;
     } //Use different tap handler
-
-    crashlytics().log("Pressed exit button in pattern")
     setPaused(true)
     Alert.alert(
       "Exit Breathing?",
@@ -113,7 +106,6 @@ const PatternTime = ({route, navigation}) => {
         {text: "Nevermind"},
         {
           text: "Confirm", onPress: () => {
-            crashlytics().log("Exited breathing pattern");
             exit();
           }
 
