@@ -13,24 +13,25 @@ import { setSetting } from "../store/features/settingsSlice";
 const Background = (props) => {
   // const lastSetTime = useSelector((state: any) => state.background.lastSetTime)
   // const bgUrl = useSelector((state: any) => state.background.url)
-  const background = useSelector((state: any) => state.background)
+  const background = useSelector((state: any) => state.background);
 
-  const {showBackground, visible} = props
-  const bgOld = useRef(showBackground)
+  const { showBackground, opacity, loaded, setLoaded, children } = props;
+
+  const bgOld = useRef(showBackground);
 
   const dispatch = useDispatch();
 
   const brightness = (hex) => {
-      hex = hex.replace("#", "")
-      const r = parseInt(hex.substr(0, 2), 16);
-      const g = parseInt(hex.substr(2, 2), 16);
-      const b = parseInt(hex.substr(4, 2), 16);
+    hex = hex.replace("#", "");
+    const r = parseInt(hex.substr(0, 2), 16);
+    const g = parseInt(hex.substr(2, 2), 16);
+    const b = parseInt(hex.substr(4, 2), 16);
       return (r + g + b) / 3
   }
 
   const opacityStyle = useAnimatedStyle(() => {
     return {
-      opacity: interpolate(props.opacity.value, [0, 1], [1, 0]),
+      opacity: interpolate(opacity.value, [0, 1], [1, 0])
     }
   })
 
@@ -104,36 +105,37 @@ const Background = (props) => {
   const renderImage = () => {
     const imgUrl = background.data.urls?.raw || (background.data.urls?.full || background.data.urls?.regular)
     const image = <FastImage
-      source={{uri: imgUrl, priority: FastImage.priority.high}}
+      source={{ uri: imgUrl, priority: FastImage.priority.high }}
       force-cache="force-cache"
       style={styles.backgroundImage}
       resizeMode={FastImage.resizeMode.cover}
-      onLoad={() => props.setLoaded(true)}
-      onLoadStart={() => props.setLoaded(false)}
+      onLoad={() => setLoaded(true)}
+      onLoadStart={() => setLoaded(false)}
     />
 
-    return (showBackground && imgUrl) ? <Pressable onPress={props.onPress} children={image}/> : <View style={styles.backgroundImage}></View>
+    return (showBackground && imgUrl) ? <Pressable children={image} /> : <View style={styles.backgroundImage}></View>;
   }
 
   return (
     <View>
       <Animated.View style={opacityStyle}>
         {renderImage()}
-        {(showBackground && !props.loaded) && <Blurhash
-            blurhash={background.data.blur_hash}
-            style={styles.blur}
+        {(showBackground && !loaded) && <Blurhash
+          blurhash={background.data.blur_hash}
+          style={styles.blur}
         />}
       </Animated.View>
-      {props.children}
+      {children}
     </View>
   )
 }
 
 Background.propTypes = {
   showBackground: PropTypes.bool.isRequired,
-  onLoad: PropTypes.func,
-  onPress: PropTypes.func,
-  visible: PropTypes.bool
+  setLoaded: PropTypes.func,
+  loaded: PropTypes.bool,
+  opacity: PropTypes.any,
+  children: PropTypes.node
 }
 
 const styles = StyleSheet.create({

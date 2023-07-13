@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { ReactNode, useMemo } from "react";
 
 import { Platform, Pressable, StyleSheet, Text, View } from "react-native";
 import PropTypes from "prop-types";
@@ -15,12 +15,13 @@ import { confirm } from "../../helpers/confirm";
 import { playAudio } from "../../helpers/playAudio";
 import RNFS from "react-native-fs";
 import haptic from "../../helpers/haptic";
-import RNBackgroundDownloader from "react-native-background-downloader";
+import RNBackgroundDownloader from "@kesha-antonov/react-native-background-downloader";
+import { Easing } from "react-native-reanimated";
 
 let ContextMenuView;
 
-if (Platform.OS === 'ios') {
-  ContextMenuView = require('react-native-ios-context-menu').ContextMenuView;
+if (Platform.OS === "ios") {
+  ContextMenuView = require("react-native-ios-context-menu").ContextMenuView;
 }
 
 const AudioSetFilesTape = props => {
@@ -123,6 +124,7 @@ const AudioSetFilesTape = props => {
           set: props.set,
           totalParts,
         }).then(() => {
+          // @ts-ignore
           navigation.navigate('AudioPlayer');
         });
       }
@@ -181,36 +183,40 @@ const AudioSetFilesTape = props => {
       default:
         haptic(1);
 
-        downloadSingleTape(props.set, props.file);
-        processDownloadQ();
+        downloadSingleTape(props.set, props.file).then(r => processDownloadQ());
     }
   };
 
-  const renderDownload = ({index: part = 0, inner}) => {
+  const renderDownload = ({ part = 0, inner }) => {
     //If audio is part of two-set or more then it averages progress between files
-    const {status, average} = calcDownloadData;
+    const { status, average } = calcDownloadData;
 
     //Pressable needs to be on outside and have variable onpress because pressable creates alignment issues
     return (
       <Pressable
         style={[
           styles.download,
-          inner ? styles.downloadInner : styles.downloadOuter,
+          inner ? styles.downloadInner : styles.downloadOuter
         ]}
         hitSlop={12}
         onPress={() => handleCancel(status)}>
         {(status === 1 || status === 2) && (
           <View style={[styles.loadingContainer, inner && {top: 8}]}>
             <IconIonicons
-              name={'ios-square'}
+              name={"ios-square"}
+              style={Platform.OS === "android" && { top: 16.5 }}
               size={10}
               color={colors.primary}
             />
             <ReanimatedArc
               color={colors.text2}
-              style={{position: 'absolute'}}
+              style={{ position: "absolute" }}
               diameter={22}
               width={2}
+              rotation={0}
+              easing={Easing.ease}
+              initialAnimation={false}
+              hideSmallAngle={true}
               arcSweepAngle={359}
               // arcSweepAngle={360}
               animationDuration={0}
@@ -218,9 +224,13 @@ const AudioSetFilesTape = props => {
             />
             <ReanimatedArc
               color={colors.text}
-              style={{position: 'absolute'}}
+              style={{ position: "absolute" }}
               diameter={22}
               width={2}
+              rotation={0}
+              easing={Easing.ease}
+              initialAnimation={false}
+              hideSmallAngle={true}
               arcSweepAngle={average * 3.5 ?? 0}
               // arcSweepAngle={360}
               animationDuration={100}
@@ -324,41 +334,51 @@ const AudioSetFilesTape = props => {
     );
   };
 
-  if (Platform.OS === 'android') {
+  if (Platform.OS === "android") {
     {
       props.file.parts.length === 1
-        ? renderSingle({tapeName: props.file.name, partData: props.file.parts})
+        ? renderSingle({ tapeName: props.file.name, partData: props.file.parts })
         : renderMulti(props.file);
     }
   }
 
-  return (
-    // <View style={styles.container}>
-    <ContextMenuView
+  const iosRender = (content: ReactNode) => {
+    if (Platform.Version <= 12) {
+      return content;
+    }
+
+    return (<ContextMenuView
       lazyPreview={true}
       menuConfig={{
         menuTitle: `${props.set.name}`,
         menuItems: [
           {
-            actionKey: 'toggleFavorite',
-            actionTitle: 'Add to Favorites',
+            actionKey: "toggleFavorite",
+            actionTitle: "Add to Favorites",
             icon: {
-              type: 'IMAGE_SYSTEM',
+              type: "IMAGE_SYSTEM",
               imageValue: {
-                systemName: 'heart',
-              },
-            },
-          },
-        ],
+                systemName: "heart"
+              }
+            }
+          }
+        ]
       }}
-      onPressMenuItem={({nativeEvent}) => {
-        if (nativeEvent.actionKey === 'toggleFavorite') return;
+      onPressMenuItem={({ nativeEvent }) => {
+        if (nativeEvent.actionKey === "toggleFavorite") return;
       }}>
-      {props.file.parts.length === 1
-        ? renderSingle({tapeName: props.file.name, partData: props.file.parts})
-        : renderMulti(props.file)}
-    </ContextMenuView>
-    // </View>
+      content
+    </ContextMenuView>);
+  };
+
+  const getContent = () => {
+    return props.file.parts.length === 1
+      ? renderSingle({ tapeName: props.file.name, partData: props.file.parts })
+      : renderMulti(props.file);
+  };
+
+  return (
+    Platform.OS === "ios" ? iosRender(getContent()) : getContent()
   );
 };
 

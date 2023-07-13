@@ -1,5 +1,5 @@
 <script>
-  import { BoxBufferGeometry, Color, MeshBasicMaterial, MeshPhongMaterial, PlaneGeometry } from "three";
+  import { BoxGeometry as BoxBufferGeometry, Color, MeshBasicMaterial, MeshPhongMaterial, PlaneGeometry } from "three";
   import {
     AmbientLight,
     Canvas,
@@ -8,11 +8,12 @@
     Line2,
     Mesh as MeshT,
     Object3DInstance,
-    OrbitControls,
     PerspectiveCamera,
     SpotLight,
     useTexture
   } from "threlte";
+
+  import OrbitControls from "../util/OrbitControls.svelte";
   import { spring, tweened } from "svelte/motion";
   import { cubicIn, linear } from "svelte/easing";
   import px from "../assets/logoCube/px.png";
@@ -26,8 +27,6 @@
   import o_px_upside from "../assets/logoCube_opposite/px_upside_white.png";
   import o_ny from "../assets/logoCube_opposite/ny.png";
 
-
-  // import couch_obj from "../assets/couchObj.glb";
   import couch_texture from "../assets/couch/colormap.png";
   import couch_ao from "../assets/couch/aomap.png";
   import couch_normal from "../assets/couch/normalmap.png";
@@ -68,33 +67,25 @@
 
   onMount(() => {
     startPos = -pageY;
-    // console.log("EEE", cameraCalcY)
-
-
-    // function canvasEl(e) {
-    //   console.log("Persp", e)
-    // }
-
 
     setTimeout(() => {
       fovScale.set(1.45);
-    }, 1900);
 
-    setTimeout(() => {
-      setInterval(() => {
-
-
-        if (!usingCamera) {
-
-          if (!holding) {
-            logoRotate.set((1.5708) * (tempNum / 100));
-
-            tempNum -= 1;
-          }
-        }
-      }, 60);
-    }, 2000);
+      initCubeSpin();
+    }, 300);
   });
+
+  function initCubeSpin() {
+    if (!usingCamera) {
+
+      if (!holding) {
+        logoRotate.set((1.5708) * (tempNum / 500));
+
+        tempNum -= 1;
+      }
+    }
+    window.requestAnimationFrame(initCubeSpin);
+  }
 
 
   const texture = useTexture([pz, py, px, px_upside, ny, nz]);
@@ -134,7 +125,6 @@
   }));
 
   let faceMaterial = new MeshBasicMaterial({
-    // depthTest: false,
     map: texture_opposite[0],
     transparent: true
   });
@@ -143,15 +133,6 @@
 
   $: holdingMaterial = texture_opposite.map(el => new MeshPhongMaterial({
     map: el
-    // refractionRatio: 0,
-    // reflectivity: 0,
-    // opacity: 0,
-    // transparent: true,
-    // alphaMap: new Color(0, 0, 0, 0),
-    // wireframe: true,
-    // color: new Color("rgba(0, 0, 0, 0)"),
-    // wireframeLinewidth: 20
-    // wireframe:true
   }));
 
 
@@ -280,10 +261,12 @@
 
 
 <Canvas
-  linear
-  flat
+  linear={true}
+  rendererParameters={{antialias: true, precision: "lowp"}}
+  flat={true}
   bind:this={canvasEl}
-  size={{width: 350, height: 350}}
+  size={{width: 400, height: 400}}
+
 >
 
   <!--  Shaders-->
@@ -291,24 +274,24 @@
 
   <!--  Camera -->
   <!--  y - 6-->
-  <PerspectiveCamera position={{ x: 16, y: 6, z: 16 }} fov={$fovScale} lookAt={{y: -2, x: 0, z: 0}}
+  <PerspectiveCamera position={{ x: 16 / (350 / 400), y: 6 / (350 / 400), z: 16 / (350 / 400) }} fov={$fovScale}
+                     lookAt={{y: -2, x: 0, z: 0}}
                      bind:camera={logoCamera}>
 
     <OrbitControls
       autoRotate={false}
       enableRotate={true}
-      maxAzimuthAngle={360}
-      minAzimuthAngle={-360}
-      maxPolarAngle={720}
+      maxAzimuthAngle={Infinity}
+      minAzimuthAngle={-Infinity}
       enablePan={false}
       enableDamping
       enableZoom={false}
       target={{ y: 0.5 }}
-      minPolarAngle={-Math.PI}
       on:start={holdBox}
       bind:controls={controls}
       on:end={unholdBox}
     />
+
   </PerspectiveCamera>
 
   <SpotLight power={6} intensity={holding ? 0.26 : 0.21} penumbra={0.5} target={boxMesh}
@@ -433,7 +416,7 @@
       scale={1}
       material={new LineMaterial({
           worldUnits: true,
-          color: holding ? "#dddddd" : "#c2c7f7",
+          color: holding ? "#dddddd" : "#C3C7F6",
           linewidth: 0.017 * (($scale + 1) / 4)
         })}
     />

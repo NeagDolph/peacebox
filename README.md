@@ -14,7 +14,7 @@
 
 #### Get Started
 
-```console
+```consolenpm run
 # Enter web directory and install modules 
 cd web/web-svelte
 npm i

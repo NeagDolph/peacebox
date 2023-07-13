@@ -36,7 +36,11 @@
     logoActive.update(() => 1);
     setTimeout(() => {
       logoActive.update(() => 2);
-    }, 1800);
+
+      setTimeout(() => {
+        logoActive.update(() => 3);
+      }, 300);
+    }, 2000);
   });
 </script>
 
@@ -75,16 +79,19 @@
         class="disableSelect scale-75 opacity-90 md:opacity-100 md:scale-100 justify-center w-full flex relative md:basis-1/3 lg:basis-2/5">
         <div
           class="relative md:w-full md:h-full lg:h-72 lg:w-72 rounded-5xl lg:rounded-6xl logoMain opacityLogo logoContainer">
-          {#if logoActiveVal <= 1}
+          {#if logoActiveVal <= 2}
             <LogoAnim active={logoActiveVal} />
           {/if}
-          <div
-            class="absolute block justify-center items-center"
-            class:opacity-0={logoActiveVal <= 1}
-            class:relative={logoActiveVal >= 2}
-          >
-            <Game />
-          </div>
+          {#if logoActiveVal >= 2}
+            <div
+              class="absolute block justify-center items-center"
+              class:opacity-0={logoActiveVal <= 2}
+              class:relative={logoActiveVal >= 2}
+            >
+              <Game />
+            </div>
+          {/if}
+
         </div>
       </div>
     </div>
@@ -110,7 +117,7 @@
 
         <div class="container w-full md:w-fit md:max-w-xl">
           <p class="text-5xl sm:text-6xl lg:text-6xl font-vollkorn font-light text-primary sm:whitespace-nowrap">Don't
-            Pay for Peace &nbsp;
+            Pay for Peace&nbsp;
             <i class="fa-solid fa-hand-peace fa-sm"></i>
 
           </p>
@@ -124,7 +131,7 @@
           </p>
           <a href="https://apps.apple.com/us/app/peacebox-tools-for-your-mind/id1592436336"
              aria-label="Visit PeaceBox on the Appstore">
-            <img src="../assets/appstore.svg" class="w-32 mt-10 borderAppStore min-w-20">
+            <img src="../assets/appstore.svg" class="w-44 borderAppStore mt-10 min-w-32">
           </a>
         </div>
       </div>

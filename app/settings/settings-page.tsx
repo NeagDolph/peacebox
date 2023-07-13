@@ -1,16 +1,16 @@
-import React, {useEffect, useState} from 'react';
-import {FlatList, SafeAreaView, StyleSheet, View} from 'react-native';
-import {useDispatch, useSelector} from "react-redux";
+import React from "react";
+import { FlatList, SafeAreaView, StyleSheet, View } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 import PageHeader from "../components/header";
-import {Switch, Text, Divider} from "react-native-paper";
-import { setSetting } from '../store/features/settingsSlice';
-import {colors} from "../config/colors";
+import { Divider, Switch, Text } from "react-native-paper";
+import { setSetting } from "../store/features/settingsSlice";
+import { colors } from "../config/colors";
 // import crashlytics from "@react-native-firebase/crashlytics";
 
 const settingNames = require("./settings.json");
 
 const SettingItem = (props) => {
-  const {item, toggle, value} = props
+  const { item, toggle, value } = props;
 
   return (
     <View style={styles.settingItem}>

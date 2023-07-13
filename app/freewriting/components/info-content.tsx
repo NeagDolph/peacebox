@@ -1,15 +1,15 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {Dimensions, Linking, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { Dimensions, Linking, Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-import Icon from 'react-native-vector-icons/Entypo';
-import {colors} from "../../config/colors";
-import PropTypes from 'prop-types'
-import Animated, {interpolate, useAnimatedStyle, useSharedValue} from "react-native-reanimated";
+import Icon from "react-native-vector-icons/Entypo";
+import { colors } from "../../config/colors";
+import PropTypes from "prop-types";
+import Animated, { interpolate, useAnimatedStyle, useSharedValue } from "react-native-reanimated";
 
-import {mixColor} from 'react-native-redash'
-import Extrapolate = module;
-import {Button} from "react-native-paper";
-import Fade from '../../components/fade-wrapper';
+import { mixColor } from "react-native-redash";
+import { Button } from "react-native-paper";
+import Fade from "../../components/fade-wrapper";
+import { ScrollView } from "react-native-gesture-handler";
 
 const textContent = [
   {
@@ -41,22 +41,28 @@ const InfoContent = (props) => {
 
   const [pageInt, setPageInt] = useState(0);
 
-  const [modalWidth, setModalWidth] = useState(0)
+  const [modalWidth, setModalWidth] = useState(0);
 
-  const {closeEnabled, setCloseEnabled} = props
+  const { closeEnabled, setCloseEnabled } = props;
 
   const isLastPage = useCallback(() => {
-    return pageInt === textContent.length - 1
-  }, [pageInt])
+    return pageInt === textContent.length - 1;
+  }, [pageInt]);
+
+  useEffect(() => {
+    if (isLastPage()) {
+      setCloseEnabled(true);
+    }
+  }, [pageInt]);
 
   useEffect(() => {
     setModalWidth(Dimensions.get("window").width - 100);
-  }, [])
+  }, []);
 
   useEffect(() => {
     if (props.modalVisible) {
-      scrollRef.current.scrollTo({x: 0, animated: false})
-      setPageInt(0)
+      scrollRef.current.scrollTo({ x: 0, animated: false });
+      setPageInt(0);
     }
   }, [props.modalVisible])
 
@@ -177,7 +183,7 @@ const InfoContent = (props) => {
             horizontal={true}
             snapToInterval={modalWidth}
             pagingEnabled={true}
-            disableScrollViewPanResponder={true}
+            disableScrollViewPanResponder={false}
             showsHorizontalScrollIndicator={false}
             onScrollEndDrag={() => setScrolling(false)}
             onScrollBeginDrag={() => setScrolling(true)}

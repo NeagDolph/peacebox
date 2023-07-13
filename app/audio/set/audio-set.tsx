@@ -427,76 +427,86 @@ const AudioSet = props => {
     );
   };
 
-  const menuShowClose = () => {};
+  const menuShowClose = () => {
+  };
 
-  const menuHideOpen = () => {};
+  const menuHideOpen = () => {
+  };
 
-  if (Platform.OS === 'ios') {
-    return renderInner(false);
-  }
+
+  const iosRender = () => {
+    if (Platform.Version <= 12) {
+      return renderInner(false);
+    }
+
+    return (
+      <ContextMenuView
+        // isContextMenuEnabled={!open}
+        previewConfig={{
+          previewType: "CUSTOM",
+          previewSize: "INHERIT",
+          preferredCommitStyle: "pop",
+          isResizeAnimated: false
+          // borderRadius?: number,
+          // backgroundColor?: DynamicColor | string,
+          // targetViewNode?: number,
+        }}
+        onMenuWillShow={menuShowClose}
+        onMenuDidHide={menuHideOpen}
+        renderPreview={() => renderInner(true)}
+        shouldWaitForMenuToHideBeforeFiringOnPressMenuItem={true}
+        lazyPreview={true}
+        menuConfig={{
+          menuTitle: `${props.set.name}`,
+          menuItems: [
+            {
+              actionKey: "toggleFavorite",
+              actionTitle: isFavorite
+                ? "Remove From Favorites"
+                : "Add to Favorites",
+              icon: {
+                type: "IMAGE_SYSTEM",
+                imageValue: {
+                  systemName: isFavorite ? "heart.slash" : "heart"
+                }
+              }
+            },
+            allDownloaded || {
+              actionKey: "downloadAll",
+              actionTitle: "Download all Tapes",
+              icon: {
+                type: "IMAGE_SYSTEM",
+                imageValue: {
+                  systemName: "square.and.arrow.down.on.square"
+                }
+              }
+            },
+            anyDownloading && {
+              actionKey: "cancelAll",
+              actionTitle: "Cancel Downloads",
+              icon: {
+                type: "IMAGE_SYSTEM",
+                imageValue: {
+                  systemName: "square.and.arrow.down.on.square"
+                }
+              }
+            }
+          ]
+        }}
+        onPressMenuItem={({ nativeEvent }) => {
+          if (nativeEvent.actionKey === "toggleFavorite") toggleFavorite();
+          if (nativeEvent.actionKey === "downloadAll") downloadSet();
+          if (nativeEvent.actionKey === "cancelAll") cancelAllDownloads();
+        }}>
+        {renderInner(false)}
+      </ContextMenuView>
+    );
+  };
 
   return (
-    <ContextMenuView
-      // isContextMenuEnabled={!open}
-      previewConfig={{
-        previewType: 'CUSTOM',
-        previewSize: 'INHERIT',
-        preferredCommitStyle: 'pop',
-        isResizeAnimated: false,
-        // borderRadius?: number,
-        // backgroundColor?: DynamicColor | string,
-        // targetViewNode?: number,
-      }}
-      onMenuWillShow={menuShowClose}
-      onMenuDidHide={menuHideOpen}
-      renderPreview={() => renderInner(true)}
-      shouldWaitForMenuToHideBeforeFiringOnPressMenuItem={true}
-      lazyPreview={true}
-      menuConfig={{
-        menuTitle: `${props.set.name}`,
-        menuItems: [
-          {
-            actionKey: 'toggleFavorite',
-            actionTitle: isFavorite
-              ? 'Remove From Favorites'
-              : 'Add to Favorites',
-            icon: {
-              type: 'IMAGE_SYSTEM',
-              imageValue: {
-                systemName: isFavorite ? 'heart.slash' : 'heart',
-              },
-            },
-          },
-          allDownloaded || {
-            actionKey: 'downloadAll',
-            actionTitle: 'Download all Tapes',
-            icon: {
-              type: 'IMAGE_SYSTEM',
-              imageValue: {
-                systemName: 'square.and.arrow.down.on.square',
-              },
-            },
-          },
-          anyDownloading && {
-            actionKey: 'cancelAll',
-            actionTitle: 'Cancel Downloads',
-            icon: {
-              type: 'IMAGE_SYSTEM',
-              imageValue: {
-                systemName: 'square.and.arrow.down.on.square',
-              },
-            },
-          },
-        ],
-      }}
-      onPressMenuItem={({nativeEvent}) => {
-        if (nativeEvent.actionKey === 'toggleFavorite') toggleFavorite();
-        if (nativeEvent.actionKey === 'downloadAll') downloadSet();
-        if (nativeEvent.actionKey === 'cancelAll') cancelAllDownloads();
-      }}>
-      {renderInner(false)}
-    </ContextMenuView>
+    Platform.OS === "ios" ? iosRender() : renderInner(false)
   );
+
 };
 
 AudioSet.propTypes = {

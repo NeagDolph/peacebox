@@ -1,49 +1,10 @@
-import React, {
-  Props,
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState
-} from "react";
-
-import {
-  withTheme,
-  Surface,
-  Title,
-  Paragraph,
-  Button,
-  Chip
-} from "react-native-paper";
-import {
-  Dimensions,
-  Image,
-  ImageBackground,
-  Keyboard,
-  KeyboardAvoidingView,
-  NativeSyntheticEvent,
-  Platform,
-  Pressable,
-  StyleSheet,
-  Text,
-  TextInput,
-  View
-} from "react-native";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { Dimensions, Platform, StyleSheet, Text, TextInput, View } from "react-native";
 import FastImage from "react-native-fast-image";
-import {
-  NativeViewGestureHandler,
-  State,
-  TapGestureHandler
-} from "react-native-gesture-handler";
-import FadeGradient from "../../components/fade-gradient";
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue
-} from "react-native-reanimated";
+import { State, TapGestureHandler } from "react-native-gesture-handler";
+import Animated, { useAnimatedStyle } from "react-native-reanimated";
 import haptic from "../../helpers/haptic";
 import { BlurView, VibrancyView } from "@react-native-community/blur";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { colors } from "../../config/colors";
 import useKeyboardHeight from "../../components/keyboard-hook";
 
@@ -80,10 +41,15 @@ const WritingCard = ({
   }, [inputRef]);
 
   const cardLayout = ({ nativeEvent: { layout } }) => {
-    const lineConstant = fullscreen ? 37.9059228 : 18.9209614; // Constant for number of lines in the paper image
     const aspectRatio = fullscreen ? 2.88284518 : 1.44142259; // Constant for paper image height/width
 
-    if (setLineHeight) setLineHeight(layout.height / lineConstant); //For some reason setLineHeight is undefined when layout event runs on page deletion
+    if (Platform.OS === "ios") {
+      const lineConstant = fullscreen ? 37.9059228 : 18.9209614; // Constant for number of lines in the paper image
+
+      if (setLineHeight) setLineHeight(layout.height / lineConstant); //For some reason setLineHeight is undefined when layout event runs on page deletion
+    } else {
+      if (setLineHeight) setLineHeight(fullscreen ? 35 : 28);
+    }
     setPageHeight(layout.width * aspectRatio);
   };
 
@@ -104,6 +70,14 @@ const WritingCard = ({
     return (pageHeight ?? 0) - (lineHeight ?? 0) + 1;
   }, [pageHeight, lineHeight]);
 
+  const fontSize = useCallback(() => {
+    if (Platform.OS === "ios") {
+      return 15;
+    } else {
+      return fullscreen ? 18 : 15;
+    }
+  }, [fullscreen]);
+
   const calcImageSource = () => {
     if (colors.dark) {
       return fullscreen
@@ -122,18 +96,27 @@ const WritingCard = ({
     };
   }, [fullscreen]);
 
+
   const renderPageCount = () => {
+    const fullscreenStyle = (fs) => {
+      const fullscreenStyling = {
+        top: Dimensions.get("window").height - 148,
+        right: 15
+      };
+
+      const nonFullscreenStyling = {
+        bottom: 0
+      };
+
+      return fs ? fullscreenStyling : nonFullscreenStyling;
+    };
+
     return (
       settings?.showCompletedPages && (
         <Animated.View
           style={[
             styles.countContainer,
-            fullscreen
-              ? {
-                top: Dimensions.get("window").height - 148,
-                right: 15
-              }
-              : { bottom: 0 },
+            fullscreenStyle(fullscreen),
             pagesStyle
           ]}>
           <Text style={[styles.count, { fontSize: fullscreen ? 28 : 24 }]}>
@@ -162,10 +145,11 @@ const WritingCard = ({
           onLayout={cardLayout}
           style={[
             styles.imageStyle,
-            { height: fullscreen ? "100%" : "141%", width: "100%", borderRadius: fullscreen ? 0 : 8 }
+            { height: fullscreen ? "70%" : "142%", width: "100%", borderRadius: fullscreen ? 0 : 8 }
           ]}
           source={calcImageSource()}
           resizeMode={Platform.OS == "ios" ? FastImage.resizeMode.cover : FastImage.resizeMode.stretch}
+
         />
         <View
           style={[
@@ -173,8 +157,8 @@ const WritingCard = ({
             { width: "100%", height: inputContainerHeight() }
           ]}>
           <TextInput
-            style={styles.input}
-            // style={{lineHeight: 350, includeFontPadding: false, paddingTop: 0, textAlignVertical: "top", fontSize: 15, margin: 0, }}
+            // style={styles.input}
+            style={[styles.input, { fontSize: fontSize() }]}
             placeholder={placeholder}
             allowFontScaling={true}
             placeholderTextColor="#8A897C"
@@ -230,14 +214,6 @@ const styles = StyleSheet.create({
     color: colors.primary,
     fontFamily: "Futura",
     fontSize: 20
-  },
-  fullScreen: {
-    borderRadius: 40,
-    backgroundColor: "rgba(140, 120, 140, 0.2)",
-    // width: 50,
-    padding: 9,
-    marginRight: 10,
-    right: 0
   },
   headerContainer: {
     zIndex: 10,

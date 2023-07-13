@@ -10,9 +10,11 @@ import IconMaterial from "react-native-vector-icons/MaterialCommunityIcons";
 import PauseButton from "./components/pause-button";
 import SeekTime from "./components/seek-time";
 import VolumeSlider from "../../components/volume-slider";
+import { RootState } from "../../store/store";
 
 const AudioPlayer = props => {
-  const currentAudio = useSelector(state => state.tapes.currentlyPlaying);
+  const currentAudio = useSelector((state: RootState) => state.tapes.currentlyPlaying);
+
   const {
     set,
     tapeNum: tape,
@@ -20,8 +22,8 @@ const AudioPlayer = props => {
     partData,
     part,
     artist,
-    totalParts,
-  } = currentAudio;
+    totalParts
+  }: any = currentAudio;
 
   const dispatch = useDispatch();
   const progress = useProgress();
@@ -116,6 +118,10 @@ const AudioPlayer = props => {
   };
 
   const setTime = time => {
+    if (Math.abs(time - currentTime) <= 1) {
+      return;
+    }
+
     if (!paused)
       TrackPlayer.play().then(() => {
         TrackPlayer.seekTo(time);

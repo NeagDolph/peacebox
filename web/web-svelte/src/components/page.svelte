@@ -6,12 +6,9 @@
   import favicon16 from "../assets/favicons/favicon-16x16.png";
   import faviconApple from "../assets/favicons/apple-touch-icon.png";
 
-  let innerWidth = 0;
-  let innerHeight = 0;
+  let topRight1, topRight2, pageY, ring, documentEl;
 
-  let topRight1, topRight2, Snap, pageY, ring, documentEl;
-
-  let set1, set2, setRing, opacityLogo, innerLogo, setAll;
+  let opacityLogo;
 
   export let home;
 

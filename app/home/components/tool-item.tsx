@@ -1,9 +1,8 @@
-import React from 'react';
+import React from "react";
 
-import {StyleSheet, Text, View, ImageBackground, Image, TouchableHighlight, TouchableOpacity} from 'react-native';
-import {Chip, overlay, Surface, useTheme} from "react-native-paper";
-import {colors} from "../../config/colors";
-import {useNavigation} from '@react-navigation/native';
+import { Image, Platform, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Surface } from "react-native-paper";
+import { colors } from "../../config/colors";
 
 interface ToolData {
   title: string;
@@ -11,7 +10,7 @@ interface ToolData {
   iconDark: any;
   description: string;
   tags: string[];
-  nav: string
+  nav: string;
 }
 
 
@@ -35,9 +34,9 @@ const ToolItem = (props: ToolData) => {
           {
             imageSource &&
             <Image
-                source={colors.dark ? props.iconDark : props.icon}
-                resizeMode="cover" style={styles.iconBackground}
-                width={imageSource.width / (imageSource.height / 120)}
+              source={colors.dark ? props.iconDark : props.icon}
+              resizeMode={Platform.OS === "ios" ? "cover" : "contain"} style={styles.iconBackground}
+              width={imageSource.width / (imageSource.height / 120)}
             />
           }
         </View>

@@ -1,6 +1,7 @@
 import TrackPlayer, { Capability, RepeatMode } from "react-native-track-player";
-import { store } from "../store/store";
+import { RootState } from "../store/store";
 import { playAudio } from "../helpers/playAudio";
+import { useSelector } from "react-redux";
 
 
 module.exports = async function() {
@@ -11,12 +12,12 @@ module.exports = async function() {
   TrackPlayer.addEventListener("remote-next", () => {
     TrackPlayer.skipToNext().catch(console.log);
 
-    const state = store.getState()
-    // @ts-ignore
-    const currentData = state.tapes.currentlyPlaying;
-    const nextPart = Math.min(currentData.part + 1, currentData.totalParts - 1)
+    const tapeData = useSelector((state: RootState) => state.tapes);
 
-    playAudio({...currentData, part: nextPart})
+    const currentData = tapeData.currentlyPlaying;
+    const nextPart = Math.min(currentData.part + 1, currentData.totalParts - 1);
+
+    playAudio({ ...currentData, part: nextPart });
   });
 
   TrackPlayer.addEventListener('remote-previous', () => {

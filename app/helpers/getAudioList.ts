@@ -1,11 +1,11 @@
 // require the
 import RNFS, { DownloadFileOptions } from "react-native-fs";
-import { CDNENDPOINT } from "./constants";
+import { CDN_ENDPOINT } from "./constants";
 
 const audioJson = require("../assets/audio-files.json");
 
 export const getAudioList = async () => {
-  const downloadLink = `${CDNENDPOINT}/audio-files.json`;
+  const downloadLink = `${CDN_ENDPOINT}/audio-files.json`;
 
   const toPath = "../assets/audio-files.json";
 

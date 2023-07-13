@@ -6,7 +6,8 @@
     },
     {
       "name": "Show Animations",
-      "setting": "showAnimations"
+      "setting": "showAnimations",
+      "android": false
     },
     {
       "name": "Display Page Number",

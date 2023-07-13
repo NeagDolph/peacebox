@@ -1,13 +1,14 @@
-import { store } from "../store/store";
+import { RootState, store } from "../store/store";
 import { setCurrent } from "../store/features/tapesSlice";
 import TrackPlayer, { Capability } from "react-native-track-player";
-import RNBackgroundDownloader from "react-native-background-downloader";
+import RNBackgroundDownloader from "@kesha-antonov/react-native-background-downloader";
+import { useSelector } from "react-redux";
 
 
 export const playAudio = async ({ part, partData, tapeName, set, tapeNum, totalParts }) => {
-  const state = store.getState();
+  const tapeData = useSelector((state: RootState) => state.tapes);
 
-  const downloadData = state.tapes.downloadData[set.name][tapeNum].downloads;
+  const downloadData = tapeData.downloadData[set.name][tapeNum].downloads;
   const fileUrl = downloadData?.[part];
 
   await TrackPlayer.updateOptions({

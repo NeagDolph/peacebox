@@ -1,38 +1,20 @@
-/*
- * implemented on the base of https://github.com/bartgryszko/react-native-circular-progress/blob/master/src/CircularProgress.js
- * but with reanimated
- */
+import * as React from "react";
+import { Platform, StyleProp, View, ViewStyle } from "react-native";
+import { G, Path, Svg } from "react-native-svg";
+import Animated, { SharedValue, useAnimatedProps, useAnimatedStyle } from "react-native-reanimated";
+import { colors } from "../../../config/colors";
 
-import * as React from 'react';
-import {View, ViewStyle, StyleProp, Platform} from 'react-native';
-import {Svg, Path, G} from 'react-native-svg';
-import Reanimated from 'react-native-reanimated';
-import {colors} from "../../../config/colors";
-
-const {
-  add,
-  sub,
-  multiply,
-  divide,
-  cos,
-  sin,
-  lessOrEq,
-  cond,
-  concat,
-  min,
-  and,
-} = Reanimated;
-
-const AnimatedG = Reanimated.createAnimatedComponent(G);
-const AnimatedPath = Reanimated.createAnimatedComponent(Path);
+const AnimatedG = Animated.createAnimatedComponent(G);
+const AnimatedPath = Animated.createAnimatedComponent(Path);
 
 export type Props = {
   diameter: number;
   width: number;
-  arcSweepAngle: number | Reanimated.Node<number>;
-  rotation: number | Reanimated.Node<number>;
-  color: string | Reanimated.Node<number>;
-  lineCap: 'round' | 'butt' | 'square';
+  arcSweepAngle: SharedValue<number>;
+  rotation: SharedValue<number>;
+  initialAnimation: boolean;
+  color: string;
+  lineCap: "round" | "butt" | "square";
   hideSmallAngle: boolean;
   style?: StyleProp<ViewStyle>;
 };
@@ -45,133 +27,64 @@ export const defaultProps = {
   hideSmallAngle: true,
 };
 
-export default class AnimatedArc extends React.PureComponent<Props> {
-  static defaultProps = defaultProps;
+export const AnimatedArc: React.FC<Props> = (props) => {
+  const { diameter, width, lineCap, style } = props;
+  const outerRadius = diameter / 2;
+  const innerRadius = diameter / 2 - width / 2;
 
-  animatedString(
-    strings: TemplateStringsArray,
-    ...values: Array<number | string | Reanimated.Node<string | number>>
-  ) {
-    const arr = [];
-    const n = values.length;
-    for (let i = 0; i < n; i++) {
-      arr.push(strings[i], values[i]);
-    }
-    const end = strings[n];
-    if (end) {
-      arr.push(end);
-    }
-    //@ts-ignore
-    return concat(...arr);
-  }
 
-  polarToCartesian(
-    centerX: number,
-    centerY: number,
-    radius: number,
-    angleInDegrees: number | Reanimated.Node<number>,
-  ) {
-    const angleInRadians = divide(
-      multiply(sub(angleInDegrees, 90), Math.PI),
-      180,
-    );
-    return {
-      x: add(centerX, multiply(radius, cos(angleInRadians))),
-      y: add(centerY, multiply(radius, sin(angleInRadians))),
+  const animatedProps = useAnimatedProps(() => {
+    const startAngle = 0;
+    const endAngle = props.arcSweepAngle.value;
+
+    const largeArcFlag = endAngle <= 180 ? "0" : "1";
+    const hideSmallAngle = (props.hideSmallAngle && endAngle - startAngle <= 1);
+
+    const polarToCartesian = (centerX: number, centerY: number, radius: number, angleInDegrees: number) => {
+      const angleInRadians = ((angleInDegrees - 90) * Math.PI) / 180;
+      return {
+        x: centerX + radius * Math.cos(angleInRadians),
+        y: centerY + radius * Math.sin(angleInRadians)
+      };
     };
-  }
 
-  getCirclePath(
-    x: number,
-    y: number,
-    radius: number,
-    startAngle: number,
-    endAngle: number | Reanimated.Node<number>,
-  ) {
-    const start = this.polarToCartesian(
-      x,
-      y,
-      radius,
-      multiply(endAngle, 0.9999),
-    );
-    this.arcEndPosition = start;
+    const start = polarToCartesian(outerRadius, outerRadius, innerRadius, endAngle * 0.9999);
+    const end = polarToCartesian(outerRadius, outerRadius, innerRadius, startAngle);
 
-    const hideSmallAngle = cond(
-      and(
-        this.props.hideSmallAngle ? 1 : 0,
-        lessOrEq(sub(endAngle, startAngle), 1),
-      ),
-      1,
-      0,
-    );
+    const d = hideSmallAngle
+      ? ""
+      : `M ${start.x} ${start.y} A ${innerRadius} ${innerRadius} 0 ${largeArcFlag} 0 ${end.x} ${end.y}`;
 
-    const end = this.polarToCartesian(x, y, radius, startAngle);
-    const largeArcFlag = cond(
-      lessOrEq(sub(endAngle, startAngle), 180),
-      '0',
-      '1',
-    );
+    return {
+      d,
+      stroke: props.color,
+      strokeWidth: width,
+      strokeLinecap: lineCap,
+      fill: "transparent"
+    };
+  });
 
-    return cond(
-      hideSmallAngle,
-      //@ts-ignore invalid reanimated types
-      '', // empty path to hide arc with angle is less than 1
-      this.animatedString`M ${start.x} ${
-        start.y
-      } A ${radius} ${radius} 0 ${largeArcFlag} 0 ${end.x} ${end.y}`,
-    );
-  }
-  outerRadius = this.props.diameter / 2;
-  innerRadius = this.props.diameter / 2 - this.props.width / 2;
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [
+        { rotate: `${props.rotation.value}deg` }
+      ]
+    };
+  });
 
-  arcEndPosition: {
-    x: Reanimated.Node<number>;
-    y: Reanimated.Node<number>;
-  } = {
-    x: new Reanimated.Value<number>(0),
-    y: new Reanimated.Value<number>(0),
-  };
+  const offsetAndroid = Platform.OS === "android" ? outerRadius : 0;
+  const pivot = outerRadius;
 
-  circlePath = this.getCirclePath(
-    this.outerRadius,
-    this.outerRadius,
-    this.innerRadius,
-    0,
-    min(this.props.arcSweepAngle, 360),
+
+  return (
+    <View>
+      <Svg width={diameter} height={diameter} viewBox={`${-pivot} ${-pivot} ${diameter} ${diameter}`}>
+        <AnimatedG animatedProps={animatedProps}>
+          <AnimatedPath animatedProps={animatedProps} transform={`translate(${-pivot} ${-pivot})`} />
+        </AnimatedG>
+      </Svg>
+    </View>
   );
+};
 
-  rotation = concat(this.props.rotation, 'deg');
-
-  render() {
-    const {diameter, width, color, style, lineCap} = this.props;
-
-    const offsetAndroid = Platform.OS === 'android' ? this.outerRadius : 0;
-    const pivot = this.outerRadius;
-    return (
-      <View style={style}>
-        <Svg
-          width={diameter}
-          height={diameter}
-          viewBox={`${-pivot} ${-pivot} ${diameter} ${diameter}`}>
-          <AnimatedG
-            style={{
-              transform: [
-                {translateX: -offsetAndroid},
-                {rotate: this.rotation},
-                {translateX: offsetAndroid},
-              ],
-            }}>
-            <AnimatedPath
-              d={this.circlePath}
-              stroke={color}
-              strokeWidth={width}
-              strokeLinecap={lineCap}
-              fill="transparent"
-              transform={`translate(${-pivot} ${-pivot})`}
-            />
-          </AnimatedG>
-        </Svg>
-      </View>
-    );
-  }
-}
+export default AnimatedArc;

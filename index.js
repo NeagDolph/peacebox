@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useEffect } from "react";
-import { AppRegistry, LogBox } from "react-native";
+import { AppRegistry, LogBox, Platform } from "react-native";
 
 import HomePage from "./app/home/home-page";
 import Freewriting from "./app/freewriting/freewriting-page";
@@ -14,7 +14,7 @@ import AboutPage from "./app/home/about/about-page";
 import AudioPage from "./app/audio/audio-page";
 
 import { name as appName } from "./app.json";
-import { DefaultTheme, Provider as PaperProvider } from "react-native-paper";
+import { DefaultTheme } from "react-native-paper";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { DarkTheme, NavigationContainer } from "@react-navigation/native";
@@ -24,24 +24,13 @@ import { persistor, store } from "./app/store/store";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import DevMenu from "react-native-dev-menu";
 // import crashlytics from '@react-native-firebase/crashlytics';
-
 import TrackPlayer, { Capability } from "react-native-track-player";
 import { colors } from "./app/config/colors";
 import AudioPlayer from "./app/audio/player/audio-player";
-import {
-  deleteTape,
-  setAudioData,
-  setDownloaded,
-  setProgress
-} from "./app/store/features/tapesSlice";
-import RNBackgroundDownloader, {
-  completeHandler
-} from "react-native-background-downloader";
+import { deleteTape, setAudioData, setDownloaded, setProgress } from "./app/store/features/tapesSlice";
+import RNBackgroundDownloader, { completeHandler } from "@kesha-antonov/react-native-background-downloader";
 import { getAudioList } from "./app/helpers/getAudioList";
-import {
-  hydrateDownloadData,
-  processDownloadQ
-} from "./app/helpers/downloadAudio";
+import { hydrateDownloadData, processDownloadQ } from "./app/helpers/downloadAudio";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 
@@ -197,13 +186,14 @@ const reattachDownloads = async () => {
       .done(() => {
         console.log("Download is done!");
         store.dispatch(setDownloaded({ set, tape, part }));
-        completeHandler(task.id);
+        if (Platform.OS === "ios") completeHandler(task.id);
         processDownloadQ();
       })
       .error(error => {
         console.log("Download canceled due to error (Reattached): ", error);
         store.dispatch(deleteTape({ set, tape }));
-        completeHandler(task.id);
+        if (Platform.OS === "ios") completeHandler(task.id);
+
       });
   }
 };

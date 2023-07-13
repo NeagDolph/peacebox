@@ -1,9 +1,11 @@
 import * as React from "react";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { AppState, Dimensions, Linking, Platform, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import WritingCard from "./components/writing-card";
 import Animated, { interpolate, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import BottomSheet from "@gorhom/bottom-sheet";
+import { setAdjustNothing } from "rn-android-keyboard-adjust";
 
 import Background from "../components/background";
 import GenieCard from "./components/animations-page";
@@ -14,6 +16,7 @@ import PageHeader from "../components/header";
 import haptic from "../helpers/haptic";
 import { colors } from "../config/colors";
 import useSession from "./components/session-hook";
+import InfoContent from "./components/info-content";
 
 let PrefersHomeIndicatorAutoHidden;
 
@@ -23,19 +26,22 @@ if (Platform.OS === 'ios') {
 }
 
 const Freewriting = (props: any) => {
+  // @ts-ignore
   const bgCredits = useSelector(state => state.background.credits);
+
+  // @ts-ignore
   const settings = useSelector(state => state.settings.freewriting);
-  const fullscreen = useSelector(
-    state => state.settings.freewriting.fullscreen,
-  );
+
+  // @ts-ignore
+  const fullscreen = useSelector(state => state.settings.freewriting.fullscreen);
 
   const dispatch = useDispatch();
 
   //Pages session manager hook
-  const {pages, addPage} = useSession();
+  const { pages, addPage } = useSession();
 
   const setFullScreen = value =>
-    dispatch(setSetting({page: 'freewriting', setting: 'fullscreen', value}));
+    dispatch(setSetting({ page: "freewriting", setting: "fullscreen", value }));
 
   // const [content, setContent] = useState("")
   // const [contentHeight, setContentHeight] = useState(0)
@@ -51,7 +57,7 @@ const Freewriting = (props: any) => {
 
   const inputRef = useRef<TextInput>();
   const lastClear = useRef(Date.now());
-  const sheetRef = useRef(null);
+  const sheetRef = useRef<BottomSheet>(null);
 
   const getInputRef = (ref: TextInput) => inputRef.current = ref;
 
@@ -61,8 +67,8 @@ const Freewriting = (props: any) => {
 
   //Animation state
   const [genieVisible, setGenieVisible] = useState(false);
-  const [genieContent, setGenieContent] = useState<string>('');
-  const fullscreenValue = useSharedValue(Number(fullscreen ?? false));
+  const [genieContent, setGenieContent] = useState<string>("");
+  const fullscreenValue = useSharedValue(fullscreen ? 1 : 0);
 
   //Modal state
   const [modalVisible, setModalVisible] = useState(false);
@@ -72,14 +78,16 @@ const Freewriting = (props: any) => {
 
   useEffect(() => {
     // crashlytics().log('Page Opened: Freewriting');
+    setAdjustNothing();
+
     if (!settings.used) {
       setTimeout(() => {
         setModalVisible(true);
-        dispatch(setUsed('freewriting'));
+        dispatch(setUsed("freewriting"));
       }, 200);
     }
 
-    AppState.addEventListener('change', nextAppState => {
+    AppState.addEventListener("change", nextAppState => {
       if (nextAppState.match(/^background$/)) {
         clearContent();
       }
@@ -94,22 +102,22 @@ const Freewriting = (props: any) => {
 
   useEffect(() => {
     if (modalVisible) {
-      // sheetRef.current.snapTo(1);
+      sheetRef.current.expand();
     } else {
-      // sheetRef.current.snapTo(0);
+      sheetRef.current.close();
     }
   }, [modalVisible]);
 
   //Control animations for fullscreen button
   useEffect(() => {
-    fullscreenValue.value = withTiming(Number(fullscreen), {duration: 200});
+    fullscreenValue.value = withTiming(fullscreen ? 1 : 0, { duration: 200 });
   }, [fullscreen]);
 
   //Input size change callback
   const handleLayout = event => {
     const contentHeight = event.nativeEvent.contentSize.height;
 
-    const pageHeight = fullscreen ? lineHeight * 12 : lineHeight * 15;
+    const pageHeight = lineHeight * 15;
 
     const timeSinceClear = Date.now() - lastClear.current;
 
@@ -142,18 +150,21 @@ const Freewriting = (props: any) => {
   };
 
   const fullscreenStyles = useAnimatedStyle(() => {
+    // let topFullscreenOffset = Platform.OS == "ios" ? 35;
+
     return {
       transform: [
-        {translateX: interpolate(fullscreenValue.value, [0, 1], [-32, 0])},
-        {translateY: interpolate(fullscreenValue.value, [0, 1], [35, 0])},
-      ],
+        { translateX: interpolate(fullscreenValue.value, [0, 1], [-32, 0]) },
+        { translateY: interpolate(fullscreenValue.value, [0, 1], [32, 0]) }
+      ]
     };
   });
 
   const containerStyles = useAnimatedStyle(() => {
+
     return {
-      marginTop: Platform.OS == "ios" ? interpolate(fullscreenValue.value, [0, 1], [40, 18]) : 40,
-      marginHorizontal: interpolate(fullscreenValue.value, [0, 1], [40, 0]),
+      marginTop: interpolate(fullscreenValue.value, [0, 1], [40, 25]),
+      marginHorizontal: interpolate(fullscreenValue.value, [0, 1], [40, 0])
       // transform: [
       //   {scale: interpolate(fullscreenValue.value, [0, 1], [0.9, 1.5])}
       // ]
@@ -173,9 +184,15 @@ const Freewriting = (props: any) => {
     if (inputRef.current) {
       return inputRef.current.isFocused();
     }
-  }
+  };
 
   const handleCloseInfo = () => setModalVisible(false);
+
+  const handleSheetChange = useCallback((index: number) => {
+    if (index == -1) {
+      setModalVisible(false);
+    }
+  }, []);
 
   const writingCard = () => {
     return (
@@ -238,6 +255,7 @@ const Freewriting = (props: any) => {
     );
   };
 
+  let [closeEnabled, setCloseEnabled] = useState(false);
   return (
     <>
       <View
@@ -260,9 +278,9 @@ const Freewriting = (props: any) => {
             settingsIcon="cog"
             titleWhite={settings.showBackground}
             settingsCallback={() =>
-              props.navigation.push('settings', {
-                page: 'freewriting',
-                pageTitle: 'Freewriting Settings',
+              props.navigation.push("settings", {
+                page: "freewriting",
+                pageTitle: "Freewriting Settings"
               })
             }
             title="Freewriting"
@@ -270,24 +288,23 @@ const Freewriting = (props: any) => {
           {writingCard()}
         </Background>
       </View>
-      {/*<BottomSheet*/}
-      {/*  ref={sheetRef}*/}
-      {/*  snapPoints={[0, 630]}*/}
-      {/*  onCloseEnd={handleCloseInfo}*/}
-      {/*  borderRadius={20}*/}
-      {/*  renderContent={() => (*/}
-      {/*    <InfoContent*/}
-      {/*      modalVisible={modalVisible}*/}
-      {/*      handleClose={handleCloseInfo}*/}
-      {/*      closeEnabled={closeEnabled}*/}
-      {/*      setCloseEnabled={setCloseEnabled}*/}
-      {/*    />*/}
-      {/*  )}*/}
-      {/*  overflow={'visible'}*/}
-      {/*  enabledGestureInteraction={closeEnabled}*/}
-      {/*  enabledBottomInitialAnimation={true}*/}
-      {/*  springConfig={{mass: 2, damping: 30, stiffness: 150}}*/}
-      {/*/>*/}
+      <BottomSheet
+        ref={sheetRef}
+        snapPoints={[645]}
+        index={-1}
+        handleHeight={645}
+        onChange={handleSheetChange}
+        animateOnMount={false}
+        enablePanDownToClose={closeEnabled}
+        // springConfig={{mass: 3, damping: 50, stiffness: 150}}
+      >
+        <InfoContent
+          modalVisible={modalVisible}
+          handleClose={handleCloseInfo}
+          closeEnabled={closeEnabled}
+          setCloseEnabled={setCloseEnabled}
+        />
+      </BottomSheet>
     </>
   );
 };
