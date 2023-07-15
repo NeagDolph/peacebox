@@ -1,28 +1,26 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useState } from "react";
 
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {useDispatch, useSelector} from "react-redux";
-import {setTotalDuration, setDurationType, setStart} from "../../store/features/breathingSlice";
+import { StyleSheet, View } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import { setDurationType, setStart, setTotalDuration } from "../../store/features/breathingSlice";
 import PageHeader from "../../components/header";
-import {Button, Provider, Surface} from "react-native-paper";
-import {colors} from "../../config/colors";
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import FontList from "../../components/font-list";
+import { Button, PaperProvider, Surface } from "react-native-paper";
+import { colors } from "../../config/colors";
 import SegmentedControl from "@react-native-segmented-control/segmented-control";
 import NumberPicker from "../components/numberpicker";
-import PauseModal from "../components/pause-modal";
 import SettingsModal from "../components/settings-modal";
 import RenderSequence from "./components/render-sequence";
 import haptic from "../../helpers/haptic";
 import useTooltip from "../../components/tooltip-hook";
-import { guideNext } from '../../store/features/tutorialSlice';
+import { guideNext } from "../../store/features/tutorialSlice";
+import { RootState } from "../../store/store";
 
-const PatternUse = ({route, navigation}) => {
-  const {id} = route.params
-  const patternData = useSelector(state => state.breathing.patterns[id]);
+const PatternUse = ({ route, navigation }) => {
+  const { id } = route.params;
+  const patternData = useSelector((state: RootState) => state.breathing.patterns[id]);
   const dispatch = useDispatch();
 
-  const running = useSelector(state => state.tutorial.breathing.running);
+  const running = useSelector((state: RootState) => state.tutorial.breathing.running);
   const [settingsVisible, setSettingsVisible] = useState(false);
 
   const tooltip = useTooltip();
@@ -106,16 +104,17 @@ const PatternUse = ({route, navigation}) => {
 
   return (
     <>
-      <PageHeader
-        title={patternData.name}
-        inlineTitle={true}
-        settingsButton={false}
-        titleWhite={false}
-      />
-      {renderCard()}
-      <Provider>
-        <SettingsModal hideEditModal={hideSettingsModal} visible={settingsVisible} patternData={patternData}/>
-      </Provider>
+
+      <PaperProvider>
+        <PageHeader
+          title={patternData.name}
+          inlineTitle={true}
+          settingsButton={false}
+          titleWhite={false}
+        />
+        {renderCard()}
+        <SettingsModal hideEditModal={hideSettingsModal} visible={settingsVisible} patternData={patternData} />
+      </PaperProvider>
       {/*<FontL
 
       ist text={"Setting"}></FontList>*/}
@@ -138,7 +137,7 @@ const styles = StyleSheet.create({
     marginTop: 45
   },
   buttonLabel: {
-    color: colors.primary,
+    color: colors.white,
     letterSpacing: 0.7,
     fontFamily: "Avenir-Light",
     fontWeight: "300",

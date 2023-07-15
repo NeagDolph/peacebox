@@ -5,6 +5,7 @@ import PageHeader from "../components/header";
 import { Divider, Switch, Text } from "react-native-paper";
 import { setSetting } from "../store/features/settingsSlice";
 import { colors } from "../config/colors";
+import { RootState } from "../store/store";
 // import crashlytics from "@react-native-firebase/crashlytics";
 
 const settingNames = require("./settings.json");
@@ -26,8 +27,8 @@ const SettingItem = (props) => {
 const SettingsPage = ({route, navigation}) => {
   const {page, pageTitle, infoIcon, infoCallback} = route.params;
 
-  const dispatch = useDispatch()
-  const settingValues = useSelector(state => state.settings[page])
+  const dispatch = useDispatch();
+  const settingValues = useSelector((state: RootState) => state.settings[page]);
 
   const toggleSetting = (item, value) => {
     const payload = {page: page, setting: item.setting, value: value}
@@ -45,7 +46,6 @@ const SettingsPage = ({route, navigation}) => {
         settingsButton={false}
         titleWhite={false}
         title={pageTitle ?? "Settings"}
-        navigation={navigation}
         infoIcon={infoIcon}
         infoCallback={infoCallback}
       />

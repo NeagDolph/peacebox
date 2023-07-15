@@ -1,15 +1,13 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useEffect, useState } from "react";
 
-import {Dimensions, PanResponder, Pressable, StyleSheet, Text, View} from 'react-native';
-import Animated, {useAnimatedStyle, useSharedValue, withTiming} from "react-native-reanimated";
-import useAnimatedValue from "react-native-paper/lib/typescript/utils/useAnimatedValue";
-import {colors} from "../config/colors";
+import { StyleSheet, View } from "react-native";
+import { colors } from "../config/colors";
 import Slider from "@react-native-community/slider";
-import SystemSetting from 'react-native-system-setting'
+import SystemSetting from "react-native-system-setting";
 import Icon from "react-native-vector-icons/Ionicons";
 
 const VolumeSlider = (props) => {
-  const [volume, setVolume] = useState(0)
+  const [volume, setVolume] = useState(0);
 
   useEffect(() => {
     SystemSetting.getVolume().then(vol => {

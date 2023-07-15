@@ -10,6 +10,7 @@ import NumberPicker from "../../components/numberpicker";
 import EditSettings from "../../components/edit-settings";
 import { useNavigation } from "@react-navigation/native";
 import PropTypes from "prop-types";
+import { RootState } from "../../../store/store";
 
 
 const EditCard = (props) => {
@@ -22,7 +23,7 @@ const EditCard = (props) => {
 
   const titleRef = useRef(null);
 
-  const tutorialState = useSelector(state => state.tutorial);
+  const tutorialState = useSelector((state: RootState) => state.tutorial);
 
   // const setPatternName = (name) => dispatch(setName({id, name}));
 
@@ -78,9 +79,10 @@ const EditCard = (props) => {
 
   const renderButton = () => {
     return props.newPattern || <View style={styles.deleteContainer}>
-        <Button style={styles.deleteButton} mode="contained" compact color={colors.red} onPress={confirmDeletePattern}>
-            <Icon name="trash-can" size={30} style={{width: "auto"}} color="#FFF"/>
-        </Button>
+      <Button style={styles.deleteButton} mode="contained" compact color={colors.red} onPress={confirmDeletePattern}>
+        <Icon name="trash-can" size={23} style={{ width: "auto" }} color="#FFF" />
+        {/*<Icon name="trash-can" size={30} color="#FFF"/>*/}
+      </Button>
     </View>
   }
 
@@ -126,6 +128,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 12,
     width: "auto",
+    padding: 0
   },
   closeButton: {
     justifyContent: "center",

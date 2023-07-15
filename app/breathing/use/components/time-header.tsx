@@ -1,9 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types'
+import React from "react";
+import PropTypes from "prop-types";
 
-import {StyleSheet, Text, View, SafeAreaView, TouchableOpacity} from 'react-native';
+import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-const TimeFooter = props => {
+const TimeHeader = props => {
   return (
     <SafeAreaView>
       <TouchableOpacity onPress={props.exit}>
@@ -15,9 +15,9 @@ const TimeFooter = props => {
   );
 };
 
-TimeFooter.propTypes = {
+TimeHeader.propTypes = {
   exit: PropTypes.func.isRequired
-}
+};
 
 const styles = StyleSheet.create({
   headerExit: {

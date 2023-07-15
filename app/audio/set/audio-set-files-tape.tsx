@@ -190,7 +190,6 @@ const AudioSetFilesTape = props => {
   const renderDownload = ({ part = 0, inner }) => {
     //If audio is part of two-set or more then it averages progress between files
     const { status, average } = calcDownloadData;
-
     //Pressable needs to be on outside and have variable onpress because pressable creates alignment issues
     return (
       <Pressable
@@ -201,27 +200,27 @@ const AudioSetFilesTape = props => {
         hitSlop={12}
         onPress={() => handleCancel(status)}>
         {(status === 1 || status === 2) && (
-          <View style={[styles.loadingContainer, inner && {top: 8}]}>
+          <View style={[styles.loadingContainer, inner && { top: 8 }]}>
             <IconIonicons
               name={"ios-square"}
               style={Platform.OS === "android" && { top: 16.5 }}
               size={10}
               color={colors.primary}
             />
-            <ReanimatedArc
-              color={colors.text2}
-              style={{ position: "absolute" }}
-              diameter={22}
-              width={2}
-              rotation={0}
-              easing={Easing.ease}
-              initialAnimation={false}
-              hideSmallAngle={true}
-              arcSweepAngle={359}
-              // arcSweepAngle={360}
-              animationDuration={0}
-              lineCap="round"
-            />
+            {/*<ReanimatedArc*/}
+            {/*  color={colors.text2}*/}
+            {/*  style={{ position: "absolute" }}*/}
+            {/*  diameter={22}*/}
+            {/*  width={2}*/}
+            {/*  rotation={0}*/}
+            {/*  easing={Easing.ease}*/}
+            {/*  initialAnimation={false}*/}
+            {/*  hideSmallAngle={true}*/}
+            {/*  arcSweepAngle={359}*/}
+            {/*  // arcSweepAngle={360}*/}
+            {/*  animationDuration={0}*/}
+            {/*  lineCap="round"*/}
+            {/*/>*/}
             <ReanimatedArc
               color={colors.text}
               style={{ position: "absolute" }}

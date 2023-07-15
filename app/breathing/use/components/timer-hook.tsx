@@ -1,33 +1,34 @@
-import {useState, useEffect, useRef} from 'react';
-import {useSelector} from "react-redux";
-import {pattern} from "../../../helpers/haptic";
+import { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
+import { pattern } from "../../../helpers/haptic";
 // import crashlytics from "@react-native-firebase/crashlytics";
-import {AppState, Vibration} from "react-native";
+import { Vibration } from "react-native";
 import Sound from "react-native-sound";
+import { RootState } from "../../../store/store";
 
-function useTimer({id, paused, completed}) {
-  const patternData = useSelector(state => state.breathing.patterns[id]);
-  const settings = useSelector(state => state.settings.breathing);
+function useTimer({ id, paused, completed }) {
+  const patternData = useSelector((state: RootState) => state.breathing.patterns[id]);
+  const settings = useSelector((state: RootState) => state.settings.breathing);
   const countInterval = useRef(null);
 
   const sequence = patternData.sequence;
 
-  const breatheText = ["Inhale", "Hold", "Exhale", "Hold"]
+  const breatheText = ["Inhale", "Hold", "Exhale", "Hold"];
 
-  const [title, setTitle] = useState(breatheText[0])
+  const [title, setTitle] = useState(breatheText[0]);
 
   //Timing State
-  const [cycleCount, setCycleCount] = useState(1)
-  const [currentIndex, setCurrentIndex] = useState(0) // Index of current sequence
-  const [sequenceTime, setSequenceTime] = useState(patternData.sequence[0]) // Seconds in current sequence index
-  const [currentTime, setCurrentTime] = useState(0)
+  const [cycleCount, setCycleCount] = useState(1);
+  const [currentIndex, setCurrentIndex] = useState(0); // Index of current sequence
+  const [sequenceTime, setSequenceTime] = useState(patternData.sequence[0]); // Seconds in current sequence index
+  const [currentTime, setCurrentTime] = useState(0);
   const [takingBreak, setTakingBreak] = useState(false);
   const [patternCompletion, setPatternCompletion] = useState(0);
   const [completionText, setCompletionText] = useState("");
-  const [secondsPassed, setSecondsPassed] = useState(0)
+  const [secondsPassed, setSecondsPassed] = useState(0);
 
   //Audio State
-  const audioFiles = useRef({})
+  const audioFiles = useRef({});
 
   useEffect(() => {
     calcCompletion();
@@ -40,17 +41,17 @@ function useTimer({id, paused, completed}) {
 
 
     return () => {
-      dismountAudio();
-    }
-  }, []) //On load: preload audio
+      // dismountAudio();
+    };
+  }, []); //On load: preload audio
 
   useEffect(() => {
     if (paused) {
-      clearTimer()
+      clearTimer();
     } else {
       countInterval.current = setTimeout(() => {
         countStep();
-      }, 1400)
+      }, 1400);
     }
     return clearTimer;
   }, [paused]); //handle pause
@@ -65,7 +66,7 @@ function useTimer({id, paused, completed}) {
     if ([1, 3].includes(currentIndex) && currentTime + 1 === sequenceTime) intervalTime = 1300;
 
     if (!paused) countInterval.current = setTimeout(countStep, intervalTime);
-  }, [secondsPassed]) //Update data every second
+  }, [secondsPassed]); //Update data every second
 
   useEffect(() => {
     if (currentTime + 1 >= 2 && currentTime + 1 <= sequenceTime && !takingBreak) playAudio(`${(currentTime + 1)}.mp3`);
@@ -78,7 +79,7 @@ function useTimer({id, paused, completed}) {
         }
         break;
       case "Minutes":
-        const totalTime = patternData.totalDuration * 60
+        const totalTime = patternData.totalDuration * 60;
         if (secondsPassed > totalTime) {
           dismountAudio();
           completed();
@@ -93,30 +94,30 @@ function useTimer({id, paused, completed}) {
 
     if (currentIndex >= 4 && !takingBreak) nextCycle();
     else if (currentTime >= sequenceTime) nextSequence();
-  }, [currentTime, cycleCount, sequenceTime]) //Handle timer cycle
+  }, [currentTime, cycleCount, sequenceTime]); //Handle timer cycle
 
   /*
   * Timing functions
   */
   const patternBreak = () => {
-    setTakingBreak(true)
+    setTakingBreak(true);
     setTitle("Break");
-    setCurrentTime(0)
-    setSequenceTime(patternData.settings.pauseDuration)
-    playAudio("relax.mp3")
-  }
+    setCurrentTime(0);
+    setSequenceTime(patternData.settings.pauseDuration);
+    playAudio("relax.mp3");
+  };
 
   const nextCycle = () => {
-    setCycleCount(count => count + 1)
-    setCurrentIndex(0)
+    setCycleCount(count => count + 1);
+    setCurrentIndex(0);
     setTitle(breatheText[0]);
     setSequenceTime(sequence[0]);
     setCurrentTime(0);
-    playAudio("breathein.mp3")
-  }
+    playAudio("breathein.mp3");
+  };
 
   const nextSequence = () => {
-    let nextIndex = currentIndex + 1
+    let nextIndex = currentIndex + 1;
     let audioNames = ["breathein.mp3", "hold.mp3", "breatheout.mp3", "hold.mp3"];
 
     if (nextIndex === 4 &&
@@ -124,9 +125,9 @@ function useTimer({id, paused, completed}) {
       cycleCount % patternData.settings.pauseFrequency === 0 &&
       !takingBreak
     ) {
-      patternBreak()
+      patternBreak();
     } else {
-      setTakingBreak(false)
+      setTakingBreak(false);
       setCurrentIndex(nextIndex);
       setTitle(breatheText[nextIndex]);
       setSequenceTime(sequence[nextIndex]);
@@ -135,37 +136,54 @@ function useTimer({id, paused, completed}) {
       feedback();
 
     }
-  }
+  };
 
   const countStep = () => {
-    setSecondsPassed(seconds => seconds + 1)
+    setSecondsPassed(seconds => seconds + 1);
     setCurrentTime(nextTime => nextTime + 1);
-  }
+  };
 
   const clearTimer = () => {
-    clearInterval(countInterval.current)
+    clearInterval(countInterval.current);
     countInterval.current = false;
-  }
+  };
 
   const calcCompletion = () => {
     // Completion tests
     if (patternData.durationType === "Cycles") {
-      const completedCycles = cycleCount - 1
+      const completedCycles = cycleCount - 1;
       setPatternCompletion(completedCycles / patternData.totalDuration);
-      setCompletionText(`${completedCycles} / ${patternData.totalDuration} Cycles`)
+      setCompletionText(`${completedCycles} / ${patternData.totalDuration} Cycles`);
     } else if (patternData.durationType === "Minutes") {
-      const totalTime = (patternData.totalDuration * 60)
-      setPatternCompletion(secondsPassed / totalTime)
+      const totalTime = (patternData.totalDuration * 60);
+      setPatternCompletion(secondsPassed / totalTime);
       setCompletionText(`${formatSeconds(secondsPassed)} / ${formatSeconds(totalTime)}`);
     }
-  }
+  };
 
-    /*
-  * Audio functions
-  */
+  /*
+* Audio functions
+*/
   const preloadAllAudio = () => {
     return new Promise((res, rej) => {
-      const audioFileNames = ["breathein.mp3", "breatheout.mp3", "hold.mp3", "relax.mp3", "1.mp3", "2.mp3", "3.mp3", "4.mp3", "5.mp3", "6.mp3", "7.mp3", "8.mp3", "9.mp3", "10.mp3", "11.mp3", "12.mp3"]
+      const audioFileNames = [
+        "breathein.mp3",
+        "breatheout.mp3",
+        "hold.mp3",
+        "relax.mp3",
+        "sound1.mp3",
+        "sound2.mp3",
+        "sound3.mp3",
+        "sound4.mp3",
+        "sound5.mp3",
+        "sound6.mp3",
+        "sound7.mp3",
+        "sound8.mp3",
+        "sound9.mp3",
+        "sound10.mp3",
+        "sound11.mp3",
+        "sound12.mp3"
+      ];
 
       audioFileNames.forEach((fileName) => {
         preloadAudio(fileName).then(audio => {
@@ -175,15 +193,15 @@ function useTimer({id, paused, completed}) {
         }).catch(err => {
           // crashlytics().log("Error: failed to load timer audio")
           // crashlytics().recordError(err)
-          rej(err)
-        })
-      })
-    })
-  }
+          rej(err);
+        });
+      });
+    });
+  };
 
   const playAudio = (name) => {
     if (audioFiles.current[name]) audioFiles.current[name].setVolume(1).play();
-  }
+  };
 
   const preloadAudio = (name) => {
     return new Promise((res, rej) => {
@@ -196,14 +214,14 @@ function useTimer({id, paused, completed}) {
         res(audio);
       });
     });
-  }
+  };
 
   const dismountAudio = () => {
     Object.keys(audioFiles.current).forEach(key => {
       audioFiles.current[key].stop();
       audioFiles.current[key].release();
-    })
-  }
+    });
+  };
 
 
   /*
@@ -216,23 +234,23 @@ function useTimer({id, paused, completed}) {
       case 0:
         break;
       case 1:
-        Vibration.vibrate()
+        Vibration.vibrate();
         break;
       case 2:
-        pattern(2, 200, 2)
+        pattern(2, 200, 2);
         break;
     }
-  }
+  };
 
   const formatSeconds = (seconds) => {
-    const timeString = new Date(null, null, null, null, null, seconds).toTimeString().match(/\d{2}:\d{2}:\d{2}/)[0]
+    const timeString = new Date(null, null, null, null, null, seconds).toTimeString().match(/\d{2}:\d{2}:\d{2}/)[0];
     const timeFormat = timeString // Remove extra 0's and :'s
       .replace(/^00\:00\:/g, "0:")
       .replace(/^00\:0?/g, "")
-      .replace(/^0(?!:)/, "")
+      .replace(/^0(?!:)/, "");
 
-    return timeFormat
-  }
+    return timeFormat;
+  };
 
   return {
     title,
@@ -245,4 +263,4 @@ function useTimer({id, paused, completed}) {
   };
 }
 
-export default useTimer
+export default useTimer;

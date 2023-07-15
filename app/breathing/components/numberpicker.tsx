@@ -1,70 +1,77 @@
-import React from 'react';
-import {colors} from "../../config/colors";
-import styled from 'styled-components';
-import {
-  View,
-  Text,
-  ScrollView,
-  StyleSheet,
-  Dimensions,
-  Platform, ListView, FlatList, MaskedViewIOS,
-} from 'react-native';
-import PropTypes from 'prop-types';
+import React, { useEffect, useState } from "react";
+import { colors } from "../../config/colors";
+import styled from "styled-components";
+import { Dimensions, FlatList, Platform, Text, View } from "react-native";
+import PropTypes from "prop-types";
 import ScrollViewPicker from "./scrollview-picker";
 import FadeGradient from "../../components/fade-gradient";
 import haptic from "../../helpers/haptic";
+import { list } from "postcss";
 
 const NumberPicker = (props) => {
-  return props.scrollView ?
-      <ScrollViewPicker
-        dataSource={Array(props.maxNumber + (props.includeZero ? 1 : 0)).fill("").map((el, i) => i + (props.includeZero ? 0 : 1))}
-        selectedIndex={props.value - (props.includeZero ? 0 : 1)}
-        onValueChange={(data) => props.setSequenceAmount(data, props.index)}
-        wrapperHeight={46}
-        wrapperWidth={41}
-        listKey={props.listKey}
-        wrapperStyle={props.style}
-        wrapperBackground={'#FFFFFF'}
-        itemHeight={27}
-        borderRadius={6}
-        highlightColor={'#d8d8d8'}
-        highlightBorderWidth={2}
-        activeItemColor={colors.primary}
-        itemColor={colors.text2}
-        itemTextStyle={{
-          fontSize: 27,
-          color: colors.text2,
-        }}
-        activeItemTextStyle={{
-          color: colors.primary,
-          fontSize: 27
-        }}
-      />
-      :
+  let [startingValue, setStartingValue] = useState(0);
 
-      <ScrollPicker
-        dataSource={Array(props.maxNumber + (props.includeZero ? 1 : 0)).fill("").map((el, i) => i + (props.includeZero ? 0 : 1))}
-        selectedIndex={props.value - (props.includeZero ? 0 : 1)}
-        onValueChange={(data) => props.setSequenceAmount(data, props.index)}
-        wrapperHeight={46}
-        wrapperWidth={41}
-        listKey={props.listKey}
-        wrapperStyle={props.style}
-        wrapperBackground={'#FFFFFF'}
-        itemHeight={27}
-        borderRadius={6}
-        highlightColor={'#d8d8d8'}
-        highlightBorderWidth={2}
-        activeItemColor={colors.primary}
-        itemColor={colors.text2}
-        itemTextStyle={{
-          fontSize: 27,
-          color: colors.text2,
-        }}
-        activeItemTextStyle={{
-          color: colors.primary
-        }}
-      />
+  useEffect(() => {
+    setStartingValue(props.value - (props.includeZero ? 0 : 1));
+  }, []);
+
+  const getScrollValues: list = () => {
+    return Array(props.maxNumber + (props.includeZero ? 1 : 0)).fill("").map((el, i) => i + (props.includeZero ? 0 : 1));
+  };
+
+  return props.scrollView ?
+    <ScrollViewPicker
+      dataSource={getScrollValues()}
+      selectedIndex={startingValue}
+      onValueChange={(data) => props.setSequenceAmount(data, props.index)}
+      wrapperHeight={46}
+      wrapperWidth={41}
+      listKey={props.listKey}
+      wrapperStyle={props.style}
+      wrapperBackground={"#FFFFFF"}
+      itemHeight={27}
+      borderRadius={6}
+      highlightColor={"#d8d8d8"}
+      highlightBorderWidth={2}
+      activeItemColor={colors.primary}
+      itemColor={colors.text2}
+      itemTextStyle={{
+        fontSize: 27,
+        color: colors.text2,
+        [Platform.OS === "android" && "height"]: 30
+      }}
+      activeItemTextStyle={{
+        color: colors.primary,
+        fontSize: 27,
+        [Platform.OS === "android" && "height"]: 30
+      }}
+    />
+    :
+
+    <ScrollPicker
+      dataSource={Array(props.maxNumber + (props.includeZero ? 1 : 0)).fill("").map((el, i) => i + (props.includeZero ? 0 : 1))}
+      selectedIndex={startingValue}
+      onValueChange={(data) => props.setSequenceAmount(data, props.index)}
+      wrapperHeight={46}
+      wrapperWidth={41}
+      listKey={props.listKey}
+      wrapperStyle={props.style}
+      wrapperBackground={"#FFFFFF"}
+      itemHeight={27}
+      borderRadius={6}
+      highlightColor={"#d8d8d8"}
+      highlightBorderWidth={2}
+      activeItemColor={colors.primary}
+      itemColor={colors.text2}
+      itemTextStyle={{
+        fontSize: 27,
+        color: colors.text2,
+        [Platform.OS === "android" && "height"]: 30
+      }}
+      activeItemTextStyle={{
+        color: colors.primary
+      }}
+    />;
 };
 
 const options = {
@@ -73,28 +80,28 @@ const options = {
 };
 
 const Container = styled.View`
-height: ${props => props.wrapperHeight}px;
-display: flex;
-overflow: hidden;
-align-self: center;
-width: ${props => props.wrapperWidth}px;
+  height: ${props => props.wrapperHeight}px;
+  display: flex;
+  overflow: hidden;
+  align-self: center;
+  width: ${props => props.wrapperWidth}px;
 `;
 export const HighLightView = styled.View`
-position: absolute;
-/*top: ${props => (props.wrapperHeight - props.itemHeight) / 2}px;*/
-height: ${props => props.wrapperHeight}px;
-width: ${props => props.wrapperWidth}px;
-border-radius: ${props => props.borderRadius}px;
-background: ${colors.background3};
+  position: absolute;
+    /*top: ${props => (props.wrapperHeight - props.itemHeight) / 2}px;*/
+  height: ${props => props.wrapperHeight}px;
+  width: ${props => props.wrapperWidth}px;
+  border-radius: ${props => props.borderRadius}px;
+  background: ${colors.background3};
 
 `;
 export const SelectedItem = styled.View`
-justify-content: center;
-align-items: center;
-height: 27px;
-color: ${colors.primary}
+  justify-content: center;
+  align-items: center;
+  height: 27px;
+  color: ${colors.primary}
 `;
-const deviceWidth = Dimensions.get('window').width;
+const deviceWidth = Dimensions.get("window").width;
 
 class ScrollPicker extends React.Component {
   private currentIndex: number;
@@ -107,17 +114,17 @@ class ScrollPicker extends React.Component {
     this.onScrollBeginDrag = this.onScrollBeginDrag.bind(this);
     this.onScrollEndDrag = this.onScrollEndDrag.bind(this);
     this.onScroll = this.onScroll.bind(this);
-    this.renderItem = this.renderItem.bind(this)
+    this.renderItem = this.renderItem.bind(this);
     this.currentIndex = 1;
     this.state = {
-      selectedIndex: 1,
-    }
+      selectedIndex: 1
+    };
   }
 
   componentDidMount() {
-    if (typeof this.props.selectedIndex !== 'undefined') {
+    if (typeof this.props.selectedIndex !== "undefined") {
       this.scrollToIndex(this.props.selectedIndex, true);
-      this.currentIndex = this.props.selectedIndex
+      this.currentIndex = this.props.selectedIndex;
     }
   }
 
@@ -134,7 +141,7 @@ class ScrollPicker extends React.Component {
   componentDidUpdate(prevProps: Readonly<{}>, prevState: Readonly<{}>, snapshot?: any) {
     if (prevProps.selectedIndex !== this.props.selectedIndex) {
       this.scrollToIndex(this.props.selectedIndex);
-      this.currentIndex = this.props.selectedIndex
+      this.currentIndex = this.props.selectedIndex;
     }
 
     if (prevState.selectedIndex !== this.state.selectedIndex) {
@@ -152,7 +159,7 @@ class ScrollPicker extends React.Component {
     const footer = this.renderFooter();
     return (
       <Container
-        style={[{overflow: "hidden"}, this.props.wrapperStyle]}
+        style={[{ overflow: "hidden" }, this.props.wrapperStyle]}
         wrapperHeight={this.props.wrapperHeight}
         wrapperWidth={this.props.wrapperWidth}
         wrapperBackground={this.props.wrapperBackground}
@@ -175,11 +182,11 @@ class ScrollPicker extends React.Component {
             ListHeaderComponent={header}
             listKey={this.props.listKey}
             ListFooterComponent={footer}
-            renderItem={({item, index}) => this.renderItem(item, index)}
+            renderItem={({ item, index }) => this.renderItem(item, index)}
             showsVerticalScrollIndicator={false}
             onTouchStart={this.props.onTouchStart}
             getItemLayout={(data, index) => (
-              {length: this.props.itemHeight, offset: this.props.itemHeight * index, index}
+              { length: this.props.itemHeight, offset: this.props.itemHeight * index, index }
             )}
             keyExtractor={(obj, id) => obj}
             onMomentumScrollBegin={this.onMomentumScrollBegin}
@@ -199,7 +206,7 @@ class ScrollPicker extends React.Component {
     );
   }
 
-  onScroll({nativeEvent}) {
+  onScroll({ nativeEvent }) {
     const totalHeight = nativeEvent.contentOffset.y - this.paddingSize;
     const itemHeight = Math.floor(totalHeight / this.props.itemHeight);
 
@@ -212,13 +219,13 @@ class ScrollPicker extends React.Component {
   renderHeader() {
     const height = (this.props.wrapperHeight - this.props.itemHeight) / 3;
     this.paddingSize = height;
-    const header = <View style={{height, flex: 1}}></View>;
+    const header = <View style={{ height, flex: 1 }}></View>;
     return header;
   }
 
   renderFooter() {
     const height = (this.props.wrapperHeight - this.props.itemHeight) / 2;
-    const footer = <View style={{height: height + 5, flex: 1}}></View>;
+    const footer = <View style={{ height: height + 5, flex: 1 }}></View>;
     return footer;
   }
 
@@ -243,7 +250,7 @@ class ScrollPicker extends React.Component {
     const verticalElem = selectedIndex * h;
     if (verticalElem !== verticalY) {
 // using scrollTo in ios, onMomentumScrollEnd will be invoked
-      if (Platform.OS === 'ios') {
+      if (Platform.OS === "ios") {
         this.isScrollTo = true;
       }
       if (this.sview) {
@@ -254,13 +261,13 @@ class ScrollPicker extends React.Component {
       return;
     }
     this.setState({
-      selectedIndex,
+      selectedIndex
     });
   }
 
   onScrollBeginDrag() {
     this.dragStarted = true;
-    if (Platform.OS === 'ios') {
+    if (Platform.OS === "ios") {
       this.isScrollTo = false;
     }
     if (this.timer) {
@@ -275,9 +282,9 @@ class ScrollPicker extends React.Component {
     const element = {
       nativeEvent: {
         contentOffset: {
-          y: e.nativeEvent.contentOffset.y,
-        },
-      },
+          y: e.nativeEvent.contentOffset.y
+        }
+      }
     };
     if (this.timer) {
       clearTimeout(this.timer);
@@ -285,10 +292,10 @@ class ScrollPicker extends React.Component {
     this.timer = setTimeout(
       () => {
         if (!this.momentumStarted && !this.dragStarted) {
-          this.scrollFix(element, 'timeout');
+          this.scrollFix(element, "timeout");
         }
       },
-      10,
+      10
     );
   }
 
@@ -309,13 +316,13 @@ class ScrollPicker extends React.Component {
 
   scrollToIndex(ind, firstLoad) {
     this.setState({
-      selectedIndex: ind,
+      selectedIndex: ind
     });
 // const y = this.props.itemHeight * ind;
 
     setTimeout(() => {
       if (this.sview) {
-        this.sview.scrollToIndex({index: ind >= 0 ? ind : 0, animated: !firstLoad});
+        this.sview.scrollToIndex({ index: ind >= 0 ? ind : 0, animated: !firstLoad });
       }
     }, 0);
   }
@@ -344,18 +351,18 @@ ScrollPicker.propTypes = {
 ScrollPicker.defaultProps = {
   dataSource: [1, 2, 3],
   itemHeight: 60,
-  wrapperBackground: '#FFFFFF',
+  wrapperBackground: "#FFFFFF",
   wrapperHeight: 180,
   wrapperWidth: 150,
   highlightWidth: deviceWidth,
   highlightBorderWidth: 2,
-  highlightColor: '#333',
+  highlightColor: "#333",
   onMomentumScrollEnd: () => {
   },
   onScrollEndDrag: () => {
   },
-  itemTextStyle: {fontSize: 20, lineHeight: 26, textAlign: 'center', color: '#B4B4B4'},
-  activeItemTextStyle: {fontSize: 20, lineHeight: 26, textAlign: 'center', color: '#222121'}
+  itemTextStyle: { fontSize: 20, lineHeight: 26, textAlign: "center", color: "#B4B4B4" },
+  activeItemTextStyle: { fontSize: 20, lineHeight: 26, textAlign: "center", color: "#222121" }
 };
 
 
@@ -368,7 +375,7 @@ NumberPicker.propTypes = {
   listKey: PropTypes.any,
   scrollView: PropTypes.bool,
   value: PropTypes.number
-}
+};
 
 
-export default NumberPicker
+export default NumberPicker;

@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setSetting, setUsed } from "../store/features/settingsSlice";
 import { colors } from "../config/colors";
 import Rate from "react-native-rate";
+import { RootState } from "../store/store";
 
 interface ToolData {
   title: string;
@@ -23,8 +24,8 @@ interface ToolData {
 
 
 const HomePage = ({navigation}: any) => {
-  const settings = useSelector(state => state.settings.general);
-  const copyUsed = useRef(settings.used)
+  const settings = useSelector((state: RootState) => state.settings.general);
+  const copyUsed = useRef(settings.used);
 
   const lockConstant = 680
 

@@ -1,16 +1,10 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
-import { Dimensions, Image, Platform, StyleSheet, Text, View } from "react-native";
+import { Dimensions, Image, Platform, StyleSheet, Text } from "react-native";
 import { colors } from "../../config/colors";
 import MaskedView from "@react-native-masked-view/masked-view";
 import FastImage from "react-native-fast-image";
-import Animated, {
-  Easing,
-  interpolate, runOnJS,
-  useAnimatedScrollHandler,
-  useAnimatedStyle,
-  useSharedValue, withTiming
-} from "react-native-reanimated";
+import Animated, { Easing, interpolate, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 import Fade from "../../components/fade-wrapper";
 import PropTypes from "prop-types";
 // import crashlytics from "@react-native-firebase/crashlytics";
@@ -31,13 +25,18 @@ const LogoBox = (props) => {
   const leftOffset = useSharedValue(0);
 
   const calcOffset = useCallback(() => {
-    const calcMove = (Dimensions.get("window").width - layoutData.width) / 2 - layoutData.x;
+    const letterWidth = 35;
+    const letterOffset = 40;
+
+    const calcMove = (Dimensions.get("window").width - letterWidth) / 2 - letterOffset;
     return props.endOfScroll ? calcMove : 0;
   }, [layoutData, props.endOfScroll]);
 
   useEffect(() => {
     // crashlytics().log("Finished scrolling on home page")
-    leftOffset.value = withTiming(calcOffset(), {
+    let offset = calcOffset();
+
+    leftOffset.value = withTiming(offset, {
       duration: 900,
       easing: Easing.out(Easing.circle)
     }, (res) => {
@@ -165,8 +164,7 @@ const styles = StyleSheet.create({
   },
   logoText: {
     fontSize: 67,
-    fontFamily: "Noto",
-    fontWeight: "900",
+    fontFamily: "futura",
     color: "black"
   },
   peace: {

@@ -1,13 +1,12 @@
-import React, {useEffect, useState} from 'react';
+import React from "react";
 
-import {StyleSheet, Text, View} from 'react-native';
-import {Button, Divider, Modal, Portal, Switch} from "react-native-paper";
-import {colors} from "../../config/colors";
+import { StyleSheet, Text, View } from "react-native";
+import { Button, Divider, Modal, Portal } from "react-native-paper";
+import { colors } from "../../config/colors";
 import NumberPicker from "./numberpicker";
-import {useDispatch} from "react-redux";
-import PropTypes from 'prop-types'
-import {setSetting} from "../../store/features/breathingSlice";
-import {TapGestureHandler} from "react-native-gesture-handler";
+import { useDispatch } from "react-redux";
+import PropTypes from "prop-types";
+import { setSetting } from "../../store/features/breathingSlice";
 
 export const PauseSettings = props => {
   const dispatch = useDispatch();
@@ -16,7 +15,7 @@ export const PauseSettings = props => {
     id: props.patternData.id,
     setting: "pauseDuration",
     value: amount
-  }))
+  }));
 
   const setPauseFrequency = (amount) => dispatch(setSetting({
     id: props.patternData.id,
@@ -56,7 +55,7 @@ export const PauseSettings = props => {
       <Divider/>
       <View style={styles.dismissContainer}>
         <Button
-          mode="outlined"
+          mode="contained"
           color={colors.accent}
           uppercase={false}
           style={{borderColor: colors.accent, borderWidth: 1}}

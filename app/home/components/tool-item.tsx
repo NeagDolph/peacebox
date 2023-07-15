@@ -10,21 +10,21 @@ interface ToolData {
   iconDark: any;
   description: string;
   tags: string[];
-  nav: string;
+  nav: () => void;
 }
 
 
 const ToolItem = (props: ToolData) => {
-  const imageSource = Image.resolveAssetSource(colors.dark ? props.iconDark : props.icon)
+  const imageSource = Image.resolveAssetSource(colors.dark ? props.iconDark : props.icon);
 
   const openMenu = () => {
     if (props.nav) props.nav();
-  }
+  };
 
   return (
     <Surface style={styles.toolItem}>
 
-      <TouchableOpacity onPress={openMenu} activeOpacity={props.navigation ? 0.2 : 1}>
+      <TouchableOpacity onPress={openMenu} activeOpacity={0.2}>
         <View style={styles.innerContainer}>
           <View style={styles.toolItemContent}>
             <Text style={[styles.toolItemTitle]} numberOfLines={1}
@@ -35,8 +35,8 @@ const ToolItem = (props: ToolData) => {
             imageSource &&
             <Image
               source={colors.dark ? props.iconDark : props.icon}
-              resizeMode={Platform.OS === "ios" ? "cover" : "contain"} style={styles.iconBackground}
-              width={imageSource.width / (imageSource.height / 120)}
+              resizeMode={Platform.OS === "ios" ? "cover" : "contain"}
+              style={[styles.iconBackground, { width: imageSource.width / (imageSource.height / 120) }]}
             />
           }
         </View>
@@ -71,7 +71,7 @@ let styles = StyleSheet.create({
     backgroundColor: colors.background2,
     // borderColor: colors.dark ? colors.background : colors.background2,
     flexDirection: "column",
-    marginVertical: 8,
+    marginVertical: 8
     // overflow: "hidden"
   },
   toolItemContent: {
@@ -99,6 +99,6 @@ let styles = StyleSheet.create({
     marginRight: 5,
     color: colors.accent
   }
-})
+});
 
 export default ToolItem;

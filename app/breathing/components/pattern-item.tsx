@@ -1,61 +1,52 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {
-  Alert,
-  Dimensions,
-  Easing, Pressable,
-  StyleSheet,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  View
-} from "react-native";
-import {Button, Surface, Text} from "react-native-paper";
-import {colors} from "../../config/colors";
-import IconMaterial from 'react-native-vector-icons/MaterialCommunityIcons';
-import IconEntypo from 'react-native-vector-icons/Entypo';
-import PropTypes from 'prop-types'
-import {PanGestureHandler, TapGestureHandler, State} from "react-native-gesture-handler";
-import {setTSpan} from "react-native-svg/lib/typescript/lib/extract/extractText";
+import React, { useCallback, useRef, useState } from "react";
+import { Alert, Dimensions, Pressable, StyleSheet, View } from "react-native";
+import { Button, Text } from "react-native-paper";
+import { colors } from "../../config/colors";
+import IconMaterial from "react-native-vector-icons/MaterialCommunityIcons";
+import IconEntypo from "react-native-vector-icons/Entypo";
+import PropTypes from "prop-types";
+import { PanGestureHandler, TapGestureHandler } from "react-native-gesture-handler";
 import Animated, {
   runOnJS,
-  useAnimatedGestureHandler, useAnimatedStyle,
-  useDerivedValue,
+  useAnimatedGestureHandler,
+  useAnimatedStyle,
   useSharedValue,
   withSpring
 } from "react-native-reanimated";
 import Backplate from "./backplate";
 import haptic from "../../helpers/haptic";
 import useTooltip from "../../components/tooltip-hook";
-import {useDispatch, useSelector} from "react-redux";
-import {openedTutorial, guideNext, startTutorial, pushRestart} from '../../store/features/tutorialSlice';
-import { closedTutorial } from '../../store/features/tutorialSlice';
+import { useDispatch, useSelector } from "react-redux";
+import { closedTutorial, guideNext } from "../../store/features/tutorialSlice";
+import { RootState } from "../../store/store";
 
 const PatternItem = props => {
   const [itemHeight, setItemHeight] = useState(0);
-  const [dragMode, setDragMode] = useState(0)
-  const [beingDragged, setBeingDragged] = useState(false)
-  const lastDrag = useRef(null)
+  const [dragMode, setDragMode] = useState(0);
+  const [beingDragged, setBeingDragged] = useState(false);
+  const lastDrag = useRef(null);
 
-  const breathingIndex = useSelector(state => state.tutorial.breathing.completion);
-  const createdPattern = useSelector(state => state.tutorial.breathing.createdPattern);
-  const open = useSelector(state => state.tutorial.breathing.open);
+  const breathingIndex = useSelector((state: RootState) => state.tutorial.breathing.completion);
+  const createdPattern = useSelector((state: RootState) => state.tutorial.breathing.createdPattern);
+  const open = useSelector((state: RootState) => state.tutorial.breathing.open);
 
   const dispatch = useDispatch();
 
-  const tapRef = useRef(null)
+  const tapRef = useRef(null);
 
   const tooltip = useTooltip();
 
-  const hasPause = useCallback(() => props.patternData.settings.breakBetweenCycles && !props.buttonVisible, [props.buttonVisible, props.patternData.settings.breakBetweenCycles])
+  const hasPause = useCallback(() => props.patternData.settings.breakBetweenCycles && !props.buttonVisible, [props.buttonVisible, props.patternData.settings.breakBetweenCycles]);
 
 
   const dragX = useSharedValue(0);
 
   const panHandler = useAnimatedGestureHandler({
-    onStart: (_, ctx) => {
+    onStart: (_, ctx: PanGestureHandler) => {
       ctx.startX = dragX.value;
-      ctx.directionPositive = undefined
-      ctx.dragMode = 0
-      runOnJS(setBeingDragged)(true)
+      ctx.directionPositive = undefined;
+      ctx.dragMode = 0;
+      runOnJS(setBeingDragged)(true);
     },
     onActive: ({translationX}, ctx) => {
       const offsetAmount = 30 // Required movement of actual pattern card for activation

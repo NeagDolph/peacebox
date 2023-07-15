@@ -1,28 +1,28 @@
-import React from 'react';
+import React from "react";
 
-import {SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {colors} from "../../config/colors";
-import {setStart} from "../../store/features/breathingSlice";
-import {useDispatch} from "react-redux";
-import FastImage from "react-native-fast-image";
-import Branch from '../../assets/branch.svg'
-import {SvgXml} from "react-native-svg";
+import { Image, Platform, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { colors } from "../../config/colors";
+import { setStart } from "../../store/features/breathingSlice";
+import { useDispatch } from "react-redux";
 
-const PatternCompleted = ({navigation, route}) => {
+const PatternCompleted = ({ navigation, route }) => {
   const dispatch = useDispatch();
-  const {id} = route.params
+  const { id } = route.params;
 
-    const restart = () => {
-      dispatch(setStart({id, start: Date.now()}));
-    navigation.navigate("Time", {id});
-  }
+  const restart = () => {
+    dispatch(setStart({ id, start: Date.now() }));
+    navigation.navigate("Time", { id });
+  };
 
   const complete = () => navigation.navigate("Patterns");
 
   return (
     <SafeAreaView style={styles.container}>
-
-      <SvgXml style={styles.backgroundImage} fill={colors.dark ? "#0E0E0E" : "#e9e9e9"} stroke="none" width={550} height={550} xml={Branch} />
+      <Image
+        source={colors.dark ? require("../../assets/dark/branchdark.png") : require("../../assets/branch.png")}
+        resizeMode={Platform.OS === "ios" ? "cover" : "contain"}
+        style={styles.backgroundImage}
+      />
       <Text style={styles.completedText}>Pattern Completed</Text>
       <View style={styles.buttonContainer}>
         <TouchableOpacity onPress={restart}>
@@ -45,7 +45,9 @@ const styles = StyleSheet.create({
   backgroundImage: {
     position: "absolute",
     bottom: -15,
-    left: 20
+    left: 20,
+    width: 550,
+    height: 550
   },
   container: {
     justifyContent: "center",
@@ -66,7 +68,7 @@ const styles = StyleSheet.create({
     // height: 40,
     width: "auto",
     position: "relative",
-    borderRadius: 15,
+    borderRadius: 15
   },
   finish: {
     backgroundColor: colors.accent,
@@ -98,6 +100,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: colors.primary
   }
-})
+});
 
 export default PatternCompleted;

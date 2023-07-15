@@ -27,7 +27,7 @@ export const defaultProps = {
   hideSmallAngle: true,
 };
 
-export const AnimatedArc: React.FC<Props> = (props) => {
+const AnimatedArc = (props) => {
   const { diameter, width, lineCap, style } = props;
   const outerRadius = diameter / 2;
   const innerRadius = diameter / 2 - width / 2;

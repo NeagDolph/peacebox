@@ -3,11 +3,21 @@ import { createRef } from "react";
 import Svg, { Circle, Defs, G, RadialGradient, Stop } from "react-native-svg";
 import { Animated, Easing, StyleSheet, Text, View } from "react-native";
 import { colors } from "../../../config/colors";
-import PropTypes from "prop-types";
 
 
 const AnimatedSvg = Animated.createAnimatedComponent(Svg);
 const AnimatedG = Animated.createAnimatedComponent(G);
+
+type BreathingAnimProps = {
+  canvasSize: number;
+  baseSize: number;
+  color: string,
+  sequenceTime: number,
+  currentIndex: number,
+  currentTime: number,
+  title: string,
+  settings: object
+}
 
 class BreathingAnim extends React.Component {
   readonly canvasSize: number;
@@ -17,19 +27,20 @@ class BreathingAnim extends React.Component {
   private animationRotation: any;
   private listener: any;
   private animation: any;
+  private g: any;
   private toSize: any;
   readonly color: any;
   readonly fullsize: number;
 
-  constructor(props) {
+  constructor(props: BreathingAnimProps) {
     super(props);
 
     this.state = {
-      toSize: 0,
-    }
+      toSize: 0
+    };
 
-    this.canvasSize = props.canvasSize || 250
-    this.baseSize = props.baseSize || 35
+    this.canvasSize = props.canvasSize || 250;
+    this.baseSize = props.baseSize || 35;
     this.color = props.color || colors.accent;
     this.fullsize = (this.canvasSize / 4) + (this.baseSize / 2);
 
@@ -289,16 +300,5 @@ const styles = StyleSheet.create({
     alignItems: "center"
   }
 })
-
-BreathingAnim.propTypes = {
-  canvasSize: PropTypes.number,
-  baseSize: PropTypes.number,
-  color: PropTypes.string,
-  sequenceTime: PropTypes.any,
-  currentIndex: PropTypes.any,
-  currentTime: PropTypes.number,
-  title: PropTypes.string,
-  settings: PropTypes.object
-}
 
 export default BreathingAnim

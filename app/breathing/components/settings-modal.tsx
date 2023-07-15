@@ -1,19 +1,19 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useRef, useState } from "react";
 
-import {StyleSheet, Text, View, Animated, Easing, Dimensions} from 'react-native';
+import { Animated, Dimensions, Easing, StyleSheet, View } from "react-native";
 import EditSettings from "./edit-settings";
-import {Button, Modal, Portal} from "react-native-paper";
-import {colors} from "../../config/colors";
-import {PauseSettings} from "./pause-modal";
-import PropTypes from 'prop-types';
+import { Button, Modal, Portal } from "react-native-paper";
+import { colors } from "../../config/colors";
+import { PauseSettings } from "./pause-modal";
+import PropTypes from "prop-types";
 
 const ModalContent = props => {
   const [pauseSettingsVisible, setPauseSettingsVisible] = useState(false);
   const [settingsVisible, setSettingsVisible] = useState(true);
   const settingsLeft = useRef(new Animated.Value(1)).current;
-  const pauseLeft = Animated.add(settingsLeft, Dimensions.get('window').width)
-  const animationSpeed = 350
-  const easing = Easing.inOut(Easing.ease)
+  const pauseLeft = Animated.add(settingsLeft, Dimensions.get("window").width);
+  const animationSpeed = 350;
+  const easing = Easing.inOut(Easing.ease);
 
   const showPauseModal = () => {
     setPauseSettingsVisible(true)
@@ -116,6 +116,7 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 10,
     margin: 20,
+    // alignSelf: "center",
     height: 280,
     overflow: "hidden"
   },

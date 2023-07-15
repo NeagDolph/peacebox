@@ -1,9 +1,9 @@
-import {useCallback, useState} from 'react';
+import { useCallback, useState } from "react";
 
 // Hacky force update for glitchy context menu
 export function useForceUpdate() {
   const [_, setTick] = useState(0);
-  const update = useCallback(() => {
+  const update: Function = useCallback(() => {
     setTick(tick => tick + 1);
   }, []);
   return [_, update];

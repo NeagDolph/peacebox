@@ -1,43 +1,43 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useEffect, useState } from "react";
 
-import {FlatList, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import ModalHeader from "./components/modal-header";
 import EditCard from "./components/edit-card";
-import PremadePattern from "./components/premade-pattern";
-import {Provider, Surface} from "react-native-paper";
+import { Provider } from "react-native-paper";
 import PauseModal from "../components/pause-modal";
-import {useDispatch, useSelector} from "react-redux";
-import {colors} from "../../config/colors";
+import { useDispatch, useSelector } from "react-redux";
+import { colors } from "../../config/colors";
 import FadeGradient from "../../components/fade-gradient";
 import haptic from "../../helpers/haptic";
-import {setEditScroll, setEditVisible} from '../../store/features/breathingSlice'
+import { setEditVisible } from "../../store/features/breathingSlice";
 import PatternNew from "./components/pattern-new";
 import useTooltip from "../../components/tooltip-hook";
-import { setCreatedPattern, guideNext } from '../../store/features/tutorialSlice';
+import { guideNext, setCreatedPattern } from "../../store/features/tutorialSlice";
+import { RootState } from "../../store/store";
 
-const PatternModal = ({route, navigation}) => {
-  const {newPattern, id} = route.params
-  const dispatch = useDispatch()
-  const patternData = useSelector(state => state.breathing.patterns[id]);
-  const editVisible = useSelector(state => state.breathing.editVisible);
+const PatternModal = ({ route, navigation }) => {
+  const { newPattern, id } = route.params;
+  const dispatch = useDispatch();
+  const patternData = useSelector((state: RootState) => state.breathing.patterns[id]);
+  const editVisible = useSelector((state: RootState) => state.breathing.editVisible);
 
-  const breathingIndex = useSelector(state => state.tutorial.breathing.completion);
-  const open = useSelector(state => state.tutorial.breathing.open);
+  const breathingIndex = useSelector((state: RootState) => state.tutorial.breathing.completion);
+  const open = useSelector((state: RootState) => state.tutorial.breathing.open);
 
   const tooltip = useTooltip();
 
-  const showEditModal = () => setEditModalVisible(true)
-  const hideEditModal = () => setEditModalVisible(false)
-  const [editModalVisible, setEditModalVisible] = useState(false)
+  const showEditModal = () => setEditModalVisible(true);
+  const hideEditModal = () => setEditModalVisible(false);
+  const [editModalVisible, setEditModalVisible] = useState(false);
 
 
   useEffect(() => {
-    const unsubscribe = navigation.addListener('beforeRemove', () => {
-      dispatch(setEditVisible(false))
+    const unsubscribe = navigation.addListener("beforeRemove", () => {
+      dispatch(setEditVisible(false));
     });
 
     return unsubscribe;
-  }, [navigation])
+  }, [navigation]);
 
   const closeModal = () => {
     haptic(1);
@@ -45,39 +45,38 @@ const PatternModal = ({route, navigation}) => {
 
     setTimeout(() => {
       if (open && breathingIndex === 4) {
-        dispatch(setCreatedPattern(id))
-        dispatch(guideNext("breathing"))
+        dispatch(setCreatedPattern(id));
+        dispatch(guideNext("breathing"));
       }
-    }, 200)
-  }
+    }, 200);
+  };
 
   return (
     <>
-
-      <FadeGradient top={0} bottom={newPattern ? 0.15 : 0}>
-        <ModalHeader/>
-        {newPattern ? <PatternNew id={id} patternData={patternData} showEditModal={showEditModal}/> :
-          <View style={styles.list}>
-            <EditCard id={id} showEditModal={showEditModal} patternData={patternData}/>
-          </View>
-        }
-      </FadeGradient>
-      <View style={styles.doneButtonContainer} pointerEvents="box-none">
-        {tooltip(
-          <TouchableOpacity onPress={closeModal}>
-            <View style={styles.doneButton}>
-              <Text style={styles.doneText}>Done</Text>
-            </View>
-          </TouchableOpacity>,
-          4
-        )}
-      </View>
       <Provider>
-        <PauseModal hideEditModal={hideEditModal} visible={editModalVisible} patternData={patternData}/>
+        <FadeGradient top={0} bottom={newPattern ? 0.15 : 0}>
+          <ModalHeader />
+          {newPattern ? <PatternNew id={id} patternData={patternData} showEditModal={showEditModal} /> :
+            <View style={styles.list}>
+              <EditCard id={id} showEditModal={showEditModal} patternData={patternData} />
+            </View>
+          }
+        </FadeGradient>
+        <View style={styles.doneButtonContainer} pointerEvents="box-none">
+          {tooltip(
+            <TouchableOpacity onPress={closeModal}>
+              <View style={styles.doneButton}>
+                <Text style={styles.doneText}>Done</Text>
+              </View>
+            </TouchableOpacity>,
+            4
+          )}
+        </View>
+        <PauseModal hideEditModal={hideEditModal} visible={editModalVisible} patternData={patternData} />
       </Provider>
     </>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   list: {
@@ -98,18 +97,18 @@ const styles = StyleSheet.create({
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: 2
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    elevation: 5,
+    elevation: 5
   },
   doneText: {
     fontSize: 24,
     color: colors.background,
     fontFamily: "Avenir",
     fontWeight: "700"
-  },
-})
+  }
+});
 
 export default PatternModal;

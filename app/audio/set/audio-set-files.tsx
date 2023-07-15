@@ -8,14 +8,13 @@ import IconMaterial from "react-native-vector-icons/MaterialCommunityIcons";
 import { useSelector } from "react-redux";
 import { useForceUpdate } from "../../helpers/update";
 import { useNavigation } from "@react-navigation/native";
+import { RootState } from "../../store/store";
 
 const AudioSetFiles = props => {
-  const [updateVal, forceUpdate] = useForceUpdate();
+  let [updateVal, forceUpdate] = useForceUpdate();
   const navigation = useNavigation();
 
-  const viewedData = useSelector(
-    state => state.tapes.downloadData[props.set.name],
-  );
+  const viewedData = useSelector((state: RootState) => state.tapes.downloadData[props.set.name]);
   const [checkmarkConts, setCheckmarkConts] = useState([]);
 
   const completedCalc = useMemo(() => {
@@ -132,7 +131,7 @@ const AudioSetFiles = props => {
 AudioSetFiles.propTypes = {
   set: PropTypes.object,
   downloadData: PropTypes.any,
-  layout: PropTypes.fun,
+  layout: PropTypes.func
 };
 
 const styles = StyleSheet.create({

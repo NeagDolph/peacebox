@@ -1,42 +1,30 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, { useEffect, useState } from "react";
 
-import {
-  ActivityIndicator,
-  Alert,
-  AppState, Dimensions,
-  Linking, Pressable,
-  StatusBar,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View
-} from 'react-native';
-import TimeHeader from "./components/time-header";
+import { Alert, AppState, Pressable, StyleSheet, Text, View } from "react-native";
 import RenderSequence from "./components/render-sequence";
 import BreathingAnim from "./components/breathing-animation";
-import {useDispatch, useSelector} from "react-redux";
-import {setStart} from "../../store/features/breathingSlice";
+import { useDispatch, useSelector } from "react-redux";
 import TimeControls from "./components/time-controls";
 import PrefersHomeIndicatorAutoHidden from "react-native-home-indicator";
-import {useKeepAwake} from '@sayem314/react-native-keep-awake';
-import {pattern} from "../../helpers/haptic"
-import Sound from "react-native-sound"
+import { useKeepAwake } from "@sayem314/react-native-keep-awake";
+import Sound from "react-native-sound";
 import useTooltip from "../../components/tooltip-hook";
-import {colors} from "../../config/colors";
-import {exitTutorial} from '../../store/features/tutorialSlice';
+import { colors } from "../../config/colors";
+import { exitTutorial } from "../../store/features/tutorialSlice";
 import useTimer from "./components/timer-hook";
+import { RootState } from "../../store/store";
 
-Sound.setCategory('Playback');
+Sound.setCategory("Playback");
 
-const PatternTime = ({route, navigation}) => {
-  const {id} = route.params
-  const patternData = useSelector(state => state.breathing.patterns[id]);
-  const settings = useSelector(state => state.settings.breathing);
+const PatternTime = ({ route, navigation }) => {
+  const { id } = route.params;
+  const patternData = useSelector((state: RootState) => state.breathing.patterns[id]);
+  const settings = useSelector((state: RootState) => state.settings.breathing);
 
   useKeepAwake();
 
   //Tutorial state
-  const tutorial = useSelector(state => state.tutorial.breathing)
+  const tutorial = useSelector((state: RootState) => state.tutorial.breathing);
   const tooltip = useTooltip();
   const dispatch = useDispatch();
 
@@ -125,9 +113,9 @@ const PatternTime = ({route, navigation}) => {
 
   return (
     <View style={styles.container}>
-      {/*<PrefersHomeIndicatorAutoHidden/>*/}
-      {/*<TimeHeader exit={exit}/>*/}
-      <RenderSequence style={styles.sequenceContainer} sequence={patternData.sequence} backgroundColor={colors.background2}/>
+      <PrefersHomeIndicatorAutoHidden />
+      <RenderSequence style={styles.sequenceContainer} sequence={patternData.sequence}
+                      backgroundColor={colors.background2} />
       <View style={styles.animationContainer}>
         <BreathingAnim
           sequenceTime={sequenceTime}
@@ -142,11 +130,12 @@ const PatternTime = ({route, navigation}) => {
       </View>
 
       <TimeControls
-        patternCompletion={patternCompletion}
-        completionText={completionText}
+        patternCompletion={3}
+        completionText={"hi"}
         togglePause={togglePause}
         paused={paused}
       />
+
       {
         tooltip(<Pressable style={styles.exitPressable} hitSlop={20} onPress={handleTutorialExit}>
           <View style={styles.exitContainer}>
@@ -158,7 +147,7 @@ const PatternTime = ({route, navigation}) => {
       }
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   exitPressable: {

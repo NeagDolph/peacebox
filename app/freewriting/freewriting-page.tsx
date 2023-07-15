@@ -295,7 +295,7 @@ const Freewriting = (props: any) => {
         handleHeight={645}
         onChange={handleSheetChange}
         animateOnMount={false}
-        enablePanDownToClose={closeEnabled}
+        enablePanDownToClose={true}
         // springConfig={{mass: 3, damping: 50, stiffness: 150}}
       >
         <InfoContent

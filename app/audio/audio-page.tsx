@@ -10,18 +10,17 @@ import IconMaterial from "react-native-vector-icons/MaterialCommunityIcons";
 import IconIonicons from "react-native-vector-icons/Ionicons";
 import AudioSetFilesTape from "./set/audio-set-files-tape";
 import { useNavigation } from "@react-navigation/native";
+import { RootState } from "../store/store";
 
 const AudioPage = () => {
-  const audioData = useSelector(state => state.tapes.audioData);
-  const favorites = useSelector(state => state.tapes.favorites);
-  const lastViewed = useSelector(state => state.tapes.lastViewed);
-  const downloads = useSelector(
-    state => state.tapes.downloadData[lastViewed.set],
-  );
+  const audioData = useSelector((state: RootState) => state.tapes.audioData);
+  const favorites = useSelector((state: RootState) => state.tapes.favorites);
+  const lastViewed = useSelector((state: RootState) => state.tapes.lastViewed);
+  const downloads = useSelector((state: RootState) => state.tapes.downloadData[lastViewed.set]);
 
   const scrollRef = useRef(0);
 
-  const [currentOpen, setCurrentOpen] = useState('');
+  const [currentOpen, setCurrentOpen] = useState("");
 
   const dispatch = useDispatch();
 
@@ -34,7 +33,7 @@ const AudioPage = () => {
   }, [favorites, audioData]);
 
   const renderNextTape = () => {
-    const {set, tape, part, timestamp} = lastViewed;
+    const { set, tape, part, timestamp } = lastViewed;
     const timeSinceView = Date.now() - timestamp;
 
     let nextTape, nextPart;
@@ -66,7 +65,7 @@ const AudioPage = () => {
         <Text style={styles.sectionTitle}>Keep Listening</Text>
         <View style={styles.nextTitleContainer}>
           <IconIonicons
-            name={'caret-forward-circle'}
+            name={"caret-forward-circle"}
             color={audioSet.icon}
             size={25}
           />
@@ -111,9 +110,9 @@ const AudioPage = () => {
     );
   };
 
-  const renderItem = ({item, index, separators, section}) => {
+  const renderItem = ({ item, index, separators, section }) => {
     return (
-      <View style={{marginVertical: 10}}>
+      <View style={{ marginVertical: 10 }}>
         <AudioSet
           set={item}
           scrollRef={scrollRef}
@@ -125,7 +124,7 @@ const AudioPage = () => {
     );
   };
 
-  const renderTitle = ({section}) => {
+  const renderTitle = ({ section }) => {
     return (
       section.data.length >= 1 && (
         <View style={styles.titleContainer}>
@@ -137,7 +136,21 @@ const AudioPage = () => {
 
   return (
     <>
-      <PageHeader title={'Audio'} settingsButton={false} />
+      <PageHeader title={"Audio"} settingsButton={false} />
+      {/*<ReanimatedArc*/}
+      {/*  color={colors.text2}*/}
+      {/*  style={{ position: "absolute" }}*/}
+      {/*  diameter={60}*/}
+      {/*  width={2}*/}
+      {/*  rotation={0}*/}
+      {/*  easing={Easing.ease}*/}
+      {/*  initialAnimation={false}*/}
+      {/*  hideSmallAngle={true}*/}
+      {/*  arcSweepAngle={100}*/}
+      {/*  // arcSweepAngle={360}*/}
+      {/*  animationDuration={0}*/}
+      {/*  lineCap="round"*/}
+      {/*/>*/}
       <SectionList
         style={styles.container}
         ref={scrollRef}
@@ -145,18 +158,18 @@ const AudioPage = () => {
         renderItem={renderItem}
         sections={[
           {
-            title: 'Favorites',
-            data: favoriteSets ?? [],
+            title: "Favorites",
+            data: favoriteSets ?? []
           },
           {
-            title: 'All Audio-sets',
-            data: audioData ?? [],
-          },
+            title: "All Audio-sets",
+            data: audioData ?? []
+          }
         ]}
         ListHeaderComponent={renderHeader()}
         renderSectionHeader={renderTitle}
-        renderSectionFooter={({section: {data}}) =>
-          data.length >= 1 && <View style={{marginBottom: 60}} />
+        renderSectionFooter={({ section: { data } }) =>
+          data.length >= 1 && <View style={{ marginBottom: 60 }} />
         }
       />
       <DisclaimerModal
@@ -170,14 +183,14 @@ const AudioPage = () => {
 const styles = StyleSheet.create({
   nextContainer: {
     marginBottom: 40,
-    maxWidth: 290,
+    maxWidth: 290
   },
   nextTitleContainer: {
-    flexDirection: 'row',
-    alignContent: 'center',
+    flexDirection: "row",
+    alignContent: "center",
 
     marginTop: 12,
-    marginBottom: 5,
+    marginBottom: 5
   },
   nextTitle: {
     color: colors.primary,
@@ -185,58 +198,58 @@ const styles = StyleSheet.create({
     lineHeight: 30,
     marginLeft: 5,
 
-    fontFamily: 'baloo 2',
+    fontFamily: "baloo 2"
   },
   titleContainer: {
-    width: '100%',
+    width: "100%",
     backgroundColor: colors.background,
     paddingBottom: 6,
-    paddingTop: 10,
+    paddingTop: 10
   },
   sectionTitle: {
     fontSize: 30,
     marginLeft: 0,
     lineHeight: 40,
     color: colors.primary,
-    fontFamily: 'avenir',
+    fontFamily: "avenir"
   },
   disclaimerButtonContainer: {
-    width: '100%',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
+    width: "100%",
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
     paddingBottom: 30,
-    paddingTop: 10,
+    paddingTop: 10
   },
   disclaimerButton: {
-    flexDirection: 'row',
+    flexDirection: "row",
     borderRadius: 5,
     paddingVertical: 4,
-    width: 'auto',
+    width: "auto",
     marginTop: 20,
     paddingHorizontal: 10,
     right: 0,
-    backgroundColor: colors.background3,
+    backgroundColor: colors.background3
   },
   disclaimerButtonText: {
     fontSize: 19,
     lineHeight: 28,
     marginLeft: 4,
-    fontFamily: 'baloo 2',
-    color: colors.primary,
+    fontFamily: "baloo 2",
+    color: colors.primary
   },
   loadingText: {
     fontSize: 20,
     color: colors.primary,
-    textAlign: 'center',
-    width: '100%',
+    textAlign: "center",
+    width: "100%"
   },
   container: {
     zIndex: -1,
-    width: '100%',
-    height: '100%',
+    width: "100%",
+    height: "100%",
     paddingHorizontal: 24,
-    paddingTop: 0,
-  },
+    paddingTop: 0
+  }
 });
 
 export default AudioPage;

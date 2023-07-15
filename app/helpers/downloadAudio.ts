@@ -15,13 +15,16 @@ import _ from "lodash";
 import { CDN_ENDPOINT } from "./constants";
 import { Platform } from "react-native";
 import { useSelector } from "react-redux";
+import { PersistPartial } from "redux-persist/es/persistReducer";
 
 export const hydrateDownloadData = sets => {
-  const tapeData = useSelector((state: RootState) => state.tapes);
+  const tapeData: PersistPartial = store.getState();
 
   const totalData = _.merge(
     constructDownloadFrame(sets),
-    tapeData.downloadData
+
+    // @ts-ignore
+    tapeData.tapes.downloadData
   );
 
   store.dispatch(setTapeData(totalData));
@@ -44,7 +47,8 @@ const constructDownloadFrame = sets => {
 };
 
 const isDownloaded = async ({set, tape, part, localPath}) => {
-  const tapeData = useSelector((state: RootState) => state.tapes);
+  const tapeData = store.getState().tapes;
+
   const fileExists = await RNFS.exists(
     `${RNBackgroundDownloader.directories.documents}/${localPath}`
   );

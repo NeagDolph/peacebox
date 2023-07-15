@@ -10,14 +10,14 @@ type Props = Omit<ReanimatedArcBaseProps, "arcSweepAngle" | "rotation"> & {
   easing: (value: number) => number;
 };
 
-const ReanimatedArc: React.FC<Props> = ({
-                                          arcSweepAngle: arcSweepAngleProp,
-                                          rotation: rotationProp,
-                                          initialAnimation,
-                                          animationDuration,
-                                          easing = Easing.linear,
-                                          ...rest
-                                        }) => {
+const ReanimatedArc = ({
+                         arcSweepAngle: arcSweepAngleProp,
+                         rotation: rotationProp,
+                         initialAnimation,
+                         animationDuration,
+                         easing = Easing.linear,
+                         ...rest
+                       }) => {
   const arcSweepAngle = useSharedValue(initialAnimation ? 0 : arcSweepAngleProp);
   const rotation = useSharedValue(initialAnimation ? 0 : rotationProp);
 

@@ -80,15 +80,15 @@ const InfoContent = (props) => {
     if (results.length < 1) return <Text style={styles.desc}>{text}</Text>
 
 
-    return results.reduce((curr, match, i) => {
-      const before = <Text style={styles.desc}>{text.substring(0, match.index)}</Text>
-      const after = <Text style={styles.desc}>{text.substring(match.index + match[0].length, match.input.length)}</Text>
+    return results.reduce((curr, match: RegExpMatchArray, i) => {
+      const before = <Text style={styles.desc}>{text.substring(0, match.index)}</Text>;
+      const after = <Text style={styles.desc}>{text.substring(match.index + match[0].length, match.input.length)}</Text>;
       return (<Text>
-                <Text style={styles.desc}>{before}</Text>
-                <Text style={[styles.desc, styles.link]} onPress={() => openLink(match[2])}>{match[1]}</Text>
-                <Text style={styles.desc}>{after}</Text>
-              </Text>)
-    }, <Text style={styles.desc}></Text>)
+        <Text style={styles.desc}>{before}</Text>
+        <Text style={[styles.desc, styles.link]} onPress={() => openLink(match[2])}>{match[1]}</Text>
+        <Text style={styles.desc}>{after}</Text>
+      </Text>);
+    }, <Text style={styles.desc}></Text>);
   }
 
   const addBullets = (item) => {
@@ -214,7 +214,10 @@ const InfoContent = (props) => {
 
         <View style={styles.exitContainer}>
           <Fade visible={isLastPage()} duration={400}>
-            <Button color={colors.primary} onPress={props.handleClose} mode="outlined">Done</Button>
+            <Button color={colors.primary} onPress={props.handleClose}
+                    contentStyle={{ width: "100%", justifyContent: "center", alignItems: "center" }}
+                    labelStyle={{ width: "100%", fontSize: 16 }} style={styles.exitButton}
+                    mode="contained">Done</Button>
           </Fade>
         </View>
       </View>
@@ -223,12 +226,23 @@ const InfoContent = (props) => {
 };
 
 const styles = StyleSheet.create({
+  exitButton: {
+    borderRadius: 10,
+    width: "70%"
+
+  },
+  exitContainer: {
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+    display: "flex"
+  },
   tipNote: {
     fontFamily: "Helvetica",
     fontWeight: "800",
     color: colors.primary,
     fontSize: 18,
-    paddingRight: 20,
+    paddingRight: 20
   },
   tip: {
     fontSize: 16,
@@ -239,11 +253,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     width: "100%"
 
-  },
-  exitContainer: {
-    width: "100%",
-    alignItems: "center",
-    justifyContent: "center"
   },
   backContainer: {
     height: 52,

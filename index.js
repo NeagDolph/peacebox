@@ -110,7 +110,10 @@ function RootStackScreen() {
       <RootStack.Screen
         name="Audio"
         component={AudioPage}
-        options={{ headerShown: false, orientation: "portrait_up" }}
+        options={{
+          headerShown: false, orientation: "portrait_up",
+          animation: "fade"
+        }}
       />
       <RootStack.Screen
         name="AudioPlayer"
@@ -142,7 +145,10 @@ export default function Main() {
           Capability.SkipToPrevious,
           Capability.Stop,
           Capability.SeekTo
-        ]
+        ],
+        android: {
+          appKilledPlaybackBehavior: "StopPlaybackAndRemoveNotification"
+        }
       });
     });
 
