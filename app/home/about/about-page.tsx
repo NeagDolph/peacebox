@@ -87,15 +87,15 @@ const styles = StyleSheet.create({
     marginVertical: 8
   },
   creditTitle: {
-    fontSize: 15,
+    fontSize: 17,
     color: colors.primary,
-    fontFamily: "Avenir",
+    fontFamily: "Baloo2"
 
-    fontWeight: "500",
+    // fontWeight: "700",
   },
   credit: {
     fontSize: 18,
-    fontFamily: "Helvetica",
+    fontFamily: "Baloo2",
     color: colors.text
   },
 
@@ -107,9 +107,9 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 55,
     color: colors.black,
-    fontFamily: "Futura",
+    fontFamily: "futura"
     // textAlign: "center",
-    fontWeight: "900"
+    // fontWeight: "900"
   },
   subtitle: {
     fontSize: 22,

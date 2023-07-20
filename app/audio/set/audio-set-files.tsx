@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { memo, useEffect, useMemo, useState } from "react";
 
 import { StyleSheet, View } from "react-native";
 import { colors } from "../../config/colors";
@@ -182,4 +182,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AudioSetFiles;
+export default memo(AudioSetFiles);

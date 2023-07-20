@@ -4,7 +4,7 @@ import { AppState, Dimensions, Linking, Platform, Pressable, StyleSheet, Text, T
 import WritingCard from "./components/writing-card";
 import Animated, { interpolate, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import BottomSheet from "@gorhom/bottom-sheet";
+import BottomSheet, { useBottomSheetSpringConfigs } from "@gorhom/bottom-sheet";
 import { setAdjustNothing } from "rn-android-keyboard-adjust";
 
 import Background from "../components/background";
@@ -98,6 +98,16 @@ const Freewriting = (props: any) => {
         setActivityBg(false);
       }
     });
+
+    if (Platform.OS === "android") {
+      AppState.addEventListener("focus", nextAppState => {
+        setActivityBg(false);
+      });
+
+      AppState.addEventListener("blur", nextAppState => {
+        setActivityBg(true);
+      });
+    }
   }, []);
 
   useEffect(() => {
@@ -112,6 +122,14 @@ const Freewriting = (props: any) => {
   useEffect(() => {
     fullscreenValue.value = withTiming(fullscreen ? 1 : 0, { duration: 200 });
   }, [fullscreen]);
+
+  const animationConfigs = useBottomSheetSpringConfigs({
+    damping: 80,
+    overshootClamping: true,
+    restDisplacementThreshold: 0.1,
+    restSpeedThreshold: 0.1,
+    stiffness: 500
+  });
 
   //Input size change callback
   const handleLayout = event => {
@@ -265,7 +283,7 @@ const Freewriting = (props: any) => {
         <Animated.View style={[styles.headerContainer, fullscreenStyles]}>
           <Pressable hitSlop={5} onPress={() => fullscreenToggle()}>
             <View style={styles.fullScreen}>
-              <Icon name="arrow-expand" size={27} color={colors.primary} />
+              <Icon name={fullscreen ? "arrow-collapse" : "arrow-expand"} size={29} color={colors.primary} />
             </View>
           </Pressable>
         </Animated.View>
@@ -290,9 +308,13 @@ const Freewriting = (props: any) => {
       </View>
       <BottomSheet
         ref={sheetRef}
-        snapPoints={[645]}
+        backgroundStyle={{ backgroundColor: colors.background2 }}
+        animationConfigs={animationConfigs}
+        handleIndicatorStyle={{ backgroundColor: colors.black }}
+        snapPoints={[600]}
         index={-1}
-        handleHeight={645}
+        handleHeight={600}
+
         onChange={handleSheetChange}
         animateOnMount={false}
         enablePanDownToClose={true}
@@ -316,11 +338,11 @@ const styles = StyleSheet.create({
   },
   fullScreen: {
     borderRadius: 40,
-    backgroundColor: 'rgba(140, 120, 140, 0.2)',
+    backgroundColor: "rgba(140, 120, 140, 0.2)",
     // width: 50,
-    padding: 9,
+    padding: 7,
     marginRight: 10,
-    right: 0,
+    right: 0
   },
   headerContainer: {
     zIndex: 10,

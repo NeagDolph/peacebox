@@ -15,7 +15,15 @@ interface ToolData {
 
 
 const ToolItem = (props: ToolData) => {
-  const imageSource = Image.resolveAssetSource(colors.dark ? props.iconDark : props.icon);
+  const getImageSource = () => {
+    if (Platform.OS === "ios") {
+      return colors.dark ? props.iconDark : props.icon;
+    }
+
+    return props.icon;
+  };
+
+  const imageSource = Image.resolveAssetSource(getImageSource());
 
   const openMenu = () => {
     if (props.nav) props.nav();
@@ -34,9 +42,12 @@ const ToolItem = (props: ToolData) => {
           {
             imageSource &&
             <Image
-              source={colors.dark ? props.iconDark : props.icon}
+              source={imageSource}
               resizeMode={Platform.OS === "ios" ? "cover" : "contain"}
-              style={[styles.iconBackground, { width: imageSource.width / (imageSource.height / 120) }]}
+              style={[styles.iconBackground, Platform.OS === "android" && {
+                width: imageSource.width / (imageSource.height / 120),
+                opacity: 0.2
+              }]}
             />
           }
         </View>
@@ -47,7 +58,7 @@ const ToolItem = (props: ToolData) => {
 
 let styles = StyleSheet.create({
   innerContainer: {
-    paddingTop: 15,
+    paddingTop: 10,
     paddingBottom: 20,
     paddingHorizontal: 20,
     overflow: "hidden"
@@ -79,16 +90,19 @@ let styles = StyleSheet.create({
     overflow: "visible"
   },
   toolItemTitle: {
-    fontSize: 36,
+    fontSize: 38,
     // marginVertical: 5,
-    marginBottom: 6,
-    fontWeight: "bold",
+    marginBottom: 0,
+    // fontWeight: "bold",
     width: "100%",
+    fontFamily: "Baloo2",
     color: colors.primary
   },
   toolItemDescription: {
     fontSize: 16,
-    color: colors.text
+    color: colors.text,
+    fontFamily: "Baloo2",
+    lineHeight: 20
 
   },
   chipView: {

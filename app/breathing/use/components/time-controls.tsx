@@ -1,10 +1,10 @@
-import {Dimensions, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import { Dimensions, Platform, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import ReanimatedArc from "./ReanimatedArc";
-import {colors} from "../../../config/colors";
+import { colors } from "../../../config/colors";
 import Icon from "react-native-vector-icons/Ionicons";
 import React from "react";
-import PropTypes from 'prop-types';
-import {interpolate} from 'react-native-reanimated';
+import PropTypes from "prop-types";
+import { interpolate } from "react-native-reanimated";
 import VolumeSlider from "../../../components/volume-slider";
 
 const TimeControls = (props) => {
@@ -37,14 +37,14 @@ const TimeControls = (props) => {
           <Icon name={props.paused ? "play" : "pause"} size={28} color={colors.primary}/>
         </View>
         <View style={styles.arcContainer}>
-          <ReanimatedArc
+          {Platform.OS === "ios" && <ReanimatedArc
             color={colors.accent}
             diameter={76}
             width={6}
             arcSweepAngle={props.patternCompletion * 360}
             animationDuration={1000}
             lineCap="round"
-          />
+          />}
         </View>
       </TouchableOpacity>
       <View style={styles.volumeContainer}>
@@ -105,8 +105,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 19,
     backgroundColor: colors.background2,
     borderRadius: 50,
-    borderColor: colors.background3,
-    borderWidth: 6,
+    borderColor: Platform.OS === "android" ? colors.accent : colors.background3,
+    borderWidth: 6
   },
   controlsContainer: {
     // justifyContent: "center",

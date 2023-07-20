@@ -1,30 +1,39 @@
-import { Dimensions, StyleSheet } from "react-native";
+import { Dimensions, Platform, StyleSheet } from "react-native";
 import IconEntypo from "react-native-vector-icons/Entypo";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { colors } from "../../config/colors";
 import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 
 function Backplate(props: { height: number, dragX: any, dragMode: number, setDragMode: (number) => void }) {
-  const bgColor = useSharedValue(colors.white);
+  const bgColor = useSharedValue(colors.background3);
+  const [bgColorState, setBgColor] = useState(colors.background3);
 
   useEffect(() => {
-    const calcColor = [colors.white, colors.accent, colors.red][props.dragMode]
-
-    bgColor.value = withTiming(calcColor, {
-      duration: colors.dark ? 0 : 100,
-      easing: Easing.linear
-    })
+    const calcColor = [colors.background3, colors.accent, colors.red][props.dragMode];
+    if (true) {
+      bgColor.value = withTiming(calcColor, {
+        duration: colors.dark ? 0 : 100,
+        easing: Easing.linear
+      });
+    } else {
+      setBgColor(calcColor);
+    }
   }, [props.dragMode])
 
   const animatedStyles = useAnimatedStyle(() => {
-    return {
+    const obj = {
       height: props.height - 1,
-      backgroundColor: bgColor.value,
       transform: [
-        {perspective: -300},
-        {rotateY: props.dragX.value / 3 + 'deg'},
+        { perspective: -300 }
+        // {rotateY: props.dragX.value / 3 + 'deg'},
       ]
+    };
+
+    if (true) {
+      obj["backgroundColor"] = bgColor.value;
     }
+
+    return obj;
   }, [props.height, props.dragMode])
 
   const containerStyle = useAnimatedStyle(() => {
@@ -39,9 +48,10 @@ function Backplate(props: { height: number, dragX: any, dragMode: number, setDra
     return {
       height: props.height - 30,
       opacity: props.dragX.value,
+      color: bgColor.value,
       transform: [
-        {translateX: Math.max(-props.dragX.value * 1.3, -34)}
-      ],
+        { translateX: Math.max(-props.dragX.value * 1.3, -34) }
+      ]
     };
   })
 
@@ -49,18 +59,21 @@ function Backplate(props: { height: number, dragX: any, dragMode: number, setDra
     return {
       height: props.height - 30,
       opacity: -props.dragX.value,
+
+      color: bgColor.value,
       transform: [
-        {translateX: Math.min(-props.dragX.value * 1.3, 34)}
-      ],
+        { translateX: Math.min(-props.dragX.value * 1.3, 34) }
+      ]
     };
   })
 
   return <Animated.View style={[styles.container, {height: props.height - 1}, containerStyle]}>
-    <Animated.View style={[styles.backplate, animatedStyles]}>
+    <Animated.View
+      style={[styles.backplate, animatedStyles, Platform.OS === "android" && { backgroundColor: bgColorState }]}>
     </Animated.View>
     <Animated.View style={[styles.editContainer, editStyle]}>
       {/*<Text style={[styles.edit, {fontWeight: props.dragMode !== 0 ? "500" : "800"}]}>Edit</Text>*/}
-      <IconEntypo size={22} name="pencil" color={colors.primary}/>
+      <IconEntypo size={22} name="pencil" color={colors.primary} />
     </Animated.View>
     <Animated.View style={[styles.trashContainer, deleteStyle]}>
       <IconEntypo size={22} name="trash" color={colors.primary}/>
@@ -103,12 +116,12 @@ const styles = StyleSheet.create({
     textAlign: "center"
   },
   backplate: {
-    width: (Dimensions.get('window').width - 84) / 2,
-    backgroundColor: colors.white,
+    width: (Dimensions.get("window").width - 84) / 2,
+    backgroundColor: colors.background3,
     borderRadius: 15,
     position: "absolute",
     top: 0,
-    left: 0,
+    left: 0
   },
 })
 

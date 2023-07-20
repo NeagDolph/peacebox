@@ -1,30 +1,16 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import {
-  LayoutAnimation,
-  Linking,
-  Pressable,
-  StyleSheet,
-  Text,
-  TouchableHighlight,
-  TouchableOpacity,
-  View
-} from 'react-native';
-import {colors} from "../../../config/colors";
-import {Surface} from "react-native-paper";
-import Fade from "../../../components/fade-wrapper";
-import PropTypes from "prop-types"
-import {Link} from "@react-navigation/native";
-import Tooltip from "react-native-walkthrough-tooltip";
-import breathingGuide from "../../../guides/breathing-guide";
-import {useDispatch, useSelector} from "react-redux";
-import {guideNext, openedTutorial, closedTutorial} from '../../../store/features/tutorialSlice';
+import React, { useState } from "react";
+import { LayoutAnimation, Linking, Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { colors } from "../../../config/colors";
+import PropTypes from "prop-types";
+import { useDispatch, useSelector } from "react-redux";
+import { closedTutorial, guideNext } from "../../../store/features/tutorialSlice";
 import useTooltip from "../../../components/tooltip-hook";
 
 const PremadePattern = (props) => {
-  const {name, sequence, description} = props.item;
+  const { name, sequence, description } = props.item;
   const [descriptionBig, setDescriptionBig] = useState(false);
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const breathingIndex = useSelector(state => state.tutorial.breathing.completion);
   const running = useSelector(state => state.tutorial.breathing.running);
@@ -40,7 +26,7 @@ const PremadePattern = (props) => {
   const renderSequence = () => {
     const sequenceText = ["Inhale", "Hold", "Exhale", "Hold"]
     return sequence.map((count, idx) => (
-      <View style={styles.patternItem} key={idx}>
+      <View style={styles.patternItem} key={"premadepattern" + name + idx}>
         <View style={styles.count}>
           <Text style={styles.countText}>{count}</Text>
         </View>

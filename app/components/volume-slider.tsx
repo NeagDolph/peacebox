@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-
 import { StyleSheet, View } from "react-native";
 import { colors } from "../config/colors";
 import Slider from "@react-native-community/slider";
@@ -67,6 +66,6 @@ const styles = StyleSheet.create({
     // justifyContent: "center",
     flexDirection: "row"
   }
-})
+});
 
 export default VolumeSlider;

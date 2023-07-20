@@ -1,18 +1,13 @@
-import TrackPlayer, { Capability, RepeatMode } from "react-native-track-player";
-import { RootState } from "../store/store";
+import TrackPlayer, { Capability, Event, RepeatMode } from "react-native-track-player";
+import { store } from "../store/store";
 import { playAudio } from "../helpers/playAudio";
-import { useSelector } from "react-redux";
 
 
 module.exports = async function() {
-  // This service needs to be registered for the module to work
-  // but it will be used later in the "Receiving Events" section
-
-
-  TrackPlayer.addEventListener("remote-next", () => {
+  TrackPlayer.addEventListener(Event.RemoteNext, () => {
     TrackPlayer.skipToNext().catch(console.log);
 
-    const tapeData = useSelector((state: RootState) => state.tapes);
+    const tapeData = store.getState().tapes;
 
     const currentData = tapeData.currentlyPlaying;
     const nextPart = Math.min(currentData.part + 1, currentData.totalParts - 1);
@@ -20,23 +15,23 @@ module.exports = async function() {
     playAudio({ ...currentData, part: nextPart });
   });
 
-  TrackPlayer.addEventListener('remote-previous', () => {
+  TrackPlayer.addEventListener(Event.RemotePrevious, () => {
     TrackPlayer.play().then(() => {
       TrackPlayer.seekTo(0);
     });
 
   });
 
-  TrackPlayer.addEventListener('remote-seek', ({position}) => {
-    TrackPlayer.seekTo(position)
-  })
+  TrackPlayer.addEventListener(Event.RemoteSeek, ({ position }) => {
+    TrackPlayer.seekTo(position);
+  });
 
 
-  TrackPlayer.addEventListener('remote-play', () => TrackPlayer.play());
-  TrackPlayer.addEventListener('remote-pause', () => TrackPlayer.pause());
-  TrackPlayer.addEventListener('remote-stop', () => TrackPlayer.destroy());
+  TrackPlayer.addEventListener(Event.RemotePlay, () => TrackPlayer.play());
+  TrackPlayer.addEventListener(Event.RemotePause, () => TrackPlayer.pause());
+  TrackPlayer.addEventListener(Event.RemoteStop, () => TrackPlayer.destroy());
 
-  await TrackPlayer.setRepeatMode(RepeatMode.Off)
+  await TrackPlayer.setRepeatMode(RepeatMode.Off);
 
   await TrackPlayer.updateOptions({
     // Media controls capabilities

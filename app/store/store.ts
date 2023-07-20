@@ -14,9 +14,9 @@ const persistConfig = {
   blacklist: ["tutorial"]
 };
 
-const persistedReducer = persistReducer(persistConfig, rootReducer);
+export type RootState = ReturnType<typeof rootReducer> & { _persist?: PersistPartial };
 
-export type RootState = ReturnType<typeof rootReducer>;
+const persistedReducer = persistReducer<RootState>(persistConfig, rootReducer);
 
 export const store = createStore(persistedReducer);
 export const persistor = persistStore(store);

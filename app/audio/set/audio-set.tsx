@@ -22,6 +22,7 @@ import { deleteTape, removeFromQueue, setFavorite } from "../../store/features/t
 import ReanimatedArc from "../../breathing/use/components/ReanimatedArc";
 import haptic from "../../helpers/haptic";
 import { PanGestureHandler } from "react-native-gesture-handler";
+import AnimatedArc from "../../breathing/use/components/AnimatedArc";
 
 let ContextMenuView;
 
@@ -95,7 +96,9 @@ const AudioSet = props => {
         dragX.value = ctx.startX + translationX;
       },
       onEnd: (_, ctx) => {
-        if (ctx.totalMove < -ctx.activateOffset) runOnJS(activateFavorite)();
+        if (ctx.totalMove < -ctx.activateOffset) {
+          runOnJS(activateFavorite)();
+        }
 
         ctx.totalMove = 0;
 
@@ -103,7 +106,7 @@ const AudioSet = props => {
           overshootClamping: true,
           mass: 3.5,
           damping: 25,
-          stiffness: 340,
+          stiffness: 340
         });
       },
     },
@@ -142,7 +145,7 @@ const AudioSet = props => {
     dispatch(
       setFavorite({
         set: props.set.name,
-        favorite: !favorites.includes(props.set.nam),
+        favorite: !favorites.includes(props.set.name)
       }),
     );
   };
@@ -271,31 +274,43 @@ const AudioSet = props => {
       );
       if (downloadVal) {
         cancelDownload({set: props.set.name, tape: file.episode}).catch(
-          console.error,
+          console.error
         );
-        deleteAudio({set: props.set.name, tape: file.episode}).catch(
-          console.error,
+        deleteAudio({ set: props.set.name, tape: file.episode }).catch(
+          console.error
         );
-        dispatch(deleteTape({set: props.set.name, tape: file.episode}));
+        dispatch(deleteTape({ set: props.set.name, tape: file.episode }));
       }
+    }
+  };
+
+  const renderDownloadCircle = () => {
+    if (Platform.OS === "ios") {
+      return <ReanimatedArc
+        color={colors.text}
+        style={{ position: "absolute" }}
+        diameter={38}
+        width={2}
+        arcSweepAngle={fullProgressCalc * 3.6 ?? 0}
+        // arcSweepAngle={(75 * 3.6) ?? 0}
+        animationDuration={200}
+        lineCap="round"
+      />;
+    } else {
+      return <AnimatedArc
+        style={{ position: "absolute" }}
+        diameter={38}
+        color={colors.text}
+        value={(fullProgressCalc / 100) ?? 0}
+        duration={200}
+      />;
     }
   };
 
   const renderOpenButton = () => {
     return (
       <View style={styles.animatedButtonContainer}>
-        {fullProgressCalc < 100 && downloadingAll && (
-          <ReanimatedArc
-            color={colors.text}
-            style={{position: 'absolute'}}
-            diameter={38}
-            width={2}
-            arcSweepAngle={fullProgressCalc * 3.6 ?? 0}
-            // arcSweepAngle={(75 * 3.6) ?? 0}
-            animationDuration={200}
-            lineCap="round"
-          />
-        )}
+        {(fullProgressCalc < 100 && downloadingAll) && renderDownloadCircle()}
         <Animated.View style={[styles.openButton, buttonStyle]}>
           <IconEntypo size={22} name="chevron-right" color={colors.text} />
         </Animated.View>
@@ -391,14 +406,6 @@ const AudioSet = props => {
                         </View>
                       </Pressable>
                     )}
-                    {/*<Pressable onPress={toggleFavorite} style={styles.favoriteContainer} hitSlop={15}>*/}
-                    {/*  {*/}
-                    {/*    isFavorite ?*/}
-                    {/*      <IconIonicons name={"md-heart"} color={colors.red} size={22}></IconIonicons> :*/}
-                    {/*      <IconIonicons name={"md-heart-outline"} color={colors.text} size={22}></IconIonicons>*/}
-
-                    {/*  }*/}
-                    {/*</Pressable>*/}
                   </View>
                 </Pressable>
               </View>
@@ -406,15 +413,6 @@ const AudioSet = props => {
                 <View onLayout={layoutContent}>
                   {showOpen && (
                     <>
-                      {/*<View style={styles.descriptionContainerOuter}>*/}
-                      {/*    <View style={styles.descriptionContainer}>*/}
-                      {/*        <View style={styles.descriptionTitleContainer}>*/}
-                      {/*            <IconMaterial name="note-text-outline" size={25} color={colors.primary}/>*/}
-                      {/*            <Text style={styles.descriptionTitle}>About This Tape</Text>*/}
-                      {/*        </View>*/}
-                      {/*        <Text style={styles.description}>{props.set.description}</Text>*/}
-                      {/*    </View>*/}
-                      {/*</View>*/}
                       <AudioSetFiles set={props.set} downloadData={downloads} />
                     </>
                   )}

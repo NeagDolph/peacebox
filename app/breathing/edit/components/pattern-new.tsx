@@ -1,14 +1,12 @@
-import {useDispatch, useSelector} from "react-redux";
-import {useNavigation} from "@react-navigation/native";
-import React, {useCallback, useEffect, useRef, useState} from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigation } from "@react-navigation/native";
+import React, { useEffect, useRef, useState } from "react";
 import PremadePattern from "./premade-pattern";
-import {editPattern} from "../../../store/features/breathingSlice";
-import {ScrollView, StyleSheet, Text, View} from "react-native";
+import { editPattern } from "../../../store/features/breathingSlice";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import EditCard from "./edit-card";
 import PropTypes from "prop-types";
-import {colors} from "../../../config/colors";
-import Tooltip from "react-native-walkthrough-tooltip";
-import breathingGuide from "../../../guides/breathing-guide";
+import { colors } from "../../../config/colors";
 import useTooltip from "../../../components/tooltip-hook";
 import { setAdjustment } from "../../../store/features/tutorialSlice";
 
@@ -38,7 +36,7 @@ const premadePatterns = [
     sequence: [4, 7, 8, 0],
     description: "The 4-7-8 breathing technique is based on pranayama breathing exercises. These types of mindful breathing exercises have been shown to have many benefits for stress reduction, relaxation and sleep. There are some proponents even claim that the method helps people \"get to sleep in 1 minute\"",
     settings: {
-      breakBetweenCycles: false,
+      breakBetweenCycles: false
     }
   },
   {
@@ -51,14 +49,14 @@ const premadePatterns = [
       pauseFrequency: 5
     }
   }
-]
+];
 
 
-const PatternNew = ({id, showEditModal, patternData}) => {
+const PatternNew = ({ id, showEditModal, patternData }) => {
   const dispatch = useDispatch();
-  const navigation = useNavigation()
-  const scrollRef = useRef(null)
-  const [scrollY, setScrollY] = useState(0)
+  const navigation = useNavigation();
+  const scrollRef = useRef(null);
+  const [scrollY, setScrollY] = useState(0);
   const breathingIndex = useSelector(state => state.tutorial.breathing.completion);
   const open = useSelector(state => state.tutorial.breathing.open);
   const tooltip = useTooltip();
@@ -66,61 +64,63 @@ const PatternNew = ({id, showEditModal, patternData}) => {
   const listenScrollY = useSelector(state => state.breathing.editScroll);
 
   useEffect(() => {
-    if (breathingIndex === 1 || breathingIndex === 3) scrollRef.current.scrollTo({y: listenScrollY, animated: true})
-  }, [listenScrollY])
+    if (breathingIndex === 1 || breathingIndex === 3) scrollRef.current.scrollTo({ y: listenScrollY, animated: true });
+  }, [listenScrollY]);
 
   const renderPremades = () => {
     const patterns = <View style={styles.patternContainer}>{premadePatterns.map((el, i) => {
-      const pattern = <PremadePattern key={el.name} itemNum={i} item={el} usePattern={usePattern}/>
+      const pattern = <PremadePattern itemNum={i} item={el} usePattern={usePattern} />;
 
-      return breathingIndex === 3 && i === 0 ? tooltip(pattern, 3) : pattern
-    })}</View>
+      return breathingIndex === 3 && i === 0 ? tooltip(pattern, 3) : pattern;
+    })}</View>;
 
-    return breathingIndex === 2 ? tooltip(patterns, 2) : patterns
+    return breathingIndex === 2 ? tooltip(patterns, 2) : patterns;
 
 
-  }
+  };
 
   const usePattern = (item) => {
     const newObj = {
       ...patternData,
       ...item,
-      settings: {...patternData.settings, ...item.settings}
-    }
+      settings: { ...patternData.settings, ...item.settings }
+    };
 
     dispatch(editPattern({
       id,
       new: newObj
     }));
 
-    scrollRef.current.scrollTo({x: 0, animated: true})
-  }
+    scrollRef.current.scrollTo({ x: 0, animated: true });
+  };
 
-  const handleScroll = ({nativeEvent}) => {
-    setScrollY(nativeEvent.contentOffset.y)
-  }
+  const handleScroll = ({ nativeEvent }) => {
+    setScrollY(nativeEvent.contentOffset.y);
+  };
 
   const scrollLayout = (layout) => {
-    dispatch(setAdjustment(layout.nativeEvent.layout.y - 30))
-  }
+    dispatch(setAdjustment(layout.nativeEvent.layout.y - 30));
+  };
 
   return (
     <>
       <ScrollView
         style={styles.list}
         showsVerticalScrollIndicator={false}
-        bounces={false}
+        bounces={true}
         ref={scrollRef}
         onLayout={scrollLayout}
         onScroll={handleScroll}
-        scrollEventThrottle={0}
-        scrollEnabled={!open}
+        // scrollEventThrottle={0},,
+        scrollEnabled={true}
       >
-        <Text style={styles.premadeText}>Create a pattern</Text>
-        {tooltip(<EditCard id={id} showEditModal={showEditModal} patternData={patternData} newPattern={true}/>, 1)}
-        <Text style={[styles.premadeText, {marginTop: 15}]}>Or choose one</Text>
-        {renderPremades()}
-        <View style={styles.footer}></View>
+        <View>
+          <Text style={styles.premadeText}>Create a pattern</Text>
+          {tooltip(<EditCard id={id} showEditModal={showEditModal} patternData={patternData} newPattern={true} />, 1)}
+          <Text style={[styles.premadeText, { marginTop: 15 }]}>Or choose one</Text>
+          {renderPremades()}
+          <View style={styles.footer}></View>
+        </View>
       </ScrollView>
     </>
   );
@@ -128,7 +128,7 @@ const PatternNew = ({id, showEditModal, patternData}) => {
 
 const styles = StyleSheet.create({
   patternContainer: {
-    // display: "flex",
+    display: "flex",
     width: "100%",
     backgroundColor: colors.background,
     paddingHorizontal: 15,
@@ -138,9 +138,10 @@ const styles = StyleSheet.create({
     height: 160
   },
   list: {
-    overflow: "visible",
+    // overflow: "visible",
     // marginBottom: 150,
-    paddingHorizontal: 28
+    paddingHorizontal: 28,
+    zIndex: 10
   },
   premadeText: {
     fontSize: 26,
@@ -148,19 +149,19 @@ const styles = StyleSheet.create({
     color: colors.primary
   },
   header: {
-    marginBottom: 5,
+    marginBottom: 5
   },
   container: {
     // marginHorizontal: 28,
     height: "100%"
   }
-})
+});
 
 PatternNew.propTypes = {
   id: PropTypes.string,
   patternData: PropTypes.any,
   showEditModal: PropTypes.func,
   premadePattern: PropTypes.func
-}
+};
 
-export default PatternNew
+export default PatternNew;

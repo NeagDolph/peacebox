@@ -5,14 +5,13 @@ import { colors } from "../../config/colors";
 import IconMaterial from "react-native-vector-icons/MaterialCommunityIcons";
 import IconEntypo from "react-native-vector-icons/Entypo";
 import PropTypes from "prop-types";
-import { PanGestureHandler, TapGestureHandler } from "react-native-gesture-handler";
-import Animated, {
-  runOnJS,
-  useAnimatedGestureHandler,
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring
-} from "react-native-reanimated";
+import {
+  Gesture,
+  GestureDetector,
+  GestureStateChangeEvent,
+  PanGestureHandlerEventPayload
+} from "react-native-gesture-handler";
+import Animated, { runOnJS, useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
 import Backplate from "./backplate";
 import haptic from "../../helpers/haptic";
 import useTooltip from "../../components/tooltip-hook";
@@ -40,58 +39,6 @@ const PatternItem = props => {
 
 
   const dragX = useSharedValue(0);
-
-  const panHandler = useAnimatedGestureHandler({
-    onStart: (_, ctx: PanGestureHandler) => {
-      ctx.startX = dragX.value;
-      ctx.directionPositive = undefined;
-      ctx.dragMode = 0;
-      runOnJS(setBeingDragged)(true);
-    },
-    onActive: ({translationX}, ctx) => {
-      const offsetAmount = 30 // Required movement of actual pattern card for activation
-
-      let calcMove;
-
-      if (translationX !== 0) {
-        const deadZone = 30 //Acts like min dist but works on both directions.
-        if (translationX > 0) translationX = Math.max(translationX - deadZone, 0);
-        else if (translationX < 0) translationX = Math.min(translationX + deadZone, 0);
-
-        const absNum = Math.abs(translationX / 2)
-        const dragSlowed = Math.min(absNum, offsetAmount) + Math.pow(Math.max(0, absNum - offsetAmount), 0.6)
-        calcMove = translationX < 0 ? -dragSlowed : dragSlowed
-      }
-
-      if (calcMove > offsetAmount) {
-        if (ctx.dragMode !== 1) runOnJS(haptic)(2)
-        ctx.dragMode = 1
-        runOnJS(setDragMode)(1);
-      }
-      else if (calcMove < -offsetAmount) {
-        if (ctx.dragMode !== 2) runOnJS(haptic)(2)
-        ctx.dragMode = 2
-        runOnJS(setDragMode)(2);
-      }
-      else {
-        // if (ctx.dragMode !== 0) runOnJS(haptic)(1)
-        ctx.dragMode = 0
-        runOnJS(setDragMode)(0);
-      }
-
-
-      dragX.value = ctx.startX + (calcMove ?? 0);
-    },
-    onEnd: (_) => {
-      dragX.value = withSpring(0, {
-        overshootClamping: true,
-        mass: 2,
-        damping: 25,
-        stiffness: 260
-      });
-      runOnJS(swipeActivate)();
-    }
-  })
 
   function swipeActivate() {
     lastDrag.current = dragMode;
@@ -157,23 +104,94 @@ const PatternItem = props => {
   }
 
   const handleTap = () => {
-    props.usePattern(props.id)
+    props.usePattern(props.id);
     if (breathingIndex === 5 && open && props.id === createdPattern) {
-      dispatch(closedTutorial("breathing"))
+      dispatch(closedTutorial("breathing"));
 
       setTimeout(() => dispatch(guideNext("breathing")), 600);
     }
-  }
+  };
+
+
+  const context = useSharedValue({ startX: 0, directionPositive: undefined, dragMode: 0 });
+
+  const tapGesture = Gesture.Tap();
+  const panGesture = Gesture.Pan();
+
+  const panStart = (e: GestureStateChangeEvent<PanGestureHandlerEventPayload>) => {
+    context.value = {
+      startX: dragX.value,
+      directionPositive: undefined,
+      dragMode: 0
+    };
+    runOnJS(setBeingDragged)(true);
+  };
+
+  const panActive = (e: GestureStateChangeEvent<PanGestureHandlerEventPayload>) => {
+    let translationX = e.translationX;
+
+    const offsetAmount = 30; // Required movement of actual pattern card for activation
+
+    let calcMove;
+
+    if (translationX !== 0) {
+      const deadZone = 30; //Acts like min dist but works on both directions.
+      if (translationX > 0) translationX = Math.max(translationX - deadZone, 0);
+      else if (translationX < 0) translationX = Math.min(translationX + deadZone, 0);
+
+      const absNum = Math.abs(translationX / 2);
+      const dragSlowed = Math.min(absNum, offsetAmount) + Math.pow(Math.max(0, absNum - offsetAmount), 0.6);
+      calcMove = translationX < 0 ? -dragSlowed : dragSlowed;
+    }
+
+    if (calcMove > offsetAmount) {
+      if (context.value.dragMode !== 1) runOnJS(haptic)(2);
+      context.value.dragMode = 1;
+      runOnJS(setDragMode)(1);
+    } else if (calcMove < -offsetAmount) {
+      if (context.value.dragMode !== 2) runOnJS(haptic)(2);
+      context.value.dragMode = 2;
+      runOnJS(setDragMode)(2);
+    } else {
+      // if (ctx.dragMode !== 0) runOnJS(haptic)(1)
+      context.value.dragMode = 0;
+      runOnJS(setDragMode)(0);
+    }
+
+
+    dragX.value = context.value.startX + (calcMove ?? 0);
+  };
+
+  const panEnd = (_) => {
+    dragX.value = withSpring(0, {
+      overshootClamping: true,
+      mass: 2,
+      damping: 25,
+      stiffness: 260
+    });
+    runOnJS(swipeActivate)();
+  };
+
+
+  panGesture
+    .requireExternalGestureToFail(tapRef)
+    .simultaneousWithExternalGesture(props.scrollRef)
+    .minDistance(0)
+    .withRef(props.panRef)
+    .onStart(panStart)
+    .onUpdate(panActive)
+    .onEnd(panEnd);
 
 
   const renderCard = () => {
-    const card = (<Animated.View style={[styles.patternItem, panStyle]} onLayout={(event) => setItemHeight(event.nativeEvent.layout.height)}>
+    const card = (<Animated.View style={[styles.patternItem, panStyle]}
+                                 onLayout={(event) => setItemHeight(event.nativeEvent.layout.height)}>
       <Text style={styles.title} numberOfLines={1}
             adjustsFontSizeToFit>{truncateTitle(props.patternData.name)}</Text>
       <View
         style={styles.patternData}>
         <View style={styles.arrowContainer}>
-          <IconEntypo style={styles.arrowLeft} name="chevron-thin-left" size={25} color={colors.text2}/>
+          <IconEntypo style={styles.arrowLeft} name="chevron-thin-left" size={25} color={colors.text2} />
           <View style={styles.sequenceList}>
             {generateSequence(props.patternData.sequence)}
           </View>
@@ -200,16 +218,21 @@ const PatternItem = props => {
 
 
   return (
-    <View style={[styles.itemOuter, {zIndex: beingDragged ? 200 : 0}]}>
-      <Backplate height={itemHeight} dragX={dragX} dragMode={dragMode} setDragMode={setDragMode}/>
-      <TapGestureHandler maxDist={0} ref={tapRef} onActivated={handleTap}>
+    <View style={[styles.itemOuter, { zIndex: beingDragged ? 200 : 0 }]}>
+      <Backplate height={itemHeight} dragX={dragX} dragMode={dragMode} setDragMode={setDragMode} />
+      <GestureDetector gesture={Gesture.Race(tapGesture, panGesture)}>
         <Animated.View>
-
-          <PanGestureHandler ref={props.panRef} minDist={0} onGestureEvent={panHandler} waitFor={tapRef} simultaneousHandlers={[props.scrollRef]}>
-            {renderCard()}
-          </PanGestureHandler>
+          {renderCard()}
         </Animated.View>
-      </TapGestureHandler>
+      </GestureDetector>
+      {/*<TapGestureHandler maxDist={0} ref={tapRef} onActivated={handleTap}>*/}
+      {/*  <Animated.View>*/}
+
+      {/*    <PanGestureHandler ref={props.panRef} minDist={0} onGestureEvent={panHandler} waitFor={tapRef} simultaneousHandlers={[props.scrollRef]}>*/}
+      {/*      {renderCard()}*/}
+      {/*    </PanGestureHandler>*/}
+      {/*  </Animated.View>*/}
+      {/*</TapGestureHandler>*/}
     </View>
   );
 };

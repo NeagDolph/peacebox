@@ -11,6 +11,7 @@ import IconIonicons from "react-native-vector-icons/Ionicons";
 import AudioSetFilesTape from "./set/audio-set-files-tape";
 import { useNavigation } from "@react-navigation/native";
 import { RootState } from "../store/store";
+import { Provider } from "react-native-paper";
 
 const AudioPage = () => {
   const audioData = useSelector((state: RootState) => state.tapes.audioData);
@@ -60,6 +61,10 @@ const AudioPage = () => {
       nextTape = tape;
     }
 
+    if (audioSet.files[nextTape] === undefined) {
+      return;
+    }
+
     const tapeItem = (
       <View style={styles.nextContainer}>
         <Text style={styles.sectionTitle}>Keep Listening</Text>
@@ -105,7 +110,7 @@ const AudioPage = () => {
         {renderDisclaimer()}
 
         {/* Implement advanced next tape algorithm next update */}
-        {/*{renderNextTape()}*/}
+        {renderNextTape()}
       </>
     );
   };
@@ -134,23 +139,11 @@ const AudioPage = () => {
     );
   };
 
+
   return (
-    <>
+    <Provider>
       <PageHeader title={"Audio"} settingsButton={false} />
-      {/*<ReanimatedArc*/}
-      {/*  color={colors.text2}*/}
-      {/*  style={{ position: "absolute" }}*/}
-      {/*  diameter={60}*/}
-      {/*  width={2}*/}
-      {/*  rotation={0}*/}
-      {/*  easing={Easing.ease}*/}
-      {/*  initialAnimation={false}*/}
-      {/*  hideSmallAngle={true}*/}
-      {/*  arcSweepAngle={100}*/}
-      {/*  // arcSweepAngle={360}*/}
-      {/*  animationDuration={0}*/}
-      {/*  lineCap="round"*/}
-      {/*/>*/}
+
       <SectionList
         style={styles.container}
         ref={scrollRef}
@@ -176,7 +169,7 @@ const AudioPage = () => {
         disclaimerVisible={disclaimerVisible}
         setDisclaimerVisible={setDisclaimerVisible}
       />
-    </>
+    </Provider>
   );
 };
 
@@ -244,7 +237,7 @@ const styles = StyleSheet.create({
     width: "100%"
   },
   container: {
-    zIndex: -1,
+    zIndex: 1,
     width: "100%",
     height: "100%",
     paddingHorizontal: 24,

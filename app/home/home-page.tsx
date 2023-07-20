@@ -84,7 +84,7 @@ const HomePage = ({navigation}: any) => {
       title: "Free Writing",
       icon: require("../assets/writing.png"),
       iconDark: require("../assets/dark/writing.png"),
-      description: "Let go of internal troubles by writing your thoughts.",
+      description: "Let go of internal troubles by writing down your thoughts.",
       tags: ["Anxiety", "Quick Relief"],
       nav: () => navigation.navigate("Freewriting")
     },
@@ -92,13 +92,13 @@ const HomePage = ({navigation}: any) => {
       title: "Breathing",
       icon: require("../assets/wind.png"),
       iconDark: require("../assets/dark/wind.png"),
-      description: "Breathing exercises to relax and improve your mood",
+      description: "Breathing exercises to relax and improve your mood.",
       nav: () => navigation.navigate("Patterns"),
-      tags: ["Anxiety", "Stress", "Discontentment"],
+      tags: ["Anxiety", "Stress", "Discontentment"]
     },
     {
       title: "Audio",
-      description: "Transformative sleep meditations to use at night",
+      description: "Transformative sleep meditations to use at night.",
       nav: () => navigation.navigate("Audio"),
       icon: require("../assets/audio-waves.png"),
       iconDark: require("../assets/dark/audio-waves.png"),
@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
   },
   about: {
     fontSize: 16,
-    fontFamily: "Avenir",
+    fontFamily: "baloo2",
     color: colors.primary,
     width: 100,
     height: 40,
@@ -227,8 +227,7 @@ const styles = StyleSheet.create({
   },
   logoText: {
     fontSize: 67,
-    fontFamily: "Futura",
-    fontWeight: "900",
+    fontFamily: "futura",
     lineHeight: 93
   },
 

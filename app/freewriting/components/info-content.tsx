@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { Dimensions, Linking, Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Dimensions, Linking, Pressable, StyleSheet, Text, View } from "react-native";
 
 import Icon from "react-native-vector-icons/Entypo";
 import { colors } from "../../config/colors";
@@ -168,12 +168,6 @@ const InfoContent = (props) => {
   return (
     <>
       <View style={styles.container}>
-        <View style={styles.header}>
-          <Text style={styles.title}>Introduction</Text>
-          <TouchableOpacity onPress={props.handleClose}>
-            <View style={styles.exit}><Icon style={styles.exitIcon} size={28} name="cross"></Icon></View>
-          </TouchableOpacity>
-        </View>
         <Text style={styles.tip}><Text style={styles.tipNote}>TIP&nbsp;&nbsp;</Text>Double tap the page to clear it</Text>
         <View style={styles.contentContainer}>
           <ScrollView

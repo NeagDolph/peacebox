@@ -75,7 +75,8 @@ const PatternModal = ({ route, navigation }) => {
         <PauseModal hideEditModal={hideEditModal} visible={editModalVisible} patternData={patternData} />
       </Provider>
     </>
-  );
+  )
+    ;
 };
 
 const styles = StyleSheet.create({

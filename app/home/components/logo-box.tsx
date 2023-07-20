@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
     width: Dimensions.get("window").width,
     height: 100,
     position: "absolute",
-    backgroundColor: colors.black,
+    backgroundColor: colors.primary,
     zIndex: 10,
     top: 0,
     left: 0
@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
   logoText: {
     fontSize: 67,
     fontFamily: "futura",
-    color: "black"
+    color: colors.black
   },
   peace: {
     color: colors.black

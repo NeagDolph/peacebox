@@ -7,7 +7,7 @@ import PageHeader from "../../components/header";
 import { Button, PaperProvider, Surface } from "react-native-paper";
 import { colors } from "../../config/colors";
 import SegmentedControl from "@react-native-segmented-control/segmented-control";
-import NumberPicker from "../components/numberpicker";
+import NumberPicker from "../components/numberPicker";
 import SettingsModal from "../components/settings-modal";
 import RenderSequence from "./components/render-sequence";
 import haptic from "../../helpers/haptic";
@@ -62,19 +62,19 @@ const PatternUse = ({ route, navigation }) => {
         <RenderSequence sequence={patternData.sequence} backgroundColor={colors.background4}/>
         <View style={styles.timingContainer}>
           <NumberPicker
-            value={patternData.totalDuration}
-            maxNumber={99}
-            setSequenceAmount={setTotalDurationStore}
-            style={{width: 45}}/>
+            max={99}
+            selectedIndex={patternData.totalDuration}
+            onValueChange={setTotalDurationStore}
+          />
           <SegmentedControl
             style={styles.timingControl}
-            values={['Minutes', "Cycles"]}
+            values={["Minutes", "Cycles"]}
             appearance={colors.dark ? "dark" : "light"}
             selectedIndex={patternData.durationType === "Minutes" ? 0 : 1}
             onValueChange={setDurationTypeStore}
-            fontStyle={{fontSize: 16, fontFamily: "Avenir Next"}}
+            fontStyle={{ fontSize: 16, fontFamily: "Avenir Next" }}
 
-            activeFontStyle={{fontWeight: "bold", fontSize: 16, fontFamily: "Avenir-Heavy"}}/>
+            activeFontStyle={{ fontWeight: "bold", fontSize: 16, fontFamily: "Avenir-Heavy" }} />
         </View>
         <View style={styles.settingsContainer} pointerEvents={running ? "none" : "auto"}>
           <Button

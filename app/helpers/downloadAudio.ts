@@ -1,6 +1,6 @@
 import RNBackgroundDownloader, { completeHandler, download } from "@kesha-antonov/react-native-background-downloader";
 import RNFS from "react-native-fs";
-import { RootState, store } from "../store/store";
+import { store } from "../store/store";
 import {
   deleteTape,
   queueDownload,
@@ -14,17 +14,15 @@ import {
 import _ from "lodash";
 import { CDN_ENDPOINT } from "./constants";
 import { Platform } from "react-native";
-import { useSelector } from "react-redux";
 import { PersistPartial } from "redux-persist/es/persistReducer";
 
 export const hydrateDownloadData = sets => {
-  const tapeData: PersistPartial = store.getState();
+  const tapeData = store.getState().tapes;
 
   const totalData = _.merge(
     constructDownloadFrame(sets),
 
-    // @ts-ignore
-    tapeData.tapes.downloadData
+    tapeData.downloadData
   );
 
   store.dispatch(setTapeData(totalData));
@@ -60,7 +58,7 @@ const isDownloaded = async ({set, tape, part, localPath}) => {
 };
 
 const isDownloading = async ({set, tape, part}) => {
-  const tapeData = useSelector((state: RootState) => state.tapes);
+  const tapeData = store.getState().tapes;
 
   const downloading =
     tapeData.downloadData[set][tape].downloads[part].downloadState;
@@ -81,7 +79,7 @@ export const cancelDownload = async ({set, tape}) => {
 };
 
 export const deleteAudio = async ({set, tape}) => {
-  const tapeData = useSelector((state: RootState) => state.tapes);
+  const tapeData = store.getState().tapes;
 
   const downloads = tapeData.downloadData[set][tape].downloads;
 
@@ -124,13 +122,14 @@ export const downloadSingleTape = async (set, file) => {
 };
 
 export const downloadAudioSet = async set => {
-  const tapeData = useSelector((state: RootState) => state.tapes);
+  const tapeData = store.getState().tapes;
 
   for (let file of set.files) {
     // await downloadAudioTapeWrapper(set, file.episode, taskReturn);
 
     const currentDownloads =
       tapeData.downloadData[set.name][file.episode].downloads;
+
     const partCount = set.files[file.episode].parts.length;
 
     if (
@@ -163,7 +162,7 @@ export const processDownloadQ = () => {
   RNBackgroundDownloader.checkForExistingDownloads().then(downloadsList => {
     if (downloadsList.length >= 2) return;
 
-    const tapeData = useSelector((state: RootState) => state.tapes);
+    const tapeData = store.getState().tapes;
 
     const currentQTasks = tapeData.queue.slice(0, 2); // Get first two queue items
 
@@ -228,9 +227,7 @@ export const downloadAudioTape = async (set, tape, part = undefined) => {
     if (!alreadyDownloaded && !currentlyDownloading) {
       const jobId = `${set.name}/${tape}/${partIdx}`;
 
-      const downloadPath = encodeURI(
-        `${CDN_ENDPOINT}/${set.author}/${set.name}/${fileName}`
-      );
+      const downloadPath = encodeURI(`${CDN_ENDPOINT}/${set.author}/${set.name}/${fileName}`);
 
       store.dispatch(
         setDownload({
@@ -262,14 +259,14 @@ export const downloadAudioTape = async (set, tape, part = undefined) => {
           );
         })
         .progress(percent => {
-          // console.log(fileName, `Progress at ${percent * 100}`);
+          console.log(fileName, `Progress at ${percent * 100}`);
           store.dispatch(
             setProgress({
               set: set.name,
               tape,
               part: partIdx,
-              progress: percent * 100,
-            }),
+              progress: percent * 100
+            })
           );
         })
         .error(error => {
@@ -292,8 +289,6 @@ export const downloadAudioTape = async (set, tape, part = undefined) => {
           downloadState: 3,
         }),
       );
-
-      continue;
     }
   }
 

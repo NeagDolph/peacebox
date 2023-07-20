@@ -7,7 +7,10 @@ export const tapesSlice = createSlice({
     lastViewed: {},
     favorites: [],
     audioData: {},
-    currentlyPlaying: {},
+    currentlyPlaying: {
+      part: 0,
+      totalParts: 0
+    },
     downloadData: {}
   },
   reducers: {

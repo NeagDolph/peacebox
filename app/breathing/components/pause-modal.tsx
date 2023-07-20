@@ -3,7 +3,7 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Button, Divider, Modal, Portal } from "react-native-paper";
 import { colors } from "../../config/colors";
-import NumberPicker from "./numberpicker";
+import NumberPicker from "./numberPicker";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { setSetting } from "../../store/features/breathingSlice";
@@ -29,13 +29,12 @@ export const PauseSettings = props => {
       <Divider/>
       <View style={styles.pauseSetTitle}>
         <Text style={styles.settingTitle}>Pause for</Text>
+
         <NumberPicker
-          maxNumber={99}
-          value={props.patternData.settings.pauseDuration || 5}
           includeZero={false}
-          index={0}
-          setSequenceAmount={setPauseDuration}
-          style={{marginHorizontal: 8}}
+          max={99}
+          selectedIndex={props.patternData.settings.pauseDuration || 5}
+          onValueChange={setPauseDuration}
         />
         <Text style={styles.settingTitle}>{props.patternData.settings.pauseDuration > 1 ? "Seconds" : "Second"}</Text>
       </View>
@@ -43,12 +42,10 @@ export const PauseSettings = props => {
       <View style={styles.pauseSetTitle}>
         <Text style={styles.settingTitle}>Pause Every</Text>
         <NumberPicker
-          maxNumber={99}
-          value={props.patternData.settings.pauseFrequency || 1}
           includeZero={false}
-          index={0}
-          setSequenceAmount={setPauseFrequency}
-          style={{marginHorizontal: 8}}
+          max={99}
+          selectedIndex={props.patternData.settings.pauseFrequency || 1}
+          onValueChange={setPauseFrequency}
         />
         <Text style={styles.settingTitle}>{props.patternData.settings.pauseFrequency > 1 ? "Cycles" : "Cycle"}</Text>
       </View>

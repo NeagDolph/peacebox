@@ -43,7 +43,8 @@ const AudioPlayer = props => {
     if (event.type === Event.PlaybackState) {
       if (event.state === State.Paused || event.state === State.Stopped)
         setPaused(true);
-      else if (event.state === State.Playing) setPaused(false);
+      else if (event.state === State.Playing)
+        setPaused(false);
 
       // if (event.state === State.Stopped) TrackPlayer.reset();
     }
@@ -87,7 +88,7 @@ const AudioPlayer = props => {
 
     if (msSinceStart < 1000 || msHalfTape < 1000) return;
 
-    if (msSinceStart > msHalfTape) {
+    if ((progress.position * 1000) > msHalfTape) {
       if (!localViewed) {
         confirmView();
         setLocalViewed(true);
@@ -118,9 +119,9 @@ const AudioPlayer = props => {
   };
 
   const setTime = time => {
-    if (Math.abs(time - currentTime) <= 1) {
-      return;
-    }
+    // if (Math.abs(time - currentTime) <= 1) {
+    //   return;
+    // }
 
     if (!paused)
       TrackPlayer.play().then(() => {

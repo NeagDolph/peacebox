@@ -131,7 +131,7 @@ const PatternTime = ({ route, navigation }) => {
 
       <TimeControls
         patternCompletion={3}
-        completionText={"hi"}
+        completionText={completionText}
         togglePause={togglePause}
         paused={paused}
       />

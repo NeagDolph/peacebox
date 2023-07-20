@@ -3,6 +3,7 @@ import { Platform, StyleProp, View, ViewStyle } from "react-native";
 import { G, Path, Svg } from "react-native-svg";
 import Animated, { SharedValue, useAnimatedProps, useAnimatedStyle } from "react-native-reanimated";
 import { colors } from "../../../config/colors";
+import { Linecap } from "react-native-svg/lib/typescript/lib/extract/types";
 
 const AnimatedG = Animated.createAnimatedComponent(G);
 const AnimatedPath = Animated.createAnimatedComponent(Path);
@@ -55,11 +56,12 @@ const AnimatedArc = (props) => {
       ? ""
       : `M ${start.x} ${start.y} A ${innerRadius} ${innerRadius} 0 ${largeArcFlag} 0 ${end.x} ${end.y}`;
 
+    const lin: Linecap = "round";
+
     return {
       d,
       stroke: props.color,
       strokeWidth: width,
-      strokeLinecap: lineCap,
       fill: "transparent"
     };
   });
@@ -79,7 +81,7 @@ const AnimatedArc = (props) => {
   return (
     <View>
       <Svg width={diameter} height={diameter} viewBox={`${-pivot} ${-pivot} ${diameter} ${diameter}`}>
-        <AnimatedG animatedProps={animatedProps}>
+        <AnimatedG style={animatedStyle}>
           <AnimatedPath animatedProps={animatedProps} transform={`translate(${-pivot} ${-pivot})`} />
         </AnimatedG>
       </Svg>

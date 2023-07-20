@@ -82,7 +82,7 @@ const WritingCard = ({
     if (colors.dark) {
       return fullscreen
         ? require("../../assets/dark/long_paper.png")
-        : require("../../assets/dark/paper.png");
+        : require("../../assets/dark/long_paper.png");
     } else {
       return fullscreen
         ? require("../../assets/long_paper.png")
@@ -92,7 +92,7 @@ const WritingCard = ({
 
   const pagesStyle = useAnimatedStyle(() => {
     return {
-      transform: [{ translateY: fullscreen ? -keyboardHeight.value * 1.01 : 0 }]
+      transform: [{ translateY: fullscreen ? -keyboardHeight.value * 1.01 : Math.min(-keyboardHeight.value + 220, 0) }]
     };
   }, [fullscreen]);
 
@@ -100,7 +100,7 @@ const WritingCard = ({
   const renderPageCount = () => {
     const fullscreenStyle = (fs) => {
       const fullscreenStyling = {
-        top: Dimensions.get("window").height - 148,
+        top: Dimensions.get("window").height - 150,
         right: 15
       };
 
@@ -145,7 +145,7 @@ const WritingCard = ({
           onLayout={cardLayout}
           style={[
             styles.imageStyle,
-            { height: fullscreen ? "70%" : "142%", width: "100%", borderRadius: fullscreen ? 0 : 8 }
+            { height: fullscreen ? "67%" : "140%", width: "100%", borderRadius: fullscreen ? 0 : 8 }
           ]}
           source={calcImageSource()}
           resizeMode={Platform.OS == "ios" ? FastImage.resizeMode.cover : FastImage.resizeMode.stretch}

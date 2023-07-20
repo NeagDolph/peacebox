@@ -1,0 +1,598 @@
+[
+  {
+    "name": "Deep Relaxation",
+    "description": "Tapes for Deep Relaxation",
+    "icon": "#020100",
+    "files": [
+      {
+        "name": "Relieving Tension",
+        "episode": 0,
+        "parts": [
+          {
+            "type": "listen",
+            "time": "13:13"
+          },
+          {
+            "type": "sleep",
+            "time": "10:29"
+          }
+        ]
+      },
+      {
+        "name": "Improving Self-image",
+        "episode": 1,
+        "parts": [
+          {
+            "type": "listen",
+            "time": "15:54"
+          },
+          {
+            "type": "sleep",
+            "time": "12:38"
+          }
+        ]
+      },
+      {
+        "name": "Overcoming Negativism",
+        "episode": 2,
+        "parts": [
+          {
+            "type": "listen",
+            "time": "14:20"
+          },
+          {
+            "type": "sleep",
+            "time": "10:20"
+          }
+        ]
+      },
+      {
+        "name": "Developing Self-confidence",
+        "episode": 3,
+        "parts": [
+          {
+            "type": "listen",
+            "time": "14:07"
+          },
+          {
+            "type": "sleep",
+            "time": "11:21"
+          }
+        ]
+      },
+      {
+        "name": "Overcoming Fears",
+        "episode": 4,
+        "parts": [
+          {
+            "type": "listen",
+            "time": "16:21"
+          },
+          {
+            "type": "sleep",
+            "time": "09:37"
+          }
+        ]
+      },
+      {
+        "name": "Accepting Happiness",
+        "episode": 5,
+        "parts": [
+          {
+            "type": "listen",
+            "time": "15:42"
+          },
+          {
+            "type": "sleep",
+            "time": "10:09"
+          }
+        ]
+      }
+    ],
+    "author": "RLJ"
+  },
+  {
+    "name": "Healing Childhood Past",
+    "description": "Tapes for Healing Childhood Past",
+    "icon": "#48A9A6",
+    "files": [
+      {
+        "name": "Introduction",
+        "episode": 0,
+        "parts": [
+          {
+            "type": "sleep",
+            "time": "29:53"
+          }
+        ]
+      },
+      {
+        "name": "Tracing Memories",
+        "episode": 1,
+        "parts": [
+          {
+            "type": "listen",
+            "time": "28:05"
+          },
+          {
+            "type": "sleep",
+            "time": "30:00"
+          }
+        ]
+      },
+      {
+        "name": "Negative Memories",
+        "episode": 2,
+        "parts": [
+          {
+            "type": "listen",
+            "time": "29:13"
+          },
+          {
+            "type": "sleep",
+            "time": "29:15"
+          }
+        ]
+      },
+      {
+        "name": "Negative Mind",
+        "episode": 3,
+        "parts": [
+          {
+            "type": "listen",
+            "time": "29:59"
+          },
+          {
+            "type": "sleep",
+            "time": "29:44"
+          }
+        ]
+      },
+      {
+        "name": "Self-sabotage Villain",
+        "episode": 4,
+        "parts": [
+          {
+            "type": "listen",
+            "time": "29:49"
+          },
+          {
+            "type": "sleep",
+            "time": "29:50"
+          }
+        ]
+      },
+      {
+        "name": "Inner Judge",
+        "episode": 5,
+        "parts": [
+          {
+            "type": "listen",
+            "time": "30:07"
+          },
+          {
+            "type": "sleep",
+            "time": "28:36"
+          }
+        ]
+      }
+    ],
+    "author": "RLJ"
+  },
+  {
+    "name": "Healing Emotional Hurts",
+    "description": "Tapes for Healing Emotional Hurts",
+    "icon": "#F0544F",
+    "files": [
+      {
+        "name": "Introduction",
+        "episode": 0,
+        "parts": [
+          {
+            "type": "listen",
+            "time": "10:06"
+          }
+        ]
+      },
+      {
+        "name": "Healing Emotional Wounds",
+        "episode": 1,
+        "parts": [
+          {
+            "type": "listen",
+            "time": "32:35"
+          }
+        ]
+      },
+      {
+        "name": "Flushing Away Negative Memories",
+        "episode": 2,
+        "parts": [
+          {
+            "type": "listen",
+            "time": "22:39"
+          }
+        ]
+      },
+      {
+        "name": "Cooling Anger",
+        "episode": 3,
+        "parts": [
+          {
+            "type": "listen",
+            "time": "34:33"
+          }
+        ]
+      },
+      {
+        "name": "Conquering Fear",
+        "episode": 4,
+        "parts": [
+          {
+            "type": "listen",
+            "time": "37:39"
+          }
+        ]
+      },
+      {
+        "name": "Turning Anxiety Into Empowerment",
+        "episode": 5,
+        "parts": [
+          {
+            "type": "listen",
+            "time": "30:25"
+          }
+        ]
+      }
+    ],
+    "author": "RLJ"
+  },
+  {
+    "name": "Healing The Recent Past",
+    "description": "Tapes for Healing The Recent Past",
+    "icon": "#E9D985",
+    "files": [
+      {
+        "name": "Introduction",
+        "episode": 0,
+        "parts": [
+          {
+            "type": "sleep",
+            "time": "27:44"
+          }
+        ]
+      },
+      {
+        "name": "Healing The Shame",
+        "episode": 1,
+        "parts": [
+          {
+            "type": "listen",
+            "time": "29:28"
+          },
+          {
+            "type": "sleep",
+            "time": "30:26"
+          }
+        ]
+      },
+      {
+        "name": "Forgiving Self And Others",
+        "episode": 2,
+        "parts": [
+          {
+            "type": "listen",
+            "time": "30:43"
+          },
+          {
+            "type": "sleep",
+            "time": "29:30"
+          }
+        ]
+      },
+      {
+        "name": "Healing Memories Of Trauma",
+        "episode": 3,
+        "parts": [
+          {
+            "type": "listen",
+            "time": "30:37"
+          },
+          {
+            "type": "sleep",
+            "time": "30:39"
+          }
+        ]
+      }
+    ],
+    "author": "RLJ"
+  },
+  {
+    "name": "Healing Your Genetic Past",
+    "description": "Tapes for Healing Your Genetic Past",
+    "icon": "#8B80F9",
+    "files": [
+      {
+        "name": "Introduction",
+        "episode": 0,
+        "parts": [
+          {
+            "type": "sleep",
+            "time": "30:40"
+          }
+        ]
+      },
+      {
+        "name": "Dna Archives",
+        "episode": 1,
+        "parts": [
+          {
+            "type": "listen",
+            "time": "30:43"
+          },
+          {
+            "type": "sleep",
+            "time": "30:45"
+          }
+        ]
+      },
+      {
+        "name": "The Library Of Time",
+        "episode": 2,
+        "parts": [
+          {
+            "type": "listen",
+            "time": "30:28"
+          },
+          {
+            "type": "sleep",
+            "time": "28:37"
+          }
+        ]
+      },
+      {
+        "name": "Repealing The Ancient Laws",
+        "episode": 3,
+        "parts": [
+          {
+            "type": "listen",
+            "time": "30:20"
+          },
+          {
+            "type": "sleep",
+            "time": "30:52"
+          }
+        ]
+      },
+      {
+        "name": "Self-guidance System",
+        "episode": 4,
+        "parts": [
+          {
+            "type": "listen",
+            "time": "29:53"
+          },
+          {
+            "type": "sleep",
+            "time": "28:52"
+          }
+        ]
+      },
+      {
+        "name": "Self-fulfillment System",
+        "episode": 5,
+        "parts": [
+          {
+            "type": "listen",
+            "time": "29:32"
+          },
+          {
+            "type": "sleep",
+            "time": "29:50"
+          }
+        ]
+      }
+    ],
+    "author": "RLJ"
+  },
+  {
+    "name": "Reversing Depression",
+    "description": "Tapes for Reversing Depression",
+    "icon": "#439A86",
+    "files": [
+      {
+        "name": "Introduction",
+        "episode": 0,
+        "parts": [
+          {
+            "type": "listen",
+            "time": "18:49"
+          },
+          {
+            "type": "sleep",
+            "time": "19:33"
+          }
+        ]
+      },
+      {
+        "name": "Healing The Wounded Spirit",
+        "episode": 1,
+        "parts": [
+          {
+            "type": "sleep",
+            "time": "28:00"
+          }
+        ]
+      },
+      {
+        "name": "Finding The Power To Overcome Failure",
+        "episode": 2,
+        "parts": [
+          {
+            "type": "sleep",
+            "time": "26:27"
+          }
+        ]
+      },
+      {
+        "name": "Recreating Self Trust",
+        "episode": 3,
+        "parts": [
+          {
+            "type": "sleep",
+            "time": "27:00"
+          }
+        ]
+      },
+      {
+        "name": "Stabilizing Self-control",
+        "episode": 4,
+        "parts": [
+          {
+            "type": "sleep",
+            "time": "25:55"
+          }
+        ]
+      },
+      {
+        "name": "Harmonizing The Inner Balance Of Power",
+        "episode": 5,
+        "parts": [
+          {
+            "type": "sleep",
+            "time": "24:30"
+          }
+        ]
+      }
+    ],
+    "author": "RLJ"
+  },
+  {
+    "name": "The Biogram Healing System",
+    "description": "Tapes for The Biogram Healing System",
+    "icon": "#23C9FF",
+    "files": [
+      {
+        "name": "Introduction",
+        "episode": 0,
+        "parts": [
+          {
+            "type": "sleep",
+            "time": "10:06"
+          }
+        ]
+      },
+      {
+        "name": "Nerve And Muscle Rejuvenation",
+        "episode": 1,
+        "parts": [
+          {
+            "type": "sleep",
+            "time": "31:36"
+          }
+        ]
+      },
+      {
+        "name": "Hormone Balance",
+        "episode": 2,
+        "parts": [
+          {
+            "type": "sleep",
+            "time": "32:44"
+          }
+        ]
+      },
+      {
+        "name": "Healthy Bones",
+        "episode": 3,
+        "parts": [
+          {
+            "type": "sleep",
+            "time": "32:50"
+          }
+        ]
+      },
+      {
+        "name": "Rejuvenating The Circulatory System",
+        "episode": 4,
+        "parts": [
+          {
+            "type": "sleep",
+            "time": "36:30"
+          }
+        ]
+      },
+      {
+        "name": "Taking Command Of Digestion",
+        "episode": 5,
+        "parts": [
+          {
+            "type": "sleep",
+            "time": "30:24"
+          }
+        ]
+      }
+    ],
+    "author": "RLJ"
+  },
+  {
+    "name": "Therapeutic Magic of Dreams",
+    "description": "Tapes for Therapeutic Magic of Dreams",
+    "icon": "#C884A6",
+    "files": [
+      {
+        "name": "Instruction",
+        "episode": 0,
+        "parts": [
+          {
+            "type": "sleep",
+            "time": "27:48"
+          }
+        ]
+      },
+      {
+        "name": "How To Program Your Dreams",
+        "episode": 1,
+        "parts": [
+          {
+            "type": "listen",
+            "time": "26:16"
+          },
+          {
+            "type": "sleep",
+            "time": "25:31"
+          }
+        ]
+      },
+      {
+        "name": "Learning To Interpret Your Dreams",
+        "episode": 2,
+        "parts": [
+          {
+            "type": "listen",
+            "time": "26:55"
+          },
+          {
+            "type": "sleep",
+            "time": "28:06"
+          }
+        ]
+      },
+      {
+        "name": "Finding Creative Solutions",
+        "episode": 3,
+        "parts": [
+          {
+            "type": "listen",
+            "time": "29:06"
+          },
+          {
+            "type": "sleep",
+            "time": "30:57"
+          }
+        ]
+      }
+    ],
+    "author": "RLJ"
+  }
+]

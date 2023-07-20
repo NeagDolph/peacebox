@@ -1,11 +1,10 @@
-import React, {useEffect} from 'react';
+import React from "react";
 
-import {Dimensions, Pressable, StyleSheet, Text, TouchableWithoutFeedback, View} from 'react-native';
-import {useSelector} from "react-redux";
+import { Dimensions, Pressable, StyleSheet, Text, View } from "react-native";
 import Icon from "react-native-vector-icons/Entypo";
-import Animated, {Extrapolation, interpolate, useAnimatedStyle} from "react-native-reanimated";
-import {colors} from "../../config/colors";
-import PropTypes from 'prop-types'
+import Animated, { interpolate, useAnimatedStyle } from "react-native-reanimated";
+import { colors } from "../../config/colors";
+import PropTypes from "prop-types";
 
 
 const StartScreen = (props) => {
@@ -14,8 +13,8 @@ const StartScreen = (props) => {
 
     return {
       opacity
-    }
-  })
+    };
+  });
 
   return (<View style={styles.container}>
       <Animated.View style={[styles.iconContainer, chevronStyles]}>
@@ -39,6 +38,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     color: colors.text,
     textAlign: "center",
+    fontFamily: "Baloo2",
+    lineHeight: 18,
     width: 350
 
   },

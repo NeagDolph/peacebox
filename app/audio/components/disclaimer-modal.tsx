@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Modal, Portal, Provider, Text } from "react-native-paper";
+import { Modal, Portal, Text } from "react-native-paper";
 import { Pressable, StyleSheet } from "react-native";
 import { colors } from "../../config/colors";
 import PropTypes from "prop-types";
@@ -10,7 +10,6 @@ const DisclaimerModal = (props) => {
   const containerStyle = {backgroundColor: 'white', padding: 20};
 
   return (
-    <Provider>
       <Portal>
         <Modal visible={props.disclaimerVisible} onDismiss={hideModal} contentContainerStyle={styles.disclaimer}>
           <Text style={styles.disclaimerTitle}>Disclaimer</Text>
@@ -31,7 +30,6 @@ const DisclaimerModal = (props) => {
           </Pressable>
         </Modal>
       </Portal>
-    </Provider>
   );
 };
 

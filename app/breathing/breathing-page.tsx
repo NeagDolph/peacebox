@@ -23,7 +23,7 @@ const modalContent = require("./info.json");
 
 const BreathingPage = (props) => {
   const patterns = useSelector(state => state.breathing.patterns);
-  const settings = useSelector((state) => state.settings.breathing)
+  const settings = useSelector((state) => state.settings.breathing);
 
   const tooltip = useTooltip();
 
@@ -37,26 +37,26 @@ const BreathingPage = (props) => {
   const [showTutorialPrompt, setShowTutorialPrompt] = useState(false);
   const editMargin = useRef(new Animated.Value(6)).current;
   const buttonScaleOpacity = Animated.add(Animated.divide(editMargin, -6), 1);
-  const buttonScaleHeight = Animated.multiply(buttonScaleOpacity, 50)
-  const [buttonVisible, setButtonVisible] = useState(false)
+  const buttonScaleHeight = Animated.multiply(buttonScaleOpacity, 50);
+  const [buttonVisible, setButtonVisible] = useState(false);
 
   const [modalVisible, setModalVisible] = useState(false);
 
-  const panRef = useRef(null)
-  const scrollRef = useRef(null)
-  const itemsScrollRef = useRef(null)
+  const panRef = useRef(null);
+  const scrollRef = useRef(null);
+  const itemsScrollRef = useRef(null);
 
   const listenScrollY = useSelector(state => state.breathing.editScroll);
 
   useEffect(() => {
-    if (breathingIndex === 5) itemsScrollRef.current.scrollTo({y: listenScrollY, animated: true})
-  }, [listenScrollY])
+    if (breathingIndex === 5) itemsScrollRef.current.scrollTo({ y: listenScrollY, animated: true });
+  }, [listenScrollY]);
 
 
   const closeTutorialPrompt = () => {
-    setShowTutorialPrompt(false)
-    dispatch(setUsed("breathing"))
-  }
+    setShowTutorialPrompt(false);
+    dispatch(setUsed("breathing"));
+  };
 
   useEffect(() => {
 
@@ -64,23 +64,23 @@ const BreathingPage = (props) => {
 
 
     if (!settings.used) {
-      setShowTutorialPrompt(true)
+      setShowTutorialPrompt(true);
     }
 
     // setTimeout(startGuide, 600);
-  }, [])
+  }, []);
 
   useEffect(() => {
     if (completion === 5) {
-      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut) //Tutorial new pattern animation
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut); //Tutorial new pattern animation
     }
-  }, [completion])
+  }, [completion]);
 
 
   const startGuide = () => {
-    dispatch(setEditScroll(0))
-    dispatch(startTutorial("breathing"))
-  }
+    dispatch(setEditScroll(0));
+    dispatch(startTutorial("breathing"));
+  };
 
 
   const confirmTutorial = () => {
@@ -88,16 +88,16 @@ const BreathingPage = (props) => {
       "Start tutorial?",
       `Are you sure you want to start this tutorial?`,
       [
-        {text: "Nevermind"},
+        { text: "Nevermind" },
         {
           text: "Confirm", onPress: () => {
             props.navigation.goBack();
-            setTimeout(startGuide, 500)
+            setTimeout(startGuide, 500);
           }
-        },
+        }
       ]
     );
-  }
+  };
 
 
   const newPattern = () => {
@@ -117,33 +117,33 @@ const BreathingPage = (props) => {
         pauseDuration: 5,
         pauseFrequency: 1
       }
-    }
+    };
 
     dispatch(addPattern(patternObj));
 
     dispatch(closedTutorial("breathing"));
 
     setEditVisible(true);
-    editPattern(newId, true)
+    editPattern(newId, true);
 
-      setTimeout(() => {
-        dispatch(guideNext("breathing"))
-      }, 1000);
-  }
+    setTimeout(() => {
+      dispatch(guideNext("breathing"));
+    }, 1000);
+  };
 
   const editPattern = (id, newPattern = false) => {
-    props.navigation.navigate("Edit", {id, newPattern})
+    props.navigation.navigate("Edit", { id, newPattern });
   };
 
   const usePattern = (id) => {
-    setEditMode(false)
-    props.navigation.navigate("Use", {id})
+    setEditMode(false);
+    props.navigation.navigate("Use", { id });
   };
 
   const renderPatterns = () => {
     let patternValues = Object.values(patterns);
 
-    if (breathingIndex === 5 && createdPattern) patternValues = patternValues.sort((a,b) => a.id === createdPattern ? -1 : 1)
+    if (breathingIndex === 5 && createdPattern) patternValues = patternValues.sort((a, b) => a.id === createdPattern ? -1 : 1);
 
     return patternValues.map(el => {
       const item = <PatternItem
@@ -157,17 +157,17 @@ const BreathingPage = (props) => {
         buttonVisible={buttonVisible}
         editMode={editMode}
         scrollRef={scrollRef}
-      />
+      />;
 
       return item;
     });
-  }
+  };
 
   const deletePattern = (id) => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     success();
-    dispatch(removePattern(id))
-  }
+    dispatch(removePattern(id));
+  };
 
 
   return (
@@ -183,15 +183,15 @@ const BreathingPage = (props) => {
           pageTitle: "Breathing Settings",
           infoIcon: true,
           infoCallback: confirmTutorial
-        })}/>
+        })} />
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.headerText}>Your Patterns</Text>
           {tooltip(<TouchableOpacity onPress={newPattern}>
-              <View style={styles.newButton}>
-                <Icon name="plus" size={23} color={colors.accent}/>
-              </View>
-            </TouchableOpacity>, 0)}
+            <View style={styles.newButton}>
+              <Icon name="plus" size={23} color={colors.accent} />
+            </View>
+          </TouchableOpacity>, 0)}
         </View>
         <FadeGradient top={0.1} bottom={0}>
           <NativeViewGestureHandler ref={scrollRef} simultaneousHandlers={panRef}>
@@ -203,7 +203,9 @@ const BreathingPage = (props) => {
           </NativeViewGestureHandler>
         </FadeGradient>
       </View>
-      <PromptOptional visible={showTutorialPrompt} callback={startGuide} close={closeTutorialPrompt} title={"Start Tutorial?"} subtitle={"Would you like a tutorial on how to use the breathing section?"}/>
+      <PromptOptional visible={showTutorialPrompt} callback={startGuide} close={closeTutorialPrompt}
+                      title={"Start Tutorial?"}
+                      subtitle={"Would you like a tutorial on how to use the breathing section?"} />
     </>
   );
 };
@@ -232,7 +234,7 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     // height: Dimensions.get("window").height - 100,
-    position: "relative",
+    position: "relative"
     // marginBottom: 90,
   },
   patternList: {
@@ -248,14 +250,14 @@ const styles = StyleSheet.create({
   },
   container: {
     width: "100%",
-    height: "100%",
+    height: "100%"
     // marginTop: 15
   },
 
   header: {
     width: "100%",
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     paddingHorizontal: 28,
     paddingTop: 15,
     paddingBottom: 8,
@@ -286,6 +288,6 @@ const styles = StyleSheet.create({
     marginTop: 2
 
   }
-})
+});
 
 export default BreathingPage;

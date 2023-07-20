@@ -6,11 +6,11 @@ import { Button, Divider, Surface } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { colors } from "../../../config/colors";
 import { removePattern, setName, setSequence } from "../../../store/features/breathingSlice";
-import NumberPicker from "../../components/numberpicker";
 import EditSettings from "../../components/edit-settings";
 import { useNavigation } from "@react-navigation/native";
 import PropTypes from "prop-types";
 import { RootState } from "../../../store/store";
+import NumberPicker from "../../components/numberPicker";
 
 
 const EditCard = (props) => {
@@ -52,10 +52,16 @@ const EditCard = (props) => {
     const patternTitles = ["Inhale", "Hold", "Exhale", "Hold"]
 
     return patternData.sequence.map((el, i) => (
-      <View key={i} style={styles.patternItem}>
+      <View style={styles.patternItem}>
         <Text style={styles.patternTitle}>{patternTitles[i]}</Text>
-        <NumberPicker scrollView={true} maxNumber={12} listKey={i} includeZero={true} value={el} index={i}
-                      setSequenceAmount={setSequenceAmount}/>
+        {/*<NumberPicker scrollView={true} maxNumber={12} listKey={i} includeZero={true} value={el} index={i}*/}
+        {/*              setSequenceAmount={setSequenceAmount}/>*/}
+
+        <NumberPicker
+          max={99}
+          selectedIndex={patternData.sequence[i]}
+          onValueChange={(data) => setSequenceAmount(data, i)}
+        />
       </View>
     ))
   }
@@ -79,7 +85,7 @@ const EditCard = (props) => {
 
   const renderButton = () => {
     return props.newPattern || <View style={styles.deleteContainer}>
-      <Button style={styles.deleteButton} mode="contained" compact color={colors.red} onPress={confirmDeletePattern}>
+      <Button style={styles.deleteButton} mode="outlined" compact onPress={confirmDeletePattern}>
         <Icon name="trash-can" size={23} style={{ width: "auto" }} color="#FFF" />
         {/*<Icon name="trash-can" size={30} color="#FFF"/>*/}
       </Button>
@@ -94,6 +100,7 @@ const EditCard = (props) => {
               placeholder="Pattern Name..."
               style={styles.title}
               value={patternTitle}
+              placeholderTextColor={colors.primary}
               onChangeText={setPatternTitle}
               blurOnSubmit={true}
               clearButtonMode="always"
@@ -119,7 +126,8 @@ EditCard.propTypes = {
   id: PropTypes.string,
   patternData: PropTypes.any,
   showEditModal: PropTypes.func,
-  newPattern: PropTypes.bool
+  newPattern: PropTypes.bool,
+  pickerHandlers: PropTypes.array
 }
 
 const styles = StyleSheet.create({
@@ -181,7 +189,12 @@ const styles = StyleSheet.create({
     fontWeight: "200",
     fontStyle: "italic",
     width: "100%",
-    fontFamily: "Avenir"
+    fontFamily: "Avenir",
+    height: 40,
+    // margin: 12,
+    borderWidth: 1,
+    borderColor: "transparent",
+    padding: 10
   },
   card: {
     marginVertical: 18,
