@@ -3,7 +3,7 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Button, Divider, Modal, Portal } from "react-native-paper";
 import { colors } from "../../config/colors";
-import NumberPicker from "./numberPicker";
+import NumberPicker from "./number-picker";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { setSetting } from "../../store/features/breathingSlice";

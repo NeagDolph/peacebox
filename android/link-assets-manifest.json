@@ -1,0 +1,29 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "app/assets/fonts/Baloo2.ttf",
+      "sha1": "96842a3a3e1094bdc42a843a1872070b0330ee2a"
+    },
+    {
+      "path": "app/assets/fonts/Entypo.ttf",
+      "sha1": "47870a67dd50871765f799caa97da87219ee47c5"
+    },
+    {
+      "path": "app/assets/fonts/Futura.ttf",
+      "sha1": "c410d6b004896b7aa8f2b745e58dc91083c36850"
+    },
+    {
+      "path": "app/assets/fonts/Ionicons.ttf",
+      "sha1": "b5281fbfa43129abc3e412dd938cfcf0b77de999"
+    },
+    {
+      "path": "app/assets/fonts/MaterialCommunityIcons.ttf",
+      "sha1": "80a431d6d49861d655009e9491409282d2559591"
+    },
+    {
+      "path": "app/assets/fonts/Roboto.ttf",
+      "sha1": "84d102488738b0ebbc7a5087973effbd54c95bd5"
+    }
+  ]
+}

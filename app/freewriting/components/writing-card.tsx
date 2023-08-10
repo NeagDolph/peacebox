@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { memo, useCallback, useEffect, useRef, useState } from "react";
 import { Dimensions, Platform, StyleSheet, Text, TextInput, View } from "react-native";
 import FastImage from "react-native-fast-image";
 import { State, TapGestureHandler } from "react-native-gesture-handler";
@@ -23,33 +23,49 @@ const WritingCard = ({
                        settings,
                        lineHeight,
                        setLineHeight,
+                       setClearFunction,
                        setCurrentText
 
                      }) => {
+
   const [pageHeight, setPageHeight] = useState(0);
 
   const keyboardHeight = useKeyboardHeight();
+
+  const [content, setContent] = useState("");
 
   const tapRef = useRef(null);
 
   const inputRef = useRef<TextInput>(null);
 
+  const clear = () => {
+    setContent("");
+  };
+
   useEffect(() => {
+    if (setClearFunction) {
+      setClearFunction(() => clear);
+    }
+
     if (inputRef.current && setInputRef) {
       setInputRef(inputRef.current);
     }
-  }, [inputRef]);
+  }, [setClearFunction]);
+
+
+  useEffect(() => {
+    if (setCurrentText) {
+      setCurrentText(content);
+    }
+  }, [content, setCurrentText]);
+
 
   const cardLayout = ({ nativeEvent: { layout } }) => {
     const aspectRatio = fullscreen ? 2.88284518 : 1.44142259; // Constant for paper image height/width
 
-    if (Platform.OS === "ios") {
-      const lineConstant = fullscreen ? 37.9059228 : 18.9209614; // Constant for number of lines in the paper image
+    const lineConstant = fullscreen ? 38 : 18.9209614 * 2; // Constant for number of lines in the paper image
 
-      if (setLineHeight) setLineHeight(layout.height / lineConstant); //For some reason setLineHeight is undefined when layout event runs on page deletion
-    } else {
-      if (setLineHeight) setLineHeight(fullscreen ? 35 : 28);
-    }
+    if (setLineHeight) setLineHeight(layout.height / lineConstant); //For some reason setLineHeight is undefined when layout event runs on page deletion
     setPageHeight(layout.width * aspectRatio);
   };
 
@@ -158,7 +174,7 @@ const WritingCard = ({
           ]}>
           <TextInput
             // style={styles.input}
-            style={[styles.input, { fontSize: fontSize() }]}
+            style={[styles.input, { fontSize: fullscreen ? 18 : 16, paddingTop: fullscreen ? 12 : 10 }]}
             placeholder={placeholder}
             allowFontScaling={true}
             placeholderTextColor="#8A897C"
@@ -167,16 +183,17 @@ const WritingCard = ({
             autoCapitalize="none"
             disableFullscreenUI={true}
             importantForAutofill="no"
-            onChangeText={setCurrentText}
+            onChangeText={setContent}
             onContentSizeChange={handleLayout}
             autoFocus={false}
             autoCorrect={false}
             keyboardType="default"
             editable={editable}
+            numberOfLines={38}
             selectionColor={colors.accent}
             ref={inputRef}
             contextMenuHidden={true}
-          />
+          ><Text style={[styles.inputText, { lineHeight: lineHeight }]}>{content}</Text></TextInput>
           <TapGestureHandler
             onHandlerStateChange={handleTap}
             ref={tapRef}
@@ -280,10 +297,19 @@ const styles = StyleSheet.create({
     lineHeight: 10,
     fontFamily: "Roboto",
     paddingLeft: "7%",
-    paddingTop: 5,
     color: colors.primary,
     paddingRight: 10,
     top: -5,
+    position: "relative"
+  },
+  inputText: {
+    fontFamily: "Roboto",
+    paddingLeft: "7%",
+    paddingTop: 8,
+    color: colors.primary,
+    marginTop: 8,
+    paddingRight: 10,
+    top: 15,
     position: "relative"
   },
   inputLine: {
@@ -292,4 +318,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default WritingCard;
+export default memo(WritingCard);

@@ -1,5 +1,12 @@
 <script>
-  import { BoxGeometry as BoxBufferGeometry, Color, MeshBasicMaterial, MeshPhongMaterial, PlaneGeometry } from "three";
+  import {
+    BoxGeometry as BoxBufferGeometry,
+    Color,
+    MeshBasicMaterial,
+    MeshPhongMaterial,
+    PlaneGeometry,
+    TextureLoader
+  } from "three";
   import {
     AmbientLight,
     Canvas,
@@ -8,12 +15,11 @@
     Line2,
     Mesh as MeshT,
     Object3DInstance,
+    OrbitControls,
     PerspectiveCamera,
     SpotLight,
     useTexture
   } from "threlte";
-
-  import OrbitControls from "../util/OrbitControls.svelte";
   import { spring, tweened } from "svelte/motion";
   import { cubicIn, linear } from "svelte/easing";
   import px from "../assets/logoCube/px.png";
@@ -24,8 +30,12 @@
   import nz from "../assets/logoCube/nz.png";
 
   import o_px from "../assets/logoCube_opposite/px_white.png";
+  import o_px_transparent from "../assets/logoCube_opposite/px.png";
   import o_px_upside from "../assets/logoCube_opposite/px_upside_white.png";
+  import o_px_upside_transparent from "../assets/logoCube_opposite/px_upside.png";
   import o_ny from "../assets/logoCube_opposite/ny.png";
+  import o_transparent from "../assets/logoCube_opposite/nx.png";
+
 
   import couch_texture from "../assets/couch/colormap.png";
   import couch_ao from "../assets/couch/aomap.png";
@@ -53,6 +63,7 @@
 
   let usingCamera = false, holding = false, hovering = false;
 
+  const SHOW_INSIDE = false;
 
   let handle, rotate, boxMesh, logoCamera;
 
@@ -65,7 +76,15 @@
 
   let tempNum = 0;
 
+
+  let couch_mat = new MeshBasicMaterial();
+
   onMount(() => {
+    // document.querySelector("canvas").removeAttribute("width");
+    // document.querySelector("canvas").removeAttribute("height");
+    document.querySelector("canvas").style.height = "inherit";
+    document.querySelector("canvas").style.width = "inherit";
+
     startPos = -pageY;
 
     setTimeout(() => {
@@ -89,7 +108,13 @@
 
 
   const texture = useTexture([pz, py, px, px_upside, ny, nz]);
-  const texture_opposite = useTexture([o_ny, o_ny, o_px, o_px_upside, o_ny, o_ny]);
+
+
+  const textureOppositeOpaque = useTexture([o_ny, o_ny, o_px, o_px_upside, o_ny, o_ny]);
+  const textureOppositeTransparent = useTexture([o_transparent, o_transparent, o_px_transparent, o_px_upside_transparent, o_transparent, o_transparent]);
+
+  const textureOpposite = SHOW_INSIDE ? textureOppositeTransparent : textureOppositeOpaque;
+
   let scale = spring(0.4, {
     // stiffness: 0.1,
     // damping: 2
@@ -125,14 +150,15 @@
   }));
 
   let faceMaterial = new MeshBasicMaterial({
-    map: texture_opposite[0],
+    map: textureOpposite[0],
     transparent: true
   });
 
   let faceGeometry = new PlaneGeometry(1, 1);
 
-  $: holdingMaterial = texture_opposite.map(el => new MeshPhongMaterial({
-    map: el
+  $: holdingMaterial = textureOpposite.map(el => new MeshPhongMaterial({
+    map: el,
+    transparent: SHOW_INSIDE
   }));
 
 
@@ -187,11 +213,41 @@
 
   let object, targetPos;
 
-  let showInside = false;
-
   let couchGltf, lampGltf, rugGltf, tableGltf, phoneGltf, tableMats, tableMaterial;
 
-  if (showInside) {
+
+  function getCouchGltf(gltf) {
+    const returnGltf = gltf;
+    let couchNode = returnGltf.nodes["Rectangle001"];
+    couchNode.material.color.setRGB(3, 2, 2);
+    return couchNode;
+  }
+
+  function getLampGltf(gltf, shade = "plafon") {
+    const returnGltf = gltf;
+    let lampNode = returnGltf.nodes[shade];
+    if (!lampNode.material && lampNode.children) {
+      lampNode.children.forEach(el => el.material.color.setRGB(1, 1, 1));
+    } else {
+      lampNode.material.color.setRGB(...(shade === "plafon" ? [1, 0.9, 0.7] : [0.6, 0.6, 0.6]));
+    }
+    return lampNode;
+  }
+
+  function getRugGltf(gltf, shade = 0) {
+    const returnGltf = gltf;
+    let rugNode = returnGltf.nodes[shade];
+
+    // rugNode.geometry = new PlaneBufferGeometry( 1, 1 );
+
+    rugNode.material = couch_mat;
+    // rugNode.material.color.setRGB(0.1, 0.1, 0.3);
+    // rugNode.material.emissive.setRGB(0.1, 0.2, 0.2);
+
+    return rugNode;
+  }
+
+  if (SHOW_INSIDE) {
     const couchTexture = useTexture(couch_texture);
 
     const rugTexture = useTexture(rug_texture);
@@ -218,33 +274,6 @@
 
     }
 
-    function getCouchGltf(gltf) {
-      const returnGltf = gltf;
-      let couchNode = returnGltf.nodes["Rectangle001"];
-      couchNode.material.color.setRGB(3, 2, 2);
-      return couchNode;
-    }
-
-    function getLampGltf(gltf, shade = "plafon") {
-      const returnGltf = gltf;
-      let lampNode = returnGltf.nodes[shade];
-      if (!lampNode.material && lampNode.children) {
-        lampNode.children.forEach(el => el.material.color.setRGB(1, 1, 1));
-      } else {
-        lampNode.material.color.setRGB(...(shade === "plafon" ? [1, 0.9, 0.7] : [0.6, 0.6, 0.6]));
-      }
-      return lampNode;
-    }
-
-    function getRugGltf(gltf, shade = 0) {
-      const returnGltf = gltf;
-      let rugNode = returnGltf.nodes[shade];
-      rugNode.material.color.setRGB(0.1, 0.1, 0.3);
-      rugNode.material.emissive.setRGB(0.1, 0.2, 0.2);
-
-      return rugNode;
-    }
-
 
     tableMaterial = new MeshBasicMaterial({
       map: texture[0],
@@ -254,6 +283,7 @@
     });
 
   }
+  var textureLoader = new TextureLoader();
 
 </script>
 
@@ -318,7 +348,7 @@
   <!--  <Object3D bind:object={object} />-->
   <Group scale={0.3 + ($scale / 10)} rotation={{y: $logoRotate}}>
 
-    {#if browser && showInside}
+    {#if browser && SHOW_INSIDE}
 
       {#if $couchGltf} <!-- Couch -->
         <Object3DInstance object={getCouchGltf($couchGltf)} materials={$couchGltf.materials} scale={0.00023}
@@ -335,9 +365,9 @@
       {/if}
 
       {#if $rugGltf} <!-- Rug -->
-        <Object3DInstance object={getRugGltf($rugGltf, 'm')} scale={0.0004} rotation={{z: -1.5708, x: -1.5708}}
-                          castShadow={true} receiveShadow position={{x: 0, z: 0.05, y: 1}} />
-        <!--      <MeshT geometry={getRugGltf($rugGltf, "m")} material={couch_mat} scale={0.0004}  rotation={{z: -1.5708, x: -1.5708}} position={{x: 0, z: 0.05, y: 1}}/>-->
+        <!--        <Object3DInstance object={getRugGltf($rugGltf, 'm')} scale={0.0004} rotation={{z: -1.5708, x: -1.5708}}-->
+        <!--                          castShadow={true} receiveShadow position={{x: 0, z: 0.05, y: 1}} />-->
+        <!--              <MeshT geometry={getRugGltf($rugGltf, "m")} material={couch_mat} scale={0.0004} rotation={{z: -1.5708, x: -1.5708}} position={{x: 0, z: 0.05, y: 1}}/>-->
       {/if}
       {#if $couchGltf} <!-- Couch -->
         <Object3DInstance object={getCouchGltf($couchGltf)} materials={$couchGltf.materials} scale={0.00023}
@@ -346,17 +376,18 @@
 
       {#if $lampGltf} <!-- Lamp -->
         <Object3DInstance object={getLampGltf($lampGltf, "Metal")} materials={$lampGltf.materials} scale={0.35}
-                          castShadow={true} receiveShadow position={{x: 0.43, z: -0.45, y: 1.44}} />
+                          castShadow={true} receiveShadow position={{x: 0.43, z: -0.45, y: 1.46}} />
         <Object3DInstance object={getLampGltf($lampGltf, "plafon")} materials={$lampGltf.materials} scale={0.35}
-                          castShadow={true} receiveShadow position={{x: 0.425, z: -0.365, y: 1.4}} />
+                          castShadow={true} receiveShadow position={{x: 0.425, z: -0.365, y: 1.43}} />
         <Object3DInstance object={getLampGltf($lampGltf, "Glass")} materials={$lampGltf.materials} scale={0.35}
-                          castShadow={true} receiveShadow position={{x: 0.43, z: -0.45, y: 1.43}} />
+                          castShadow={true} receiveShadow position={{x: 0.43, z: -0.45, y: 1.45}} />
       {/if}
 
-      {#if $rugGltf} <!-- Rug -->
+      {#if $rugGltf && couch_mat} <!-- Rug -->
         <Object3DInstance object={getRugGltf($rugGltf, 'm')} scale={0.0004} rotation={{z: -1.5708, x: -1.5708}}
-                          castShadow={true} receiveShadow position={{x: 0, z: 0.05, y: 1}} />
-        <!--      <MeshT geometry={getRugGltf($rugGltf, "m")} material={couch_mat} scale={0.0004}  rotation={{z: -1.5708, x: -1.5708}} position={{x: 0, z: 0.05, y: 1}}/>-->
+                          castShadow={true} receiveShadow position={{x: 0, z: 0.05, y: 1.8}} />
+        <!--              <MeshT geometry={getRugGltf($rugGltf, "m")} material={couch_mat} scale={4} rotation={{z: -1.5708, x: -1.5708}} position={{x: 0, z: 0.05, y: 1}}/>-->
+
       {/if}
 
       <!-- Various objects -->
@@ -420,7 +451,7 @@
           linewidth: 0.017 * (($scale + 1) / 4)
         })}
     />
-    {#if holding && showInside}
+    {#if holding}
       <Spark />
     {/if}
   </Group>

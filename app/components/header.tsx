@@ -8,7 +8,7 @@ import { useNavigation } from "@react-navigation/native";
 import { hasNotch } from "react-native-device-info";
 import { colors } from "../config/colors";
 
-let PlatformBlurView = Platform.OS === 'ios' ? VibrancyView : BlurView;
+let PlatformBlurView = Platform.OS === "ios" ? VibrancyView : BlurView;
 
 interface HeaderProps {
   inlineTitle: boolean | void;
@@ -21,18 +21,27 @@ interface HeaderProps {
 
 }
 
-const PageHeader = ({title, settingsIcon, settingsCallback, titleWhite, settingsButton, shadow=true, infoIcon, infoCallback}) => {
+const PageHeader = ({
+                      title,
+                      settingsIcon,
+                      settingsCallback,
+                      titleWhite,
+                      settingsButton,
+                      shadow = true,
+                      infoIcon,
+                      infoCallback
+                    }) => {
   const navigation = useNavigation();
   const notch = hasNotch();
 
   useEffect(() => {
     // crashlytics().log("Header Loaded | Page Title: " + title)
-  }, [])
+  }, []);
 
   const goBack = () => {
     // crashlytics().log("Header Component: User pressed back button")
     navigation.goBack();
-  }
+  };
 
   return (
     <View style={[styles.headerContainer, shadow && styles.headerShadow]}>
@@ -41,22 +50,26 @@ const PageHeader = ({title, settingsIcon, settingsCallback, titleWhite, settings
         blurType={colors.dark ? "dark" : "light"}
         blurAmount={8}
       />
-      <Pressable style={[styles.backButton, {top: notch ? 14 : 7}]} onPress={goBack} hitSlop={10}>
-        <Icon name="arrow-left" color={colors.black} size={26}/>
-      </Pressable>
-      <View style={[styles.settingsButton, {top: notch ? 14 : 7}]}>
-        {
-          infoIcon ?
-            <Pressable onPress={infoCallback} hitSlop={20}>
-              <Icon name={"information"} color={colors.black} size={26}/>
-            </Pressable> :
-          ((settingsButton ?? true) &&
-          <Pressable onPress={settingsCallback} hitSlop={20}>
-            <Icon name={settingsIcon || "cog"} color={colors.black} size={26}/>
-          </Pressable>)
-        }
+      <View style={styles.backButtonContainer}>
+        <Pressable style={[styles.backButton, { top: notch ? 14 : 7 }]} onPress={goBack} hitSlop={10}>
+          <Icon name="arrow-left" color={colors.black} size={26} />
+        </Pressable>
       </View>
-      <View style={[styles.titleContainer, {marginTop: notch ? 16 : 7}]} pointerEvents="box-none">
+      <View style={styles.settingsButtonContainer}>
+        <View style={[styles.settingsButton, { top: notch ? 14 : 7 }]}>
+          {
+            infoIcon ?
+              <Pressable onPress={infoCallback} hitSlop={20}>
+                <Icon name={"information"} color={colors.black} size={26} />
+              </Pressable> :
+              ((settingsButton ?? true) &&
+                <Pressable onPress={settingsCallback} hitSlop={20}>
+                  <Icon name={settingsIcon || "cog"} color={colors.black} size={26} />
+                </Pressable>)
+          }
+        </View>
+      </View>
+      <View style={[styles.titleContainer, { marginTop: notch ? 16 : 7 }]} pointerEvents="box-none">
         <Text numberOfLines={1} style={styles.title}>{title}</Text>
       </View>
     </View>
@@ -72,19 +85,19 @@ PageHeader.propTypes = {
   settingsButton: PropTypes.bool,
   infoCallback: PropTypes.func,
   infoIcon: PropTypes.bool
-}
+};
 
 const styles = StyleSheet.create({
   headerShadow: {
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: 2
     },
     shadowOpacity: 0.33,
     shadowRadius: 4.62,
 
-    elevation: 4,
+    elevation: 4
   },
   headerContainer: {
     width: "100%",
@@ -98,7 +111,7 @@ const styles = StyleSheet.create({
     left: 0,
     bottom: 0,
     right: 0,
-    height: Dimensions.get("window").height / 11,
+    height: Dimensions.get("window").height / 11
     // backgroundColor: "rgba(255, 255, 255, 0.4)",
   },
   title: {
@@ -116,21 +129,36 @@ const styles = StyleSheet.create({
     left: 0,
     justifyContent: "center"
   },
-  backButton: {
+  backButtonContainer: {
     position: "absolute",
     height: "100%",
+    marginHorizontal: "auto",
     left: 25,
     alignItems: "center",
     justifyContent: "center"
   },
-  settingsButton: {
+  backButton: {
+    position: "relative",
+    marginHorizontal: "auto",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  settingsButtonContainer: {
     position: "absolute",
-    top: 10,
     height: "100%",
+    marginHorizontal: "auto",
+    // backgroundColor: "black",
     right: 25,
     alignItems: "center",
     justifyContent: "center"
+  },
+  settingsButton: {
+    position: "relative"
+    // alignItems: "center",
+    // height: 30
+    // justifyContent: "center",
+    // backgroundColor
   }
-})
+});
 
 export default PageHeader;

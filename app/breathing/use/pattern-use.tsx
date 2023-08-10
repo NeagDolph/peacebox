@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { StyleSheet, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,7 +7,7 @@ import PageHeader from "../../components/header";
 import { Button, PaperProvider, Surface } from "react-native-paper";
 import { colors } from "../../config/colors";
 import SegmentedControl from "@react-native-segmented-control/segmented-control";
-import NumberPicker from "../components/numberPicker";
+import NumberPicker from "../components/number-picker";
 import SettingsModal from "../components/settings-modal";
 import RenderSequence from "./components/render-sequence";
 import haptic from "../../helpers/haptic";
@@ -22,11 +22,23 @@ const PatternUse = ({ route, navigation }) => {
 
   const running = useSelector((state: RootState) => state.tutorial.breathing.running);
   const [settingsVisible, setSettingsVisible] = useState(false);
+  const [tempTotalDuration, setTempTotalDuration] = useState(0);
 
   const tooltip = useTooltip();
 
   const showSettingsModal = () => setSettingsVisible(true);
   const hideSettingsModal = () => setSettingsVisible(false);
+
+  useEffect(() => {
+    setTempTotalDuration(patternData.totalDuration);
+  }, []);
+
+  useEffect(() => {
+    dispatch(setTotalDuration({
+      id: patternData.id,
+      total: tempTotalDuration + 1
+    }));
+  }, [tempTotalDuration]);
 
   const setDurationTypeStore = (val) => {
     // crashlytics().log("Set duration type: " + val);
@@ -35,14 +47,11 @@ const PatternUse = ({ route, navigation }) => {
       id: patternData.id,
       type: val
     }));
-  }
+  };
 
   const setTotalDurationStore = (val) => {
     // haptic(0);
-    dispatch(setTotalDuration({
-      id: patternData.id,
-      total: val
-    }));
+    setTempTotalDuration(val);
   }
 
   const startTimer = () => {
@@ -63,8 +72,9 @@ const PatternUse = ({ route, navigation }) => {
         <View style={styles.timingContainer}>
           <NumberPicker
             max={99}
-            selectedIndex={patternData.totalDuration}
+            selectedIndex={tempTotalDuration}
             onValueChange={setTotalDurationStore}
+            includeZero={false}
           />
           <SegmentedControl
             style={styles.timingControl}

@@ -5,6 +5,9 @@
   import favicon32 from "../assets/favicons/favicon-32x32.png";
   import favicon16 from "../assets/favicons/favicon-16x16.png";
   import faviconApple from "../assets/favicons/apple-touch-icon.png";
+  import gsap from "gsap/dist/gsap";
+  import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+  import { onMount } from "svelte";
 
   let topRight1, topRight2, pageY, ring, documentEl;
 
@@ -12,13 +15,149 @@
 
   export let home;
 
+  const animationDuration = 0.9;
+  const animationOffset = 0.3;
+
+
+  const pageHeight = window.innerHeight;
+  const pageWidth = window.innerWidth;
+
+
+  const scales = [0, 7, 7, 9, 14, 30];
+
+
+  function registerBackgroundObjectA(tl, number) {
+    tl.fromTo("#a" + number, {
+      duration: animationDuration,
+      scale: 1,
+      y: 0,
+      rotation: 0,
+      ease: "sine.inOut"
+    }, {
+      duration: animationDuration,
+      scale: scales[number],
+      y: -pageHeight * 1.1,
+      rotation: 15,
+      ease: "sine.inOut"
+    });
+  }
+
+  function registerBackgroundObjectB(tl, number) {
+    tl.fromTo("#b" + number, {
+      duration: animationDuration,
+      scale: 1,
+      rotation: 0,
+      x: 0,
+      ease: "sine.inOut"
+    }, {
+      duration: animationDuration,
+      scale: scales[number],
+      rotation: -15,
+      x: -pageWidth * 0.9,
+      ease: "sine.inOut"
+    });
+  }
+
+  function registerBackgroundTriggerTimeline(number) {
+    const breakpointLength = (window.document.body.scrollHeight - window.innerHeight) / 10;
+
+    const start = ((number * breakpointLength) + 100) + "px";
+    const end = "+=" + (breakpointLength * 3) + "px";
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        start,
+        end: end,
+        scrub: 1,
+        preventOverlaps: false
+      }
+    });
+
+    return tl;
+  }
+
+  function registerBackgroundTrigger(number) {
+    const tlA = registerBackgroundTriggerTimeline(number);
+    const tlB = registerBackgroundTriggerTimeline(number);
+
+    registerBackgroundObjectA(tlA, number);
+    registerBackgroundObjectB(tlB, number);
+  }
+
+
+  function calcBoxOffsets(endSize) {
+    let boxRect = document.querySelector("#boxCanvas > div").getBoundingClientRect();
+    let differenceX = (window.innerWidth - boxRect.x) - ((boxRect.width * endSize * 1.7));
+    let differenceY = ((400) - (400 * endSize)) / 2;
+
+    return { differenceX, differenceY };
+  }
+
+  function createLogoScroll() {
+    const END_SIZE = 0.4;
+    let { differenceX, differenceY } = calcBoxOffsets(END_SIZE);
+
+    const mobile = window.innerWidth < 768;
+
+    if (mobile) return;
+
+    const startTrigger = "top+=15px top";
+
+    // First ScrollTrigger for the animation
+    gsap.timeline({
+      scrollTrigger: {
+        trigger: "#boxTrigger",
+        start: startTrigger,
+        end: () => "+=" + window.innerHeight / 3,  // adjust this value according to your needs
+        markers: false,
+        scrub: 0,
+        preventOverlaps: false
+      }
+    }).to("#boxCanvas", { scale: END_SIZE, duration: 1, x: differenceX, y: -differenceY, opacity: 0.8 });
+
+    // Second ScrollTrigger for the pinning
+    gsap.to("#boxTrigger", {
+      scrollTrigger: {
+        trigger: "#boxTrigger",
+        start: startTrigger,
+        endTrigger: "#section2Card",
+        end: "top top+=140px",
+        pin: true,
+        pinSpacing: false
+      }
+    });
+  }
+
+  onMount(() => {
+    gsap.registerPlugin(ScrollTrigger);
+
+    // setTimeout(createLogoScroll, 1000);
+    createLogoScroll();
+    // registerBackgroundTrigger(1);
+    // registerBackgroundTrigger(2);
+    // registerBackgroundTrigger(3);
+    // registerBackgroundTrigger(4);
+    // registerBackgroundTrigger(5);
+
+    // registerTriggers("top bottom", "#section2", () => expandBackgroundObject(1), () => collapseBackgroundObject(1));
+    // registerTriggers("top center", "#section2", () => expandBackgroundObject(2), () => collapseBackgroundObject(2));
+    // registerTriggers("top top", "#section2", () => expandBackgroundObject(3), () => collapseBackgroundObject(3));
+    // registerTriggers("40%", () => expandBackgroundObject(4), () => collapseBackgroundObject(4));
+    // registerTriggers(1600, () => expandBackgroundObject(5), () => collapseBackgroundObject(5));
+  });
+
+  $: viewboxHeight = window.innerHeight;
+  $: viewboxWidth = window.innerWidth;
+
 </script>
 
 <svelte:head>
   <link rel="apple-touch-icon" sizes="180x180" href="{faviconApple}">
   <link rel="icon" type="image/png" sizes="32x32" href="{favicon32}">
   <link rel="icon" type="image/png" sizes="16x16" href="{favicon16}">
+  <meta name="apple-itunes-app" content="app-id=1592436336">
 </svelte:head>
+
 
 <div class="h-0">
   <!-- <img src="./assets/topright.svg" class="absolute top-0 right-0 w-80 md:w-96 lg:w-124">
@@ -26,58 +165,92 @@
   <!--  <BreathingAnim/>-->
 
   <!--  <img src="../assets/topright.svg" class="fixed top-0 right-0 w-96 lg:w-124 below2" alt="Top-right background image" />-->
-  <img src="../assets/bottomleft.svg" class="fixed bottomHack left-0 w-96 lg:w-124 below2"
-       alt="Bottom-left background image" />
+  <!--  <img src="../assets/bottomleft.svg" class="fixed bottomHack left-0 w-96 lg:w-124 below2"-->
+  <!--       alt="Bottom-left background image" />-->
 
   <!--  345 344-->
-  <svg class="fixed top-0 right-0 w-96 lg:w-124 below2" bind:this={topRight2} viewBox="0 20 550 510" fill="none"
+  <svg class="fixed bottom-0 left-0 below2" bind:this={topRight2} width="2560px" height="1440px" viewBox="0 0 2560 1440"
+       fill="none"
        xmlns="http://www.w3.org/2000/svg">
-    <path
-      opacity="0" id="a1"
-      d="M547.461 510C477.611 495.92 407.964 482.027 344.39 456.87C281.019 431.713 223.924 395.292 170.879 351.549C118.036 307.618 69.4449 256.177 41.7074 196.664C13.7675 137.151 6.88375 69.7527 0 2.35445H547.461V510Z"
-      fill="#EEF4FA" />
-    <path
-      opacity="0" id="a2"
-      d="M550 410.531C493.676 399.195 437.135 387.858 385.832 367.413C334.53 347.17 288.248 317.817 245.46 282.392C202.671 246.764 163.376 205.265 140.89 157.087C118.404 109.11 112.947 54.454 107.271 0H550V410.531Z"
-      fill="#D6E9FB" />
-    <path
-      opacity="0" id="a3"
-      d="M547.461 322.245C503.25 313.426 458.782 304.369 418.684 288.399C378.328 272.43 342.086 249.549 308.413 221.662C274.998 193.776 243.896 161.122 226.417 123.225C208.682 85.5664 204.312 42.9024 199.942 4.03627e-06H547.461V322.245Z"
-      fill="#BEDFFD" />
-    <path
-      opacity="0" id="a4"
-      d="M548.094 198.939C520.8 193.495 493.348 187.903 468.593 178.044C443.68 168.186 421.305 154.06 400.518 136.844C379.889 119.628 360.688 99.4697 349.897 76.0739C338.948 52.8252 336.25 26.4865 333.553 0.000645665H548.094V198.939Z"
-      fill="#A3D4FE" />
-    <path
-      opacity="0" id="a5"
-      d="M548.094 99.4697C534.447 96.674 520.8 94.0254 508.264 89.0225C495.887 84.1668 484.62 76.9568 474.306 68.4224C463.991 59.741 454.47 49.7352 448.916 38.1109C443.521 26.4865 442.252 13.2436 440.823 0.000656891L548.094 0.000645665L548.094 99.4697Z"
-      fill="#95CFFF" />
 
+    <path id="a1"
+          d="M0 1144C33.7449 1163.62 67.41 1183.25 102.91 1196.62C138.33 1209.91 175.585 1216.87 207.017 1237.12C238.448 1257.29 264.136 1290.75 279.053 1326.71C293.892 1362.75 297.96 1401.38 302.029 1440H0V1144Z"
+          fill="#EEF4FA" />
   </svg>
 
-  <svg class="fixed top-0 right-0 w-96 lg:w-124 below2" bind:this={topRight1} viewBox="0 20 550 510" fill="none"
+  <svg class="fixed top-0 right-0 below2" bind:this={topRight1} width="2560px" height="1440px" viewBox="0 0 2560 1440"
+       fill="none"
        xmlns="http://www.w3.org/2000/svg">
-    <path
-      id="b1"
-      d="M549.989 510C472.27 507.575 394.696 505.285 339.494 471.204C284.437 437.124 251.752 371.252 201.779 322.892C151.806 274.532 84.5467 243.685 48.0841 192.765C11.4763 141.846 5.81077 70.9905 0 0H549.989V510Z"
-      fill="#EEF4FA" />
-    <path
-      id="b2"
-      d="M549.992 408.027C487.817 406.141 425.787 404.255 381.625 376.91C337.463 349.699 311.315 297.028 271.366 258.368C231.417 219.707 177.667 194.921 148.468 154.239C119.269 113.558 114.62 56.7116 109.972 0H549.992V408.027Z"
-      fill="#D6E9FB" />
-    <path
-      id="b3"
-      d="M549.994 305.919C503.363 304.572 456.877 303.09 423.755 282.75C390.634 262.274 371.023 222.805 341.097 193.708C311.026 164.746 270.787 146.157 248.851 115.713C226.916 85.1347 223.429 42.5674 220.088 0H549.994V305.919Z"
-      fill="#BEDFFD" />
-    <path
-      id="b4"
-      d="M550 203.946C518.912 203.003 487.825 202.06 465.744 188.455C443.808 174.849 430.734 148.447 410.687 129.184C390.785 109.786 363.765 97.5277 349.238 77.0523C334.566 56.7115 332.387 28.4231 330.062 0H550V203.946Z"
-      fill="#A3D4FE" />
-    <path
-      id="b5"
-      d="M549.986 101.973C534.442 101.569 518.899 101.03 507.858 94.2947C496.818 87.4247 490.281 74.2234 480.402 64.5245C470.379 54.9604 456.869 48.7638 449.605 38.5261C442.342 28.4231 441.18 14.1442 440.018 0H549.986V101.973Z"
-      fill="#95CFFF" />
+    <path id="b1"
+          d="M2560 328C2510 328 2460.13 328 2428.33 303.012C2396.65 278.145 2383.17 228.29 2354.03 196.388C2324.9 164.485 2279.99 150.414 2254.42 120.695C2228.85 90.9763 2222.36 45.4882 2216 0H2560V328Z"
+          fill="#EEF4FA" />
   </svg>
+
+  <svg class="fixed bottom-0 left-0 below2" bind:this={topRight2} width="2560px" height="1440px" viewBox="0 0 2560 1440"
+       fill="none"
+       xmlns="http://www.w3.org/2000/svg">
+
+    <path id="a2"
+          d="M0 1203.18C26.964 1218.9 53.928 1234.61 82.328 1245.25C110.648 1255.88 140.484 1261.51 165.613 1277.69C190.742 1293.88 211.324 1320.54 223.211 1349.39C235.097 1378.16 238.368 1409.12 241.639 1440H0V1203.18Z"
+          fill="#D6E9FB" />
+  </svg>
+
+  <svg class="fixed top-0 right-0 below2" bind:this={topRight1} width="2560px" height="1440px" viewBox="0 0 2560 1440"
+       fill="none"
+       xmlns="http://www.w3.org/2000/svg">
+    <path id="b2"
+          d="M2560 263.163C2519.85 263.163 2479.84 263.163 2454.39 243.179C2428.94 223.195 2418.05 183.228 2394.78 157.534C2371.37 131.971 2335.31 120.681 2314.76 96.8045C2294.21 72.9278 2289.17 36.4639 2284 0H2560V263.163Z"
+          fill="#D6E9FB" />
+  </svg>
+
+  <svg class="fixed bottom-0 left-0 below2" bind:this={topRight2} width="2560px" height="1440px" viewBox="0 0 2560 1440"
+       fill="none"
+       xmlns="http://www.w3.org/2000/svg">
+    <path id="a3"
+          d="M0 1262.45C20.2629 1274.17 40.446 1285.98 61.746 1293.95C83.0459 1301.93 105.303 1306.15 124.21 1318.27C143.117 1330.39 158.513 1350.4 167.448 1372.06C176.303 1393.64 178.776 1416.86 181.169 1440H0V1262.45Z"
+          fill="#BEDFFD" />
+  </svg>
+
+  <svg class="fixed top-0 right-0 below2" bind:this={topRight1} width="2560px" height="1440px" viewBox="0 0 2560 1440"
+       fill="none"
+       xmlns="http://www.w3.org/2000/svg">
+    <path id="b3"
+          d="M2560 196.419C2530.14 196.419 2500.12 196.419 2481.23 181.455C2462.18 166.491 2454.11 136.709 2436.58 117.677C2419.21 98.4999 2392.4 90.0736 2377.01 72.2042C2361.62 54.48 2357.81 27.1674 2354 0H2560V196.419Z"
+          fill="#BEDFFD" />
+  </svg>
+
+  <svg class="fixed bottom-0 left-0 below2" bind:this={topRight2} width="2560px" height="1440px" viewBox="0 0 2560 1440"
+       fill="none"
+       xmlns="http://www.w3.org/2000/svg">
+    <path id="a4"
+          d="M0 1321.63C13.482 1329.45 26.964 1337.27 41.164 1342.66C55.3639 1347.98 70.2021 1350.79 82.8066 1358.85C95.411 1366.9 105.702 1380.27 111.605 1394.65C117.589 1409.12 119.184 1424.52 120.78 1440H0V1321.63Z"
+          fill="#A3D4FE" />
+  </svg>
+
+  <svg class="fixed top-0 right-0 below2" bind:this={topRight1} width="2560px" height="1440px" viewBox="0 0 2560 1440"
+       fill="none"
+       xmlns="http://www.w3.org/2000/svg">
+    <path id="b4"
+          d="M2560 128.912C2540.4 128.912 2520.7 128.912 2508.3 119.091C2495.8 109.27 2490.5 89.7233 2479 77.2326C2467.6 64.6465 2450 59.1163 2439.9 47.3884C2429.8 35.7558 2427.3 17.8302 2424.8 0H2560V128.912Z"
+          fill="#A3D4FE" />
+  </svg>
+
+  <svg class="fixed bottom-0 left-0 below2" bind:this={topRight2} width="2560px" height="1440px" viewBox="0 0 2560 1440"
+       fill="none"
+       xmlns="http://www.w3.org/2000/svg">
+    <path id="a5"
+          d="M0 1380.82C6.78088 1384.72 13.482 1388.63 20.582 1391.29C27.682 1393.95 35.101 1395.36 41.4033 1399.42C47.7055 1403.49 52.8111 1410.13 55.8426 1417.33C58.7943 1424.52 59.592 1432.26 60.3898 1440H0V1380.82Z"
+          fill="#95CFFF" />
+  </svg>
+
+  <svg class="fixed top-0 right-0 below2" bind:this={topRight1} width="2560px" height="1440px" viewBox="0 0 2560 1440"
+       fill="none"
+       xmlns="http://www.w3.org/2000/svg">
+    <path id="b5"
+          d="M2560 64.4558C2550.2 64.4558 2540.4 64.4558 2534.1 59.593C2527.9 54.6349 2525.2 44.9093 2519.5 38.6163C2513.8 32.3233 2505 29.5581 2499.9 23.7419C2494.9 17.8302 2493.7 8.96279 2492.4 0H2560V64.4558Z"
+          fill="#95CFFF" />
+  </svg>
+
 
 </div>
 <div class="siteWrapper" bind:this={documentEl}>

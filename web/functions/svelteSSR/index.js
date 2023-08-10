@@ -33,7 +33,6 @@ var multipart_parser_exports = {};
 __export(multipart_parser_exports, {
   toFormData: () => toFormData
 });
-
 function _fileName(headerValue) {
   const m3 = headerValue.match(/\bfilename=("(.*?)"|([^()<>@,;:\\"/[\]?={}\s\t]+))($|;\s)/i);
   if (!m3) {
@@ -121,7 +120,6 @@ async function toFormData(Body2, ct2) {
   parser.end();
   return formData;
 }
-
 var s, S, f, F, LF, CR, SPACE, HYPHEN, COLON, A, Z, lower, noop, MultipartParser;
 var init_multipart_parser = __esm({
   "node_modules/@sveltejs/kit/dist/chunks/multipart-parser.js"() {
@@ -5669,14 +5667,12 @@ function create_ssr_component(fn2) {
     $$render
   };
 }
-
 function add_attribute(name, value, boolean) {
   if (value == null || boolean && !value)
     return "";
   const assignment = boolean && value === true ? "" : `="${escape_attribute_value(value.toString())}"`;
   return ` ${name}${assignment}`;
 }
-
 function add_classes(classes) {
   return classes ? ` class="${classes}"` : "";
 }
@@ -5811,13 +5807,12 @@ var init__2 = __esm({
   }
 });
 
-// .svelte-kit/output/server/chunks/page-a3857dc0.js
-var ___ASSET___0, Footer, favicon32, favicon16, faviconApple, Page;
-var init_page_a3857dc0 = __esm({
-  ".svelte-kit/output/server/chunks/page-a3857dc0.js"() {
+// .svelte-kit/output/server/chunks/page-38ffb2de.js
+var Footer, favicon32, favicon16, faviconApple, Page;
+var init_page_38ffb2de = __esm({
+  ".svelte-kit/output/server/chunks/page-38ffb2de.js"() {
     init_shims();
     init_index_545da69d();
-    ___ASSET___0 = "/_app/immutable/assets/bottomleft-4dc05747.svg";
     Footer = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       let year = new Date().getFullYear();
       return `<div><div class="${"w-full left-0 bg-primaryBg p-6"}">
@@ -5856,18 +5851,36 @@ var init_page_a3857dc0 = __esm({
       let { home } = $$props;
       if ($$props.home === void 0 && $$bindings.home && home !== void 0)
         $$bindings.home(home);
-      return `${$$result.head += `<link rel="${"apple-touch-icon"}" sizes="${"180x180"}"${add_attribute("href", faviconApple, 0)} data-svelte="svelte-1c1qfbn"><link rel="${"icon"}" type="${"image/png"}" sizes="${"32x32"}"${add_attribute("href", favicon32, 0)} data-svelte="svelte-1c1qfbn"><link rel="${"icon"}" type="${"image/png"}" sizes="${"16x16"}"${add_attribute("href", favicon16, 0)} data-svelte="svelte-1c1qfbn">`, ""}
+      return `${$$result.head += `<link rel="${"apple-touch-icon"}" sizes="${"180x180"}"${add_attribute("href", faviconApple, 0)} data-svelte="svelte-12jv3av"><link rel="${"icon"}" type="${"image/png"}" sizes="${"32x32"}"${add_attribute("href", favicon32, 0)} data-svelte="svelte-12jv3av"><link rel="${"icon"}" type="${"image/png"}" sizes="${"16x16"}"${add_attribute("href", favicon16, 0)} data-svelte="svelte-12jv3av"><meta name="${"apple-itunes-app"}" content="${"app-id=1592436336"}" data-svelte="svelte-12jv3av">`, ""}
+
 
 <div class="${"h-0"}">
   
 
   
-  <img${add_attribute("src", ___ASSET___0, 0)} class="${"fixed bottomHack left-0 w-96 lg:w-124 below2"}" alt="${"Bottom-left background image"}">
+  
+  
 
   
-  <svg class="${"fixed top-0 right-0 w-96 lg:w-124 below2"}" viewBox="${"0 20 550 510"}" fill="${"none"}" xmlns="${"http://www.w3.org/2000/svg"}"${add_attribute("this", topRight2, 0)}><path opacity="${"0"}" id="${"a1"}" d="${"M547.461 510C477.611 495.92 407.964 482.027 344.39 456.87C281.019 431.713 223.924 395.292 170.879 351.549C118.036 307.618 69.4449 256.177 41.7074 196.664C13.7675 137.151 6.88375 69.7527 0 2.35445H547.461V510Z"}" fill="${"#EEF4FA"}"></path><path opacity="${"0"}" id="${"a2"}" d="${"M550 410.531C493.676 399.195 437.135 387.858 385.832 367.413C334.53 347.17 288.248 317.817 245.46 282.392C202.671 246.764 163.376 205.265 140.89 157.087C118.404 109.11 112.947 54.454 107.271 0H550V410.531Z"}" fill="${"#D6E9FB"}"></path><path opacity="${"0"}" id="${"a3"}" d="${"M547.461 322.245C503.25 313.426 458.782 304.369 418.684 288.399C378.328 272.43 342.086 249.549 308.413 221.662C274.998 193.776 243.896 161.122 226.417 123.225C208.682 85.5664 204.312 42.9024 199.942 4.03627e-06H547.461V322.245Z"}" fill="${"#BEDFFD"}"></path><path opacity="${"0"}" id="${"a4"}" d="${"M548.094 198.939C520.8 193.495 493.348 187.903 468.593 178.044C443.68 168.186 421.305 154.06 400.518 136.844C379.889 119.628 360.688 99.4697 349.897 76.0739C338.948 52.8252 336.25 26.4865 333.553 0.000645665H548.094V198.939Z"}" fill="${"#A3D4FE"}"></path><path opacity="${"0"}" id="${"a5"}" d="${"M548.094 99.4697C534.447 96.674 520.8 94.0254 508.264 89.0225C495.887 84.1668 484.62 76.9568 474.306 68.4224C463.991 59.741 454.47 49.7352 448.916 38.1109C443.521 26.4865 442.252 13.2436 440.823 0.000656891L548.094 0.000645665L548.094 99.4697Z"}" fill="${"#95CFFF"}"></path></svg>
+  <svg class="${"fixed bottom-0 left-0 below2"}" width="${"2560px"}" height="${"1440px"}" viewBox="${"0 0 2560 1440"}" fill="${"none"}" xmlns="${"http://www.w3.org/2000/svg"}"${add_attribute("this", topRight2, 0)}><path id="${"a1"}" d="${"M0 1144C33.7449 1163.62 67.41 1183.25 102.91 1196.62C138.33 1209.91 175.585 1216.87 207.017 1237.12C238.448 1257.29 264.136 1290.75 279.053 1326.71C293.892 1362.75 297.96 1401.38 302.029 1440H0V1144Z"}" fill="${"#EEF4FA"}"></path></svg>
 
-  <svg class="${"fixed top-0 right-0 w-96 lg:w-124 below2"}" viewBox="${"0 20 550 510"}" fill="${"none"}" xmlns="${"http://www.w3.org/2000/svg"}"${add_attribute("this", topRight1, 0)}><path id="${"b1"}" d="${"M549.989 510C472.27 507.575 394.696 505.285 339.494 471.204C284.437 437.124 251.752 371.252 201.779 322.892C151.806 274.532 84.5467 243.685 48.0841 192.765C11.4763 141.846 5.81077 70.9905 0 0H549.989V510Z"}" fill="${"#EEF4FA"}"></path><path id="${"b2"}" d="${"M549.992 408.027C487.817 406.141 425.787 404.255 381.625 376.91C337.463 349.699 311.315 297.028 271.366 258.368C231.417 219.707 177.667 194.921 148.468 154.239C119.269 113.558 114.62 56.7116 109.972 0H549.992V408.027Z"}" fill="${"#D6E9FB"}"></path><path id="${"b3"}" d="${"M549.994 305.919C503.363 304.572 456.877 303.09 423.755 282.75C390.634 262.274 371.023 222.805 341.097 193.708C311.026 164.746 270.787 146.157 248.851 115.713C226.916 85.1347 223.429 42.5674 220.088 0H549.994V305.919Z"}" fill="${"#BEDFFD"}"></path><path id="${"b4"}" d="${"M550 203.946C518.912 203.003 487.825 202.06 465.744 188.455C443.808 174.849 430.734 148.447 410.687 129.184C390.785 109.786 363.765 97.5277 349.238 77.0523C334.566 56.7115 332.387 28.4231 330.062 0H550V203.946Z"}" fill="${"#A3D4FE"}"></path><path id="${"b5"}" d="${"M549.986 101.973C534.442 101.569 518.899 101.03 507.858 94.2947C496.818 87.4247 490.281 74.2234 480.402 64.5245C470.379 54.9604 456.869 48.7638 449.605 38.5261C442.342 28.4231 441.18 14.1442 440.018 0H549.986V101.973Z"}" fill="${"#95CFFF"}"></path></svg></div>
+  <svg class="${"fixed top-0 right-0 below2"}" width="${"2560px"}" height="${"1440px"}" viewBox="${"0 0 2560 1440"}" fill="${"none"}" xmlns="${"http://www.w3.org/2000/svg"}"${add_attribute("this", topRight1, 0)}><path id="${"b1"}" d="${"M2560 328C2510 328 2460.13 328 2428.33 303.012C2396.65 278.145 2383.17 228.29 2354.03 196.388C2324.9 164.485 2279.99 150.414 2254.42 120.695C2228.85 90.9763 2222.36 45.4882 2216 0H2560V328Z"}" fill="${"#EEF4FA"}"></path></svg>
+
+  <svg class="${"fixed bottom-0 left-0 below2"}" width="${"2560px"}" height="${"1440px"}" viewBox="${"0 0 2560 1440"}" fill="${"none"}" xmlns="${"http://www.w3.org/2000/svg"}"${add_attribute("this", topRight2, 0)}><path id="${"a2"}" d="${"M0 1203.18C26.964 1218.9 53.928 1234.61 82.328 1245.25C110.648 1255.88 140.484 1261.51 165.613 1277.69C190.742 1293.88 211.324 1320.54 223.211 1349.39C235.097 1378.16 238.368 1409.12 241.639 1440H0V1203.18Z"}" fill="${"#D6E9FB"}"></path></svg>
+
+  <svg class="${"fixed top-0 right-0 below2"}" width="${"2560px"}" height="${"1440px"}" viewBox="${"0 0 2560 1440"}" fill="${"none"}" xmlns="${"http://www.w3.org/2000/svg"}"${add_attribute("this", topRight1, 0)}><path id="${"b2"}" d="${"M2560 263.163C2519.85 263.163 2479.84 263.163 2454.39 243.179C2428.94 223.195 2418.05 183.228 2394.78 157.534C2371.37 131.971 2335.31 120.681 2314.76 96.8045C2294.21 72.9278 2289.17 36.4639 2284 0H2560V263.163Z"}" fill="${"#D6E9FB"}"></path></svg>
+
+  <svg class="${"fixed bottom-0 left-0 below2"}" width="${"2560px"}" height="${"1440px"}" viewBox="${"0 0 2560 1440"}" fill="${"none"}" xmlns="${"http://www.w3.org/2000/svg"}"${add_attribute("this", topRight2, 0)}><path id="${"a3"}" d="${"M0 1262.45C20.2629 1274.17 40.446 1285.98 61.746 1293.95C83.0459 1301.93 105.303 1306.15 124.21 1318.27C143.117 1330.39 158.513 1350.4 167.448 1372.06C176.303 1393.64 178.776 1416.86 181.169 1440H0V1262.45Z"}" fill="${"#BEDFFD"}"></path></svg>
+
+  <svg class="${"fixed top-0 right-0 below2"}" width="${"2560px"}" height="${"1440px"}" viewBox="${"0 0 2560 1440"}" fill="${"none"}" xmlns="${"http://www.w3.org/2000/svg"}"${add_attribute("this", topRight1, 0)}><path id="${"b3"}" d="${"M2560 196.419C2530.14 196.419 2500.12 196.419 2481.23 181.455C2462.18 166.491 2454.11 136.709 2436.58 117.677C2419.21 98.4999 2392.4 90.0736 2377.01 72.2042C2361.62 54.48 2357.81 27.1674 2354 0H2560V196.419Z"}" fill="${"#BEDFFD"}"></path></svg>
+
+  <svg class="${"fixed bottom-0 left-0 below2"}" width="${"2560px"}" height="${"1440px"}" viewBox="${"0 0 2560 1440"}" fill="${"none"}" xmlns="${"http://www.w3.org/2000/svg"}"${add_attribute("this", topRight2, 0)}><path id="${"a4"}" d="${"M0 1321.63C13.482 1329.45 26.964 1337.27 41.164 1342.66C55.3639 1347.98 70.2021 1350.79 82.8066 1358.85C95.411 1366.9 105.702 1380.27 111.605 1394.65C117.589 1409.12 119.184 1424.52 120.78 1440H0V1321.63Z"}" fill="${"#A3D4FE"}"></path></svg>
+
+  <svg class="${"fixed top-0 right-0 below2"}" width="${"2560px"}" height="${"1440px"}" viewBox="${"0 0 2560 1440"}" fill="${"none"}" xmlns="${"http://www.w3.org/2000/svg"}"${add_attribute("this", topRight1, 0)}><path id="${"b4"}" d="${"M2560 128.912C2540.4 128.912 2520.7 128.912 2508.3 119.091C2495.8 109.27 2490.5 89.7233 2479 77.2326C2467.6 64.6465 2450 59.1163 2439.9 47.3884C2429.8 35.7558 2427.3 17.8302 2424.8 0H2560V128.912Z"}" fill="${"#A3D4FE"}"></path></svg>
+
+  <svg class="${"fixed bottom-0 left-0 below2"}" width="${"2560px"}" height="${"1440px"}" viewBox="${"0 0 2560 1440"}" fill="${"none"}" xmlns="${"http://www.w3.org/2000/svg"}"${add_attribute("this", topRight2, 0)}><path id="${"a5"}" d="${"M0 1380.82C6.78088 1384.72 13.482 1388.63 20.582 1391.29C27.682 1393.95 35.101 1395.36 41.4033 1399.42C47.7055 1403.49 52.8111 1410.13 55.8426 1417.33C58.7943 1424.52 59.592 1432.26 60.3898 1440H0V1380.82Z"}" fill="${"#95CFFF"}"></path></svg>
+
+  <svg class="${"fixed top-0 right-0 below2"}" width="${"2560px"}" height="${"1440px"}" viewBox="${"0 0 2560 1440"}" fill="${"none"}" xmlns="${"http://www.w3.org/2000/svg"}"${add_attribute("this", topRight1, 0)}><path id="${"b5"}" d="${"M2560 64.4558C2550.2 64.4558 2540.4 64.4558 2534.1 59.593C2527.9 54.6349 2525.2 44.9093 2519.5 38.6163C2513.8 32.3233 2505 29.5581 2499.9 23.7419C2494.9 17.8302 2493.7 8.96279 2492.4 0H2560V64.4558Z"}" fill="${"#95CFFF"}"></path></svg></div>
 <div class="${"siteWrapper"}"${add_attribute("this", documentEl, 0)}><div class="${"hidden flex flex-row h-28 items-center sm:pl-8 lg:pl-16 border-b border-gray-900 justify-between header w-full"}"><div class="${"flex flex-row"}">${home === "true" ? `<p class="${"text-black font-futura font-bold tracking-tight text-5xl hidden sm:block"}">PeaceBox</p>` : `<a href="${"/"}"><p class="${"text-black font-futura font-bold tracking-tight text-5xl hidden sm:block"}">PeaceBox</p></a>`}
 
       <div class="${"max-w-28 min-w-24 pr-3 sm:hidden"}"><p class="${"text-black font-futura font-bold tracking-tight text-7xl pl-4"}">P</p></div></div>
@@ -6633,11 +6646,9 @@ function useTexture(paths, options) {
     return map;
   }
 }
-
 function cubicIn(t22) {
   return t22 * t22 * t22;
 }
-
 function is_date(obj) {
   return Object.prototype.toString.call(obj) === "[object Date]";
 }
@@ -6836,13 +6847,13 @@ function tweened(value, defaults = {}) {
 function cube(size) {
   const h22 = size * 0.5;
   const position = [];
-  position.push([-h22, -h22, -h22], [-h22, h22, -h22], [h22, h22, -h22], [h22, -h22, -h22], [-h22, -h22, -h22], [-h22, -h22, h22], [-h22, h22, h22], [-h22, h22, -h22], [-h22, h22, h22], [h22, h22, h22], [h22, h22, -h22], [h22, h22, h22], [h22, -h22, h22], [h22, -h22, -h22], [h22, -h22, h22], [-h22, -h22, h22]);
+  position.push([-h22, -h22, -h22], [-h22, h22, -h22], [h22, h22, -h22], [h22, -h22, -h22], [-h22, -h22, -h22], [-h22, -h22, h22], [-h22, h22, h22], [-h22, h22, -h22], [h22, -h22, h22], [h22, -h22, -h22], [-h22, h22, h22], [h22, h22, h22], [h22, -h22, h22], [-h22, -h22, h22], [h22, h22, -h22], [h22, h22, h22]);
   const newPos = Math.random() > 0.5 ? position : position.reverse();
   return newPos;
 }
 
-var ___ASSET___02, ___ASSET___1, Logo_anim, subscriber_queue2, logoActive, REVISION, MOUSE, PCFSoftShadowMap, FrontSide,
-  BackSide, DoubleSide, FlatShading, NormalBlending, AddEquation, SrcAlphaFactor, OneMinusSrcAlphaFactor,
+var ___ASSET___0, ___ASSET___1, Logo_anim, subscriber_queue2, logoActive, REVISION, MOUSE, TOUCH, PCFSoftShadowMap,
+  FrontSide, BackSide, DoubleSide, FlatShading, NormalBlending, AddEquation, SrcAlphaFactor, OneMinusSrcAlphaFactor,
   LessEqualDepth, MultiplyOperation, NoToneMapping, ACESFilmicToneMapping, UVMapping, RepeatWrapping,
   ClampToEdgeWrapping, MirroredRepeatWrapping, NearestFilter, LinearFilter, LinearMipmapLinearFilter, UnsignedByteType,
   FloatType, HalfFloatType, RGBAFormat, RedFormat, RGFormat, RGB_S3TC_DXT1_Format, RGBA_S3TC_DXT5_Format,
@@ -6895,40 +6906,41 @@ var ___ASSET___02, ___ASSET___1, Logo_anim, subscriber_queue2, logoActive, REVIS
   _lightPositionWorld$1, _lookTarget$1, LightShadow, SpotLightShadow, SpotLight$1, AmbientLight$1,
   InstancedBufferGeometry, Clock, _RESERVED_CHARS_RE, _reservedRe, _wordChar, _wordCharOrDot, _directoryRe, _nodeRe,
   _objectRe, _propertyRe, _trackRe, _supportedObjectNames, Composite, PropertyBinding, InstancedInterleavedBuffer,
-  Raycaster, _startP, _startEnd, Line3, Pass, _geometry$1, _geometry, RenderPass, setRendererColorOutput,
+  Raycaster, Spherical, _startP, _startEnd, Line3, Pass, _geometry$1, _geometry, RenderPass, setRendererColorOutput,
   setRendererAndComposerSize, setRendererShadows, getThrelteUserData, setPointerFromEvent, runRaycaster, targetChanged,
   useEventRaycast, useFrameloopRaycast, browser, useRaf, runFrameloopCallbacks, debugFrame, useFrameloop,
   getDefaultCamera, setDefaultCameraAspectOnSizeChange, createContexts, useParentSize, css3, invalidationHandlers,
   invalidateGlobally, Canvas, useThrelte, useThrelteRoot, createObjectStore, setParent, getParent, HierarchicalObject,
-  LayerableObject, useFrame, useTicked, TransformableObject$1, ViewportAwareObject, Object3DInstance, CameraInstance,
-  PerspectiveCamera, loaders, useLoader, _raycaster, _tempVector, _tempVector2, _tempQuaternion, _unit, _tempEuler,
-  _alignVector, _zeroVector, _lookAtMatrix, _tempQuaternion2, _identityQuaternion, _dirVector, _tempMatrix, _unitX,
-  _unitY, _unitZ, _v1, _v2, _v3, convertColorRepresentationToColor, LightInstance, AmbientLight, SpotLight,
-  InteractiveObject, MeshInstance, Mesh, placeholderObject3D, Group, _q, WorkerPool, t2, e2, n, i2, s3, a, r2, o, l, f3,
-  U, c, h2, _, p, g, y, x2, u, b, d, m2, w, D, B, L, A2, k, v, S2, I, O, T, V, E, F2, P, C, z, M, W, N, H, K, X, j, R,
-  Y, q, G, J, Q, Z2, $, tt, et, nt, it, st, at, rt, ot, lt, ft, Ut, ct, ht, _t, pt, gt, yt, xt, ut, bt, dt, mt, wt, Dt,
-  Bt, Lt, At, kt, vt, St, It, Ot, Tt, Vt, Et, Ft, Pt, Ct, zt, Mt, Wt, Nt, Ht, Kt, Xt, jt, Rt, Yt, qt, Gt, Jt, Qt, Zt,
-  $t, te, ee, ne, ie, se, ae, re, oe, le, fe, Ue, ce, he, _e, pe, ge, ye, xe, ue, be, de, me, we, De, Be, Le, Ae, ke,
-  ve, Se, Ie, Oe, Te, Ve, Ee, Fe, Pe, Ce, ze, Me, We, Ne, He, Ke, Xe, je, Re, Ye, qe, Ge, Je, Qe, Ze, $e, tn, en, nn,
-  sn, an, rn, on, ln, fn, Un, cn, hn, _n, pn, gn, yn, xn, un, bn, dn, mn, wn, Dn, Bn, Ln, An, kn, vn, Sn, In, On, Tn,
-  Vn, En, Fn, Pn, Cn, zn, Mn, Wn, Nn, Hn, Kn, Xn, jn, Rn, Yn, qn, Gn, Jn, Qn, Zn, $n, ti, ei, ni, ii, si, ai, ri, oi,
-  li, fi, Ui, ci, hi, _i, pi, gi, yi, xi, ui, bi, di, mi, wi, Di, Bi, Li, Ai, ki, vi, Si, Ii, Oi, Ti, zi, KTX, read2,
-  KHR_DF_FLAG_ALPHA_PREMULTIPLIED, KHR_DF_TRANSFER_SRGB, VK_FORMAT_UNDEFINED, VK_FORMAT_R16_SFLOAT,
-  VK_FORMAT_R16G16_SFLOAT, VK_FORMAT_R16G16B16A16_SFLOAT, VK_FORMAT_R32_SFLOAT, VK_FORMAT_R32G32_SFLOAT,
-  VK_FORMAT_R32G32B32A32_SFLOAT, VK_FORMAT_R8_SRGB, VK_FORMAT_R8_UNORM, VK_FORMAT_R8G8_SRGB, VK_FORMAT_R8G8_UNORM,
-  VK_FORMAT_R8G8B8A8_SRGB, VK_FORMAT_R8G8B8A8_UNORM, _taskCache, _activeLoaders, KTX2Loader, FORMAT_MAP, TYPE_MAP,
-  ENCODING_MAP, _box$1, _vector, LineSegmentsGeometry, LineGeometry, LineMaterial, _start, _end, _start4, _end4,
-  _ssOrigin, _ssOrigin3, _mvMatrix, _line, _closestPoint, _box, _sphere, _clipToWorldVector, _ray, _instanceStart,
-  _instanceEnd, _lineWidth, LineSegments2, Line2$1, Line2, loader, loadTexture, pathsIsString, pathsIsArray,
-  convertTextureColor, _changeEvent, _startEvent, _endEvent, TrackballControls, TransformableObject, OrbitControls, px,
-  px_upside, py, pz, ny, nz, o_px, o_px_upside, o_ny, useCursor, Game, Routes;
+  LayerableObject, useFrame, useTicked, TransformableObject, ViewportAwareObject, Object3DInstance, CameraInstance,
+  PerspectiveCamera, loaders, useLoader, _changeEvent$1, _startEvent, _endEvent, OrbitControls$1, OrbitControls,
+  _raycaster, _tempVector, _tempVector2, _tempQuaternion, _unit, _tempEuler, _alignVector, _zeroVector, _lookAtMatrix,
+  _tempQuaternion2, _identityQuaternion, _dirVector, _tempMatrix, _unitX, _unitY, _unitZ, _v1, _v2, _v3,
+  convertColorRepresentationToColor, LightInstance, AmbientLight, SpotLight, InteractiveObject, MeshInstance, Mesh,
+  placeholderObject3D, Group, _q, WorkerPool, t2, e2, n, i2, s3, a, r2, o, l, f3, U, c, h2, _, p, g, y, x2, u, b, d, m2,
+  w, D, B, L, A2, k, v, S2, I, O, T, V, E, F2, P, C, z, M, W, N, H, K, X, j, R, Y, q, G, J, Q, Z2, $, tt, et, nt, it,
+  st, at, rt, ot, lt, ft, Ut, ct, ht, _t, pt, gt, yt, xt, ut, bt, dt, mt, wt, Dt, Bt, Lt, At, kt, vt, St, It, Ot, Tt,
+  Vt, Et, Ft, Pt, Ct, zt, Mt, Wt, Nt, Ht, Kt, Xt, jt, Rt, Yt, qt, Gt, Jt, Qt, Zt, $t, te, ee, ne, ie, se, ae, re, oe,
+  le, fe, Ue, ce, he, _e, pe, ge, ye, xe, ue, be, de, me, we, De, Be, Le, Ae, ke, ve, Se, Ie, Oe, Te, Ve, Ee, Fe, Pe,
+  Ce, ze, Me, We, Ne, He, Ke, Xe, je, Re, Ye, qe, Ge, Je, Qe, Ze, $e, tn, en, nn, sn, an, rn, on, ln, fn, Un, cn, hn,
+  _n, pn, gn, yn, xn, un, bn, dn, mn, wn, Dn, Bn, Ln, An, kn, vn, Sn, In, On, Tn, Vn, En, Fn, Pn, Cn, zn, Mn, Wn, Nn,
+  Hn, Kn, Xn, jn, Rn, Yn, qn, Gn, Jn, Qn, Zn, $n, ti, ei, ni, ii, si, ai, ri, oi, li, fi, Ui, ci, hi, _i, pi, gi, yi,
+  xi, ui, bi, di, mi, wi, Di, Bi, Li, Ai, ki, vi, Si, Ii, Oi, Ti, zi, KTX, read2, KHR_DF_FLAG_ALPHA_PREMULTIPLIED,
+  KHR_DF_TRANSFER_SRGB, VK_FORMAT_UNDEFINED, VK_FORMAT_R16_SFLOAT, VK_FORMAT_R16G16_SFLOAT,
+  VK_FORMAT_R16G16B16A16_SFLOAT, VK_FORMAT_R32_SFLOAT, VK_FORMAT_R32G32_SFLOAT, VK_FORMAT_R32G32B32A32_SFLOAT,
+  VK_FORMAT_R8_SRGB, VK_FORMAT_R8_UNORM, VK_FORMAT_R8G8_SRGB, VK_FORMAT_R8G8_UNORM, VK_FORMAT_R8G8B8A8_SRGB,
+  VK_FORMAT_R8G8B8A8_UNORM, _taskCache, _activeLoaders, KTX2Loader, FORMAT_MAP, TYPE_MAP, ENCODING_MAP, _box$1, _vector,
+  LineSegmentsGeometry, LineGeometry, LineMaterial, _start, _end, _start4, _end4, _ssOrigin, _ssOrigin3, _mvMatrix,
+  _line, _closestPoint, _box, _sphere, _clipToWorldVector, _ray, _instanceStart, _instanceEnd, _lineWidth,
+  LineSegments2, Line2$1, Line2, loader, loadTexture, pathsIsString, pathsIsArray, convertTextureColor, px, px_upside,
+  py, pz, ny, nz, o_px, o_px_transparent, o_px_upside, o_px_upside_transparent, o_ny, o_transparent, useCursor,
+  SHOW_INSIDE, Game, Routes;
 var init_index_svelte = __esm({
   ".svelte-kit/output/server/entries/pages/index.svelte.js"() {
     init_shims();
     init_index_545da69d();
-    init_page_a3857dc0();
+    init_page_38ffb2de();
     init_github_button_6217bc61();
-    ___ASSET___02 = "/_app/immutable/assets/appstore-3c23a8b2.svg";
+    ___ASSET___0 = "/_app/immutable/assets/appstore-3c23a8b2.svg";
     ___ASSET___1 = "/_app/immutable/assets/homepage_image2-3c55d2db.webp";
     Logo_anim = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       let { active } = $$props;
@@ -6940,6 +6952,7 @@ var init_index_svelte = __esm({
     logoActive = writable2(0);
     REVISION = "142";
     MOUSE = { LEFT: 0, MIDDLE: 1, RIGHT: 2, ROTATE: 0, DOLLY: 1, PAN: 2 };
+    TOUCH = { ROTATE: 0, PAN: 1, DOLLY_PAN: 2, DOLLY_ROTATE: 3 };
     PCFSoftShadowMap = 2;
     FrontSide = 0;
     BackSide = 1;
@@ -16508,12 +16521,61 @@ var init_index_svelte = __esm({
         intersects.sort(ascSort);
         return intersects;
       }
+
       intersectObjects(objects, recursive = true, intersects = []) {
         for (let i22 = 0, l2 = objects.length; i22 < l2; i22++) {
           intersectObject(objects[i22], this, intersects, recursive);
         }
         intersects.sort(ascSort);
         return intersects;
+      }
+    };
+    Spherical = class {
+      constructor(radius = 1, phi = 0, theta = 0) {
+        this.radius = radius;
+        this.phi = phi;
+        this.theta = theta;
+        return this;
+      }
+
+      set(radius, phi, theta) {
+        this.radius = radius;
+        this.phi = phi;
+        this.theta = theta;
+        return this;
+      }
+
+      copy(other) {
+        this.radius = other.radius;
+        this.phi = other.phi;
+        this.theta = other.theta;
+        return this;
+      }
+
+      makeSafe() {
+        const EPS = 1e-6;
+        this.phi = Math.max(EPS, Math.min(Math.PI - EPS, this.phi));
+        return this;
+      }
+
+      setFromVector3(v2) {
+        return this.setFromCartesianCoords(v2.x, v2.y, v2.z);
+      }
+
+      setFromCartesianCoords(x22, y2, z2) {
+        this.radius = Math.sqrt(x22 * x22 + y2 * y2 + z2 * z2);
+        if (this.radius === 0) {
+          this.theta = 0;
+          this.phi = 0;
+        } else {
+          this.theta = Math.atan2(x22, z2);
+          this.phi = Math.acos(clamp(y2 / this.radius, -1, 1));
+        }
+        return this;
+      }
+
+      clone() {
+        return new this.constructor().copy(this);
       }
     };
     _startP = /* @__PURE__ */ new Vector3();
@@ -16523,6 +16585,7 @@ var init_index_svelte = __esm({
         this.start = start;
         this.end = end;
       }
+
       set(start, end) {
         this.start.copy(start);
         this.end.copy(end);
@@ -17273,7 +17336,7 @@ var init_index_svelte = __esm({
       init2();
       return ticked;
     };
-    TransformableObject$1 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+    TransformableObject = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       let $objectStore, $$unsubscribe_objectStore;
       let $ticked, $$unsubscribe_ticked;
       let { object } = $$props;
@@ -17499,7 +17562,7 @@ var init_index_svelte = __esm({
         }
         $$rendered = `${validate_component(LayerableObject, "LayerableObject").$$render($$result, { object }, {}, {})}
 
-${validate_component(TransformableObject$1, "TransformableObject").$$render($$result, {
+${validate_component(TransformableObject, "TransformableObject").$$render($$result, {
           object,
           position,
           rotation,
@@ -17721,6 +17784,880 @@ ${validate_component(ViewportAwareObject, "ViewportAwareObject").$$render($$resu
       loaders.push(newLoader);
       return newLoader;
     };
+    _changeEvent$1 = { type: "change" };
+    _startEvent = { type: "start" };
+    _endEvent = { type: "end" };
+    OrbitControls$1 = class extends EventDispatcher {
+      constructor(object, domElement) {
+        super();
+        if (domElement === void 0)
+          console.warn("THREE.OrbitControls: The second parameter \"domElement\" is now mandatory.");
+        if (domElement === document)
+          console.error("THREE.OrbitControls: \"document\" should not be used as the target \"domElement\". Please use \"renderer.domElement\" instead.");
+        this.object = object;
+        this.domElement = domElement;
+        this.domElement.style.touchAction = "none";
+        this.enabled = true;
+        this.target = new Vector3();
+        this.minDistance = 0;
+        this.maxDistance = Infinity;
+        this.minZoom = 0;
+        this.maxZoom = Infinity;
+        this.minPolarAngle = 0;
+        this.maxPolarAngle = Math.PI;
+        this.minAzimuthAngle = -Infinity;
+        this.maxAzimuthAngle = Infinity;
+        this.enableDamping = false;
+        this.dampingFactor = 0.05;
+        this.enableZoom = true;
+        this.zoomSpeed = 1;
+        this.enableRotate = true;
+        this.rotateSpeed = 1;
+        this.enablePan = true;
+        this.panSpeed = 1;
+        this.screenSpacePanning = true;
+        this.keyPanSpeed = 7;
+        this.autoRotate = false;
+        this.autoRotateSpeed = 2;
+        this.keys = { LEFT: "ArrowLeft", UP: "ArrowUp", RIGHT: "ArrowRight", BOTTOM: "ArrowDown" };
+        this.mouseButtons = { LEFT: MOUSE.ROTATE, MIDDLE: MOUSE.DOLLY, RIGHT: MOUSE.PAN };
+        this.touches = { ONE: TOUCH.ROTATE, TWO: TOUCH.DOLLY_PAN };
+        this.target0 = this.target.clone();
+        this.position0 = this.object.position.clone();
+        this.zoom0 = this.object.zoom;
+        this._domElementKeyEvents = null;
+        this.getPolarAngle = function() {
+          return spherical.phi;
+        };
+        this.getAzimuthalAngle = function() {
+          return spherical.theta;
+        };
+        this.getDistance = function() {
+          return this.object.position.distanceTo(this.target);
+        };
+        this.listenToKeyEvents = function(domElement2) {
+          domElement2.addEventListener("keydown", onKeyDown);
+          this._domElementKeyEvents = domElement2;
+        };
+        this.saveState = function() {
+          scope.target0.copy(scope.target);
+          scope.position0.copy(scope.object.position);
+          scope.zoom0 = scope.object.zoom;
+        };
+        this.reset = function() {
+          scope.target.copy(scope.target0);
+          scope.object.position.copy(scope.position0);
+          scope.object.zoom = scope.zoom0;
+          scope.object.updateProjectionMatrix();
+          scope.dispatchEvent(_changeEvent$1);
+          scope.update();
+          state = STATE.NONE;
+        };
+        this.update = function() {
+          const offset = new Vector3();
+          const quat = new Quaternion().setFromUnitVectors(object.up, new Vector3(0, 1, 0));
+          const quatInverse = quat.clone().invert();
+          const lastPosition = new Vector3();
+          const lastQuaternion = new Quaternion();
+          const twoPI = 2 * Math.PI;
+          return function update2() {
+            const position = scope.object.position;
+            offset.copy(position).sub(scope.target);
+            offset.applyQuaternion(quat);
+            spherical.setFromVector3(offset);
+            if (scope.autoRotate && state === STATE.NONE) {
+              rotateLeft(getAutoRotationAngle());
+            }
+            if (scope.enableDamping) {
+              spherical.theta += sphericalDelta.theta * scope.dampingFactor;
+              spherical.phi += sphericalDelta.phi * scope.dampingFactor;
+            } else {
+              spherical.theta += sphericalDelta.theta;
+              spherical.phi += sphericalDelta.phi;
+            }
+            let min = scope.minAzimuthAngle;
+            let max = scope.maxAzimuthAngle;
+            if (isFinite(min) && isFinite(max)) {
+              if (min < -Math.PI)
+                min += twoPI;
+              else if (min > Math.PI)
+                min -= twoPI;
+              if (max < -Math.PI)
+                max += twoPI;
+              else if (max > Math.PI)
+                max -= twoPI;
+              if (min <= max) {
+                spherical.theta = Math.max(min, Math.min(max, spherical.theta));
+              } else {
+                spherical.theta = spherical.theta > (min + max) / 2 ? Math.max(min, spherical.theta) : Math.min(max, spherical.theta);
+              }
+            }
+            spherical.phi = Math.max(scope.minPolarAngle, Math.min(scope.maxPolarAngle, spherical.phi));
+            spherical.makeSafe();
+            spherical.radius *= scale;
+            spherical.radius = Math.max(scope.minDistance, Math.min(scope.maxDistance, spherical.radius));
+            if (scope.enableDamping === true) {
+              scope.target.addScaledVector(panOffset, scope.dampingFactor);
+            } else {
+              scope.target.add(panOffset);
+            }
+            offset.setFromSpherical(spherical);
+            offset.applyQuaternion(quatInverse);
+            position.copy(scope.target).add(offset);
+            scope.object.lookAt(scope.target);
+            if (scope.enableDamping === true) {
+              sphericalDelta.theta *= 1 - scope.dampingFactor;
+              sphericalDelta.phi *= 1 - scope.dampingFactor;
+              panOffset.multiplyScalar(1 - scope.dampingFactor);
+            } else {
+              sphericalDelta.set(0, 0, 0);
+              panOffset.set(0, 0, 0);
+            }
+            scale = 1;
+            if (zoomChanged || lastPosition.distanceToSquared(scope.object.position) > EPS || 8 * (1 - lastQuaternion.dot(scope.object.quaternion)) > EPS) {
+              scope.dispatchEvent(_changeEvent$1);
+              lastPosition.copy(scope.object.position);
+              lastQuaternion.copy(scope.object.quaternion);
+              zoomChanged = false;
+              return true;
+            }
+            return false;
+          };
+        }();
+        this.dispose = function() {
+          scope.domElement.removeEventListener("contextmenu", onContextMenu);
+          scope.domElement.removeEventListener("pointerdown", onPointerDown2);
+          scope.domElement.removeEventListener("pointercancel", onPointerCancel);
+          scope.domElement.removeEventListener("wheel", onMouseWheel);
+          scope.domElement.removeEventListener("pointermove", onPointerMove2);
+          scope.domElement.removeEventListener("pointerup", onPointerUp2);
+          if (scope._domElementKeyEvents !== null) {
+            scope._domElementKeyEvents.removeEventListener("keydown", onKeyDown);
+          }
+        };
+        const scope = this;
+        const STATE = {
+          NONE: -1,
+          ROTATE: 0,
+          DOLLY: 1,
+          PAN: 2,
+          TOUCH_ROTATE: 3,
+          TOUCH_PAN: 4,
+          TOUCH_DOLLY_PAN: 5,
+          TOUCH_DOLLY_ROTATE: 6
+        };
+        let state = STATE.NONE;
+        const EPS = 1e-6;
+        const spherical = new Spherical();
+        const sphericalDelta = new Spherical();
+        let scale = 1;
+        const panOffset = new Vector3();
+        let zoomChanged = false;
+        const rotateStart = new Vector2();
+        const rotateEnd = new Vector2();
+        const rotateDelta = new Vector2();
+        const panStart = new Vector2();
+        const panEnd = new Vector2();
+        const panDelta = new Vector2();
+        const dollyStart = new Vector2();
+        const dollyEnd = new Vector2();
+        const dollyDelta = new Vector2();
+        const pointers = [];
+        const pointerPositions = {};
+
+        function getAutoRotationAngle() {
+          return 2 * Math.PI / 60 / 60 * scope.autoRotateSpeed;
+        }
+
+        function getZoomScale() {
+          return Math.pow(0.95, scope.zoomSpeed);
+        }
+
+        function rotateLeft(angle) {
+          sphericalDelta.theta -= angle;
+        }
+
+        function rotateUp(angle) {
+          sphericalDelta.phi -= angle;
+        }
+
+        const panLeft = function() {
+          const v2 = new Vector3();
+          return function panLeft2(distance, objectMatrix) {
+            v2.setFromMatrixColumn(objectMatrix, 0);
+            v2.multiplyScalar(-distance);
+            panOffset.add(v2);
+          };
+        }();
+        const panUp = function() {
+          const v2 = new Vector3();
+          return function panUp2(distance, objectMatrix) {
+            if (scope.screenSpacePanning === true) {
+              v2.setFromMatrixColumn(objectMatrix, 1);
+            } else {
+              v2.setFromMatrixColumn(objectMatrix, 0);
+              v2.crossVectors(scope.object.up, v2);
+            }
+            v2.multiplyScalar(distance);
+            panOffset.add(v2);
+          };
+        }();
+        const pan = function() {
+          const offset = new Vector3();
+          return function pan2(deltaX, deltaY) {
+            const element = scope.domElement;
+            if (scope.object.isPerspectiveCamera) {
+              const position = scope.object.position;
+              offset.copy(position).sub(scope.target);
+              let targetDistance = offset.length();
+              targetDistance *= Math.tan(scope.object.fov / 2 * Math.PI / 180);
+              panLeft(2 * deltaX * targetDistance / element.clientHeight, scope.object.matrix);
+              panUp(2 * deltaY * targetDistance / element.clientHeight, scope.object.matrix);
+            } else if (scope.object.isOrthographicCamera) {
+              panLeft(deltaX * (scope.object.right - scope.object.left) / scope.object.zoom / element.clientWidth, scope.object.matrix);
+              panUp(deltaY * (scope.object.top - scope.object.bottom) / scope.object.zoom / element.clientHeight, scope.object.matrix);
+            } else {
+              console.warn("WARNING: OrbitControls.js encountered an unknown camera type - pan disabled.");
+              scope.enablePan = false;
+            }
+          };
+        }();
+
+        function dollyOut(dollyScale) {
+          if (scope.object.isPerspectiveCamera) {
+            scale /= dollyScale;
+          } else if (scope.object.isOrthographicCamera) {
+            scope.object.zoom = Math.max(scope.minZoom, Math.min(scope.maxZoom, scope.object.zoom * dollyScale));
+            scope.object.updateProjectionMatrix();
+            zoomChanged = true;
+          } else {
+            console.warn("WARNING: OrbitControls.js encountered an unknown camera type - dolly/zoom disabled.");
+            scope.enableZoom = false;
+          }
+        }
+
+        function dollyIn(dollyScale) {
+          if (scope.object.isPerspectiveCamera) {
+            scale *= dollyScale;
+          } else if (scope.object.isOrthographicCamera) {
+            scope.object.zoom = Math.max(scope.minZoom, Math.min(scope.maxZoom, scope.object.zoom / dollyScale));
+            scope.object.updateProjectionMatrix();
+            zoomChanged = true;
+          } else {
+            console.warn("WARNING: OrbitControls.js encountered an unknown camera type - dolly/zoom disabled.");
+            scope.enableZoom = false;
+          }
+        }
+
+        function handleMouseDownRotate(event) {
+          rotateStart.set(event.clientX, event.clientY);
+        }
+
+        function handleMouseDownDolly(event) {
+          dollyStart.set(event.clientX, event.clientY);
+        }
+
+        function handleMouseDownPan(event) {
+          panStart.set(event.clientX, event.clientY);
+        }
+
+        function handleMouseMoveRotate(event) {
+          rotateEnd.set(event.clientX, event.clientY);
+          rotateDelta.subVectors(rotateEnd, rotateStart).multiplyScalar(scope.rotateSpeed);
+          const element = scope.domElement;
+          rotateLeft(2 * Math.PI * rotateDelta.x / element.clientHeight);
+          rotateUp(2 * Math.PI * rotateDelta.y / element.clientHeight);
+          rotateStart.copy(rotateEnd);
+          scope.update();
+        }
+
+        function handleMouseMoveDolly(event) {
+          dollyEnd.set(event.clientX, event.clientY);
+          dollyDelta.subVectors(dollyEnd, dollyStart);
+          if (dollyDelta.y > 0) {
+            dollyOut(getZoomScale());
+          } else if (dollyDelta.y < 0) {
+            dollyIn(getZoomScale());
+          }
+          dollyStart.copy(dollyEnd);
+          scope.update();
+        }
+
+        function handleMouseMovePan(event) {
+          panEnd.set(event.clientX, event.clientY);
+          panDelta.subVectors(panEnd, panStart).multiplyScalar(scope.panSpeed);
+          pan(panDelta.x, panDelta.y);
+          panStart.copy(panEnd);
+          scope.update();
+        }
+
+        function handleMouseWheel(event) {
+          if (event.deltaY < 0) {
+            dollyIn(getZoomScale());
+          } else if (event.deltaY > 0) {
+            dollyOut(getZoomScale());
+          }
+          scope.update();
+        }
+
+        function handleKeyDown(event) {
+          let needsUpdate = false;
+          switch (event.code) {
+            case scope.keys.UP:
+              pan(0, scope.keyPanSpeed);
+              needsUpdate = true;
+              break;
+            case scope.keys.BOTTOM:
+              pan(0, -scope.keyPanSpeed);
+              needsUpdate = true;
+              break;
+            case scope.keys.LEFT:
+              pan(scope.keyPanSpeed, 0);
+              needsUpdate = true;
+              break;
+            case scope.keys.RIGHT:
+              pan(-scope.keyPanSpeed, 0);
+              needsUpdate = true;
+              break;
+          }
+          if (needsUpdate) {
+            event.preventDefault();
+            scope.update();
+          }
+        }
+
+        function handleTouchStartRotate() {
+          if (pointers.length === 1) {
+            rotateStart.set(pointers[0].pageX, pointers[0].pageY);
+          } else {
+            const x22 = 0.5 * (pointers[0].pageX + pointers[1].pageX);
+            const y2 = 0.5 * (pointers[0].pageY + pointers[1].pageY);
+            rotateStart.set(x22, y2);
+          }
+        }
+
+        function handleTouchStartPan() {
+          if (pointers.length === 1) {
+            panStart.set(pointers[0].pageX, pointers[0].pageY);
+          } else {
+            const x22 = 0.5 * (pointers[0].pageX + pointers[1].pageX);
+            const y2 = 0.5 * (pointers[0].pageY + pointers[1].pageY);
+            panStart.set(x22, y2);
+          }
+        }
+
+        function handleTouchStartDolly() {
+          const dx = pointers[0].pageX - pointers[1].pageX;
+          const dy = pointers[0].pageY - pointers[1].pageY;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          dollyStart.set(0, distance);
+        }
+
+        function handleTouchStartDollyPan() {
+          if (scope.enableZoom)
+            handleTouchStartDolly();
+          if (scope.enablePan)
+            handleTouchStartPan();
+        }
+
+        function handleTouchStartDollyRotate() {
+          if (scope.enableZoom)
+            handleTouchStartDolly();
+          if (scope.enableRotate)
+            handleTouchStartRotate();
+        }
+
+        function handleTouchMoveRotate(event) {
+          if (pointers.length == 1) {
+            rotateEnd.set(event.pageX, event.pageY);
+          } else {
+            const position = getSecondPointerPosition(event);
+            const x22 = 0.5 * (event.pageX + position.x);
+            const y2 = 0.5 * (event.pageY + position.y);
+            rotateEnd.set(x22, y2);
+          }
+          rotateDelta.subVectors(rotateEnd, rotateStart).multiplyScalar(scope.rotateSpeed);
+          const element = scope.domElement;
+          rotateLeft(2 * Math.PI * rotateDelta.x / element.clientHeight);
+          rotateUp(2 * Math.PI * rotateDelta.y / element.clientHeight);
+          rotateStart.copy(rotateEnd);
+        }
+
+        function handleTouchMovePan(event) {
+          if (pointers.length === 1) {
+            panEnd.set(event.pageX, event.pageY);
+          } else {
+            const position = getSecondPointerPosition(event);
+            const x22 = 0.5 * (event.pageX + position.x);
+            const y2 = 0.5 * (event.pageY + position.y);
+            panEnd.set(x22, y2);
+          }
+          panDelta.subVectors(panEnd, panStart).multiplyScalar(scope.panSpeed);
+          pan(panDelta.x, panDelta.y);
+          panStart.copy(panEnd);
+        }
+
+        function handleTouchMoveDolly(event) {
+          const position = getSecondPointerPosition(event);
+          const dx = event.pageX - position.x;
+          const dy = event.pageY - position.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          dollyEnd.set(0, distance);
+          dollyDelta.set(0, Math.pow(dollyEnd.y / dollyStart.y, scope.zoomSpeed));
+          dollyOut(dollyDelta.y);
+          dollyStart.copy(dollyEnd);
+        }
+
+        function handleTouchMoveDollyPan(event) {
+          if (scope.enableZoom)
+            handleTouchMoveDolly(event);
+          if (scope.enablePan)
+            handleTouchMovePan(event);
+        }
+
+        function handleTouchMoveDollyRotate(event) {
+          if (scope.enableZoom)
+            handleTouchMoveDolly(event);
+          if (scope.enableRotate)
+            handleTouchMoveRotate(event);
+        }
+
+        function onPointerDown2(event) {
+          if (scope.enabled === false)
+            return;
+          if (pointers.length === 0) {
+            scope.domElement.setPointerCapture(event.pointerId);
+            scope.domElement.addEventListener("pointermove", onPointerMove2);
+            scope.domElement.addEventListener("pointerup", onPointerUp2);
+          }
+          addPointer(event);
+          if (event.pointerType === "touch") {
+            onTouchStart(event);
+          } else {
+            onMouseDown(event);
+          }
+        }
+
+        function onPointerMove2(event) {
+          if (scope.enabled === false)
+            return;
+          if (event.pointerType === "touch") {
+            onTouchMove(event);
+          } else {
+            onMouseMove(event);
+          }
+        }
+
+        function onPointerUp2(event) {
+          removePointer(event);
+          if (pointers.length === 0) {
+            scope.domElement.releasePointerCapture(event.pointerId);
+            scope.domElement.removeEventListener("pointermove", onPointerMove2);
+            scope.domElement.removeEventListener("pointerup", onPointerUp2);
+          }
+          scope.dispatchEvent(_endEvent);
+          state = STATE.NONE;
+        }
+
+        function onPointerCancel(event) {
+          removePointer(event);
+        }
+
+        function onMouseDown(event) {
+          let mouseAction;
+          switch (event.button) {
+            case 0:
+              mouseAction = scope.mouseButtons.LEFT;
+              break;
+            case 1:
+              mouseAction = scope.mouseButtons.MIDDLE;
+              break;
+            case 2:
+              mouseAction = scope.mouseButtons.RIGHT;
+              break;
+            default:
+              mouseAction = -1;
+          }
+          switch (mouseAction) {
+            case MOUSE.DOLLY:
+              if (scope.enableZoom === false)
+                return;
+              handleMouseDownDolly(event);
+              state = STATE.DOLLY;
+              break;
+            case MOUSE.ROTATE:
+              if (event.ctrlKey || event.metaKey || event.shiftKey) {
+                if (scope.enablePan === false)
+                  return;
+                handleMouseDownPan(event);
+                state = STATE.PAN;
+              } else {
+                if (scope.enableRotate === false)
+                  return;
+                handleMouseDownRotate(event);
+                state = STATE.ROTATE;
+              }
+              break;
+            case MOUSE.PAN:
+              if (event.ctrlKey || event.metaKey || event.shiftKey) {
+                if (scope.enableRotate === false)
+                  return;
+                handleMouseDownRotate(event);
+                state = STATE.ROTATE;
+              } else {
+                if (scope.enablePan === false)
+                  return;
+                handleMouseDownPan(event);
+                state = STATE.PAN;
+              }
+              break;
+            default:
+              state = STATE.NONE;
+          }
+          if (state !== STATE.NONE) {
+            scope.dispatchEvent(_startEvent);
+          }
+        }
+
+        function onMouseMove(event) {
+          if (scope.enabled === false)
+            return;
+          switch (state) {
+            case STATE.ROTATE:
+              if (scope.enableRotate === false)
+                return;
+              handleMouseMoveRotate(event);
+              break;
+            case STATE.DOLLY:
+              if (scope.enableZoom === false)
+                return;
+              handleMouseMoveDolly(event);
+              break;
+            case STATE.PAN:
+              if (scope.enablePan === false)
+                return;
+              handleMouseMovePan(event);
+              break;
+          }
+        }
+
+        function onMouseWheel(event) {
+          if (scope.enabled === false || scope.enableZoom === false || state !== STATE.NONE)
+            return;
+          event.preventDefault();
+          scope.dispatchEvent(_startEvent);
+          handleMouseWheel(event);
+          scope.dispatchEvent(_endEvent);
+        }
+
+        function onKeyDown(event) {
+          if (scope.enabled === false || scope.enablePan === false)
+            return;
+          handleKeyDown(event);
+        }
+
+        function onTouchStart(event) {
+          trackPointer(event);
+          switch (pointers.length) {
+            case 1:
+              switch (scope.touches.ONE) {
+                case TOUCH.ROTATE:
+                  if (scope.enableRotate === false)
+                    return;
+                  handleTouchStartRotate();
+                  state = STATE.TOUCH_ROTATE;
+                  break;
+                case TOUCH.PAN:
+                  if (scope.enablePan === false)
+                    return;
+                  handleTouchStartPan();
+                  state = STATE.TOUCH_PAN;
+                  break;
+                default:
+                  state = STATE.NONE;
+              }
+              break;
+            case 2:
+              switch (scope.touches.TWO) {
+                case TOUCH.DOLLY_PAN:
+                  if (scope.enableZoom === false && scope.enablePan === false)
+                    return;
+                  handleTouchStartDollyPan();
+                  state = STATE.TOUCH_DOLLY_PAN;
+                  break;
+                case TOUCH.DOLLY_ROTATE:
+                  if (scope.enableZoom === false && scope.enableRotate === false)
+                    return;
+                  handleTouchStartDollyRotate();
+                  state = STATE.TOUCH_DOLLY_ROTATE;
+                  break;
+                default:
+                  state = STATE.NONE;
+              }
+              break;
+            default:
+              state = STATE.NONE;
+          }
+          if (state !== STATE.NONE) {
+            scope.dispatchEvent(_startEvent);
+          }
+        }
+
+        function onTouchMove(event) {
+          trackPointer(event);
+          switch (state) {
+            case STATE.TOUCH_ROTATE:
+              if (scope.enableRotate === false)
+                return;
+              handleTouchMoveRotate(event);
+              scope.update();
+              break;
+            case STATE.TOUCH_PAN:
+              if (scope.enablePan === false)
+                return;
+              handleTouchMovePan(event);
+              scope.update();
+              break;
+            case STATE.TOUCH_DOLLY_PAN:
+              if (scope.enableZoom === false && scope.enablePan === false)
+                return;
+              handleTouchMoveDollyPan(event);
+              scope.update();
+              break;
+            case STATE.TOUCH_DOLLY_ROTATE:
+              if (scope.enableZoom === false && scope.enableRotate === false)
+                return;
+              handleTouchMoveDollyRotate(event);
+              scope.update();
+              break;
+            default:
+              state = STATE.NONE;
+          }
+        }
+
+        function onContextMenu(event) {
+          if (scope.enabled === false)
+            return;
+          event.preventDefault();
+        }
+
+        function addPointer(event) {
+          pointers.push(event);
+        }
+
+        function removePointer(event) {
+          delete pointerPositions[event.pointerId];
+          for (let i22 = 0; i22 < pointers.length; i22++) {
+            if (pointers[i22].pointerId == event.pointerId) {
+              pointers.splice(i22, 1);
+              return;
+            }
+          }
+        }
+
+        function trackPointer(event) {
+          let position = pointerPositions[event.pointerId];
+          if (position === void 0) {
+            position = new Vector2();
+            pointerPositions[event.pointerId] = position;
+          }
+          position.set(event.pageX, event.pageY);
+        }
+
+        function getSecondPointerPosition(event) {
+          const pointer = event.pointerId === pointers[0].pointerId ? pointers[1] : pointers[0];
+          return pointerPositions[pointer.pointerId];
+        }
+
+        scope.domElement.addEventListener("contextmenu", onContextMenu);
+        scope.domElement.addEventListener("pointerdown", onPointerDown2);
+        scope.domElement.addEventListener("pointercancel", onPointerCancel);
+        scope.domElement.addEventListener("wheel", onMouseWheel, { passive: false });
+        this.update();
+      }
+    };
+    OrbitControls = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+      let $parent, $$unsubscribe_parent;
+      let { autoRotate = void 0 } = $$props;
+      let { autoRotateSpeed = void 0 } = $$props;
+      let { dampingFactor = void 0 } = $$props;
+      let { enableDamping = void 0 } = $$props;
+      let { enabled = void 0 } = $$props;
+      let { enablePan = void 0 } = $$props;
+      let { enableRotate = void 0 } = $$props;
+      let { enableZoom = void 0 } = $$props;
+      let { keyPanSpeed = void 0 } = $$props;
+      let { keys = void 0 } = $$props;
+      let { maxAzimuthAngle = void 0 } = $$props;
+      let { maxDistance = void 0 } = $$props;
+      let { maxPolarAngle = void 0 } = $$props;
+      let { maxZoom = void 0 } = $$props;
+      let { minAzimuthAngle = void 0 } = $$props;
+      let { minDistance = void 0 } = $$props;
+      let { minPolarAngle = void 0 } = $$props;
+      let { minZoom = void 0 } = $$props;
+      let { mouseButtons = void 0 } = $$props;
+      let { panSpeed = void 0 } = $$props;
+      let { rotateSpeed = void 0 } = $$props;
+      let { screenSpacePanning = void 0 } = $$props;
+      let { touches = void 0 } = $$props;
+      let { zoomSpeed = void 0 } = $$props;
+      let { target = void 0 } = $$props;
+      const parent = getParent();
+      $$unsubscribe_parent = subscribe(parent, (value) => $parent = value);
+      const { renderer, invalidate } = useThrelte();
+      if (!renderer)
+        throw new Error("Threlte Context missing: Is <OrbitControls> a child of <Canvas>?");
+      if (!($parent instanceof Camera)) {
+        throw new Error("Parent missing: <OrbitControls> need to be a child of a <Camera>");
+      }
+      const dispatch = createEventDispatcher();
+      const onChange = () => {
+        invalidate("Orbitcontrols: change event");
+        dispatch("change");
+      };
+      const onStart = () => dispatch("start");
+      const onEnd = () => dispatch("end");
+      const controls = new OrbitControls$1($parent, renderer.domElement);
+      getThrelteUserData($parent).orbitControls = controls;
+      controls.addEventListener("change", onChange);
+      controls.addEventListener("start", onStart);
+      controls.addEventListener("end", onEnd);
+      onDestroy(() => {
+        delete getThrelteUserData($parent).orbitControls;
+        controls.removeEventListener("change", onChange);
+        controls.removeEventListener("start", onStart);
+        controls.removeEventListener("end", onEnd);
+      });
+      const { start, stop } = useFrame(() => controls.update(), {
+        autostart: false,
+        debugFrameloopMessage: "OrbitControlts: updating controls"
+      });
+      const targetObject = new Object3D();
+      onDestroy(() => {
+        controls.dispose();
+        invalidate("OrbitControls: onDestroy");
+      });
+      if ($$props.autoRotate === void 0 && $$bindings.autoRotate && autoRotate !== void 0)
+        $$bindings.autoRotate(autoRotate);
+      if ($$props.autoRotateSpeed === void 0 && $$bindings.autoRotateSpeed && autoRotateSpeed !== void 0)
+        $$bindings.autoRotateSpeed(autoRotateSpeed);
+      if ($$props.dampingFactor === void 0 && $$bindings.dampingFactor && dampingFactor !== void 0)
+        $$bindings.dampingFactor(dampingFactor);
+      if ($$props.enableDamping === void 0 && $$bindings.enableDamping && enableDamping !== void 0)
+        $$bindings.enableDamping(enableDamping);
+      if ($$props.enabled === void 0 && $$bindings.enabled && enabled !== void 0)
+        $$bindings.enabled(enabled);
+      if ($$props.enablePan === void 0 && $$bindings.enablePan && enablePan !== void 0)
+        $$bindings.enablePan(enablePan);
+      if ($$props.enableRotate === void 0 && $$bindings.enableRotate && enableRotate !== void 0)
+        $$bindings.enableRotate(enableRotate);
+      if ($$props.enableZoom === void 0 && $$bindings.enableZoom && enableZoom !== void 0)
+        $$bindings.enableZoom(enableZoom);
+      if ($$props.keyPanSpeed === void 0 && $$bindings.keyPanSpeed && keyPanSpeed !== void 0)
+        $$bindings.keyPanSpeed(keyPanSpeed);
+      if ($$props.keys === void 0 && $$bindings.keys && keys !== void 0)
+        $$bindings.keys(keys);
+      if ($$props.maxAzimuthAngle === void 0 && $$bindings.maxAzimuthAngle && maxAzimuthAngle !== void 0)
+        $$bindings.maxAzimuthAngle(maxAzimuthAngle);
+      if ($$props.maxDistance === void 0 && $$bindings.maxDistance && maxDistance !== void 0)
+        $$bindings.maxDistance(maxDistance);
+      if ($$props.maxPolarAngle === void 0 && $$bindings.maxPolarAngle && maxPolarAngle !== void 0)
+        $$bindings.maxPolarAngle(maxPolarAngle);
+      if ($$props.maxZoom === void 0 && $$bindings.maxZoom && maxZoom !== void 0)
+        $$bindings.maxZoom(maxZoom);
+      if ($$props.minAzimuthAngle === void 0 && $$bindings.minAzimuthAngle && minAzimuthAngle !== void 0)
+        $$bindings.minAzimuthAngle(minAzimuthAngle);
+      if ($$props.minDistance === void 0 && $$bindings.minDistance && minDistance !== void 0)
+        $$bindings.minDistance(minDistance);
+      if ($$props.minPolarAngle === void 0 && $$bindings.minPolarAngle && minPolarAngle !== void 0)
+        $$bindings.minPolarAngle(minPolarAngle);
+      if ($$props.minZoom === void 0 && $$bindings.minZoom && minZoom !== void 0)
+        $$bindings.minZoom(minZoom);
+      if ($$props.mouseButtons === void 0 && $$bindings.mouseButtons && mouseButtons !== void 0)
+        $$bindings.mouseButtons(mouseButtons);
+      if ($$props.panSpeed === void 0 && $$bindings.panSpeed && panSpeed !== void 0)
+        $$bindings.panSpeed(panSpeed);
+      if ($$props.rotateSpeed === void 0 && $$bindings.rotateSpeed && rotateSpeed !== void 0)
+        $$bindings.rotateSpeed(rotateSpeed);
+      if ($$props.screenSpacePanning === void 0 && $$bindings.screenSpacePanning && screenSpacePanning !== void 0)
+        $$bindings.screenSpacePanning(screenSpacePanning);
+      if ($$props.touches === void 0 && $$bindings.touches && touches !== void 0)
+        $$bindings.touches(touches);
+      if ($$props.zoomSpeed === void 0 && $$bindings.zoomSpeed && zoomSpeed !== void 0)
+        $$bindings.zoomSpeed(zoomSpeed);
+      if ($$props.target === void 0 && $$bindings.target && target !== void 0)
+        $$bindings.target(target);
+      if ($$props.controls === void 0 && $$bindings.controls && controls !== void 0)
+        $$bindings.controls(controls);
+      {
+        {
+          if (autoRotate !== void 0)
+            controls.autoRotate = autoRotate;
+          if (autoRotateSpeed !== void 0)
+            controls.autoRotateSpeed = autoRotateSpeed;
+          if (dampingFactor !== void 0)
+            controls.dampingFactor = dampingFactor;
+          if (enableDamping !== void 0)
+            controls.enableDamping = enableDamping;
+          if (enabled !== void 0)
+            controls.enabled = enabled;
+          if (enablePan !== void 0)
+            controls.enablePan = enablePan;
+          if (enableRotate !== void 0)
+            controls.enableRotate = enableRotate;
+          if (enableZoom !== void 0)
+            controls.enableZoom = enableZoom;
+          if (keyPanSpeed !== void 0)
+            controls.keyPanSpeed = keyPanSpeed;
+          if (keys !== void 0)
+            controls.keys = keys;
+          if (maxAzimuthAngle !== void 0)
+            controls.maxAzimuthAngle = maxAzimuthAngle;
+          if (maxDistance !== void 0)
+            controls.maxDistance = maxDistance;
+          if (maxPolarAngle !== void 0)
+            controls.maxPolarAngle = maxPolarAngle;
+          if (maxZoom !== void 0)
+            controls.maxZoom = maxZoom;
+          if (minAzimuthAngle !== void 0)
+            controls.minAzimuthAngle = minAzimuthAngle;
+          if (minDistance !== void 0)
+            controls.minDistance = minDistance;
+          if (minPolarAngle !== void 0)
+            controls.minPolarAngle = minPolarAngle;
+          if (minZoom !== void 0)
+            controls.minZoom = minZoom;
+          if (mouseButtons !== void 0)
+            controls.mouseButtons = mouseButtons;
+          if (panSpeed !== void 0)
+            controls.panSpeed = panSpeed;
+          if (rotateSpeed !== void 0)
+            controls.rotateSpeed = rotateSpeed;
+          if (screenSpacePanning !== void 0)
+            controls.screenSpacePanning = screenSpacePanning;
+          if (touches !== void 0)
+            controls.touches = touches;
+          if (zoomSpeed !== void 0)
+            controls.zoomSpeed = zoomSpeed;
+          controls.update();
+          invalidate("OrbitControls: props changed");
+        }
+      }
+      {
+        {
+          if (autoRotate || enableDamping)
+            start();
+          else
+            stop();
+        }
+      }
+      $$unsubscribe_parent();
+      return `${validate_component(TransformableObject, "TransformableObject").$$render($$result, {
+        object: targetObject,
+        position: target
+      }, {}, {})}`;
+    });
     _raycaster = new Raycaster();
     _tempVector = new Vector3();
     _tempVector2 = new Vector3();
@@ -18031,7 +18968,7 @@ ${validate_component(ViewportAwareObject, "ViewportAwareObject").$$render($$resu
           }
         }
         $$rendered = `${target && !(target instanceof Object3D) ? `${validate_component(HierarchicalObject, "HierarchicalObject").$$render($$result, { object: originalTarget }, {}, {})}
-  ${validate_component(TransformableObject$1, "TransformableObject").$$render($$result, {
+  ${validate_component(TransformableObject, "TransformableObject").$$render($$result, {
           object: originalTarget,
           position: target
         }, {}, {})}` : ``}
@@ -20337,753 +21274,6 @@ ${validate_component(InteractiveObject, "InteractiveObject").$$render($$result, 
       }
       return texture;
     };
-    _changeEvent = { type: "change" };
-    _startEvent = { type: "start" };
-    _endEvent = { type: "end" };
-    TrackballControls = class extends EventDispatcher {
-      constructor(object, domElement) {
-        super();
-        const scope = this;
-        const STATE = { NONE: -1, ROTATE: 0, ZOOM: 1, PAN: 2, TOUCH_ROTATE: 3, TOUCH_ZOOM_PAN: 4 };
-        this.object = object;
-        this.domElement = domElement;
-        this.domElement.style.touchAction = "none";
-        this.enabled = true;
-        this.screen = { left: 0, top: 0, width: 0, height: 0 };
-        this.rotateSpeed = 1;
-        this.zoomSpeed = 1.2;
-        this.panSpeed = 0.3;
-        this.noRotate = false;
-        this.noZoom = true;
-        this.noPan = true;
-        this.staticMoving = false;
-        this.dynamicDampingFactor = 0.08;
-        this.minDistance = 0;
-        this.maxDistance = Infinity;
-        this.minZoom = 0;
-        this.maxZoom = Infinity;
-        this.keys = ["KeyA", "KeyS", "KeyD"];
-        this.mouseButtons = { LEFT: MOUSE.ROTATE, MIDDLE: MOUSE.DOLLY, RIGHT: MOUSE.PAN };
-        this.target = new Vector3();
-        const EPS = 1e-6;
-        const lastPosition = new Vector3();
-        let lastZoom = 1;
-        let _state = STATE.NONE, _keyState = STATE.NONE, _touchZoomDistanceStart = 0, _touchZoomDistanceEnd = 0,
-          _lastAngle = 0;
-        const _eye = new Vector3(), _movePrev = new Vector2(), _moveCurr = new Vector2(), _lastAxis = new Vector3(),
-          _zoomStart = new Vector2(), _zoomEnd = new Vector2(), _panStart = new Vector2(), _panEnd = new Vector2(),
-          _pointers = [], _pointerPositions = {};
-        this.target0 = this.target.clone();
-        this.position0 = this.object.position.clone();
-        this.up0 = this.object.up.clone();
-        this.zoom0 = this.object.zoom;
-        this.handleResize = function() {
-          const box = scope.domElement.getBoundingClientRect();
-          const d2 = scope.domElement.ownerDocument.documentElement;
-          scope.screen.left = box.left + window.pageXOffset - d2.clientLeft;
-          scope.screen.top = box.top + window.pageYOffset - d2.clientTop;
-          scope.screen.width = box.width;
-          scope.screen.height = box.height;
-        };
-        const getMouseOnScreen = function() {
-          const vector = new Vector2();
-          return function getMouseOnScreen2(pageX, pageY) {
-            vector.set((pageX - scope.screen.left) / scope.screen.width, (pageY - scope.screen.top) / scope.screen.height);
-            return vector;
-          };
-        }();
-        const getMouseOnCircle = function() {
-          const vector = new Vector2();
-          return function getMouseOnCircle2(pageX, pageY) {
-            vector.set((pageX - scope.screen.width * 0.5 - scope.screen.left) / (scope.screen.width * 0.5), (scope.screen.height + 2 * (scope.screen.top - pageY)) / scope.screen.width);
-            return vector;
-          };
-        }();
-        this.rotateCamera = function() {
-          const axis = new Vector3(), quaternion = new Quaternion(), eyeDirection = new Vector3(),
-            objectUpDirection = new Vector3(), objectSidewaysDirection = new Vector3(), moveDirection = new Vector3();
-          return function rotateCamera() {
-            moveDirection.set(_moveCurr.x - _movePrev.x, _moveCurr.y - _movePrev.y, 0);
-            let angle = moveDirection.length();
-            if (angle) {
-              _eye.copy(scope.object.position).sub(scope.target);
-              eyeDirection.copy(_eye).normalize();
-              objectUpDirection.copy(scope.object.up).normalize();
-              objectSidewaysDirection.crossVectors(objectUpDirection, eyeDirection).normalize();
-              objectUpDirection.setLength(_moveCurr.y - _movePrev.y);
-              objectSidewaysDirection.setLength(_moveCurr.x - _movePrev.x);
-              moveDirection.copy(objectUpDirection.add(objectSidewaysDirection));
-              axis.crossVectors(moveDirection, _eye).normalize();
-              angle *= scope.rotateSpeed;
-              quaternion.setFromAxisAngle(axis, angle);
-              _eye.applyQuaternion(quaternion);
-              scope.object.up.applyQuaternion(quaternion);
-              _lastAxis.copy(axis);
-              _lastAngle = angle;
-            } else if (!scope.staticMoving && _lastAngle) {
-              _lastAngle *= Math.sqrt(1 - scope.dynamicDampingFactor);
-              _eye.copy(scope.object.position).sub(scope.target);
-              quaternion.setFromAxisAngle(_lastAxis, _lastAngle);
-              _eye.applyQuaternion(quaternion);
-              scope.object.up.applyQuaternion(quaternion);
-            }
-            _movePrev.copy(_moveCurr);
-          };
-        }();
-        this.zoomCamera = function() {
-          let factor;
-          if (_state === STATE.TOUCH_ZOOM_PAN) {
-            factor = _touchZoomDistanceStart / _touchZoomDistanceEnd;
-            _touchZoomDistanceStart = _touchZoomDistanceEnd;
-            if (scope.object.isPerspectiveCamera) {
-              _eye.multiplyScalar(factor);
-            } else if (scope.object.isOrthographicCamera) {
-              scope.object.zoom = MathUtils.clamp(scope.object.zoom / factor, scope.minZoom, scope.maxZoom);
-              if (lastZoom !== scope.object.zoom) {
-                scope.object.updateProjectionMatrix();
-              }
-            } else {
-              console.warn("THREE.TrackballControls: Unsupported camera type");
-            }
-          } else {
-            factor = 1 + (_zoomEnd.y - _zoomStart.y) * scope.zoomSpeed;
-            if (factor !== 1 && factor > 0) {
-              if (scope.object.isPerspectiveCamera) {
-                _eye.multiplyScalar(factor);
-              } else if (scope.object.isOrthographicCamera) {
-                scope.object.zoom = MathUtils.clamp(scope.object.zoom / factor, scope.minZoom, scope.maxZoom);
-                if (lastZoom !== scope.object.zoom) {
-                  scope.object.updateProjectionMatrix();
-                }
-              } else {
-                console.warn("THREE.TrackballControls: Unsupported camera type");
-              }
-            }
-            if (scope.staticMoving) {
-              _zoomStart.copy(_zoomEnd);
-            } else {
-              _zoomStart.y += (_zoomEnd.y - _zoomStart.y) * this.dynamicDampingFactor;
-            }
-          }
-        };
-        this.panCamera = function() {
-          const mouseChange = new Vector2(), objectUp = new Vector3(), pan = new Vector3();
-          return function panCamera() {
-            mouseChange.copy(_panEnd).sub(_panStart);
-            if (mouseChange.lengthSq()) {
-              if (scope.object.isOrthographicCamera) {
-                const scale_x = (scope.object.right - scope.object.left) / scope.object.zoom / scope.domElement.clientWidth;
-                const scale_y = (scope.object.top - scope.object.bottom) / scope.object.zoom / scope.domElement.clientWidth;
-                mouseChange.x *= scale_x;
-                mouseChange.y *= scale_y;
-              }
-              mouseChange.multiplyScalar(_eye.length() * scope.panSpeed);
-              pan.copy(_eye).cross(scope.object.up).setLength(mouseChange.x);
-              pan.add(objectUp.copy(scope.object.up).setLength(mouseChange.y));
-              scope.object.position.add(pan);
-              scope.target.add(pan);
-              if (scope.staticMoving) {
-                _panStart.copy(_panEnd);
-              } else {
-                _panStart.add(mouseChange.subVectors(_panEnd, _panStart).multiplyScalar(scope.dynamicDampingFactor));
-              }
-            }
-          };
-        }();
-        this.checkDistances = function() {
-          if (!scope.noZoom || !scope.noPan) {
-            if (_eye.lengthSq() > scope.maxDistance * scope.maxDistance) {
-              scope.object.position.addVectors(scope.target, _eye.setLength(scope.maxDistance));
-              _zoomStart.copy(_zoomEnd);
-            }
-            if (_eye.lengthSq() < scope.minDistance * scope.minDistance) {
-              scope.object.position.addVectors(scope.target, _eye.setLength(scope.minDistance));
-              _zoomStart.copy(_zoomEnd);
-            }
-          }
-        };
-        this.update = function() {
-          _eye.subVectors(scope.object.position, scope.target);
-          if (!scope.noRotate) {
-            scope.rotateCamera();
-          }
-          if (!scope.noZoom) {
-            scope.zoomCamera();
-          }
-          if (!scope.noPan) {
-            scope.panCamera();
-          }
-          scope.object.position.addVectors(scope.target, _eye);
-          if (scope.object.isPerspectiveCamera) {
-            scope.checkDistances();
-            scope.object.lookAt(scope.target);
-            if (lastPosition.distanceToSquared(scope.object.position) > EPS) {
-              scope.dispatchEvent(_changeEvent);
-              lastPosition.copy(scope.object.position);
-            }
-          } else if (scope.object.isOrthographicCamera) {
-            scope.object.lookAt(scope.target);
-            if (lastPosition.distanceToSquared(scope.object.position) > EPS || lastZoom !== scope.object.zoom) {
-              scope.dispatchEvent(_changeEvent);
-              lastPosition.copy(scope.object.position);
-              lastZoom = scope.object.zoom;
-            }
-          } else {
-            console.warn("THREE.TrackballControls: Unsupported camera type");
-          }
-        };
-        this.reset = function() {
-          _state = STATE.NONE;
-          _keyState = STATE.NONE;
-          scope.target.copy(scope.target0);
-          scope.object.position.copy(scope.position0);
-          scope.object.up.copy(scope.up0);
-          scope.object.zoom = scope.zoom0;
-          scope.object.updateProjectionMatrix();
-          _eye.subVectors(scope.object.position, scope.target);
-          scope.object.lookAt(scope.target);
-          scope.dispatchEvent(_changeEvent);
-          lastPosition.copy(scope.object.position);
-          lastZoom = scope.object.zoom;
-        };
-
-        function onPointerDown2(event) {
-          if (scope.enabled === false)
-            return;
-          if (_pointers.length === 0) {
-            scope.domElement.setPointerCapture(event.pointerId);
-            scope.domElement.addEventListener("pointermove", onPointerMove2);
-            scope.domElement.addEventListener("pointerup", onPointerUp2);
-          }
-          addPointer(event);
-          if (event.pointerType === "touch") {
-            onTouchStart(event);
-          } else {
-            onMouseDown(event);
-          }
-        }
-
-        function onPointerMove2(event) {
-          if (scope.enabled === false)
-            return;
-          if (event.pointerType === "touch") {
-            onTouchMove(event);
-          } else {
-            onMouseMove(event);
-          }
-        }
-
-        function onPointerUp2(event) {
-          if (scope.enabled === false)
-            return;
-          if (event.pointerType === "touch") {
-            onTouchEnd(event);
-          } else {
-            onMouseUp();
-          }
-          removePointer(event);
-          if (_pointers.length === 0) {
-            scope.domElement.releasePointerCapture(event.pointerId);
-            scope.domElement.removeEventListener("pointermove", onPointerMove2);
-            scope.domElement.removeEventListener("pointerup", onPointerUp2);
-          }
-        }
-
-        function onPointerCancel(event) {
-          removePointer(event);
-        }
-
-        function keydown(event) {
-          if (scope.enabled === false)
-            return;
-          window.removeEventListener("keydown", keydown);
-          if (_keyState !== STATE.NONE) {
-            return;
-          } else if (event.code === scope.keys[STATE.ROTATE] && !scope.noRotate) {
-            _keyState = STATE.ROTATE;
-          } else if (event.code === scope.keys[STATE.ZOOM] && !scope.noZoom) {
-            _keyState = STATE.ZOOM;
-          } else if (event.code === scope.keys[STATE.PAN] && !scope.noPan) {
-            _keyState = STATE.PAN;
-          }
-        }
-
-        function keyup() {
-          if (scope.enabled === false)
-            return;
-          _keyState = STATE.NONE;
-          window.addEventListener("keydown", keydown);
-        }
-
-        function onMouseDown(event) {
-          if (_state === STATE.NONE) {
-            switch (event.button) {
-              case scope.mouseButtons.LEFT:
-                _state = STATE.ROTATE;
-                break;
-              case scope.mouseButtons.MIDDLE:
-                _state = STATE.ZOOM;
-                break;
-              case scope.mouseButtons.RIGHT:
-                _state = STATE.PAN;
-                break;
-            }
-          }
-          const state = _keyState !== STATE.NONE ? _keyState : _state;
-          if (state === STATE.ROTATE && !scope.noRotate) {
-            _moveCurr.copy(getMouseOnCircle(event.pageX, event.pageY));
-            _movePrev.copy(_moveCurr);
-          } else if (state === STATE.ZOOM && !scope.noZoom) {
-            _zoomStart.copy(getMouseOnScreen(event.pageX, event.pageY));
-            _zoomEnd.copy(_zoomStart);
-          } else if (state === STATE.PAN && !scope.noPan) {
-            _panStart.copy(getMouseOnScreen(event.pageX, event.pageY));
-            _panEnd.copy(_panStart);
-          }
-          scope.dispatchEvent(_startEvent);
-        }
-
-        function onMouseMove(event) {
-          const state = _keyState !== STATE.NONE ? _keyState : _state;
-          if (state === STATE.ROTATE && !scope.noRotate) {
-            _movePrev.copy(_moveCurr);
-            _moveCurr.copy(getMouseOnCircle(event.pageX, event.pageY));
-          } else if (state === STATE.ZOOM && !scope.noZoom) {
-            _zoomEnd.copy(getMouseOnScreen(event.pageX, event.pageY));
-          } else if (state === STATE.PAN && !scope.noPan) {
-            _panEnd.copy(getMouseOnScreen(event.pageX, event.pageY));
-          }
-        }
-
-        function onMouseUp() {
-          _state = STATE.NONE;
-          scope.dispatchEvent(_endEvent);
-        }
-
-        function onMouseWheel(event) {
-          if (scope.enabled === false)
-            return;
-          if (scope.noZoom === true)
-            return;
-          event.preventDefault();
-          switch (event.deltaMode) {
-            case 2:
-              _zoomStart.y -= event.deltaY * 0.025;
-              break;
-            case 1:
-              _zoomStart.y -= event.deltaY * 0.01;
-              break;
-            default:
-              _zoomStart.y -= event.deltaY * 25e-5;
-              break;
-          }
-          scope.dispatchEvent(_startEvent);
-          scope.dispatchEvent(_endEvent);
-        }
-
-        function onTouchStart(event) {
-          trackPointer(event);
-          switch (_pointers.length) {
-            case 1:
-              _state = STATE.TOUCH_ROTATE;
-              _moveCurr.copy(getMouseOnCircle(_pointers[0].pageX, _pointers[0].pageY));
-              _movePrev.copy(_moveCurr);
-              break;
-            default:
-              _state = STATE.TOUCH_ZOOM_PAN;
-              const dx = _pointers[0].pageX - _pointers[1].pageX;
-              const dy = _pointers[0].pageY - _pointers[1].pageY;
-              _touchZoomDistanceEnd = _touchZoomDistanceStart = Math.sqrt(dx * dx + dy * dy);
-              const x22 = (_pointers[0].pageX + _pointers[1].pageX) / 2;
-              const y2 = (_pointers[0].pageY + _pointers[1].pageY) / 2;
-              _panStart.copy(getMouseOnScreen(x22, y2));
-              _panEnd.copy(_panStart);
-              break;
-          }
-          scope.dispatchEvent(_startEvent);
-        }
-
-        function onTouchMove(event) {
-          trackPointer(event);
-          switch (_pointers.length) {
-            case 1:
-              _movePrev.copy(_moveCurr);
-              _moveCurr.copy(getMouseOnCircle(event.pageX, event.pageY));
-              break;
-            default:
-              const position = getSecondPointerPosition(event);
-              const dx = event.pageX - position.x;
-              const dy = event.pageY - position.y;
-              _touchZoomDistanceEnd = Math.sqrt(dx * dx + dy * dy);
-              const x22 = (event.pageX + position.x) / 2;
-              const y2 = (event.pageY + position.y) / 2;
-              _panEnd.copy(getMouseOnScreen(x22, y2));
-              break;
-          }
-        }
-
-        function onTouchEnd(event) {
-          switch (_pointers.length) {
-            case 0:
-              _state = STATE.NONE;
-              break;
-            case 1:
-              _state = STATE.TOUCH_ROTATE;
-              _moveCurr.copy(getMouseOnCircle(event.pageX, event.pageY));
-              _movePrev.copy(_moveCurr);
-              break;
-            case 2:
-              _state = STATE.TOUCH_ZOOM_PAN;
-              for (let i22 = 0; i22 < _pointers.length; i22++) {
-                if (_pointers[i22].pointerId !== event.pointerId) {
-                  const position = _pointerPositions[_pointers[i22].pointerId];
-                  _moveCurr.copy(getMouseOnCircle(position.x, position.y));
-                  _movePrev.copy(_moveCurr);
-                  break;
-                }
-              }
-              break;
-          }
-          scope.dispatchEvent(_endEvent);
-        }
-
-        function contextmenu(event) {
-          if (scope.enabled === false)
-            return;
-          event.preventDefault();
-        }
-
-        function addPointer(event) {
-          _pointers.push(event);
-        }
-
-        function removePointer(event) {
-          delete _pointerPositions[event.pointerId];
-          for (let i22 = 0; i22 < _pointers.length; i22++) {
-            if (_pointers[i22].pointerId == event.pointerId) {
-              _pointers.splice(i22, 1);
-              return;
-            }
-          }
-        }
-
-        function trackPointer(event) {
-          let position = _pointerPositions[event.pointerId];
-          if (position === void 0) {
-            position = new Vector2();
-            _pointerPositions[event.pointerId] = position;
-          }
-          position.set(event.pageX, event.pageY);
-        }
-
-        function getSecondPointerPosition(event) {
-          const pointer = event.pointerId === _pointers[0].pointerId ? _pointers[1] : _pointers[0];
-          return _pointerPositions[pointer.pointerId];
-        }
-
-        this.dispose = function() {
-          scope.domElement.removeEventListener("contextmenu", contextmenu);
-          scope.domElement.removeEventListener("pointerdown", onPointerDown2);
-          scope.domElement.removeEventListener("pointercancel", onPointerCancel);
-          scope.domElement.removeEventListener("wheel", onMouseWheel);
-          scope.domElement.removeEventListener("pointermove", onPointerMove2);
-          scope.domElement.removeEventListener("pointerup", onPointerUp2);
-          window.removeEventListener("keydown", keydown);
-          window.removeEventListener("keyup", keyup);
-        };
-        this.domElement.addEventListener("contextmenu", contextmenu);
-        this.domElement.addEventListener("pointerdown", onPointerDown2);
-        this.domElement.addEventListener("pointercancel", onPointerCancel);
-        this.domElement.addEventListener("wheel", onMouseWheel, { passive: false });
-        window.addEventListener("keydown", keydown);
-        window.addEventListener("keyup", keyup);
-        this.handleResize();
-        this.update();
-      }
-    };
-    TransformableObject = create_ssr_component(($$result, $$props, $$bindings, slots) => {
-      let $objectStore, $$unsubscribe_objectStore;
-      let $ticked, $$unsubscribe_ticked;
-      let { object } = $$props;
-      let { position = void 0 } = $$props;
-      let { scale = void 0 } = $$props;
-      let { rotation = void 0 } = $$props;
-      let { lookAt = void 0 } = $$props;
-      const targetWorldPos = new Vector3();
-      const dispatch = createEventDispatcher();
-      const { invalidate } = useThrelte();
-      const ticked = useTicked();
-      $$unsubscribe_ticked = subscribe(ticked, (value) => $ticked = value);
-      const getThrelteUserData2 = (object2) => {
-        return object2.userData;
-      };
-      const dispatchTransform = async () => {
-        if (!$ticked)
-          await tick();
-        dispatch("transform");
-      };
-      const onTransform = async () => {
-        invalidate("TransformableObject: transformed");
-        await dispatchTransform();
-      };
-      getThrelteUserData2(object).onTransform = onTransform;
-      const { start: startLookingAt, stop: stopLookingAt } = useFrame(async () => {
-        if (lookAt && !rotation && lookAt instanceof Object3D) {
-          lookAt.getWorldPosition(targetWorldPos);
-          object.lookAt(targetWorldPos);
-          await dispatchTransform();
-        }
-      }, {
-        autostart: false,
-        debugFrameloopMessage: "TransformableObject: tracking object"
-      });
-      const objectStore = createObjectStore(object);
-      $$unsubscribe_objectStore = subscribe(objectStore, (value) => $objectStore = value);
-      if ($$props.object === void 0 && $$bindings.object && object !== void 0)
-        $$bindings.object(object);
-      if ($$props.position === void 0 && $$bindings.position && position !== void 0)
-        $$bindings.position(position);
-      if ($$props.scale === void 0 && $$bindings.scale && scale !== void 0)
-        $$bindings.scale(scale);
-      if ($$props.rotation === void 0 && $$bindings.rotation && rotation !== void 0)
-        $$bindings.rotation(rotation);
-      if ($$props.lookAt === void 0 && $$bindings.lookAt && lookAt !== void 0)
-        $$bindings.lookAt(lookAt);
-      {
-        objectStore.set(object);
-      }
-      {
-        {
-          if (position) {
-            $objectStore.position.set(position.x ?? 0, position.y ?? 0, position.z ?? 0);
-            onTransform();
-          }
-          if (lookAt && !rotation) {
-            if (lookAt instanceof Object3D) {
-              startLookingAt();
-            } else {
-              stopLookingAt();
-              $objectStore.lookAt(lookAt.x ?? 0, lookAt.y ?? 0, lookAt.z ?? 0);
-              onTransform();
-            }
-          }
-          if (!lookAt) {
-            stopLookingAt();
-          }
-        }
-      }
-      {
-        {
-          if (scale) {
-            if (typeof scale === "number") {
-              $objectStore.scale.set(scale, scale, scale);
-            } else {
-              $objectStore.scale.set(scale.x ?? 1, scale.y ?? 1, scale.z ?? 1);
-            }
-            onTransform();
-          }
-        }
-      }
-      {
-        {
-          if (rotation) {
-            $objectStore.rotation.set(rotation.x ?? 0, rotation.y ?? 0, rotation.z ?? 0, rotation.order ?? "XYZ");
-            onTransform();
-          }
-        }
-      }
-      $$unsubscribe_objectStore();
-      $$unsubscribe_ticked();
-      return ``;
-    });
-    OrbitControls = create_ssr_component(($$result, $$props, $$bindings, slots) => {
-      let $parent, $$unsubscribe_parent;
-      let { autoRotate = void 0 } = $$props;
-      let { autoRotateSpeed = void 0 } = $$props;
-      let { dampingFactor = void 0 } = $$props;
-      let { enableDamping = void 0 } = $$props;
-      let { enabled = void 0 } = $$props;
-      let { enablePan = void 0 } = $$props;
-      let { enableRotate = void 0 } = $$props;
-      let { enableZoom = void 0 } = $$props;
-      let { keyPanSpeed = void 0 } = $$props;
-      let { keys = void 0 } = $$props;
-      let { maxAzimuthAngle = void 0 } = $$props;
-      let { maxDistance = void 0 } = $$props;
-      let { maxPolarAngle = void 0 } = $$props;
-      let { maxZoom = void 0 } = $$props;
-      let { minAzimuthAngle = void 0 } = $$props;
-      let { minDistance = void 0 } = $$props;
-      let { minPolarAngle = void 0 } = $$props;
-      let { minZoom = void 0 } = $$props;
-      let { mouseButtons = void 0 } = $$props;
-      let { panSpeed = void 0 } = $$props;
-      let { rotateSpeed = void 0 } = $$props;
-      let { screenSpacePanning = void 0 } = $$props;
-      let { touches = void 0 } = $$props;
-      let { zoomSpeed = void 0 } = $$props;
-      let { target = void 0 } = $$props;
-      const getThrelteUserData2 = (object) => {
-        return object.userData;
-      };
-      const getParent2 = () => {
-        return getContext("threlte-parent");
-      };
-      const parent = getParent2();
-      $$unsubscribe_parent = subscribe(parent, (value) => $parent = value);
-      const { renderer, invalidate } = useThrelte();
-      if (!renderer)
-        throw new Error("Threlte Context missing: Is <OrbitControls> a child of <Canvas>?");
-      if (!($parent instanceof Camera)) {
-        throw new Error("Parent missing: <OrbitControls> need to be a child of a <Camera>");
-      }
-      const dispatch = createEventDispatcher();
-      const onChange = () => {
-        invalidate("Orbitcontrols: change event");
-        dispatch("change");
-      };
-      const onStart = () => dispatch("start");
-      const onEnd = () => dispatch("end");
-      const controls = new TrackballControls($parent, renderer.domElement);
-      getThrelteUserData2($parent).orbitControls = controls;
-      controls.addEventListener("change", onChange);
-      controls.addEventListener("start", onStart);
-      controls.addEventListener("end", onEnd);
-      onDestroy(() => {
-        delete getThrelteUserData2($parent).orbitControls;
-        controls.removeEventListener("change", onChange);
-        controls.removeEventListener("start", onStart);
-        controls.removeEventListener("end", onEnd);
-      });
-      const { start, stop } = useFrame(() => controls.update(), {
-        autostart: false,
-        debugFrameloopMessage: "OrbitControlts: updating controls"
-      });
-      const targetObject = new Object3D();
-      onDestroy(() => {
-        controls.dispose();
-        invalidate("OrbitControls: onDestroy");
-      });
-      if ($$props.autoRotate === void 0 && $$bindings.autoRotate && autoRotate !== void 0)
-        $$bindings.autoRotate(autoRotate);
-      if ($$props.autoRotateSpeed === void 0 && $$bindings.autoRotateSpeed && autoRotateSpeed !== void 0)
-        $$bindings.autoRotateSpeed(autoRotateSpeed);
-      if ($$props.dampingFactor === void 0 && $$bindings.dampingFactor && dampingFactor !== void 0)
-        $$bindings.dampingFactor(dampingFactor);
-      if ($$props.enableDamping === void 0 && $$bindings.enableDamping && enableDamping !== void 0)
-        $$bindings.enableDamping(enableDamping);
-      if ($$props.enabled === void 0 && $$bindings.enabled && enabled !== void 0)
-        $$bindings.enabled(enabled);
-      if ($$props.enablePan === void 0 && $$bindings.enablePan && enablePan !== void 0)
-        $$bindings.enablePan(enablePan);
-      if ($$props.enableRotate === void 0 && $$bindings.enableRotate && enableRotate !== void 0)
-        $$bindings.enableRotate(enableRotate);
-      if ($$props.enableZoom === void 0 && $$bindings.enableZoom && enableZoom !== void 0)
-        $$bindings.enableZoom(enableZoom);
-      if ($$props.keyPanSpeed === void 0 && $$bindings.keyPanSpeed && keyPanSpeed !== void 0)
-        $$bindings.keyPanSpeed(keyPanSpeed);
-      if ($$props.keys === void 0 && $$bindings.keys && keys !== void 0)
-        $$bindings.keys(keys);
-      if ($$props.maxAzimuthAngle === void 0 && $$bindings.maxAzimuthAngle && maxAzimuthAngle !== void 0)
-        $$bindings.maxAzimuthAngle(maxAzimuthAngle);
-      if ($$props.maxDistance === void 0 && $$bindings.maxDistance && maxDistance !== void 0)
-        $$bindings.maxDistance(maxDistance);
-      if ($$props.maxPolarAngle === void 0 && $$bindings.maxPolarAngle && maxPolarAngle !== void 0)
-        $$bindings.maxPolarAngle(maxPolarAngle);
-      if ($$props.maxZoom === void 0 && $$bindings.maxZoom && maxZoom !== void 0)
-        $$bindings.maxZoom(maxZoom);
-      if ($$props.minAzimuthAngle === void 0 && $$bindings.minAzimuthAngle && minAzimuthAngle !== void 0)
-        $$bindings.minAzimuthAngle(minAzimuthAngle);
-      if ($$props.minDistance === void 0 && $$bindings.minDistance && minDistance !== void 0)
-        $$bindings.minDistance(minDistance);
-      if ($$props.minPolarAngle === void 0 && $$bindings.minPolarAngle && minPolarAngle !== void 0)
-        $$bindings.minPolarAngle(minPolarAngle);
-      if ($$props.minZoom === void 0 && $$bindings.minZoom && minZoom !== void 0)
-        $$bindings.minZoom(minZoom);
-      if ($$props.mouseButtons === void 0 && $$bindings.mouseButtons && mouseButtons !== void 0)
-        $$bindings.mouseButtons(mouseButtons);
-      if ($$props.panSpeed === void 0 && $$bindings.panSpeed && panSpeed !== void 0)
-        $$bindings.panSpeed(panSpeed);
-      if ($$props.rotateSpeed === void 0 && $$bindings.rotateSpeed && rotateSpeed !== void 0)
-        $$bindings.rotateSpeed(rotateSpeed);
-      if ($$props.screenSpacePanning === void 0 && $$bindings.screenSpacePanning && screenSpacePanning !== void 0)
-        $$bindings.screenSpacePanning(screenSpacePanning);
-      if ($$props.touches === void 0 && $$bindings.touches && touches !== void 0)
-        $$bindings.touches(touches);
-      if ($$props.zoomSpeed === void 0 && $$bindings.zoomSpeed && zoomSpeed !== void 0)
-        $$bindings.zoomSpeed(zoomSpeed);
-      if ($$props.target === void 0 && $$bindings.target && target !== void 0)
-        $$bindings.target(target);
-      if ($$props.controls === void 0 && $$bindings.controls && controls !== void 0)
-        $$bindings.controls(controls);
-      {
-        {
-          if (autoRotate !== void 0)
-            controls.autoRotate = autoRotate;
-          if (autoRotateSpeed !== void 0)
-            controls.autoRotateSpeed = autoRotateSpeed;
-          if (dampingFactor !== void 0)
-            controls.dampingFactor = dampingFactor;
-          if (enableDamping !== void 0)
-            controls.enableDamping = enableDamping;
-          if (enabled !== void 0)
-            controls.enabled = enabled;
-          if (enablePan !== void 0)
-            controls.enablePan = enablePan;
-          if (enableRotate !== void 0)
-            controls.enableRotate = enableRotate;
-          if (enableZoom !== void 0)
-            controls.enableZoom = enableZoom;
-          if (keyPanSpeed !== void 0)
-            controls.keyPanSpeed = keyPanSpeed;
-          if (keys !== void 0)
-            controls.keys = keys;
-          if (maxAzimuthAngle !== void 0)
-            controls.maxAzimuthAngle = maxAzimuthAngle;
-          if (maxDistance !== void 0)
-            controls.maxDistance = maxDistance;
-          if (maxPolarAngle !== void 0)
-            controls.maxPolarAngle = maxPolarAngle;
-          if (maxZoom !== void 0)
-            controls.maxZoom = maxZoom;
-          if (minAzimuthAngle !== void 0)
-            controls.minAzimuthAngle = minAzimuthAngle;
-          if (minDistance !== void 0)
-            controls.minDistance = minDistance;
-          if (minPolarAngle !== void 0)
-            controls.minPolarAngle = minPolarAngle;
-          if (minZoom !== void 0)
-            controls.minZoom = minZoom;
-          if (mouseButtons !== void 0)
-            controls.mouseButtons = mouseButtons;
-          if (panSpeed !== void 0)
-            controls.panSpeed = panSpeed;
-          if (rotateSpeed !== void 0)
-            controls.rotateSpeed = rotateSpeed;
-          if (screenSpacePanning !== void 0)
-            controls.screenSpacePanning = screenSpacePanning;
-          if (touches !== void 0)
-            controls.touches = touches;
-          if (zoomSpeed !== void 0)
-            controls.zoomSpeed = zoomSpeed;
-          controls.update();
-          invalidate("OrbitControls: props changed");
-        }
-      }
-      {
-        {
-          if (autoRotate || enableDamping)
-            start();
-          else
-            stop();
-        }
-      }
-      $$unsubscribe_parent();
-      return `${validate_component(TransformableObject, "TransformableObject").$$render($$result, {
-        object: targetObject,
-        position: target
-      }, {}, {})}`;
-    });
     px = "/_app/immutable/assets/px-ccf06248.png";
     px_upside = "/_app/immutable/assets/px_upside-3099a451.png";
     py = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAYAAAD0eNT6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAgcSURBVHgB7dYBAQAQAMAwpBVAaC0I8i3F5j73DQAgZQ0AIEcAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIOgD+H8Gw7HU/A8AAAAASUVORK5CYII=";
@@ -21091,8 +21281,11 @@ ${validate_component(InteractiveObject, "InteractiveObject").$$render($$result, 
     ny = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAYAAAD0eNT6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAgcSURBVHgB7dYBAQAQAMAwpBVAaC0I8i3F5j73DQAgZQ0AIEcAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIOgD+H8Gw7HU/A8AAAAASUVORK5CYII=";
     nz = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAYAAAD0eNT6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAgcSURBVHgB7dYBAQAQAMAwpBVAaC0I8i3F5j73DQAgZQ0AIEcAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIEgAACBIAAAgSAAAIOgD+H8Gw7HU/A8AAAAASUVORK5CYII=";
     o_px = "/_app/immutable/assets/px_white-ad697628.png";
+    o_px_transparent = "/_app/immutable/assets/px-27500c70.png";
     o_px_upside = "/_app/immutable/assets/px_upside_white-09c7c397.png";
+    o_px_upside_transparent = "/_app/immutable/assets/px_upside-dec6acd7.png";
     o_ny = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAYAAAD0eNT6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAgYSURBVHgB7dYBAQAgDMCga//O+h6DFJy3BgBIuQMA5AgAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABAkAAAQJAAAECQAABH2OOQf84N9lUwAAAABJRU5ErkJggg==";
+    o_transparent = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAYAAAD0eNT6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAQPSURBVHgB7cAxAQAAAMKg9U9tB28oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD4DQLwAAFZXWxSAAAAAElFTkSuQmCC";
     ShaderChunk["meshline_vert"] = [
       "",
       "#include <common>",
@@ -21274,6 +21467,7 @@ ${validate_component(InteractiveObject, "InteractiveObject").$$render($$result, 
     new Vector3();
     new Vector3();
     new Vector3();
+    SHOW_INSIDE = false;
     Game = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       let logoMaterial;
       let holdingMaterial;
@@ -21285,8 +21479,18 @@ ${validate_component(InteractiveObject, "InteractiveObject").$$render($$result, 
       let boxMesh, logoCamera;
       logoActive.subscribe((value) => {
       });
+      new MeshBasicMaterial();
       const texture = useTexture([pz, py, px, px_upside, ny, nz]);
-      const texture_opposite = useTexture([o_ny, o_ny, o_px, o_px_upside, o_ny, o_ny]);
+      const textureOppositeOpaque = useTexture([o_ny, o_ny, o_px, o_px_upside, o_ny, o_ny]);
+      useTexture([
+        o_transparent,
+        o_transparent,
+        o_px_transparent,
+        o_px_upside_transparent,
+        o_transparent,
+        o_transparent
+      ]);
+      const textureOpposite = textureOppositeOpaque;
       let scale = spring(0.4, {});
       $$unsubscribe_scale = subscribe(scale, (value) => $scale = value);
       let fovScale = spring(1.6, {});
@@ -21296,13 +21500,14 @@ ${validate_component(InteractiveObject, "InteractiveObject").$$render($$result, 
       const logoFade = spring(1, { duration: 1e3, easing: cubicIn });
       $$unsubscribe_logoFade = subscribe(logoFade, (value) => $logoFade = value);
       new MeshBasicMaterial({
-        map: texture_opposite[0],
+        map: textureOpposite[0],
         transparent: true
       });
       new PlaneGeometry(1, 1);
       let canvasEl;
       useCursor();
       let controls;
+      new TextureLoader();
       let $$settled;
       let $$rendered;
       do {
@@ -21320,7 +21525,7 @@ ${validate_component(InteractiveObject, "InteractiveObject").$$render($$result, 
           map: el,
           flatShading: true
         }));
-        holdingMaterial = texture_opposite.map((el) => new MeshPhongMaterial({ map: el }));
+        holdingMaterial = textureOpposite.map((el) => new MeshPhongMaterial({ map: el, transparent: SHOW_INSIDE }));
         boxHeight = 1.7 - $scale / 2;
         $$rendered = `
 
@@ -21497,14 +21702,15 @@ ${validate_component(Canvas, "Canvas").$$render($$result, {
       return `${validate_component(Page, "Page").$$render($$result, { home: "true" }, {}, {
         default: () => {
           return `
-  <div class="${"relative block [height:80vh] mx-auto max-w-[86rem]"}"><div class="${"mt-20 sm:mt-32 md:mt-60 px-6 lg:px-16 block md:flex flex-row justify-between w-full h-full"}"><div class="${"justify-center flex w-full basis-full md:basis-2/3 lg:basis-3/5 sm:mr-10 px-4 lg:px-0"}"><div class="${"container w-fit max-w-xl z-10"}"><p class="${"text-4xl sm:text-5xl lg:text-6xl font-vollkorn font-light text-primary"}">Your Mental Toolbox</p>
+  <div class="${"relative block [height:80vh] mx-auto max-w-[86rem]"}"><div class="${"mt-20 sm:mt-32 md:mt-60 px-4 lg:px-16 block md:flex flex-row justify-between w-full h-full"}"><div class="${"justify-center flex w-full basis-full md:basis-2/3 lg:basis-3/5 sm:mr-10 px-4 lg:px-0"}"><div class="${"container max-w-xl z-10"}"><p class="${"text-4xl sm:text-5xl lg:text-6xl font-vollkorn font-light text-primary"}">Your Mental Toolbox</p>
           <p class="${"text-lg text-black font-baloo2 font-extralight sm:max-w-prose mb-3 text-primary sm:pl-1.5 mt-8"}">We all deal with stress and anxiety in our lives but most of us don&#39;t know how to effectively let go of
             it.
           </p>
           <p class="${"mb-10 text-lg text-black font-baloo2 font-extralight sm:max-w-prose text-primary mt-6 sm:mt-0 sm:pl-1.5"}">PeaceBox is like a toolbox for your mind with the tools and techniques you need to relax and de-stress.
           </p>
-          <div class="${"flex flex-row items-center justify-start"}"><a href="${" https://apps.apple.com/us/app/peacebox-tools-for-your-mind/id1592436336"}" aria-label="${"Visit PeaceBox on the Appstore"}"><img${add_attribute("src", ___ASSET___02, 0)} class="${"w-44 borderAppStore min-w-32"}"></a>
-            <div class="${"mx-4 sm:mx-16"}">${validate_component(Github_button, "GithubButton").$$render($$result, {}, {}, {})}</div></div></div></div>
+          <div class="${"flex flex-col sm:flex-row items-center justify-center sm:justify-between flex-wrap lg:flex-nowrap"}"><div class="${"flex flex-row items-center justify-center sm:justify-between"}"><a href="${" https://apps.apple.com/us/app/peacebox-tools-for-your-mind/id1592436336"}" aria-label="${"Visit PeaceBox on the Appstore"}"><img${add_attribute("src", ___ASSET___0, 0)} class="${"w-44 borderAppStore min-w-32"}"></a>
+              <a href="${"https://play.google.com/store/apps/details?id=com.neiltools&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1"}"><img class="${"w-60 min-w-40"}" alt="${"Get it on Google Play"}" src="${"https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"}"></a></div>
+            <div class="${"mt-4 sm:mt-0"}">${validate_component(Github_button, "GithubButton").$$render($$result, {}, {}, {})}</div></div></div></div>
       <div class="${"disableSelect scale-75 opacity-90 md:opacity-100 md:scale-100 justify-center w-full flex relative md:basis-1/3 lg:basis-2/5"}"><div class="${"relative md:w-full md:h-full lg:h-72 lg:w-72 rounded-5xl lg:rounded-6xl logoMain opacityLogo logoContainer"}">${logoActiveVal <= 2 ? `${validate_component(Logo_anim, "LogoAnim").$$render($$result, { active: logoActiveVal }, {}, {})}` : ``}
           ${logoActiveVal >= 2 ? `<div class="${[
             "absolute block justify-center items-center",
@@ -21512,12 +21718,12 @@ ${validate_component(Canvas, "Canvas").$$render($$result, {
           ].join(" ").trim()}">${validate_component(Game, "Game").$$render($$result, {}, {}, {})}</div>` : ``}</div></div></div></div>
 
   
-  <div class="${"my-80 mt-96 md:mt-72"}"><div class="${"sm:px-4 lg:px-4 flex flex-col md:flex-row justify-between items-center justify-center w-full"}"><div class="${"disableSelect z-0 items-center sm:-translate-y-3 md:-translate-y-0 md:mt-10 w-3/2 sm:w-full flex md:fixed md:relative basis-full md:basis-1/2"}"><div class="${"rounded-5xl lg:rounded-6xl mx-auto absolute smallTapes md:tapesImage"}">
+  <div class="${"my-80 mt-96 md:mt-72"}"><div class="${"sm:px-4 lg:px-4 flex flex-col md:flex-row justify-between items-center justify-center w-full"}" id="${"section2"}"><div class="${"disableSelect z-0 items-center sm:-translate-y-3 md:-translate-y-0 md:mt-10 w-3/2 sm:w-full flex md:fixed md:relative basis-full md:basis-1/2"}"><div class="${"rounded-5xl lg:rounded-6xl mx-auto absolute smallTapes md:tapesImage"}">
           
           
           <img${add_attribute("src", ___ASSET___1, 0)}></div></div>
 
-      <div class="${"justify-center relative flex basis-1/2 px-4 lg:px,-0 mx-4 z-10 sm:mr-5 mobileCard lg:antiMobileCard"}"><div class="${"container w-full md:w-fit md:max-w-xl"}"><p class="${"text-5xl sm:text-6xl lg:text-6xl font-vollkorn font-light text-primary sm:whitespace-nowrap"}">Don&#39;t
+      <div class="${"justify-center relative flex basis-1/2 px-4 lg:px,-0 mx-4 z-10 sm:mr-5 mobileCard"}"><div class="${"container w-full md:w-fit md:max-w-xl"}"><p class="${"text-5xl sm:text-6xl lg:text-6xl font-vollkorn font-light text-primary sm:whitespace-nowrap"}">Don&#39;t
             Pay for Peace\xA0
             <i class="${"fa-solid fa-hand-peace fa-sm"}"></i></p>
           <p class="${"text-lg font-baloo2 font-extralight sm:max-w-prose mt-8 mb-3 text-primary sm:pl-1.5"}">With journaling tools, breathing exercises, and audio meditation tapes, you&#39;ll always have your mental
@@ -21526,45 +21732,46 @@ ${validate_component(Canvas, "Canvas").$$render($$result, {
           <p class="${"text-lg font-vollkorn font-extralight sm:max-w-prose mt-8 mb-3 text-primary sm:pl-1.5"}">PeaceBox is completely <strong class="${"font-bold"}">free</strong> and will never have ads. Content and tools
             are available to all users free of cost.
           </p>
-          <a href="${"https://apps.apple.com/us/app/peacebox-tools-for-your-mind/id1592436336"}" aria-label="${"Visit PeaceBox on the Appstore"}"><img${add_attribute("src", ___ASSET___02, 0)} class="${"w-44 borderAppStore mt-10 min-w-32"}"></a></div></div></div></div>
+          <div class="${"flex-row flex align-middle items-center sm:pl-1.5 mt-8 max-w-sm md:max-w-full"}"><a href="${"https://apps.apple.com/us/app/peacebox-tools-for-your-mind/id1592436336"}" aria-label="${"Visit PeaceBox on the Appstore"}"><img${add_attribute("src", ___ASSET___0, 0)} class="${"w-44 borderAppStore min-w-32"}"></a>
+            <a href="${"https://play.google.com/store/apps/details?id=com.neiltools&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1"}"><img class="${"w-60 min-w-40 ml-4"}" alt="${"Get it on Google Play"}" src="${"https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"}"></a></div></div></div></div>
 
-  
-  
-  
-  
+    
+    
+    
+    
 
-  
-  
-  
-  
-  
-  
-  
-  
+    
+    
+    
+    
+    
+    
+    
+    
 
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
-  
-  
-  
-  `;
+    
+    
+    
+    </div>`;
         }
       })}`;
     });
@@ -21586,9 +21793,9 @@ var init__3 = __esm({
     init_shims();
     init_index_svelte();
     index3 = 2;
-    entry3 = "pages/index.svelte-3c8274b7.js";
-    js3 = ["pages/index.svelte-3c8274b7.js", "chunks/index-e7355bb5.js", "chunks/page-6533466e.js", "chunks/github_button-ca9dcb6a.js", "chunks/index-68224a48.js"];
-    css4 = ["assets/pages/index.svelte-0c50f9fd.css", "assets/page-6972d173.css"];
+    entry3 = "pages/index.svelte-79ef3770.js";
+    js3 = ["pages/index.svelte-79ef3770.js", "chunks/index-e7355bb5.js", "chunks/page-2ac20dc6.js", "chunks/github_button-ca9dcb6a.js", "chunks/index-68224a48.js"];
+    css4 = ["assets/pages/index.svelte-0c50f9fd.css", "assets/page-8f668f8b.css"];
   }
 });
 
@@ -21602,7 +21809,7 @@ var init_license_svelte = __esm({
   ".svelte-kit/output/server/entries/pages/license.svelte.js"() {
     init_shims();
     init_index_545da69d();
-    init_page_a3857dc0();
+    init_page_38ffb2de();
     init_github_button_6217bc61();
     License = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       return `${validate_component(Page, "Page").$$render($$result, { home: "false" }, {}, {
@@ -21918,9 +22125,9 @@ var init__4 = __esm({
     init_shims();
     init_license_svelte();
     index4 = 3;
-    entry4 = "pages/license.svelte-86b5d111.js";
-    js4 = ["pages/license.svelte-86b5d111.js", "chunks/index-e7355bb5.js", "chunks/page-6533466e.js", "chunks/github_button-ca9dcb6a.js"];
-    css5 = ["assets/page-6972d173.css"];
+    entry4 = "pages/license.svelte-44fa2b24.js";
+    js4 = ["pages/license.svelte-44fa2b24.js", "chunks/index-e7355bb5.js", "chunks/page-2ac20dc6.js", "chunks/github_button-ca9dcb6a.js"];
+    css5 = ["assets/page-8f668f8b.css"];
   }
 });
 
@@ -21934,7 +22141,7 @@ var init_privacy_svelte = __esm({
   ".svelte-kit/output/server/entries/pages/privacy.svelte.js"() {
     init_shims();
     init_index_545da69d();
-    init_page_a3857dc0();
+    init_page_38ffb2de();
     Privacy = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       return `${validate_component(Page, "Page").$$render($$result, { home: "false" }, {}, {
         default: () => {
@@ -22108,9 +22315,9 @@ var init__5 = __esm({
     init_shims();
     init_privacy_svelte();
     index5 = 4;
-    entry5 = "pages/privacy.svelte-2fa4ba72.js";
-    js5 = ["pages/privacy.svelte-2fa4ba72.js", "chunks/index-e7355bb5.js", "chunks/page-6533466e.js"];
-    css6 = ["assets/page-6972d173.css"];
+    entry5 = "pages/privacy.svelte-d70ce509.js";
+    js5 = ["pages/privacy.svelte-d70ce509.js", "chunks/index-e7355bb5.js", "chunks/page-2ac20dc6.js"];
+    css6 = ["assets/page-8f668f8b.css"];
   }
 });
 
@@ -22124,7 +22331,7 @@ var init_terms_svelte = __esm({
   ".svelte-kit/output/server/entries/pages/terms.svelte.js"() {
     init_shims();
     init_index_545da69d();
-    init_page_a3857dc0();
+    init_page_38ffb2de();
     Terms = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       return `${validate_component(Page, "Page").$$render($$result, { home: "false" }, {}, {
         default: () => {
@@ -22278,9 +22485,9 @@ var init__6 = __esm({
     init_shims();
     init_terms_svelte();
     index6 = 5;
-    entry6 = "pages/terms.svelte-efc21c14.js";
-    js6 = ["pages/terms.svelte-efc21c14.js", "chunks/index-e7355bb5.js", "chunks/page-6533466e.js"];
-    css7 = ["assets/page-6972d173.css"];
+    entry6 = "pages/terms.svelte-f40f5979.js";
+    js6 = ["pages/terms.svelte-f40f5979.js", "chunks/index-e7355bb5.js", "chunks/page-2ac20dc6.js"];
+    css7 = ["assets/page-8f668f8b.css"];
   }
 });
 
@@ -24585,8 +24792,8 @@ var manifest = {
   mimeTypes: { ".png": "image/png" },
   _: {
     entry: {
-      "file": "start-ed8f0664.js",
-      "js": ["start-ed8f0664.js", "chunks/index-e7355bb5.js", "chunks/index-68224a48.js"],
+      "file": "start-3e63b574.js",
+      "js": ["start-3e63b574.js", "chunks/index-e7355bb5.js", "chunks/index-68224a48.js"],
       "css": []
     },
     nodes: [

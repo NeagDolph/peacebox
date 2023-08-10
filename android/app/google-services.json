@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "199463487127",
+    "project_id": "stoicalapp",
+    "storage_bucket": "stoicalapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:199463487127:android:415213edeb8fafb81c4bd2",
+        "android_client_info": {
+          "package_name": "com.neiltools"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "199463487127-kiaqsojtuu9rg6kcsbh0vcdbegn4nlpt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDD9m2G3eAJOLlfyruabo9l4n1jzQtRr4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "199463487127-kiaqsojtuu9rg6kcsbh0vcdbegn4nlpt.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "199463487127-2vjkf9a54ck0i95jftan4e4pdot6gltj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.neiltools.stoical"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

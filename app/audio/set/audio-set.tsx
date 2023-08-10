@@ -367,7 +367,8 @@ const AudioSet = props => {
                 heightStyle,
               ]}
               key={props.set.name}>
-              <View style={styles.topContainer}>
+
+            <View style={styles.topContainer}>
                 <Pressable
                   style={{width: '100%', flexDirection: 'row'}}
                   onPressIn={() => (pressTimeRef.current = Date.now())}

@@ -3,26 +3,33 @@ export default function cube(size) {
 	const position = [];
 
 	position.push(
-		[-h, -h, -h],
-		[-h, h, -h],
-		[h, h, -h],
-		[h, -h, -h],
-		[-h, -h, -h],
+    [-h, -h, -h],
+    [-h, h, -h],
+    [h, h, -h],
+    [h, -h, -h],
+    [-h, -h, -h],
 
-		[-h, -h, h],
-		[-h, h, h],
-		[-h, h, -h],
-		[-h, h, h],
+    [-h, -h, h],
+    [-h, h, h],
+    [-h, h, -h],
+    // [-h, h, h],
 
-		[h, h, h],
-		[h, h, -h],
-		[h, h, h],
+    [h, -h, h],
+    [h, -h, -h],
+    [-h, h, h],
+    [h, h, h],
+    [h, -h, h],
+    [-h, -h, h],
+    [h, h, -h],
+    [h, h, h]
+    // [h, h, -h],
+    // [h, h, h],
 
-		[h, -h, h],
-		[h, -h, -h],
-		[h, -h, h],
-		[-h, -h, h]
-	);
+    // [h, -h, h],
+    // [h, -h, -h],
+    // [h, -h, h],
+    // [-h, -h, h]
+  );
 
 	const newPos = Math.random() > 0.5 ? position : position.reverse();
 

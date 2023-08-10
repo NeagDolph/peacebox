@@ -46,79 +46,68 @@ function RootStackScreen() {
     <RootStack.Navigator
       theme={DarkTheme}
       screenOptions={{
-        cardStyle: { backgroundColor: colors.background }
+        cardStyle: { backgroundColor: colors.background },
+        gestureEnabled: true,
+        animation: "none",
+        headerShown: false,
+        orientation: "portrait_up"
       }}>
       <RootStack.Screen
         name="Home"
         component=
           {HomePage}
-        options={{ headerShown: false, orientation: "portrait_up" }}
       />
       <RootStack.Screen
         name="Freewriting"
         component={Freewriting}
-        options={{ headerShown: false, orientation: "portrait_up" }}
       />
       <RootStack.Screen
         name="settings"
         component={SettingsPage}
-        options={{ headerShown: false, orientation: "portrait_up" }}
+        options={{
+          animation: "fade"
+        }}
       />
       <RootStack.Screen
         name="Patterns"
         component={BreathingHome}
-        options={{ headerShown: false, orientation: "portrait_up" }}
       />
       <RootStack.Screen
         name="Use"
         component={PatternUse}
-        options={{ headerShown: false, orientation: "portrait_up" }}
       />
       <RootStack.Screen
         name="Time"
         component={PatternTime}
         options={{
-          headerShown: false,
-          animation: "fade",
           statusBarHidden: true,
-          orientation: "portrait_up"
         }}
       />
       <RootStack.Screen
         name="Edit"
         component={PatternModal}
         options={{
-          headerShown: false,
           presentation: "modal",
-          orientation: "portrait_up"
         }}
       />
       <RootStack.Screen
         name="Completed"
         component={PatternCompleted}
         options={{
-          headerShown: false,
-          animation: "fade",
-          orientation: "portrait_up"
+          animation: "fade"
         }}
       />
       <RootStack.Screen
         name="About"
         component={AboutPage}
-        options={{ headerShown: false, orientation: "portrait_up" }}
       />
       <RootStack.Screen
         name="Audio"
         component={AudioPage}
-        options={{
-          headerShown: false, orientation: "portrait_up",
-          animation: "fade"
-        }}
       />
       <RootStack.Screen
         name="AudioPlayer"
         component={AudioPlayer}
-        options={{ headerShown: false, orientation: "portrait_up" }}
       />
     </RootStack.Navigator>
   );

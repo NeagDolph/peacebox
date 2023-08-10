@@ -71,7 +71,8 @@ const PatternNew = ({ id, showEditModal, patternData }) => {
     const patterns = <View style={styles.patternContainer}>{premadePatterns.map((el, i) => {
       const pattern = <PremadePattern itemNum={i} item={el} usePattern={usePattern} />;
 
-      return breathingIndex === 3 && i === 0 ? tooltip(pattern, 3) : pattern;
+      return <View
+        key={`PremadePattern-${id}-${el}-${i}`}>{breathingIndex === 3 && i === 0 ? tooltip(pattern, 3) : pattern}</View>;
     })}</View>;
 
     return breathingIndex === 2 ? tooltip(patterns, 2) : patterns;
@@ -111,7 +112,7 @@ const PatternNew = ({ id, showEditModal, patternData }) => {
         ref={scrollRef}
         onLayout={scrollLayout}
         onScroll={handleScroll}
-        // scrollEventThrottle={0},,
+        // scrollEventThrottle={0}
         scrollEnabled={true}
       >
         <View>

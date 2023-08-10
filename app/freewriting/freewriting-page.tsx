@@ -20,9 +20,9 @@ import InfoContent from "./components/info-content";
 
 let PrefersHomeIndicatorAutoHidden;
 
-if (Platform.OS === 'ios') {
+if (Platform.OS === "ios") {
   PrefersHomeIndicatorAutoHidden =
-    require('react-native-home-indicator').PrefersHomeIndicatorAutoHidden;
+    require("react-native-home-indicator").PrefersHomeIndicatorAutoHidden;
 }
 
 const Freewriting = (props: any) => {
@@ -46,11 +46,18 @@ const Freewriting = (props: any) => {
   // const [content, setContent] = useState("")
   // const [contentHeight, setContentHeight] = useState(0)
 
+  const [clearFunction, setClearFunction] = useState();
+
   function clearContent() {
-    setTimeout(() => inputRef.current.clear(), 1);
+    setTimeout(() => {
+      if (clearFunction != undefined) clearFunction();
+    }, 0);
   }
 
-  const placeholderText = 'Just start typing...';
+  useEffect(() => {
+  }, [clearFunction]);
+
+  const placeholderText = "Just start typing...";
   let [currentText, setCurrentText] = useState<string>();
 
   const [lineHeight, setLineHeight] = useState(25);
@@ -135,14 +142,14 @@ const Freewriting = (props: any) => {
   const handleLayout = event => {
     const contentHeight = event.nativeEvent.contentSize.height;
 
-    const pageHeight = lineHeight * 15;
+    const pageHeight = fullscreen ? lineHeight * 22 : lineHeight * 24;
 
     const timeSinceClear = Date.now() - lastClear.current;
 
     //Page completion
     if (contentHeight >= pageHeight && timeSinceClear > 1000) {
       addPage();
-      if (!fullscreen) showAnimation();
+      // if (!fullscreen) showAnimation();
       clearContent();
       haptic(0);
     }
@@ -196,7 +203,7 @@ const Freewriting = (props: any) => {
       else
         inputRef.current.blur();
     }
-  }
+  };
 
   const getInputFocus = (): boolean => {
     if (inputRef.current) {
@@ -212,14 +219,16 @@ const Freewriting = (props: any) => {
     }
   }, []);
 
+  const [inputText, setInputText] = useState("");
+
   const writingCard = () => {
     return (
       <>
-        <Pressable
-          style={styles.pressable}
-          onPress={() => setInputFocus(false)}
-          hitSlop={0}
-        />
+        {/*<Pressable*/}
+        {/*  style={styles.pressable}*/}
+        {/*  onPress={() => setInputFocus(false)}*/}
+        {/*  hitSlop={0}*/}
+        {/*/>*/}
         <Animated.View style={[styles.container, containerStyles]}>
           <WritingCard
             placeholder={placeholderText}
@@ -229,6 +238,7 @@ const Freewriting = (props: any) => {
             setInputRef={getInputRef}
             activityBg={activityBg}
             fullscreen={fullscreen}
+            setClearFunction={setClearFunction}
             setCurrentText={setCurrentText}
             pages={pages}
             lineHeight={lineHeight}
@@ -239,8 +249,8 @@ const Freewriting = (props: any) => {
                 style={[
                   styles.credit,
                   {
-                    opacity: settings.showBackground && !fullscreen ? 1 : 0,
-                  },
+                    opacity: settings.showBackground && !fullscreen ? 1 : 0
+                  }
                 ]}>
                 {backgroundLoaded ? (
                   <>
@@ -248,11 +258,11 @@ const Freewriting = (props: any) => {
                     <Text
                       style={styles.creditName}
                       onPress={() => Linking.openURL(bgCredits?.link)}>
-                      {bgCredits?.name?.replace('  ', ' ')}
+                      {bgCredits?.name?.replace("  ", " ")}
                     </Text>
                   </>
                 ) : (
-                  'Loading background...'
+                  "Loading background..."
                 )}
               </Text>
               <Pressable hitSlop={12} onPress={() => setModalVisible(true)}>
@@ -278,8 +288,13 @@ const Freewriting = (props: any) => {
     <>
       <View
         style={styles.pageContainer}
-        pointerEvents={modalVisible ? 'none' : 'auto'}>
-        {Platform.OS === 'ios' && <PrefersHomeIndicatorAutoHidden />}
+        pointerEvents={modalVisible ? "none" : "auto"}>
+        <Pressable
+          style={styles.pressable}
+          onPress={() => setInputFocus(false)}
+          hitSlop={0}
+        />
+        {Platform.OS === "ios" && <PrefersHomeIndicatorAutoHidden />}
         <Animated.View style={[styles.headerContainer, fullscreenStyles]}>
           <Pressable hitSlop={5} onPress={() => fullscreenToggle()}>
             <View style={styles.fullScreen}>
@@ -333,8 +348,8 @@ const Freewriting = (props: any) => {
 
 const styles = StyleSheet.create({
   pageContainer: {
-    height: '100%',
-    backgroundColor: colors.background,
+    height: "100%",
+    backgroundColor: colors.background
   },
   fullScreen: {
     borderRadius: 40,
@@ -349,65 +364,65 @@ const styles = StyleSheet.create({
     // width: "100%",
     // justifyContent: "flex-end",
     // flexDirection: "column",
-    position: 'absolute',
+    position: "absolute",
     // top: 125,
     // right: 42,
     top: 90,
-    right: 10,
+    right: 10
   },
   pressable: {
-    position: 'absolute',
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height,
+    position: "absolute",
+    width: Dimensions.get("window").width,
+    height: Dimensions.get("window").height,
     top: 80,
-    left: 0,
+    left: 0
   },
   tempInput: {
     // position: "absolute",
     // top: -300,
     // opacity: 0,
     height: 20,
-    width: '100%',
-    backgroundColor: colors.white,
+    width: "100%",
+    backgroundColor: colors.white
   },
   footerContainer: {
-    width: '100%',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    flexDirection: 'row',
+    width: "100%",
+    justifyContent: "space-between",
+    alignItems: "center",
+    flexDirection: "row",
     // height: 30,
     marginTop: 5,
-    paddingRight: 3,
+    paddingRight: 3
   },
   settings: {
-    width: '100%',
+    width: "100%",
     height: 60,
-    position: 'relative',
-    textAlign: 'center',
-    alignItems: 'center',
+    position: "relative",
+    textAlign: "center",
+    alignItems: "center",
     backgroundColor: colors.white,
     elevation: 2,
-    justifyContent: 'center',
+    justifyContent: "center"
   },
   container: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     // marginTop: 40,
-    zIndex: 0,
+    zIndex: 0
     // paddingHorizontal: 40
   },
   genieCard: {
-    position: 'absolute',
+    position: "absolute",
     zIndex: 1,
-    width: '100%',
+    width: "100%",
     padding: 30,
     height: 440,
-    borderRadius: 150,
+    borderRadius: 150
   },
   letterBox: {
-    position: 'absolute',
+    position: "absolute",
     top: 30,
-    left: 50,
+    left: 50
   },
   credit: {
     color: colors.primary,
@@ -415,12 +430,12 @@ const styles = StyleSheet.create({
     // bottom: -30,
     // left: 0,
     padding: 5,
-    fontSize: 12,
+    fontSize: 12
   },
   creditName: {
-    fontWeight: 'bold',
-    color: colors.primary,
-  },
+    fontWeight: "bold",
+    color: colors.primary
+  }
 });
 
 export default Freewriting;

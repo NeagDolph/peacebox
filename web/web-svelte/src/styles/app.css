@@ -64,6 +64,42 @@ body {
     overflow-x: hidden
 }
 
+#a5, #b5 {
+    z-index: 100;
+    position: relative;
+}
+
+#a4, #b4 {
+    z-index: 50;
+    position: relative;
+}
+
+#a3, #b3 {
+    z-index: 1;
+    position: relative;
+}
+
+#a2, #b2 {
+    z-index: 0;
+    position: relative;
+}
+
+#a1, #b1 {
+    z-index: -1;
+    position: relative;
+}
+
+.pin-spacer {
+    display: block !important;
+    min-width: 400px !important;
+    min-height: 400px !important;
+}
+
+#boxCanvas {
+    height: 400px;
+    width: 400px;
+}
+
 @layer utilities {
 
     .smallTapes {

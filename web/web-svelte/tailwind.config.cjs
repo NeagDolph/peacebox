@@ -1,7 +1,7 @@
 /** @type {import("tailwindcss").Config} */
 module.exports = {
   content: ["./src/**/*.{html,js,svelte,ts}"],
-  important: true,
+  important: false,
 
   plugins: [],
   theme: {
@@ -17,6 +17,7 @@ module.exports = {
         "168": "42rem"
       },
       minWidth: {
+        "40": "10rem",
         "32": "8rem",
         "24": "6rem",
         "28": "7rem"

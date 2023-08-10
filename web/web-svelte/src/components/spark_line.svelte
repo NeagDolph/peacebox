@@ -4,8 +4,9 @@
   import { MeshLine } from "../helpers/MeshLine/meshline.js";
   import { onMount } from "svelte";
   import { MeshLineRaycast } from "../helpers/MeshLine/index.js";
+  import { Vector2 } from "three";
 
-  export let curve, width, color, sp, offset = false;
+  export let curve, width, color, speed, offset = false;
 
 
   $: {
@@ -19,15 +20,19 @@
 
     material = new MeshLineMaterial({
       depthTest: true,
-      lineWidth: width,
+      lineWidth: 5,
       color: offset ? "#ddd" : color,
-      dashArray: offset ? 1 : 0.2,
+      // dashArray: offset ? 1 : 0.2,
+      dashArray: 0.005,
+      resolution: new Vector2(400, 400),
       opacity: 0.6,
-      useDash: 1,
-      // dashOffset: offset ? 80 : 0,
+      sizeAttenuation: 0,
+      // useDash: 1,
+      dashOffset: offset ? 80 : 0,
       transparent: true,
 
-      dashRatio: offset ? 0 : 0.4325
+      dashRatio: 0.3
+      // dashRatio: offset ? 0 : 0.4325
     });
 
     line = new MeshLine();

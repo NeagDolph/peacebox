@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { LayoutAnimation, Linking, Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { LayoutAnimation, Linking, Platform, Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { colors } from "../../../config/colors";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
@@ -28,7 +28,7 @@ const PremadePattern = (props) => {
     return sequence.map((count, idx) => (
       <View style={styles.patternItem} key={"premadepattern" + name + idx}>
         <View style={styles.count}>
-          <Text style={styles.countText}>{count}</Text>
+          <Text style={[styles.countText, Platform.OS === "android" && { lineHeight: 30 }]}>{count}</Text>
         </View>
         <Text style={styles.countTitle}>{sequenceText[idx]}</Text>
       </View>

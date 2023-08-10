@@ -82,12 +82,21 @@ const LogoBox = (props) => {
   });
 
   const renderLogoText = () => {
+    const windowWidth = Dimensions.get("window").width * Dimensions.get("window").scale;
+
+    const adjustedFontSize = windowWidth / 17;
+
+    const androidStyles = Platform.OS === "android" &&
+      {
+        fontSize: Math.min(70, adjustedFontSize)
+      };
+
     return (
       <Animated.View style={[styles.maskElement, visibleStyles]}>
-        <Text style={styles.logoText} onLayout={handleLayout}>P</Text>
+        <Text style={[styles.logoText, androidStyles]} onLayout={handleLayout}>P</Text>
         <Fade duration={500} disableMount={true} visible={!props.endOfScroll} style={{ flexDirection: "row" }}>
           <>
-            <Text style={styles.logoText}>eaceBox</Text>
+            <Text style={[styles.logoText, androidStyles]}>eaceBox</Text>
           </>
         </Fade>
       </Animated.View>
