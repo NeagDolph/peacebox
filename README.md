@@ -2,17 +2,10 @@
 
 ### An app for mental wellness and stress management
 
-
-!(Home Page Screenshot)[https://github.com/NeagDolph/peacebox/blob/master/all_assets/marketing_content/screenshots/peaceboxhome.png?raw=true]
-
-
-!(Freewriting Page Screenshot)[https://github.com/NeagDolph/peacebox/blob/master/all_assets/marketing_content/screenshots/freewriting.png?raw=true]
-
-
-!(Audio Page Screenshot)[https://github.com/NeagDolph/peacebox/blob/master/all_assets/marketing_content/screenshots/audiopagescreenshot.png?raw=true]
-
-
-!(Breathing Page Screenshot)[https://github.com/NeagDolph/peacebox/blob/master/all_assets/marketing_content/screenshots/breathingscreenshot.png?raw=true]
+<img src="all_assets/marketing_content/screenshots/peaceboxhome.png" alt="Home Page Screenshot" width="250">
+<img src="all_assets/marketing_content/screenshots/freewriting.png" alt="Freewriting Page Screenshot" width="250">
+<img src="all_assets/marketing_content/screenshots/audiopagescreenshot.png" alt="Audio Page Screenshot" width="250">
+<img src="all_assets/marketing_content/screenshots/breathingscreenshot.png" alt="Breathing Page Screenshot" width="250">
 
 
 ********
