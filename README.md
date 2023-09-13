@@ -16,7 +16,6 @@ PeaceBox is a comprehensive application designed to assist with mental wellness 
 4. [Development](#development)
     - [Website](#website)
     - [iOS App](#ios-app)
-5. [Contributing](#contributing)
 6. [License](#license)
 7. [Contact](#contact)
 
