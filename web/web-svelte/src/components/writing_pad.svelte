@@ -39,7 +39,7 @@
   <textarea wrap="hard" rows="5" cols="33" autocorrect="off" bind:this={textarea}
             style={`line-height: ${lineHeight}px; font-size: ${fontSize}px; padding-left: ${paddingLeft}px; padding-top: ${paddingTop}px;`}
             spellcheck="false"
-            class="overflow-hidden absolute top-0 left-0 w-full h-full bg-transparent border-none outline-none resize-none">heloooo</textarea>
+            class="overflow-hidden absolute top-0 left-0 w-full h-full bg-transparent border-none outline-none resize-none"></textarea>
   <img src={paper} class="z-[-1] absolute top-0 left-0 w-full h-full">
 </div>
 
