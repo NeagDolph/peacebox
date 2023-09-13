@@ -1,76 +1,113 @@
-# PeaceBox
+# PeaceBox: An App for Mental Wellness and Stress Management
 
-### An app for mental wellness and stress management
+![PeaceBox Banner](all_assets/marketing_content/banners/peacebox_banner.png)
 
-<img src="all_assets/marketing_content/screenshots/peaceboxhome.png" alt="Home Page Screenshot" width="250">
-<img src="all_assets/marketing_content/screenshots/freewriting.png" alt="Freewriting Page Screenshot" width="250">
-<img src="all_assets/marketing_content/screenshots/audiopagescreenshot.png" alt="Audio Page Screenshot" width="250">
-<img src="all_assets/marketing_content/screenshots/breathingscreenshot.png" alt="Breathing Page Screenshot" width="250">
+PeaceBox is a comprehensive application designed to assist with mental wellness and stress management. Through a variety of features such as free writing, guided breathing, and soothing audio experiences, PeaceBox aims to bring a sense of peace to your daily life.
 
+---
 
-********
+## Table of Contents
 
-## Website
+1. [Features](#features)
+2. [Screenshots](#screenshots)
+3. [Getting Started](#getting-started)
+    - [Prerequisites](#prerequisites)
+    - [Installation](#installation)
+4. [Development](#development)
+    - [Website](#website)
+    - [iOS App](#ios-app)
+5. [Contributing](#contributing)
+6. [License](#license)
+7. [Contact](#contact)
 
-`You must use Node v16+ to build this project`
+---
 
-<br/>
+## Features
 
-#### Get Started
+- **Free Writing:** A space to freely jot down your thoughts and feelings.
+- **Guided Breathing:** Interactive breathing exercises to help you relax.
+- **Soothing Audio:** Curated audio tracks designed to reduce stress and anxiety.
+- **And More:** Stay tuned for upcoming features!
 
-```consolenpm run
-# Enter web directory and install modules 
-cd web/web-svelte
-npm i
+---
 
-# Install firebase and login
-npm install -g firebase-tools
-firebase login
+## Screenshots
 
-# List Firebase projects
-firebase projects:list
+| ![Home Page](all_assets/marketing_content/screenshots/peaceboxhome.png) | ![Free Writing](all_assets/marketing_content/screenshots/freewriting.png) | ![Audio Page](all_assets/marketing_content/screenshots/audiopagescreenshot.png) | ![Breathing Page](all_assets/marketing_content/screenshots/breathingscreenshot.png) |
+|:---------------------------------------------------------------------:|:--------------------------------------------------------------------------:|:-----------------------------------------------------------------------------:|:------------------------------------------------------------------------------:|
+|                              Home Page                                |                               Free Writing                                |                                Audio Page                                   |                              Breathing Page                                  |
 
-# Use Firebase project
-firebase use PROJECT_ID|ALIAS
-```
+---
 
-Read more about Firebase setup here:
-[Firebase CLI Reference](https://support.west-wind.com)
+## Getting Started
 
-<br/>
+### Prerequisites
 
-#### Run in development mode
+- Node.js v16 or higher is required to build this project.
 
-```console
-npm run dev
-```
+### Installation
 
-<br/>
+1. **Clone the repository:**
 
-#### Build Website
+    ```bash
+    git clone https://github.com/NeagDolph/peacebox.git
+    ```
 
-```console
-npm run build
-```
+2. **Navigate to the web directory and install the necessary modules:**
 
-<br/>
+    ```bash
+    cd web/web-svelte
+    npm install
+    ```
 
-#### Deploy to Firebase
+3. **Install and set up Firebase CLI:**
 
-```console
-# Go to project root
-cd ../..
-npm run deploy
-```
+    ```bash
+    npm install -g firebase-tools
+    firebase login
+    firebase projects:list
+    firebase use PROJECT_ID|ALIAS
+    ```
 
-<br/>
+    For more details, check the [Firebase CLI Reference](https://support.west-wind.com).
 
-******
+---
 
-## iOS App
+## Development
 
-#### Idk I'll write this later just use this resource
+### Website
 
-https://reactnative.dev/docs/environment-setup#development-os \
-Just use that tutorial but without the `Creating a new application` part
+1. **Run in development mode:**
 
+    ```bash
+    npm run dev
+    ```
+
+2. **Build the website:**
+
+    ```bash
+    npm run build
+    ```
+
+3. **Deploy to Firebase:**
+
+    ```bash
+    cd ../..
+    npm run deploy
+    ```
+
+### iOS App
+
+- Information coming soon. Meanwhile, you can follow this [React Native Environment Setup Guide](https://reactnative.dev/docs/environment-setup) but skip the `Creating a new application` section.
+
+---
+
+## License
+
+This project is licensed under the MIT License. See [LICENSE.md](./LICENSE.md) for details.
+
+---
+
+## Contact
+
+For any queries, feel free to reach out to us at [support@peacebox.com](mailto:support@peacebox.com).
