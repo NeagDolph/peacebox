@@ -68,7 +68,7 @@ PeaceBox is a comprehensive application designed to assist with mental wellness 
     firebase use PROJECT_ID|ALIAS
     ```
 
-    For more details, check the [Firebase CLI Reference](https://support.west-wind.com).
+    For more details, check the [Firebase CLI Reference](https://firebase.google.com/docs/cli).
 
 ---
 
@@ -109,4 +109,4 @@ This project is licensed under the MIT License. See [LICENSE.md](./LICENSE.md) f
 
 ## Contact
 
-For any queries, feel free to reach out to us at [support@peacebox.com](mailto:support@peacebox.com).
+For any queries, feel free to reach out to us at [contact@peacebox.app](mailto:contact@peacebox.app).
